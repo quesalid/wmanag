@@ -62,15 +62,15 @@ let containerdatacolumns = [
 	  },
 	  {
 		  header: 'Start',
-		  accessor: ()=> ""
+		  accessor: ()=> {return ""}
 	  },
 	  {
 		  header: 'Stop',
-		  accessor: ()=> ""
+		  accessor: ()=> {return ""}
 	  },
 	  {
 		  header: 'Delete',
-		  accessor: ()=> ""
+		  accessor: ()=> {return ""}
 	  }
   ];
 
@@ -89,7 +89,7 @@ let containerdatacolumns = [
 	  },
 	  {
 		  header: 'Delete',
-		  accessor: ()=> ""
+		  accessor: ()=> {return ""}
 	  }
   ];
 
