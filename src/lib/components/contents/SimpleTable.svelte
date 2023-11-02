@@ -1,0 +1,120 @@
+﻿<script lang="ts">
+  import { readable } from 'svelte/store';
+  import { createTable, Subscribe, Render } from 'svelte-headless-table';
+  import { addSortBy,addPagination } from 'svelte-headless-table/plugins';
+
+  export let datarows:any = [
+		{ name: 'Ada Lovelace', age: 21 },
+		{ name: 'Barbara Liskov', age: 52 },
+		{ name: 'Richard Hamming', age: 38 },
+  ];
+  export let datacolumns:any = [
+	  {
+		header: 'Name',
+		accessor: 'name',
+	  },
+	  {
+		header: 'Age',
+		accessor: 'age',
+	  }
+  ];
+
+  const getColumns = (datacolumns) => {
+	  let columns = []
+	  for (let i = 0; i < datacolumns.length; i++) {
+		  columns.push(table.column(datacolumns[i]))
+	  }
+	  return columns
+  }
+
+  
+
+  const data = readable(datarows);
+
+ const table = createTable(data, {
+    sort: addSortBy(),
+	page: addPagination(),
+  });
+
+  const columns = table.createColumns(getColumns(datacolumns))
+
+  const { headerRows, rows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
+  const { sortKeys } = pluginStates.sort;
+  const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
+
+</script>
+
+    <table {...$tableAttrs}>
+	  <thead>
+			{#each $headerRows as headerRow (headerRow.id)}
+				<Subscribe rowAttrs={headerRow.attrs()} let:rowAttrs>
+					<tr {...rowAttrs}>
+						{#each headerRow.cells as cell (cell.id)}
+							<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
+								<th {...attrs} on:click={props.sort.toggle}>
+									<Render of={cell.render()} />
+									{#if props.sort.order === 'asc'}
+									⬇️
+									{:else if props.sort.order === 'desc'}
+									⬆️
+									{/if}
+								</th>
+							</Subscribe>
+						{/each}
+					</tr>
+				</Subscribe>
+			{/each}
+		</thead>
+		<tbody {...$tableBodyAttrs}>
+			{#each $rows as row (row.id)}
+				<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+					<tr {...rowAttrs}>
+						{#each row.cells as cell (cell.id)}
+							<Subscribe attrs={cell.attrs()} let:attrs>
+								<td {...attrs}>
+									<Render of={cell.render()} />
+								</td>
+							</Subscribe>
+						{/each}
+					</tr>
+				</Subscribe>
+			{/each}
+		</tbody>
+</table>
+<div class="pagination-div">
+	<div>
+	  <button
+		on:click={() => $pageIndex--}
+		disabled={!$hasPreviousPage}>&lt;</button
+	  >
+	  {$pageIndex + 1} out of {$pageCount}
+	  <button
+		on:click={() => $pageIndex++}
+		disabled={!$hasNextPage}>&gt;</button
+	  >
+	</div>
+	<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
+	<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
+</div>
+
+<style>
+	table {
+			border-spacing: 0;
+			border-top: 1px solid black;
+			border-left: 1px solid black;
+			margin: 0.5rem;
+		}
+		th, td {
+			border-bottom: 1px solid black;
+			border-right: 1px solid black;
+			padding: 0.5rem;
+		}
+		th{
+			background-color: #e9e9e9;
+		}
+	.pagination-div{
+		display:flex;
+		vertical-align: middle;
+		margin: 0.5rem;
+	}
+</style>
