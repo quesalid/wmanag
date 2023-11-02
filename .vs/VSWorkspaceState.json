@@ -4,8 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\contents"
+    "\\src\\lib\\components\\contents",
+    "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\CompUtils.js",
+  "SelectedNode": "\\src\\app.css",
   "PreviewInSolutionExplorer": false
 }
