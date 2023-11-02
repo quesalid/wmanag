@@ -2,6 +2,7 @@
 // https://blog.logrocket.com/min-max-clamp-css-functions/
 
 import { onMount} from "svelte";
+    import App from "../../../App.svelte";
 
 import {dragElement} from '../CompUtils.js'
 import Wmanag from '../WManag.svelte'
@@ -47,6 +48,8 @@ const topimage = '80px'
 let containerdatarows = [
 		{ image: 'quesalid/up2agentdata:latest', created: '2016-07-07T01:15:55.000Z',state:'Exited' },
   ];
+
+  const voidfunction = ()=>{return ""}
 let containerdatacolumns = [
 	  {
 		header: 'Image',
@@ -62,15 +65,15 @@ let containerdatacolumns = [
 	  },
 	  {
 		  header: 'Start',
-		  accessor: ()=> {return ""}
+		  accessor: voidfunction
 	  },
 	  {
 		  header: 'Stop',
-		  accessor: ()=> {return ""}
+		  accessor: voidfunction
 	  },
 	  {
 		  header: 'Delete',
-		  accessor: ()=> {return ""}
+		  accessor: voidfunction
 	  }
   ];
 
@@ -89,7 +92,7 @@ let containerdatacolumns = [
 	  },
 	  {
 		  header: 'Delete',
-		  accessor: ()=> {return ""}
+		  accessor: voidfunction
 	  }
   ];
 
