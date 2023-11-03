@@ -1,7 +1,8 @@
 ﻿<script lang="ts">
   import { readable } from 'svelte/store';
-  import { createTable, Subscribe, Render } from 'svelte-headless-table';
+  import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy,addPagination } from 'svelte-headless-table/plugins';
+  import ImageRender from './ImageRender.svelte'
 
   export let datarows:any = [
 		{ name: 'Ada Lovelace', age: 21 },
@@ -22,12 +23,25 @@
   const getColumns = (datacolumns) => {
 	  let columns = []
 	  for (let i = 0; i < datacolumns.length; i++) {
+		  if(datacolumns[i].renderdef){
+			  datacolumns[i].cell = getRenderer(datacolumns[i].renderdef.type,datacolumns[i].renderdef.params)
+		  }
 		  columns.push(table.column(datacolumns[i]))
 	  }
 	  return columns
   }
 
-  
+  const getRenderer =(type:any,params:any)=>{
+	  let ret
+	  switch(type){
+		  case 'image':
+			ret = (props:any)=>{return createRender(ImageRender,{...props,...params})}
+			break;
+		  default:
+		    break;
+	  }
+	  return ret
+  }
 
   const data = readable(datarows);
 

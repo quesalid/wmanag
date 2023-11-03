@@ -1,5 +1,4 @@
 <script lang="ts">
-// https://blog.logrocket.com/min-max-clamp-css-functions/
 
 import { onMount} from "svelte";
 

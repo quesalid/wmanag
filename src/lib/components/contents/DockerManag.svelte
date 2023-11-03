@@ -9,7 +9,6 @@ import Wmanag from '../WManag.svelte'
 import SimpleTable from './SimpleTable.svelte'
 
 
-
 onMount(async () => { 
 	
  })
@@ -49,7 +48,11 @@ let containerdatarows = [
 		{ image: 'quesalid/up2agentdata:latest', created: '2016-07-07T01:15:55.000Z',state:'Exited' },
   ];
 
-  const voidfunction = ()=>{return ""}
+const voidfunction = ()=>{return ""}
+const onClickContainerStart = (ev:any)=>{
+	console.log("ONCLICK CONTAINER START")
+}
+
 let containerdatacolumns = [
 	  {
 		header: 'Image',
@@ -65,15 +68,18 @@ let containerdatacolumns = [
 	  },
 	  {
 		  header: 'Start',
-		  accessor: voidfunction
+		  accessor: voidfunction,
+		  renderdef:{type:'image',params:{image:'/START.svg',onClick:onClickContainerStart}}
 	  },
 	  {
 		  header: 'Stop',
-		  accessor: voidfunction
+		  accessor: voidfunction,
+		  renderdef:{type:'image',params:{image:'/STOP.svg'}}
 	  },
 	  {
 		  header: 'Delete',
-		  accessor: voidfunction
+		  accessor: voidfunction,
+		  renderdef:{type:'image',params:{image:'/DELETE.svg'}}
 	  }
   ];
 
@@ -92,7 +98,8 @@ let containerdatacolumns = [
 	  },
 	  {
 		  header: 'Delete',
-		  accessor: voidfunction
+		  accessor: voidfunction,
+		  renderdef:{type:'image',params:{image:'/DELETE.svg'}}
 	  }
   ];
 

@@ -9,7 +9,6 @@ export const dragElement = (element, dragzone) => {
 		pos3 = 0,
 		pos4 = 0;
 
-	console.log("dragElement", element)
 	const dragMouseUp = () => {
 		document.onmouseup = null;
 		document.onmousemove = null;
