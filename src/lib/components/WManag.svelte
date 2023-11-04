@@ -17,10 +17,11 @@ export let left = "20px"
 export let zindex = 3
 export let headercolor = "#e9e9e9"
 export let bodycolor = "#ffffff"
+export let data = []
 
-export let toolbar = [
-	{type:'button',value:'+',function:onClick,label:''},
-	{type:'button',value:'-',function:onClick,label:''},
+export let toolbar:any = [
+	{type:'button',props:{value:'+'},function:onClick,label:''},
+	{type:'button',props:{value:'-'},function:onClick,label:''},
 ]
 
 
@@ -70,13 +71,23 @@ const minimize = (event:any)=>{
 	 <div class="window-menu-toolbar">
 		{#each toolbar as Tool}
 		   {#if Tool.label}
-				<label>{Tool.label}</label>
+				<label >{Tool.label}</label>
 		   {/if}
-		   <input type="{Tool.type}" value="{Tool.value}" on:click={Tool.function} />
+		   {#if Tool.type == 'button'}
+				<input type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+			{/if}
+		   {#if Tool.type == 'image'}
+				<input type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+			{/if}
 		{/each}
 	</div>
 	<div class="window-menu-body">
-		<slot name="bodycontent"></slot>
+		{#if $$slots.bodycontent}
+			<slot name="bodycontent" {data} ></slot>
+		{/if}
+		{#if $$slots.spinner}
+				<slot name="spinner" ></slot>
+		{/if}
 		<div class="window-menu-footer">
 			<slot name="footercontent"></slot>
 		</div>
@@ -129,15 +140,26 @@ const minimize = (event:any)=>{
 		justify-content: left;
 		margin-top: 2px;
 		margin-bottom: 2px;
+		margin-left: 4px;
+	}
+
+	.window-menu-toolbar input,label{
+		margin-top: 2px;
+		margin-bottom: 2px;
 		margin-left: 2px;
 	}
 
 	.window-menu-toolbar input{
 		cursor: pointer;
-		margin-top: 2px;
-		margin-bottom: 2px;
-		margin-left: 2px;
 	}
+	.window-menu-toolbar label{
+		font-weight: bold;
+	}
+
+	.window-menu-toolbar input[type="image"]{
+		vertical-align:middle ;
+	}
+
 	.context-menu-body{
 		display:block;
 		justify-content: left;

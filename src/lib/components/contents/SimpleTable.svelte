@@ -1,10 +1,10 @@
 ﻿<script lang="ts">
-  import { readable } from 'svelte/store';
+  /*import { readable } from 'svelte/store';*/
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy,addPagination } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
 
-  export let datarows:any = [
+  export let data:any = [
 		{ name: 'Ada Lovelace', age: 21 },
 		{ name: 'Barbara Liskov', age: 52 },
 		{ name: 'Richard Hamming', age: 38 },
@@ -43,7 +43,7 @@
 	  return ret
   }
 
-  const data = readable(datarows);
+  //const datarows = readable(data);
 
  const table = createTable(data, {
     sort: addSortBy(),
@@ -55,6 +55,8 @@
   const { headerRows, rows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
   const { sortKeys } = pluginStates.sort;
   const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
+
+  $pageSize = 2
 
 </script>
 
