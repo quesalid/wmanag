@@ -74,17 +74,17 @@ let containerdatacolumns = [
 	  {
 		  header: 'Start',
 		  accessor: voidfunction,
-		  renderdef:{type:'image',params:{image:'/START.svg',onClick:onClickContainerStart}}
+		  renderdef:{type:'image',params:{image:'/START.svg',onClick:onClickContainerStart},idtag:'Id'}
 	  },
 	  {
 		  header: 'Stop',
 		  accessor: voidfunction,
-		  renderdef:{type:'image',params:{image:'/STOP.svg',onClick:onClickContainerStop}}
+		  renderdef:{type:'image',params:{image:'/STOP.svg',onClick:onClickContainerStop},idtag:'Id'}
 	  },
 	  {
 		  header: 'Delete',
 		  accessor: voidfunction,
-		  renderdef:{type:'image',params:{image:'/DELETE.svg',onClick:onClickContainerDelete}}
+		  renderdef:{type:'image',params:{image:'/DELETE.svg',onClick:onClickContainerDelete},idtag:'Id'}
 	  }
   ];
 
@@ -102,7 +102,7 @@ let containerdatacolumns = [
 	  {
 		  header: 'Delete',
 		  accessor: voidfunction,
-		  renderdef:{type:'image',params:{image:'/DELETE.svg',onClick:onClickImageDelete}}
+		  renderdef:{type:'image',params:{image:'/DELETE.svg',onClick:onClickImageDelete},idtag:'Id'}
 	  }
   ];
 

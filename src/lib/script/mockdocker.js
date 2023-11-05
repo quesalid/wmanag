@@ -187,6 +187,10 @@ const dockerListImages = async function (body) {
 
 const dockerStartContainer = async function (body) {
     // Change state of container
+    const id = body.options.id
+    const container = containers.find(c => c.Id === id)
+    if (container)
+        container.State = "Running"
     body.result = true
     body.error = null
     return (body)

@@ -12,7 +12,8 @@ import {setDockerEnv,
 	dockerListContainers,
 	dockerListImages,
 	dockerDelete,
-	dockerCreateContainer} from '../lib/script/apidocker.js'
+	dockerCreateContainer,
+	dockerStartContainer} from '../lib/script/apidocker.js'
 import { writable } from 'svelte/store';
     import { sleep } from "../lib/script/api";
 
@@ -333,7 +334,32 @@ const readFile = async (ev:any)=>{
  * @param ev
  */
 const onClickContainerStart = async (ev:any)=>{
-	console.log("ONCLICK CONTAINER START",ev.target)
+	const elem = ev.target
+	const id = elem.dataset.uid
+	console.log("ONCLICK CONTAINER START",id)
+	if(dockeruid && dockeruid != '' && id){
+		try{
+			let res = await dockerStartContainer(dockeruid,id,$mock)
+			if(res.statusCode && res.statusCode != 200){
+					footermessage = 'ERROR STARTING CONTAINER '+res.json.message
+			}else{
+				res = await dockerListContainers({all:true},$mock)
+				res = res.data
+				if(Array.isArray(res)){
+					$contdatarows = res
+					for(let i =0; i< $contdatarows.length;i++) 
+						$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
+				}
+				$contdatarows = $contdatarows
+				console.log("CONTAINER STARTED", id)
+			}
+			updateToolbarContainer()
+			await sleep(200)
+			adjustPosition()
+		}catch(error){
+			console.log("ERROR", error)
+		}
+	}
 }
 
 </script>

@@ -24,18 +24,24 @@
 	  let columns = []
 	  for (let i = 0; i < datacolumns.length; i++) {
 		  if(datacolumns[i].renderdef){
-			  datacolumns[i].cell = getRenderer(datacolumns[i].renderdef.type,datacolumns[i].renderdef.params)
+			  datacolumns[i].cell = getRenderer(datacolumns[i].renderdef.type,datacolumns[i].renderdef.idtag,datacolumns[i].renderdef.params)
 		  }
 		  columns.push(table.column(datacolumns[i]))
 	  }
 	  return columns
   }
 
-  const getRenderer =(type:any,params:any)=>{
+  const getRenderer =(type:any,idtag:any,params:any)=>{
 	  let ret
 	  switch(type){
 		  case 'image':
-			ret = (props:any)=>{return createRender(ImageRender,{...props,...params})}
+			ret = ({row})=>{
+				const keys = Object.keys(row.original)
+				const key = keys.find((k)=>k==idtag)
+				if(key)
+					params.uid = row.original[key]
+				return createRender(ImageRender,{...params})
+			}
 			break;
 		  default:
 		    break;
