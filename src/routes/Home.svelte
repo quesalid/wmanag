@@ -13,7 +13,8 @@ import {setDockerEnv,
 	dockerListImages,
 	dockerDelete,
 	dockerCreateContainer,
-	dockerStartContainer} from '../lib/script/apidocker.js'
+	dockerStartContainer,
+	dockerStopContainer} from '../lib/script/apidocker.js'
 import { writable } from 'svelte/store';
     import { sleep } from "../lib/script/api";
 
@@ -336,7 +337,6 @@ const readFile = async (ev:any)=>{
 const onClickContainerStart = async (ev:any)=>{
 	const elem = ev.target
 	const id = elem.dataset.uid
-	console.log("ONCLICK CONTAINER START",id)
 	if(dockeruid && dockeruid != '' && id){
 		try{
 			let res = await dockerStartContainer(dockeruid,id,$mock)
@@ -362,6 +362,38 @@ const onClickContainerStart = async (ev:any)=>{
 	}
 }
 
+/**
+ * Call for stop container
+ * @param ev
+ */
+const onClickContainerStop = async (ev:any)=>{
+	const elem = ev.target
+	const id = elem.dataset.uid
+	if(dockeruid && dockeruid != '' && id){
+		try{
+			let res = await dockerStopContainer(dockeruid,id,$mock)
+			if(res.statusCode && res.statusCode != 200){
+					footermessage = 'ERROR STOPING CONTAINER '+res.json.message
+			}else{
+				res = await dockerListContainers({all:true},$mock)
+				res = res.data
+				if(Array.isArray(res)){
+					$contdatarows = res
+					for(let i =0; i< $contdatarows.length;i++) 
+						$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
+				}
+				$contdatarows = $contdatarows
+				console.log("CONTAINER STOPPED", id)
+			}
+			updateToolbarContainer()
+			await sleep(200)
+			adjustPosition()
+		}catch(error){
+			console.log("ERROR", error)
+		}
+	}
+}
+
 </script>
 
 	<div class="home-div">
@@ -371,7 +403,7 @@ const onClickContainerStart = async (ev:any)=>{
 				
 				<DockerManag slot="bodycontent" {zindex} {headercolor} 
 					bind:contdatarows={contdatarows} bind:imdatarows={imdatarows} 
-					{onClickContainerStart} bind:toolbarcontainer={toolbarcontainer} 
+					{onClickContainerStart} {onClickContainerStop} bind:toolbarcontainer={toolbarcontainer} 
 					bind:toolbarimage={toolbarimage}/>
 				
 			<WindowFooter slot="footercontent" message={footermessage}/>

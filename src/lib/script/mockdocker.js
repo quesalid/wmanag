@@ -198,6 +198,10 @@ const dockerStartContainer = async function (body) {
 
 const dockerStopContainer = async function (body) {
     // Change state of container
+    const id = body.options.id
+    const container = containers.find(c => c.Id === id)
+    if (container)
+        container.State = "Exited"
     body.result = true
     body.error = null
     return (body)

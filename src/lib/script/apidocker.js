@@ -392,14 +392,17 @@ export const dockerStartContainer = async function (dockerid,id, mock = false) {
  * @param {any} opts docker container options (see dockerode docs)
  * @param {any} mock use mock flag (default false)
  */
-export const dockerStopContainer = async function (opts, mock = false) {
+export const dockerStopContainer = async function (dockerid, id, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
             command: "dockerStopContainer",
-            options: opts
+            options: {
+                uid: dockerid,
+                id: id
+            }
         };
         if (!mock) {
             callFetchPost(url, body, getCHeader())
