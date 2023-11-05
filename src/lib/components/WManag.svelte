@@ -1,7 +1,6 @@
 <script lang="ts">
 
 import { onMount} from "svelte";
-
 import {dragElement} from './CompUtils.js'
 
 const onClick = (ev:any)=>{
@@ -34,11 +33,7 @@ onMount(async () => {
 		const dragzone = document.getElementById(id+"dragzone");
 		dragElement(dragable, dragzone);
 	}
-	
-
  })
-
-
 
 const closeMenu = (ev:any)=>{
 	let win = document.getElementById(id);
@@ -64,8 +59,8 @@ const minimize = (event:any)=>{
     <div class="window-menu-header" style="background-color: {headercolor};">
 		<span>{title}</span>
 		<div>
-			<input type="button" disabled={disableMinimize} value="-" on:click={minimize} />
-			<input type="button" disabled={disableClose} value="X" on:click={closeMenu} />
+			<input class="wmanag-button" type="button" disabled={disableMinimize} value="-" on:click={minimize} />
+			<input class="wmanag-button" type="button" disabled={disableClose} value="X" on:click={closeMenu} />
 		</div>
 	</div>
 	 <div class="window-menu-toolbar">
@@ -74,10 +69,22 @@ const minimize = (event:any)=>{
 				<label >{Tool.label}</label>
 		   {/if}
 		   {#if Tool.type == 'button'}
-				<input type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+				<input class="wmanag-button" style="font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+			{/if}
+			{#if Tool.type == 'text'}
+				<input class="wmanag-text" style="font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
 			{/if}
 		   {#if Tool.type == 'image'}
-				<input type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+				<input class="wmanag-image" id={Tool.props.id?""+Tool.props.id:null} type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+			{/if}
+			{#if Tool.type == 'select'}
+				<select class="wmanag-select" id={Tool.props.id?""+Tool.props.id:null} on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}>
+					<option value="" style="color:#afafaf">Select option</option>
+					{#each Tool.props.options as Opt}
+						<option value={Opt.value}>{Opt.label}</option>
+					{/each}
+				</select>
+			
 			{/if}
 		{/each}
 	</div>
@@ -132,15 +139,18 @@ const minimize = (event:any)=>{
 		width: max(max-content,400px);
 	}
 
-	.window-menu-header input {
-		cursor: pointer;
+	.window-menu-header input[type="button"]:disabled{
+		opacity: 0.4;
+		cursor: not-allowed;
 	}
+
 	.context-menu-toolbar{
 		display:flex;
 		justify-content: left;
 		margin-top: 2px;
 		margin-bottom: 2px;
 		margin-left: 4px;
+		cursor:default;
 	}
 
 	.window-menu-toolbar input,label{
@@ -149,11 +159,40 @@ const minimize = (event:any)=>{
 		margin-left: 2px;
 	}
 
-	.window-menu-toolbar input{
+	.window-menu-toolbar .wmanag-button{
 		cursor: pointer;
+	}
+	.window-menu-toolbar .wmanag-button:disabled{
+		opacity: 0.4;
+		cursor:not-allowed;
 	}
 	.window-menu-toolbar label{
 		font-weight: bold;
+		color: #898989;
+	}
+
+	.window-menu-toolbar .wmanag-select{
+		z-index: 10;
+		-webkit-border-radius: 20px;
+		-moz-border-radius: 20px;
+		 border-radius: 20px;
+		 border: 1px solid #2d9fd9;
+		 background-color: #ffffff;
+		 color: #222222;
+		 padding-left: 10px;
+		 cursor: pointer;
+	}
+
+	.window-menu-toolbar .wmanag-text{
+		z-index: 10;
+		-webkit-border-radius: 20px;
+		-moz-border-radius: 20px;
+		 border-radius: 20px;
+		 border: 1px solid #2d9fd9;
+		 background-color: #ffffff;
+		 color: #222222;
+		 padding-left: 10px;
+		 cursor: pointer;
 	}
 
 	.window-menu-toolbar input[type="image"]{
@@ -192,5 +231,10 @@ const minimize = (event:any)=>{
 	.db-button{
 		color: #f00;
 	}
+	.wmanag-image:disabled{
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+	
 	
 </style>

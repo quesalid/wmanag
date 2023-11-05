@@ -17,7 +17,7 @@ export const dragElement = (element, dragzone) => {
 	};
 
 	const dragMouseMove = (event) => {
-		event.preventDefault();
+		//event.preventDefault();
 		event.stopPropagation();
 
 		pos1 = pos3 - event.clientX;
@@ -33,7 +33,7 @@ export const dragElement = (element, dragzone) => {
 	};
 
 	const dragMouseDown = (event) => {
-		event.preventDefault();
+		//event.preventDefault();
 		event.stopPropagation();
 
 		pos3 = event.clientX;

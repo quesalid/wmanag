@@ -1,4 +1,39 @@
+import { v4 as uuidv4 } from "uuid"
 let docker = {}
+let dockers = []
+let containers = [
+    {
+        Id: "8dfafdbc3a40",
+        Names: [],
+        Image: "quesalid/up2agentdata:latest",
+        ImageID: "e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8",
+        Command: "echo 1",
+        Created: 1467854155000,
+        State: "Exited",
+        Status: "Exit 0",
+        Ports: [],
+        Labels: {},
+        SizeRw: 12288,
+        SizeRootFs: 0,
+        HostConfig: {},
+        NetworkSettings: {},
+        Mounts: []
+    },
+]
+let images = [
+    {
+        Id: "sha256:e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8",
+        ParentId: "",
+        RepoTags: ["quesalid/up2agentdata:latest"],
+        RepoDigests: [],
+        Created: 1464925151000,
+        Size: 103579269,
+        VirtualSize: 103579269,
+        SharedSize: 0,
+        Labels: {},
+        Containers: 2
+    },
+]
 
 const setDockerEnv = async function (body) {
     docker = {}
@@ -17,7 +52,19 @@ const dockerCreate = async function (body) {
     // if DPCKER_HOST == '10.112.1.71' throw an error
     if (docker.env && docker.env.DOCKER_HOST.includes('10.112.1.71'))
         throw (new Error('CONNECTION TIMEOUT'))
+    docker.uid = uuidv4()
+    docker.createdAt = Date.now()
+    dockers.push(docker)
     body.data = docker
+    body.result = true
+    body.error = null
+    return body
+}
+
+const dockerDelete = async function (body) {
+    // if DPCKER_HOST == '10.112.1.71' throw an error
+    dockers = dockers.filter(d => d.uid !== body.options.uid)
+    body.data = dockers.length
     body.result = true
     body.error = null
     return body
@@ -125,25 +172,6 @@ const dockerInfo = async function (body) {
 }
 
 const dockerListContainers = async function (body) {
-    const containers = [
-        {
-            Id: "8dfafdbc3a40",
-            Names: [],
-            Image: "quesalid/up2agentdata:latest",
-            ImageID: "e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8",
-            Command: "echo 1",
-            Created: 1467854155000,
-            State: "Exited",
-            Status: "Exit 0",
-            Ports: [],
-            Labels: {},
-            SizeRw: 12288,
-            SizeRootFs: 0,
-            HostConfig: {},
-            NetworkSettings: {},
-            Mounts: []
-        },
-    ]
     body.data = containers
     body.result = true
     body.error = null
@@ -151,20 +179,6 @@ const dockerListContainers = async function (body) {
 }
 
 const dockerListImages = async function (body) {
-    const images = [
-        {
-            Id: "sha256:e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8",
-            ParentId: "",
-            RepoTags: [],
-            RepoDigests: [],
-            Created: 1464925151000,
-            Size: 103579269,
-            VirtualSize: 103579269,
-            SharedSize: 0,
-            Labels: {},
-            Containers: 2
-        },
-    ]
     body.data = images
     body.result = true
     body.error = null
@@ -231,6 +245,25 @@ const dockerBuildImage = async function (body) {
 }
 
 const dockerCreateContainer = async function (body) {
+    console.log("dockerCreateContainer", body)
+    const newcontainer = {
+        Id: "e90e34656806",
+        Names: [],
+        Image: body.options.containeroptions.Image,
+        ImageID: "e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8",
+        Command: "echo 1",
+        Created: Date.now(),
+        State: "Exited",
+        Status: "Exit 0",
+        Ports: [],
+        Labels: {},
+        SizeRw: 12288,
+        SizeRootFs: 0,
+        HostConfig: {},
+        NetworkSettings: {},
+        Mounts: []
+    }
+    containers.push(newcontainer)
     body.data = { Id: "e90e34656806", Warnings: [] }
     body.result = true
     body.error = null
@@ -251,7 +284,8 @@ const DOCKER = {
     dockerRemoveImage,
     dockerPullImage,
     dockerBuildImage,
-    dockerCreateContainer
+    dockerCreateContainer,
+    dockerDelete
 }
 
     export default DOCKER

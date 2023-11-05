@@ -8,14 +8,15 @@ import mocks from './mockdocker.js';
  * 
  * @param {any} mock use mock flag (default false)
  */
-export const dockerInfo = async function (mock = false) {
+export const dockerInfo = async function (dockeruid,mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
             command: "dockerInfo",
             options: {
+                uid:dockeruid
             }
         };
         if (!mock) {
@@ -42,7 +43,7 @@ export const dockerInfo = async function (mock = false) {
  */
 export const setDockerEnv = async function (env, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
@@ -61,7 +62,7 @@ export const setDockerEnv = async function (env, mock = false) {
                     reject(error)
                 })
         } else {
-            await sleep(1000)
+            await sleep(500)
             resolve(mocks.setDockerEnv(body))
         }
     })
@@ -77,8 +78,8 @@ export const setDockerEnv = async function (env, mock = false) {
  */
 export const dockerCreate = async function (ca, cert, key, mock = false) {
 
-
-        const url = baseUrl + '/command'
+    return new Promise(async (resolve, reject) => {
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
@@ -106,6 +107,40 @@ export const dockerCreate = async function (ca, cert, key, mock = false) {
 }
 
 /**
+ * Delete docker client instance
+ * 
+ * @param {any} dockeruid docker client id
+ 
+ */
+export const dockerDelete = async function (dockeruid, mock = false) {
+
+    return new Promise(async (resolve, reject) => {
+    const url = baseUrl + '/docker'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "dockerDelete",
+            options: {
+                uid: dockeruid
+            }
+        };
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            await sleep(500)
+            resolve(mocks.dockerCreate(body))
+        }
+    })
+}
+
+/**
  * List docker containers
  * 
  * @param {any} opts list container option (see dockerode docs)
@@ -113,7 +148,7 @@ export const dockerCreate = async function (ca, cert, key, mock = false) {
  */
 export const dockerListContainers = async function (opts, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
@@ -412,14 +447,17 @@ export const dockerRestartContainer = async function (opts, mock = false) {
  * @param {any} opts docker container options (see dockerode docs)
  * @param {any} mock use mock flag (default false)
  */
-export const dockerCreateContainer = async function (opts, mock = false) {
+export const dockerCreateContainer = async function (dockeruid,opts, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
             command: "dockerCreateContainer",
-            opts: opts
+            options: {
+                uid: dockeruid,
+                containeroptions: opts
+            }
         };
         if (!mock) {
             callFetchPost(url, body, getCHeader())

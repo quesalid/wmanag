@@ -5,8 +5,9 @@
     "\\src\\lib",
     "\\src\\lib\\components",
     "\\src\\lib\\components\\contents",
+    "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\CompUtils.js",
+  "SelectedNode": "\\src\\lib\\components\\contents\\DockerManag.svelte",
   "PreviewInSolutionExplorer": false
 }
