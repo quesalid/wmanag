@@ -19,6 +19,8 @@
 	  }
   ];
 
+  export let pagesize = true;
+
   const getColumns = (datacolumns) => {
 	  let columns = []
 	  for (let i = 0; i < datacolumns.length; i++) {
@@ -114,8 +116,10 @@
 		disabled={!$hasNextPage}>&gt;</button
 	  >
 	</div>
-	<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
-	<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
+	{#if pagesize}
+		<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
+		<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
+	{/if}
 </div>
 
 <style>
@@ -136,6 +140,6 @@
 	.pagination-div{
 		display:flex;
 		vertical-align: middle;
-		margin: 0.5rem;
+		margin: 0.3rem;
 	}
 </style>

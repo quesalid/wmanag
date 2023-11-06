@@ -11,8 +11,8 @@ export let title = 'WINDOW TITLE'
 export let disableClose = false
 export let disableMinimize = false
 export let draggable = true
-export let top = "20px"
-export let left = "20px"
+export let top = "10px"
+export let left = "10px"
 export let zindex = 3
 export let headercolor = "#e9e9e9"
 export let bodycolor = "#ffffff"
@@ -91,9 +91,6 @@ const minimize = (event:any)=>{
 	<div class="window-menu-body">
 		{#if $$slots.bodycontent}
 			<slot name="bodycontent" {data} ></slot>
-		{/if}
-		{#if $$slots.spinner}
-				<slot name="spinner" ></slot>
 		{/if}
 		<div class="window-menu-footer">
 			<slot name="footercontent"></slot>

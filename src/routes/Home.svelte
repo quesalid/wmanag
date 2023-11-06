@@ -46,35 +46,32 @@ let selectedImagePull = ""
 let portMap = ""
 let toolbarcontainer:any =[]
 let toolbarimage:any =[]
+let defaultWManager = 'defaultWManager'
+let pagesize = false
 
-onMount(async () => { 
+onMount(async () => {
+	showHideLoader(false)
 	$mock = true
-	showSpinner(true)
 	
  })
 
-/**
- * Show/hide spinner
- * @param spinner
- */
-const showSpinner = (spinner:boolean) =>{
-	const elements = document.getElementsByClassName("docker-container")
-	const elements2 = document.getElementsByClassName("spinner-wrapper")
-	if(elements.length>0){
-		const elem:any = elements[0]
-		if(spinner)
-			elem.style.display = "none"
+ const showHideLoader = (show:boolean)=>{
+ const loader:any = document.getElementById('loading-page-id')
+ const wManafer = document.getElementById(defaultWManager)
+ // GET BOUNDING RECT
+ let rect = wManafer.getBoundingClientRect();
+ // MOVE LOADER RESPECT TO WINDOW
+	if(loader){
+		loader.style.top = rect.top+'px'
+		loader.style.left = rect.left+'px'
+		console.log("LOADER",loader)
+		if(show)
+			loader.style.display = "flex"
 		else
-			elem.style.display = "flex"
-	}
-	if(elements2.length>0){
-		const elem:any = elements2[0]
-		if(spinner)
-			elem.style.display = "flex"
-		else
-			elem.style.display = "none"
+			loader.style.display = "none"
 	}
 }
+
 
 /**
  * Click file download hidden button
@@ -86,9 +83,9 @@ const onClickFile = async (ev:any)=>{
 	}catch(error){
 		console.log("ERROR", error)
 	}
-	showSpinner(true)
 	reqfile = ev.target.id
 	const target = document.getElementById("pem-file-input")
+	footermessage = "load certificate files"
 	target.click()
 }
 
@@ -113,6 +110,7 @@ const onClickSubmit = async (ev:any)=>{
 	// Submit to docker daemon
 	footermessage = "connection to daemon "+host+":"+port
 	let res
+	showHideLoader(true)
 	try{
 		const env = {
 				DOCKER_HOST: host
@@ -153,7 +151,6 @@ const onClickSubmit = async (ev:any)=>{
 							}
 						}
 						updateToolbarContainer()
-						showSpinner(false)
 						adjustPosition()
 					}
 					break
@@ -163,6 +160,7 @@ const onClickSubmit = async (ev:any)=>{
 		console.log("ERROR", error)
 		footermessage = "connection error "+host+":"+port
 	}
+	showHideLoader(false)
 }
 
 /**
@@ -188,7 +186,7 @@ const adjustPosition = ()=>{
 	const icont = document.getElementById('imageWManager')
 	var crect = wcont.getBoundingClientRect();
 	var irect = icont.getBoundingClientRect();
-	const newtop = crect.height + 40
+	const newtop = crect.height + 20
 	icont.style.top = newtop+"px"
 }
 
@@ -221,6 +219,7 @@ const onClickAddContainer = async (ev:any)=>{
 	console.log("ONCLICK ADD CONTAINER",ev.target)
 	if(dockeruid && dockeruid != ''){
 		try{
+			showHideLoader(true)
 			const containeroptions = {
 				  Image: selectedImage,
 				  AttachStdin: false,
@@ -257,6 +256,7 @@ const onClickAddContainer = async (ev:any)=>{
 			console.log("ERROR", error)
 			footermessage = 'ERROR ADDING CONTAINER '+error
 		}
+		showHideLoader(false)
 	}
 	else
 		console.log("ERROR")
@@ -270,6 +270,8 @@ const onClickAddImage = async (ev:any)=>{
 	console.log("ONCLICK ADD IMAGE",ev.target)
 	if(dockeruid && dockeruid != ''){
 		try{
+			showHideLoader(true)
+			await sleep(5000)
 			let res = await dockerPullImage(dockeruid,selectedImagePull,$mock)
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR PULLING IMAGE '+res.json.message
@@ -298,6 +300,7 @@ const onClickAddImage = async (ev:any)=>{
 			console.log("ERROR", error)
 			footermessage = 'ERROR PULLING IMAGE '+error
 		}
+		showHideLoader(false)
 	}
 }
 
@@ -551,23 +554,26 @@ const onClickImageDelete = async (ev:any)=>{
 
 </script>
 
-	<div class="home-div">
+	<div class="docker-manager-div">
 		<Wmanag id="defaultWManager" title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
-			    
-				<Spinner slot="spinner" />
-				
-				<DockerManag slot="bodycontent" {zindex} {headercolor} 
+			<DockerManag slot="bodycontent" {zindex} {headercolor} 
 					bind:contdatarows={contdatarows} bind:imdatarows={imdatarows} 
-					{onClickContainerStart} {onClickContainerStop} {onClickContainerDelete} {onClickImageDelete}
+					{onClickContainerStart} {onClickContainerStop} {onClickContainerDelete} {onClickImageDelete} {pagesize}
 					bind:toolbarcontainer={toolbarcontainer} 
 					bind:toolbarimage={toolbarimage}/>
-				
 			<WindowFooter slot="footercontent" message={footermessage}/>
 		</Wmanag>
 		<input id="pem-file-input" type="file" accept=".pem"  on:change={readFile}>
+		<!-- MODAL WINDOW WITH SPINNER -->
+		<div class="loading" id="loading-page-id">
+			<!--div class="spinner-wrapper"-->
+				<Spinner />
+			<!--/div-->
+		</div>
 	</div>
+	
 <style>
-.home-div{
+.docker-manager-div{
 	position: relative;
 	width: 500px;
 	height: fit-content;
@@ -575,6 +581,18 @@ const onClickImageDelete = async (ev:any)=>{
 }
 #pem-file-input{
 	visibility:hidden;
+}
+.loading {
+  position: absolute;
+  z-index: 999;
+  top: -3px;
+  height:600px;
+  width:1100px;
+  background: rgba( 255, 255, 255, .9 );
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  border: solid, 1px;
 }
 
 </style>

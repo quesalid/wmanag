@@ -23,6 +23,7 @@ export let toolbarcontainer = [{type:'image',props:{src:'/ADD.svg'},function:onC
 export let toolbarimage = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddImage,label:"Add"},]
 export let containers = []
 export let images = []
+export let pagesize = true
 
 
 onMount(async () => { 
@@ -95,10 +96,10 @@ let containerdatacolumns = [
 
 	<div class="docker-container">
 		<Wmanag id="containerWManager"  title="{titlecontainer}" toolbar={toolbarcontainer} {disableClose} {draggable} {headercolor} {zindex}>
-			<SimpleTable slot="bodycontent" data={contdatarows} datacolumns={containerdatacolumns}/>
+			<SimpleTable slot="bodycontent" data={contdatarows} datacolumns={containerdatacolumns} {pagesize}/>
 		</Wmanag>
 		<Wmanag id="imageWManager"  title="{titleimages}" toolbar={toolbarimage} {disableClose} {draggable} {zindex} {headercolor} top={topimage}>
-			<SimpleTable slot="bodycontent" bind:data={imdatarows} datacolumns={imagedatacolumns}/>
+			<SimpleTable slot="bodycontent" bind:data={imdatarows} datacolumns={imagedatacolumns} {pagesize}/>
 		</Wmanag>	
 	</div>
 
@@ -106,6 +107,6 @@ let containerdatacolumns = [
 	.docker-container{
 		position: relative;
 		width: 1000px;
-		height:min(500px,500px);
+		height:max(500px,530px);
 	}
 </style>

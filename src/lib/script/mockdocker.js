@@ -250,8 +250,11 @@ const dockerRemoveImage = async function (body) {
 }
 
 const dockerPullImage = async function (body) {
+    const genRanHex = size => [...Array(size)]
+        .map(() => Math.floor(Math.random() * 16).toString(16)).join('')
+    const newimageid = "sha256:"+genRanHex(64)
     const newimage = {
-        Id: "sha256:fa563eb1b098c42a9ff38526ef873d10150eab1b3832990252e187c8d904aa34",
+        Id: newimageid,
         ParentId: "",
         RepoTags: [body.options.repotag],
         RepoDigests: [],
