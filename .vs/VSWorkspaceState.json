@@ -8,6 +8,6 @@
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\contents\\ImageRender.svelte",
+  "SelectedNode": "\\src\\lib\\components\\contents\\SimpleTable.svelte",
   "PreviewInSolutionExplorer": false
 }

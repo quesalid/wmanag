@@ -215,6 +215,9 @@ const dockerRestartContainer = async function (body) {
 
 const dockerRemoveContainer = async function (body) {
     // Remove container
+    const id = body.options.id
+    containers = containers.filter(c => c.Id !== id)
+    body.data = { Deleted: id }
     body.result = true
     body.error = null
     return (body)
@@ -222,7 +225,9 @@ const dockerRemoveContainer = async function (body) {
 
 const dockerRemoveImage = async function (body) {
     // Remove image
-    body.data = { Deleted: "3e2f21a89f" }
+    const id = body.options.id
+    images = images.filter(i => i.Id !== id)
+    body.data = { Deleted: id }
     body.result = true
     body.error = null
     return (body)
@@ -232,16 +237,17 @@ const dockerPullImage = async function (body) {
     const newimage = {
         Id: "sha256:fa563eb1b098c42a9ff38526ef873d10150eab1b3832990252e187c8d904aa34",
         ParentId: "",
-        RepoTags: [],
+        RepoTags: [body.options.repotag],
         RepoDigests: [],
-        Created: 1474925151,
+        Created: Date.now(),
         Size: 103579269,
         VirtualSize: 103579269,
         SharedSize: 0,
         Labels: {},
         Containers: 2
     }
-    body.result = true
+    images.push(newimage)
+    body.result = {Id: "sha256:fa563eb1b098c42a9ff38526ef873d10150eab1b3832990252e187c8d904aa34", Warnings: [] }
     body.error = null
     return (body)
 }

@@ -9,28 +9,14 @@ import Wmanag from '../WManag.svelte'
 import SimpleTable from './SimpleTable.svelte'
 
 
-onMount(async () => { 
-	
- })
-
-export const onClickAddContainer = (ev:any)=>{
-	console.log("ONCLICK ADD CONTAINER")
-	$contdatarows.push({ image: 'quesalid/up2agentdata:main', created: '2016-07-07T01:15:55.000Z',state:'Running'})
-	$contdatarows = $contdatarows
-		
-}
-
-export const onClickAddImage = (ev:any)=>{
-	console.log("ONCLICK ADD IMAGE")
-	$imdatarows.push({ id: 'sha256:e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8', created: '2016-07-07T01:15:55.000Z'},)
-	$imdatarows = $imdatarows
-}
-
-
-
-let toolbar = [
-]
-
+export let onClickAddContainer = (ev:any)=>{console.log("ONCLICK ADD CONTAINER")}
+export let onClickAddImage = (ev:any)=>{console.log("ONCLICK ADD IMAGE")}
+export let onClickContainerStart = (ev:any)=>{console.log("ONCLICK CONTAINER START",ev.target)}
+export let onClickContainerStop = (ev:any)=>{console.log("ONCLICK CONTAINER STOP")}
+export let onClickContainerDelete = (ev:any)=>{console.log("ONCLICK CONTAINER DELETE")}
+export let onClickImageDelete = (ev:any)=>{console.log("ONCLICK IMAGE DELETE")}
+export let contdatarows = writable([])
+export let imdatarows = writable([])
 export let zindex = 4
 export let headercolor = "#e9e9e9"
 export let toolbarcontainer = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddContainer,label:"Add"}]
@@ -38,24 +24,21 @@ export let toolbarimage = [{type:'image',props:{src:'/ADD.svg'},function:onClick
 export let containers = []
 export let images = []
 
+
+onMount(async () => { 
+	
+ })
+
+
+let toolbar = [
+]
+
 const disableClose = true
 const draggable = true
 const titlecontainer = 'CONTAINERS'
 const titleimages = 'IMMAGINI'
 const topimage = '80px'
-
-
-
 const voidfunction = ()=>{return ""}
-
-export let onClickContainerStart = (ev:any)=>{console.log("ONCLICK CONTAINER START",ev.target)}
-export let onClickContainerStop = (ev:any)=>{console.log("ONCLICK CONTAINER STOP")}
-export let onClickContainerDelete = (ev:any)=>{console.log("ONCLICK CONTAINER DELETE")}
-export let onClickImageDelete = (ev:any)=>{console.log("ONCLICK IMAGE DELETE")}
-export let contdatarows = writable([])
-export let imdatarows = writable([])
-
-
 
 
 let containerdatacolumns = [

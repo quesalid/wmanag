@@ -240,14 +240,17 @@ export const dnsLookup = async function (hostname, mock = false) {
  * @param {any} opts docker container options (see dockerode docs)
  * @param {any} mock use mock flag (default false)
  */
-export const dockerRemoveContainer = async function (opts, mock = false) {
+export const dockerRemoveContainer = async function (dockerid, id, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
             command: "dockerRemoveContainer",
-            options: opts
+            options: {
+                uid: dockerid,
+                id: id
+            }
         };
         if (!mock) {
             callFetchPost(url, body, getCHeader())
@@ -269,14 +272,17 @@ export const dockerRemoveContainer = async function (opts, mock = false) {
  * @param {any} opts docker container options (see dockerode docs)
  * @param {any} mock use mock flag (default false)
  */
-export const dockerRemoveImage = async function (opts, mock = false) {
+export const dockerRemoveImage = async function (dockerid, id, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
             command: "dockerRemoveImage",
-            options: opts
+            options: {
+                uid: dockerid,
+                id: id
+            }
         };
         if (!mock) {
             callFetchPost(url, body, getCHeader())
@@ -300,7 +306,7 @@ export const dockerRemoveImage = async function (opts, mock = false) {
  */
 export const dockerBuildImage = async function (opts, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
@@ -328,16 +334,16 @@ export const dockerBuildImage = async function (opts, mock = false) {
  * @param {any} opts docker container options (see dockerode docs)
  * @param {any} mock use mock flag (default false)
  */
-export const dockerPullImage = async function (repoTag, opts, mock = false) {
+export const dockerPullImage = async function (dockerid, imagetag, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
             command: "dockerPullImage",
             options: {
-                repoTag: repoTag,
-                opts: opts
+                uid: dockerid,
+                repotag: imagetag
             }
         };
         if (!mock) {
@@ -424,14 +430,17 @@ export const dockerStopContainer = async function (dockerid, id, mock = false) {
  * @param {any} opts docker container options (see dockerode docs)
  * @param {any} mock use mock flag (default false)
  */
-export const dockerRestartContainer = async function (opts, mock = false) {
+export const dockerRestartContainer = async function (dockerid, id, mock = false) {
     return new Promise(async (resolve, reject) => {
-        const url = baseUrl + '/command'
+        const url = baseUrl + '/docker'
         const body = {
             type: "api",
             version: 1.0,
             command: "dockerRestartContainer",
-            opts: opts
+            options: {
+                uid: dockerid,
+                id: id
+            }
         };
         if (!mock) {
             callFetchPost(url, body, getCHeader())

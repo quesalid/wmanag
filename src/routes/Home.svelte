@@ -14,9 +14,13 @@ import {setDockerEnv,
 	dockerDelete,
 	dockerCreateContainer,
 	dockerStartContainer,
-	dockerStopContainer} from '../lib/script/apidocker.js'
+	dockerStopContainer,
+	dockerPullImage,
+	dockerRemoveContainer,
+	dockerRemoveImage} from '../lib/script/apidocker.js'
+
 import { writable } from 'svelte/store';
-    import { sleep } from "../lib/script/api";
+import { sleep } from "../lib/script/api";
 
 
 let cafile
@@ -39,6 +43,8 @@ let dockeruid = ""
 let selectedImage = ""
 let selectedNetwork = ""
 let selectedImagePull = ""
+let toolbarcontainer:any =[]
+let toolbarimage:any =[]
 
 onMount(async () => { 
 	$mock = true
@@ -153,7 +159,7 @@ const onClickSubmit = async (ev:any)=>{
 }
 
 /**
- * Update containre toolbar options
+ * Update container toolbar options
  */
 const updateToolbarContainer = ()=>{
 	const index = toolbarcontainer.findIndex((item:any)=>item.props.id=='imageselect')
@@ -230,6 +236,30 @@ const onClickAddContainer = async (ev:any)=>{
  */
 const onClickAddImage = async (ev:any)=>{
 	console.log("ONCLICK ADD IMAGE",ev.target)
+	if(dockeruid && dockeruid != ''){
+		try{
+			let res = await dockerPullImage(dockeruid,selectedImagePull,$mock)
+			if(res.statusCode && res.statusCode != 200){
+					footermessage = 'ERROR PULLING IMAGE '+res.json.message
+			}else{
+				res = await dockerListImages({all:true},$mock)
+				res = res.data
+				console.log("ONCLICK ADD IMAGE LIST",res)
+				if(Array.isArray(res)){
+					$imdatarows = res
+					for(let i =0; i< $imdatarows.length;i++) 
+						$imdatarows[i].Created = new Date($imdatarows[i].Created).toISOString()
+				}
+				$imdatarows = $imdatarows
+				console.log("IMAGE PULLED",$imdatarows)
+			}
+			updateToolbarContainer()
+			await sleep(200)
+			adjustPosition()
+		}catch(error){
+			console.log("ERROR", error)
+		}
+	}
 }
 
 const onClickGetSelect = async (ev:any)=>{
@@ -283,12 +313,12 @@ const networkoptions:any = [
 	{value:'none',label:'none'},
 	{value:'container',label:'container'},
 ]
-let toolbarcontainer:any = [
+toolbarcontainer = [
 	{type:'image',props:{id:'addcontainerimage',src:'/ADD.svg'},function:onClickAddContainer,label:"Add",disabled:true},
 	{type:'select',props:{id:"imageselect",options:[{value:'value1',label:'labe11'},{value:'value2',label:'labe12'}]},function:onClickGetSelect,label:"Image",value:''},
 	{type:'select',props:{id:"networkselect",options:networkoptions},function:onClickGetSelect,label:"Network",value:''},
 ]
-let toolbarimage:any = [
+toolbarimage = [
 	{type:'image',props:{id:'imagepullimage',src:'/ADD.svg'},function:onClickAddImage,label:"Add",disabled:true},
 	{type:'text',props:{id:"imagepull",value:''},function:onClickGetText,label:"Pull"},
 ]
@@ -393,6 +423,64 @@ const onClickContainerStop = async (ev:any)=>{
 		}
 	}
 }
+const onClickContainerDelete = async (ev:any)=>{
+	console.log("ONCLICK CONTAINER DELETE")
+	const elem = ev.target
+	const id = elem.dataset.uid
+	if(dockeruid && dockeruid != '' && id){
+		try{
+			let res = await dockerRemoveContainer(dockeruid,id,$mock)
+			if(res.statusCode && res.statusCode != 200){
+					footermessage = 'ERROR REMOVING CONTAINER '+res.json.message
+			}else{
+				res = await dockerListContainers({all:true},$mock)
+				res = res.data
+				if(Array.isArray(res)){
+					$contdatarows = res
+					for(let i =0; i< $contdatarows.length;i++) 
+						$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
+				}
+				$contdatarows = $contdatarows
+				console.log("CONTAINER REMOVED", id)
+			}
+			updateToolbarContainer()
+			await sleep(200)
+			adjustPosition()
+		}catch(error){
+			console.log("ERROR", error)
+		}
+	}
+}
+
+const onClickImageDelete = async (ev:any)=>{
+	console.log("ONCLICK CONTAINER DELETE")
+	const elem = ev.target
+	const id = elem.dataset.uid
+	if(dockeruid && dockeruid != '' && id){
+		try{
+			let res = await dockerRemoveImage(dockeruid,id,$mock)
+			if(res.statusCode && res.statusCode != 200){
+					footermessage = 'ERROR REMOVING CONTAINER '+res.json.message
+			}else{
+				res = await dockerListImages({all:true},$mock)
+				res = res.data
+				console.log("ONCLICK ADD IMAGE LIST",res)
+				if(Array.isArray(res)){
+					$imdatarows = res
+					for(let i =0; i< $imdatarows.length;i++) 
+						$imdatarows[i].Created = new Date($imdatarows[i].Created).toISOString()
+				}
+				$imdatarows = $imdatarows
+				console.log("IMAGE PULLED",$imdatarows)
+			}
+			updateToolbarContainer()
+			await sleep(200)
+			adjustPosition()
+		}catch(error){
+			console.log("ERROR", error)
+		}
+	}
+}
 
 </script>
 
@@ -403,7 +491,8 @@ const onClickContainerStop = async (ev:any)=>{
 				
 				<DockerManag slot="bodycontent" {zindex} {headercolor} 
 					bind:contdatarows={contdatarows} bind:imdatarows={imdatarows} 
-					{onClickContainerStart} {onClickContainerStop} bind:toolbarcontainer={toolbarcontainer} 
+					{onClickContainerStart} {onClickContainerStop} {onClickContainerDelete} {onClickImageDelete}
+					bind:toolbarcontainer={toolbarcontainer} 
 					bind:toolbarimage={toolbarimage}/>
 				
 			<WindowFooter slot="footercontent" message={footermessage}/>
@@ -422,5 +511,7 @@ const onClickContainerStop = async (ev:any)=>{
 }
 
 </style>
+
+
 
 
