@@ -43,6 +43,7 @@ let dockeruid = ""
 let selectedImage = ""
 let selectedNetwork = ""
 let selectedImagePull = ""
+let portMap = ""
 let toolbarcontainer:any =[]
 let toolbarimage:any =[]
 
@@ -192,6 +193,27 @@ const adjustPosition = ()=>{
 }
 
 /**
+ * Get port binding from portmap
+ * @param portmap
+ */
+const getPortBinding = (portmap:string)=>{
+	// PORTMAP FORMAT: port:hostport,port:hostport
+	const portbinding:any = {}
+	if(portmap && portmap != ''){
+		const portmaparray = portmap.split(',')
+		for(let i =0; i< portmaparray.length;i++){
+			const portmapitem = portmaparray[i].split(':')
+			if(portmapitem.length == 2){
+				const port = portmapitem[0]
+				const hostport = portmapitem[1]
+				portbinding[port+'/tcp'] = [{HostPort:hostport}]
+			}
+		}
+	}
+	return portbinding
+}
+
+/**
  * Call for add container
  * @param ev
  */
@@ -209,7 +231,10 @@ const onClickAddContainer = async (ev:any)=>{
 				  StdinOnce: false,
 				  name:'',
 				  ExposedPorts:{},
-				  HostConfig:{NetworkMode:selectedNetwork}
+				  HostConfig:{
+					  NetworkMode:selectedNetwork,
+					  PortBindings:getPortBinding(portMap)
+				  }
 			}
 			let res = await dockerCreateContainer(dockeruid,containeroptions,$mock)
 			if(res.statusCode && res.statusCode != 200){
@@ -283,6 +308,22 @@ const onClickGetSelect = async (ev:any)=>{
 			break;
 		case "networkselect":
 			selectedNetwork = ev.target.value
+			const portmap:any = document.getElementById('portmap')
+			const portmaplabel:any = document.getElementById('label-portmap')
+			if(selectedNetwork == 'bridge')
+			{
+				// SET PORT MAP VISIBLE
+				if(portmap)
+					portmap.style.visibility = "visible"
+				if(portmaplabel)
+					portmaplabel.style.visibility = "visible"
+			}else{
+				// SET PORT MAP HIDDEN
+				if(portmap)
+					portmap.style.visibility = "hidden"
+				if(portmaplabel)
+					portmaplabel.style.visibility = "hidden"
+			}
 			break;
 	}
 	if(selectedImage && selectedImage!='' && selectedNetwork && selectedNetwork != ''){
@@ -300,16 +341,19 @@ const onClickGetText = async (ev:any)=>{
 	switch(ev.target.id){
 		case "imagepull":
 			selectedImagePull = ev.target.value
+			if(selectedImagePull && selectedImagePull!=''){
+				const image:any = document.getElementById('imagepullimage')
+				image.removeAttribute('disabled')
+				image.style.cursor='pointer'
+			}else{
+				const image:any = document.getElementById('imagepullimage')
+				image.setAttribute('disabled',"true")
+				image.style.cursor='not-allowed'
+			}
+			break
+		case "portmap":
+			portMap = ev.target.value
 			break;
-	}
-	if(selectedImagePull && selectedImagePull!=''){
-		const image:any = document.getElementById('imagepullimage')
-		image.removeAttribute('disabled')
-		image.style.cursor='pointer'
-	}else{
-		const image:any = document.getElementById('imagepullimage')
-		image.setAttribute('disabled',"true")
-		image.style.cursor='not-allowed'
 	}
 }
 
@@ -330,6 +374,7 @@ toolbarcontainer = [
 	{type:'image',props:{id:'addcontainerimage',src:'/ADD.svg'},function:onClickAddContainer,label:"Add",disabled:true},
 	{type:'select',props:{id:"imageselect",options:[{value:'value1',label:'labe11'},{value:'value2',label:'labe12'}]},function:onClickGetSelect,label:"Image",value:''},
 	{type:'select',props:{id:"networkselect",options:networkoptions},function:onClickGetSelect,label:"Network",value:''},
+	{type:'text',props:{id:"portmap",value:'',size:20,visibility:'hidden'},function:onClickGetText,label:"Portmap"},
 ]
 toolbarimage = [
 	{type:'image',props:{id:'imagepullimage',src:'/ADD.svg'},function:onClickAddImage,label:"Add",disabled:true},
