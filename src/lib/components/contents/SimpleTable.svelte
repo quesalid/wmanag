@@ -1,5 +1,4 @@
 ﻿<script lang="ts">
-  /*import { readable } from 'svelte/store';*/
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy,addPagination } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
@@ -58,7 +57,7 @@
 
   const columns = table.createColumns(getColumns(datacolumns))
 
-  const { headerRows, rows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
+  const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
   const { sortKeys } = pluginStates.sort;
   const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
 
@@ -88,7 +87,7 @@
 			{/each}
 		</thead>
 		<tbody {...$tableBodyAttrs}>
-			{#each $rows as row (row.id)}
+			{#each $pageRows as row (row.id)}
 				<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
 					<tr {...rowAttrs}>
 						{#each row.cells as cell (cell.id)}
