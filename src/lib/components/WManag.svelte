@@ -72,7 +72,7 @@ const minimize = (event:any)=>{
 				<input class="wmanag-button" style="font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
 			{/if}
 			{#if Tool.type == 'text'}
-				<input class="wmanag-text" style="font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+				<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
 			{/if}
 		   {#if Tool.type == 'image'}
 				<input class="wmanag-image" id={Tool.props.id?""+Tool.props.id:null} type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
@@ -184,7 +184,7 @@ const minimize = (event:any)=>{
 	}
 
 	.window-menu-toolbar .wmanag-text{
-		z-index: 10;
+		 z-index: 10;
 		-webkit-border-radius: 20px;
 		-moz-border-radius: 20px;
 		 border-radius: 20px;

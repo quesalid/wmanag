@@ -75,8 +75,8 @@ let containerdatacolumns = [
 
   let imagedatacolumns = [
 	  {
-		header: 'Id',
-		accessor: 'Id',
+		header: 'Name',
+		accessor: 'Name',
 	  },
 	  {
 		header: 'Created',

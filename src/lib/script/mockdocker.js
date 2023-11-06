@@ -189,6 +189,9 @@ const dockerStartContainer = async function (body) {
     // Change state of container
     const id = body.options.id
     const container = containers.find(c => c.Id === id)
+    // CAN'T START CONTAINER IF IT IS RUNNING
+    if (container && container.State === "Running")
+        throw (new Error("Container is running"))
     if (container)
         container.State = "Running"
     body.result = true
@@ -216,6 +219,10 @@ const dockerRestartContainer = async function (body) {
 const dockerRemoveContainer = async function (body) {
     // Remove container
     const id = body.options.id
+    // CAN'T REMOVE CONTAINER IF IT IS RUNNING
+    const found = containers.find(c => c.Id === id)
+    if (found && found.State === "Running")
+        throw (new Error("Container is running"))
     containers = containers.filter(c => c.Id !== id)
     body.data = { Deleted: id }
     body.result = true
@@ -226,6 +233,11 @@ const dockerRemoveContainer = async function (body) {
 const dockerRemoveImage = async function (body) {
     // Remove image
     const id = body.options.id
+    const imageid = id.split(':')[1]
+    // CAN'T REMOVE IMAGE IF IT IS USED BY A CONTAINER
+    const found = containers.find(c => c.ImageID === imageid)
+    if (found)
+        throw (new Error("Image is used by a container"))
     images = images.filter(i => i.Id !== id)
     body.data = { Deleted: id }
     body.result = true
@@ -260,11 +272,13 @@ const dockerBuildImage = async function (body) {
 
 const dockerCreateContainer = async function (body) {
     console.log("dockerCreateContainer", body)
+    const image = images.find(i => i.RepoTags.includes(body.options.containeroptions.Image))
+    const imageid = image.Id.split(':')[1]
     const newcontainer = {
         Id: "e90e34656806",
         Names: [],
         Image: body.options.containeroptions.Image,
-        ImageID: "e216a057b1cb1efc11f8a268f37ef62083e70b1b38323ba252e25ac88904a7e8",
+        ImageID: imageid,
         Command: "echo 1",
         Created: Date.now(),
         State: "Exited",

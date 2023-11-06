@@ -142,8 +142,14 @@ const onClickSubmit = async (ev:any)=>{
 						res = res.data
 						if(Array.isArray(res)){
 							$imdatarows = res
-							for(let i =0; i< $imdatarows.length;i++) 
+							for(let i =0; i< $imdatarows.length;i++){
 								$imdatarows[i].Created = new Date($imdatarows[i].Created).toISOString()
+								if($imdatarows[i].RepoTags[0] == '<none>:<none>')
+									$imdatarows[i].Name = $imdatarows[i].Id
+								else
+									$imdatarows[i].Name = $imdatarows[i].RepoTags[0]
+								
+							}
 						}
 						updateToolbarContainer()
 						showSpinner(false)
@@ -217,13 +223,14 @@ const onClickAddContainer = async (ev:any)=>{
 						$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
 				}
 				$contdatarows = $contdatarows
-				console.log("CONTAINER CREATED",$contdatarows)
+				footermessage = "CONTAINER CREATED "
 			}
 			updateToolbarContainer()
 			await sleep(200)
 			adjustPosition()
 		}catch(error){
 			console.log("ERROR", error)
+			footermessage = 'ERROR ADDING CONTAINER '+error
 		}
 	}
 	else
@@ -247,17 +254,24 @@ const onClickAddImage = async (ev:any)=>{
 				console.log("ONCLICK ADD IMAGE LIST",res)
 				if(Array.isArray(res)){
 					$imdatarows = res
-					for(let i =0; i< $imdatarows.length;i++) 
+					for(let i =0; i< $imdatarows.length;i++){
 						$imdatarows[i].Created = new Date($imdatarows[i].Created).toISOString()
+						if($imdatarows[i].RepoTags[0] == '<none>:<none>')
+									$imdatarows[i].Name = $imdatarows[i].Id
+								else
+									$imdatarows[i].Name = $imdatarows[i].RepoTags[0]
+					}
+
 				}
 				$imdatarows = $imdatarows
-				console.log("IMAGE PULLED",$imdatarows)
+				footermessage = "IMAGE PULLED " + selectedImagePull
 			}
 			updateToolbarContainer()
 			await sleep(200)
 			adjustPosition()
 		}catch(error){
 			console.log("ERROR", error)
+			footermessage = 'ERROR PULLING IMAGE '+error
 		}
 	}
 }
@@ -280,7 +294,6 @@ const onClickGetSelect = async (ev:any)=>{
 		image.setAttribute('disabled',"true")
 		image.style.cursor='not-allowed'
 	}
-	console.log("ONCLICK GET SELECT",selectedImage,selectedNetwork)
 }
 
 const onClickGetText = async (ev:any)=>{
@@ -320,7 +333,7 @@ toolbarcontainer = [
 ]
 toolbarimage = [
 	{type:'image',props:{id:'imagepullimage',src:'/ADD.svg'},function:onClickAddImage,label:"Add",disabled:true},
-	{type:'text',props:{id:"imagepull",value:''},function:onClickGetText,label:"Pull"},
+	{type:'text',props:{id:"imagepull",value:'',size:35},function:onClickGetText,label:"Pull"},
 ]
 
 /**
@@ -381,13 +394,14 @@ const onClickContainerStart = async (ev:any)=>{
 						$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
 				}
 				$contdatarows = $contdatarows
-				console.log("CONTAINER STARTED", id)
+				footermessage = "CONTAINER STARTED " + id
 			}
 			updateToolbarContainer()
 			await sleep(200)
 			adjustPosition()
 		}catch(error){
 			console.log("ERROR", error)
+			footermessage = 'ERROR STARTING CONTAINER '+error
 		}
 	}
 }
@@ -413,13 +427,14 @@ const onClickContainerStop = async (ev:any)=>{
 						$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
 				}
 				$contdatarows = $contdatarows
-				console.log("CONTAINER STOPPED", id)
+				footermessage = "CONTAINER STOPPED " + id
 			}
 			updateToolbarContainer()
 			await sleep(200)
 			adjustPosition()
 		}catch(error){
 			console.log("ERROR", error)
+			footermessage = 'ERROR STOPPING CONTAINER '+error
 		}
 	}
 }
@@ -441,12 +456,13 @@ const onClickContainerDelete = async (ev:any)=>{
 						$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
 				}
 				$contdatarows = $contdatarows
-				console.log("CONTAINER REMOVED", id)
+				footermessage = "CONTAINER REMOVED " + id
 			}
 			updateToolbarContainer()
 			await sleep(200)
 			adjustPosition()
 		}catch(error){
+			footermessage = 'ERROR REMOVING CONTAINER '+error
 			console.log("ERROR", error)
 		}
 	}
@@ -467,17 +483,23 @@ const onClickImageDelete = async (ev:any)=>{
 				console.log("ONCLICK ADD IMAGE LIST",res)
 				if(Array.isArray(res)){
 					$imdatarows = res
-					for(let i =0; i< $imdatarows.length;i++) 
+					for(let i =0; i< $imdatarows.length;i++){
 						$imdatarows[i].Created = new Date($imdatarows[i].Created).toISOString()
+						if($imdatarows[i].RepoTags[0] == '<none>:<none>')
+									$imdatarows[i].Name = $imdatarows[i].Id
+								else
+									$imdatarows[i].Name = $imdatarows[i].RepoTags[0]
+					}
 				}
 				$imdatarows = $imdatarows
-				console.log("IMAGE PULLED",$imdatarows)
+				footermessage = "IMAGE DELETED " + id
 			}
 			updateToolbarContainer()
 			await sleep(200)
 			adjustPosition()
 		}catch(error){
 			console.log("ERROR", error)
+			footermessage = 'ERROR DELETING IMAGE '+error
 		}
 	}
 }
