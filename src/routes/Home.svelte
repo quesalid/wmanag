@@ -586,7 +586,7 @@ const onClickImageDelete = async (ev:any)=>{
   position: absolute;
   z-index: 999;
   top: -3px;
-  height:600px;
+  height:620px;
   width:1100px;
   background: rgba( 255, 255, 255, .9 );
   display:flex;
