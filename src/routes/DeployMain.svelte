@@ -6,6 +6,7 @@ import WindowFooter from '../lib/components/contents/WindowFooter.svelte'
 import Spinner from '../lib/components/spinner/RingLoader.svelte'
 import {token, mock} from '../lib/ustore.js'
 import {agentGetInfo, agentLogin} from '../lib/script/apidataagent.js'
+import FlipDiv from '../lib/components/contents/FlipDiv.svelte'
 
 
 import { writable } from 'svelte/store';
@@ -106,7 +107,7 @@ onMount(async () => {
 
 	<div class="docker-manager-div">
 		<Wmanag id="{defaultWManager}" title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
-			
+			<FlipDiv slot="bodycontent" />
 			<WindowFooter slot="footercontent" message={footermessage}/>
 		</Wmanag>
 		<!-- MODAL WINDOW WITH SPINNER -->
