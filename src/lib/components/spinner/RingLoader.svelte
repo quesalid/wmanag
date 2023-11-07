@@ -5,6 +5,7 @@
 	export let duration: SpinnerTypes['duration'] = '2s';
 	export let size: SpinnerTypes['size'] = '60';
 	export let pause: SpinnerTypes['pause'] = false;
+	export let message: string = '';
 
 	const range = (size: number, startAt = 0) => [...Array(size).keys()].map((i) => i + startAt);
 
@@ -15,8 +16,16 @@
 		<div class="border {version}" class:pause-animation={pause} />
 	{/each}
 </div>
+<div class="spinner-label" style="--color: {color};">{message}</div>
 
 <style>
+	.spinner-label {
+		color: var(--color);
+		font-size: 1.2rem;
+		font-weight: 500;
+		margin-top: 1rem;
+		margin-left: 1rem;
+	}
 	.spinner-wrapper {
 		position: relative;
 		align-items: center;

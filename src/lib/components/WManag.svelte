@@ -74,12 +74,15 @@ const minimize = (event:any)=>{
 			{#if Tool.type == 'text'}
 				<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
 			{/if}
+			{#if Tool.type == 'password'}
+				<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+			{/if}
 		   {#if Tool.type == 'image'}
 				<input class="wmanag-image" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
 			{/if}
 			{#if Tool.type == 'select'}
 				<select class="wmanag-select" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}>
-					<option value="" style="color:#afafaf">Select option</option>
+					<option value="" style="color:#afafaf"></option>
 					{#each Tool.props.options as Opt}
 						<option value={Opt.value}>{Opt.label}</option>
 					{/each}

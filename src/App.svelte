@@ -1,14 +1,16 @@
 <script lang="ts">
 // VPN FOR DEPLOYNG
 // https://www.softether.org/
+// https://kinsta.com/blog/web-components/
 
 
 import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
-import HOME from "./routes/Home.svelte"
+import DOCKER from "./routes/DockerMain.svelte"
+import DEPLOY from "./routes/DeployMain.svelte"
 
 
-export let url = "/";
+export let url = "/deploy"
 
 
 
@@ -18,9 +20,10 @@ export let url = "/";
 
 </script>
 
-<Router url={url}>
+<Router>
   <div>
-    <Route path="/" component={HOME}/>
+    <Route path="/docker" component={DOCKER}/>
+    <Route path="/deploy" component={DEPLOY}/>
   </div>
 </Router>
 

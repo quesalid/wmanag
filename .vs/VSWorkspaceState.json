@@ -4,10 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\contents",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\contents\\SimpleTable.svelte",
+  "SelectedNode": "\\src\\lib\\script\\mockdocker.js",
   "PreviewInSolutionExplorer": false
 }

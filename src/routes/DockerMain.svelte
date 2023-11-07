@@ -46,10 +46,12 @@ let selectedImagePull = ""
 let portMap = ""
 let toolbarcontainer:any =[]
 let toolbarimage:any =[]
-let defaultWManager = 'defaultWManager'
+let defaultWManager = 'defaultWDocker'
 let pagesize = false
+let spinnermessage = "Could take some time...."
 
 onMount(async () => {
+	adjustPosition()
 	showHideLoader(false)
 	$mock = true
 	
@@ -64,7 +66,6 @@ onMount(async () => {
 	if(loader){
 		loader.style.top = rect.top+'px'
 		loader.style.left = rect.left+'px'
-		console.log("LOADER",loader)
 		if(show)
 			loader.style.display = "flex"
 		else
@@ -72,6 +73,22 @@ onMount(async () => {
 	}
 }
 
+const resetFields = ()=>{
+	const image:any = document.getElementById('addcontainerimage')
+	image.setAttribute('disabled',"true")
+	image.style.cursor='not-allowed'
+	const imagepullimage:any = document.getElementById('imagepullimage')
+	imagepullimage.setAttribute('disabled',"true")
+	imagepullimage.style.cursor='not-allowed'
+	const imageselect:any = document.getElementById('imageselect')
+	imageselect.value = 'Select option'
+	const networkselect:any = document.getElementById('networkselect')
+	networkselect.value = 'Select option'
+	const portmap:any = document.getElementById('portmap')
+	portmap.value = ''
+	const imagepull:any = document.getElementById('imagepull')
+	imagepull.value = ''
+}
 
 /**
  * Click file download hidden button
@@ -216,7 +233,6 @@ const getPortBinding = (portmap:string)=>{
  * @param ev
  */
 const onClickAddContainer = async (ev:any)=>{
-	console.log("ONCLICK ADD CONTAINER",ev.target)
 	if(dockeruid && dockeruid != ''){
 		try{
 			showHideLoader(true)
@@ -248,6 +264,8 @@ const onClickAddContainer = async (ev:any)=>{
 				}
 				$contdatarows = $contdatarows
 				footermessage = "CONTAINER CREATED "
+				// RESET FIELDS
+				resetFields()
 			}
 			updateToolbarContainer()
 			await sleep(200)
@@ -267,7 +285,6 @@ const onClickAddContainer = async (ev:any)=>{
  * @param ev
  */
 const onClickAddImage = async (ev:any)=>{
-	console.log("ONCLICK ADD IMAGE",ev.target)
 	if(dockeruid && dockeruid != ''){
 		try{
 			showHideLoader(true)
@@ -278,7 +295,6 @@ const onClickAddImage = async (ev:any)=>{
 			}else{
 				res = await dockerListImages({all:true},$mock)
 				res = res.data
-				console.log("ONCLICK ADD IMAGE LIST",res)
 				if(Array.isArray(res)){
 					$imdatarows = res
 					for(let i =0; i< $imdatarows.length;i++){
@@ -292,6 +308,7 @@ const onClickAddImage = async (ev:any)=>{
 				}
 				$imdatarows = $imdatarows
 				footermessage = "IMAGE PULLED " + selectedImagePull
+				resetFields()
 			}
 			updateToolbarContainer()
 			await sleep(200)
@@ -375,7 +392,7 @@ const networkoptions:any = [
 ]
 toolbarcontainer = [
 	{type:'image',props:{id:'addcontainerimage',src:'/ADD.svg'},function:onClickAddContainer,label:"Add",disabled:true},
-	{type:'select',props:{id:"imageselect",options:[{value:'value1',label:'labe11'},{value:'value2',label:'labe12'}]},function:onClickGetSelect,label:"Image",value:''},
+	{type:'select',props:{id:"imageselect",options:[]},function:onClickGetSelect,label:"Image",value:''},
 	{type:'select',props:{id:"networkselect",options:networkoptions},function:onClickGetSelect,label:"Network",value:''},
 	{type:'text',props:{id:"portmap",value:'',size:20,visibility:'hidden'},function:onClickGetText,label:"Portmap"},
 ]
@@ -487,11 +504,11 @@ const onClickContainerStop = async (ev:any)=>{
 	}
 }
 const onClickContainerDelete = async (ev:any)=>{
-	console.log("ONCLICK CONTAINER DELETE")
 	const elem = ev.target
 	const id = elem.dataset.uid
 	if(dockeruid && dockeruid != '' && id){
 		try{
+			showHideLoader(true)
 			let res = await dockerRemoveContainer(dockeruid,id,$mock)
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR REMOVING CONTAINER '+res.json.message
@@ -513,22 +530,22 @@ const onClickContainerDelete = async (ev:any)=>{
 			footermessage = 'ERROR REMOVING CONTAINER '+error
 			console.log("ERROR", error)
 		}
+		showHideLoader(false)
 	}
 }
 
 const onClickImageDelete = async (ev:any)=>{
-	console.log("ONCLICK CONTAINER DELETE")
 	const elem = ev.target
 	const id = elem.dataset.uid
 	if(dockeruid && dockeruid != '' && id){
 		try{
+			showHideLoader(true)
 			let res = await dockerRemoveImage(dockeruid,id,$mock)
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR REMOVING CONTAINER '+res.json.message
 			}else{
 				res = await dockerListImages({all:true},$mock)
 				res = res.data
-				console.log("ONCLICK ADD IMAGE LIST",res)
 				if(Array.isArray(res)){
 					$imdatarows = res
 					for(let i =0; i< $imdatarows.length;i++){
@@ -549,13 +566,14 @@ const onClickImageDelete = async (ev:any)=>{
 			console.log("ERROR", error)
 			footermessage = 'ERROR DELETING IMAGE '+error
 		}
+		showHideLoader(false)
 	}
 }
 
 </script>
 
 	<div class="docker-manager-div">
-		<Wmanag id="defaultWManager" title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
+		<Wmanag id="{defaultWManager}" title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
 			<DockerManag slot="bodycontent" {zindex} {headercolor} 
 					bind:contdatarows={contdatarows} bind:imdatarows={imdatarows} 
 					{onClickContainerStart} {onClickContainerStop} {onClickContainerDelete} {onClickImageDelete} {pagesize}
@@ -567,7 +585,7 @@ const onClickImageDelete = async (ev:any)=>{
 		<!-- MODAL WINDOW WITH SPINNER -->
 		<div class="loading" id="loading-page-id">
 			<!--div class="spinner-wrapper"-->
-				<Spinner />
+				<Spinner message={spinnermessage}/>
 			<!--/div-->
 		</div>
 	</div>
