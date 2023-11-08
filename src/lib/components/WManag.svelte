@@ -26,12 +26,13 @@ export let toolbar:any = [
 
 
 let winHeight = ''
+let dragE = null
 
 onMount(async () => { 
 	const dragable = document.getElementById(id);
 	if(draggable){
 		const dragzone = document.getElementById(id+"dragzone");
-		dragElement(dragable, dragzone);
+		dragE = dragElement(dragable, dragzone);
 	}
  })
 

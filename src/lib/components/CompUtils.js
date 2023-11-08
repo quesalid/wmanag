@@ -46,4 +46,29 @@ export const dragElement = (element, dragzone) => {
 	};
 
 	dragzone.onmousedown = dragMouseDown;
+
+	const getPosition = () => {
+		return { x: element.style.left, y: element.style.top };
+    }
 };
+
+export const showHideLoader = (loaderid, pageid, show, relative=null) => {
+	const loader= document.getElementById(loaderid)
+	const wManager = document.getElementById(pageid)
+	// GET BOUNDING RECT
+	let rect = wManager.getBoundingClientRect();
+	// MOVE LOADER RESPECT TO WINDOW
+	if (loader) {
+		if (!relative) {
+			loader.style.top = (rect.top - 12) + 'px'
+			loader.style.left = (rect.left - 12) + 'px'
+		} else {
+			/*loader.style.top = (rect.top - 12) + 'px'
+			loader.style.left = (rect.left - 12) + 'px'*/
+		}
+		if (show)
+			loader.style.display = "flex"
+		else
+			loader.style.display = "none"
+	}
+}

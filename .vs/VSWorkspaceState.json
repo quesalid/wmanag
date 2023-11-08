@@ -5,9 +5,10 @@
     "\\src\\lib",
     "\\src\\lib\\components",
     "\\src\\lib\\components\\contents",
+    "\\src\\lib\\components\\spinner",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\mockdocker.js",
+  "SelectedNode": "\\src\\lib\\components\\spinner\\RingLoader.svelte",
   "PreviewInSolutionExplorer": false
 }

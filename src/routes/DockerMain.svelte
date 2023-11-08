@@ -21,6 +21,7 @@ import {setDockerEnv,
 
 import { writable } from 'svelte/store';
 import { sleep } from "../lib/script/api";
+import {showHideLoader} from "../lib/components/CompUtils.js"
 
 
 let cafile
@@ -49,29 +50,16 @@ let toolbarimage:any =[]
 let defaultWManager = 'defaultWDocker'
 let pagesize = false
 let spinnermessage = "Could take some time...."
+let loaderid = "loading-page-id"
+let pageid = defaultWManager
 
 onMount(async () => {
 	adjustPosition()
-	showHideLoader(false)
+	showHideLoader(loaderid,pageid,false)
 	$mock = true
 	
  })
 
- const showHideLoader = (show:boolean)=>{
- const loader:any = document.getElementById('loading-page-id')
- const wManafer = document.getElementById(defaultWManager)
- // GET BOUNDING RECT
- let rect = wManafer.getBoundingClientRect();
- // MOVE LOADER RESPECT TO WINDOW
-	if(loader){
-		loader.style.top = rect.top+'px'
-		loader.style.left = rect.left+'px'
-		if(show)
-			loader.style.display = "flex"
-		else
-			loader.style.display = "none"
-	}
-}
 
 const resetFields = ()=>{
 	const image:any = document.getElementById('addcontainerimage')
@@ -127,14 +115,15 @@ const onClickSubmit = async (ev:any)=>{
 	// Submit to docker daemon
 	footermessage = "connection to daemon "+host+":"+port
 	let res
-	showHideLoader(true)
+	showHideLoader(loaderid,pageid,true)
 	try{
 		const env = {
 				DOCKER_HOST: host
 			}
 		await setDockerEnv(env,$mock)
 		res = await dockerCreate(cafile,certfile,keyfile,$mock)
-		dockeruid = res.data
+		console.log("DOCERID",res.data)
+		dockeruid = res.data.uid
 		res = await dockerInfo(dockeruid,$mock)
 		switch(res.code){
 				case 'ERR_OSSL_PEM_NO_START_LINE':
@@ -147,14 +136,14 @@ const onClickSubmit = async (ev:any)=>{
 					}
 					else{ 
 						footermessage = ' CONNECTED Architecture: '+res.data.Architecture + '  OS Type: '+res.data.OSType + '  OS: '+res.data.OperatingSystem +'  OS Version: '+res.data.OSVersion+ '  Server Version: '+res.data.ServerVersion 
-						res = await dockerListContainers({all:true},$mock)
+						res = await dockerListContainers({all:true,uid:dockeruid},$mock)
 						res = res.data
 						if(Array.isArray(res)){
 							$contdatarows = res
 							for(let i =0; i< $contdatarows.length;i++) 
 								$contdatarows[i].Created = new Date($contdatarows[i].Created).toISOString()
 						}
-						res = await dockerListImages({all:true},$mock)
+						res = await dockerListImages({all:true,uid:dockeruid},$mock)
 						res = res.data
 						if(Array.isArray(res)){
 							$imdatarows = res
@@ -177,7 +166,7 @@ const onClickSubmit = async (ev:any)=>{
 		console.log("ERROR", error)
 		footermessage = "connection error "+host+":"+port
 	}
-	showHideLoader(false)
+	showHideLoader(loaderid,pageid,false)
 }
 
 /**
@@ -235,7 +224,7 @@ const getPortBinding = (portmap:string)=>{
 const onClickAddContainer = async (ev:any)=>{
 	if(dockeruid && dockeruid != ''){
 		try{
-			showHideLoader(true)
+			showHideLoader(loaderid,pageid,true)
 			const containeroptions = {
 				  Image: selectedImage,
 				  AttachStdin: false,
@@ -255,7 +244,7 @@ const onClickAddContainer = async (ev:any)=>{
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR CREATING CONTAINER '+res.json.message
 			}else{
-				res = await dockerListContainers({all:true},$mock)
+				res = await dockerListContainers({all:true,uid:dockeruid},$mock)
 				res = res.data
 				if(Array.isArray(res)){
 					$contdatarows = res
@@ -274,7 +263,7 @@ const onClickAddContainer = async (ev:any)=>{
 			console.log("ERROR", error)
 			footermessage = 'ERROR ADDING CONTAINER '+error
 		}
-		showHideLoader(false)
+		showHideLoader(loaderid,pageid,false)
 	}
 	else
 		console.log("ERROR")
@@ -287,13 +276,13 @@ const onClickAddContainer = async (ev:any)=>{
 const onClickAddImage = async (ev:any)=>{
 	if(dockeruid && dockeruid != ''){
 		try{
-			showHideLoader(true)
+			showHideLoader(loaderid,pageid,true)
 			await sleep(5000)
 			let res = await dockerPullImage(dockeruid,selectedImagePull,$mock)
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR PULLING IMAGE '+res.json.message
 			}else{
-				res = await dockerListImages({all:true},$mock)
+				res = await dockerListImages({all:true,uid:dockeruid},$mock)
 				res = res.data
 				if(Array.isArray(res)){
 					$imdatarows = res
@@ -317,7 +306,7 @@ const onClickAddImage = async (ev:any)=>{
 			console.log("ERROR", error)
 			footermessage = 'ERROR PULLING IMAGE '+error
 		}
-		showHideLoader(false)
+		showHideLoader(loaderid,pageid,false)
 	}
 }
 
@@ -451,7 +440,7 @@ const onClickContainerStart = async (ev:any)=>{
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR STARTING CONTAINER '+res.json.message
 			}else{
-				res = await dockerListContainers({all:true},$mock)
+				res = await dockerListContainers({all:true,uid:dockeruid},$mock)
 				res = res.data
 				if(Array.isArray(res)){
 					$contdatarows = res
@@ -484,7 +473,7 @@ const onClickContainerStop = async (ev:any)=>{
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR STOPING CONTAINER '+res.json.message
 			}else{
-				res = await dockerListContainers({all:true},$mock)
+				res = await dockerListContainers({all:true,uid:dockeruid},$mock)
 				res = res.data
 				if(Array.isArray(res)){
 					$contdatarows = res
@@ -508,12 +497,12 @@ const onClickContainerDelete = async (ev:any)=>{
 	const id = elem.dataset.uid
 	if(dockeruid && dockeruid != '' && id){
 		try{
-			showHideLoader(true)
+			showHideLoader(loaderid,pageid,true)
 			let res = await dockerRemoveContainer(dockeruid,id,$mock)
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR REMOVING CONTAINER '+res.json.message
 			}else{
-				res = await dockerListContainers({all:true},$mock)
+				res = await dockerListContainers({all:true,uid:dockeruid},$mock)
 				res = res.data
 				if(Array.isArray(res)){
 					$contdatarows = res
@@ -530,7 +519,7 @@ const onClickContainerDelete = async (ev:any)=>{
 			footermessage = 'ERROR REMOVING CONTAINER '+error
 			console.log("ERROR", error)
 		}
-		showHideLoader(false)
+		showHideLoader(loaderid,pageid,false)
 	}
 }
 
@@ -539,12 +528,12 @@ const onClickImageDelete = async (ev:any)=>{
 	const id = elem.dataset.uid
 	if(dockeruid && dockeruid != '' && id){
 		try{
-			showHideLoader(true)
+			showHideLoader(loaderid,pageid,true)
 			let res = await dockerRemoveImage(dockeruid,id,$mock)
 			if(res.statusCode && res.statusCode != 200){
 					footermessage = 'ERROR REMOVING CONTAINER '+res.json.message
 			}else{
-				res = await dockerListImages({all:true},$mock)
+				res = await dockerListImages({all:true,uid:dockeruid},$mock)
 				res = res.data
 				if(Array.isArray(res)){
 					$imdatarows = res
@@ -566,7 +555,7 @@ const onClickImageDelete = async (ev:any)=>{
 			console.log("ERROR", error)
 			footermessage = 'ERROR DELETING IMAGE '+error
 		}
-		showHideLoader(false)
+		showHideLoader(loaderid,pageid,false)
 	}
 }
 
@@ -603,7 +592,7 @@ const onClickImageDelete = async (ev:any)=>{
 .loading {
   position: absolute;
   z-index: 999;
-  top: -3px;
+  top: -20px;
   height:620px;
   width:1100px;
   background: rgba( 255, 255, 255, .9 );
