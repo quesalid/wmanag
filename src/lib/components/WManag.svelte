@@ -17,6 +17,7 @@ export let zindex = 3
 export let headercolor = "#e9e9e9"
 export let bodycolor = "#ffffff"
 export let data = []
+export let dragE:any = {}
 
 export let toolbar:any = [
 	{type:'button',props:{value:'+'},function:onClick,label:''},
@@ -26,13 +27,13 @@ export let toolbar:any = [
 
 
 let winHeight = ''
-let dragE = null
 
 onMount(async () => { 
 	const dragable = document.getElementById(id);
 	if(draggable){
 		const dragzone = document.getElementById(id+"dragzone");
-		dragE = dragElement(dragable, dragzone);
+		dragElement(dragable, dragzone)
+		dragE = id+"dragzone"
 	}
  })
 
@@ -94,7 +95,7 @@ const minimize = (event:any)=>{
 	</div>
 	<div class="window-menu-body">
 		{#if $$slots.bodycontent}
-			<slot name="bodycontent" {data} ></slot>
+			<slot name="bodycontent" data={data} options={dragE}></slot>
 		{/if}
 		<div class="window-menu-footer">
 			<slot name="footercontent"></slot>

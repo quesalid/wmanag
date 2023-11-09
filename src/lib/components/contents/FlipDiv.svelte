@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount} from "svelte"
 import Spinner from '../spinner/RingLoader.svelte'
-import {showHideLoader} from '../CompUtils.js'
+import {dragElement, showHideLoader} from '../CompUtils.js'
 import {sleep} from "../../script/api.js"
 import Switch from "./Switch.svelte"
 
@@ -17,30 +17,37 @@ export let colorleft = "#f0f0f0"
 export let colorrightstart = "#afffaf"
 export let colorrightstop = "#ffffaf"
 export let colorrightstopnostore = "#ff2f2f"
+export let dragelem:any = {}
 
 export let onClickDeploy = async (ev:any)=>{
 	console.log("DEPLOY CLICKED",ev.target)
 	const leftelem = document.getElementById(scanner.agent+'-left-hide')
 	const rightelem = document.getElementById(scanner.agent+'-right-hide')
-	showHideLoader(loaderidleft,pageidleft,true,{top:100})
+	const switchright = document.getElementById(scanner.agent+'-lower-content-right')
+	showHideLoaderFlip(loaderidleft,pageidleft,true,dragelem)
 	await sleep(2000)
-	showHideLoader(loaderidleft,pageidleft,false,{top:100})
-	if(leftelem && rightelem){
+	if(leftelem && rightelem && switchright){
 		leftelem.style.visibility = "hidden"
 		rightelem.style.visibility = "visible"
+		switchright.style.visibility = "visible"
 	}
+	showHideLoaderFlip(loaderidleft,pageidleft,false,dragelem)
+
 }
 export let onClickUndeploy = async (ev:any)=>{
 	console.log("UNDEPLOY CLICKED",ev.target)
 	const rightelem = document.getElementById(scanner.agent+'-right-hide')
 	const leftelem = document.getElementById(scanner.agent+'-left-hide')
-	showHideLoader(loaderidright,pageidright,true,{top:100})
+	const switchright = document.getElementById(scanner.agent+'-lower-content-right')
+	showHideLoaderFlip(loaderidright,pageidright,true,dragelem)
 	await sleep(2000)
-	showHideLoader(loaderidright,pageidright,false,{top:100})
 	if(leftelem && rightelem){
+		switchright.style.visibility = "hidden"
 		leftelem.style.visibility = "visible"
 		rightelem.style.visibility = "hidden"
 	}
+	showHideLoaderFlip(loaderidright,pageidright,false,dragelem)
+
 }
 
 export const onCheck = (ev:any)=>{
@@ -95,10 +102,16 @@ const showLoaded = ()=>{
 	}
 }
 
+const showHideLoaderFlip = (loaderid:any, pageid:any, show:any, options:any=null) =>{
+	console.log("SHOW HIDE LOADER",dragelem)
+	const offset = {top:10,left:10}
+	showHideLoader(loaderid,pageid,show,true,dragelem,offset)
+}
+
 
 onMount(()=>{
-	showHideLoader(loaderidleft,pageidleft,false,true)
-	showHideLoader(loaderidright,pageidright,false,true)
+	showHideLoaderFlip(loaderidleft,pageidleft,false,dragelem)
+	showHideLoaderFlip(loaderidright,pageidright,false,dragelem)
 	showLoaded()
 })
 
@@ -143,7 +156,7 @@ onMount(()=>{
 					<div class="middle-content right">
 						SOURCE: {scanner.source} <br>DEST: {scanner.destination}
 					</div>
-					<div class="lower-content right" style="--background-color: {colorleft} ;">
+					<div class="lower-content right" id="{scanner.agent+'-lower-content-right'}" style="--background-color: {colorleft} ;">
 						<Switch height='20px' width="35px" {onCheck}/>
 					</div>
 				</div>

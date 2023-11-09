@@ -47,30 +47,40 @@ export const dragElement = (element, dragzone) => {
 
 	dragzone.onmousedown = dragMouseDown;
 
-	const getPosition = () => {
-		return { x: element.style.left, y: element.style.top };
-    }
 };
 
-export const showHideLoader = (loaderid, pageid, show, relative=null) => {
+
+
+export const showHideLoader = (loaderid, pageid, show, relative = false, dragelem = '', offset = {top:0,left:0}) => {
 	const loader= document.getElementById(loaderid)
 	const wManager = document.getElementById(pageid)
 	
 	// MOVE LOADER RESPECT TO WINDOW
 	if (loader) {
-		if (wManager) { 
-		let rect = wManager.getBoundingClientRect();
-		if (!relative) {
-			loader.style.top = (rect.top - 12) + 'px'
-			loader.style.left = (rect.left - 12) + 'px'
-		} else {
-			/*loader.style.top = (rect.top - 12) + 'px'
-			loader.style.left = (rect.left - 12) + 'px'*/
+		if (wManager) {
+			let rect = wManager.getBoundingClientRect();
+			switch (relative) {
+				case true:
+					let dragzone = document.getElementById(dragelem)
+					let droprect = null
+					if(dragzone)
+						droprect = dragzone.getBoundingClientRect();
+					let top = droprect && droprect.top ? rect.top - droprect.top : rect.top
+					let left = droprect && droprect.x ? rect.left - droprect.left : rect.left
+					top += offset.top ? offset.top : 0
+					left+=offset.left?offset.left:0
+					loader.style.top = (top - 12) + 'px'
+					loader.style.left = (left - 12) + 'px'
+					break
+				case false:
+					loader.style.top = (rect.top - 12) + 'px'
+					loader.style.left = (rect.left - 12) + 'px'
+					break
 			}
+			if (show)
+				loader.style.display = "flex"
+			else
+				loader.style.display = "none"
 		}
-		if (show)
-			loader.style.display = "flex"
-		else
-			loader.style.display = "none"
 	}
 }

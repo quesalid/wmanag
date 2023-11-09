@@ -33,6 +33,8 @@ export let scanners = [
 		instore:false
 	},
 ]
+
+export let dragelem = {}
 </script>
 
 
@@ -60,7 +62,7 @@ export let scanners = [
 	</div>
 	<div class="flipdivlist">
 	{#each scanners as scanner}
-			<FlipDiv {scanner} />
+			<FlipDiv {scanner} dragelem={dragelem}/>
 	{/each}
 	</div>
 

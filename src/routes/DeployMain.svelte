@@ -28,6 +28,7 @@ let host = '127.0.0.1'
 let port = '8080'
 let agentInfo = {}
 let devtoken = ''
+let dragElem:any = {}
 
 
 const onClickGetText = async (ev:any)=>{
@@ -106,8 +107,8 @@ onMount(async () => {
 </script>
 
 	<div class="docker-manager-div">
-		<Wmanag id="{defaultWManager}" title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
-			<FlipDivList slot="bodycontent" />
+		<Wmanag id="{defaultWManager}" bind:dragE={dragElem} title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
+			<FlipDivList slot="bodycontent" bind:dragelem={dragElem}/>
 			<WindowFooter slot="footercontent" message={footermessage}/>
 		</Wmanag>
 		<!-- MODAL WINDOW WITH SPINNER -->
