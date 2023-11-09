@@ -5,7 +5,7 @@ import {showHideLoader} from '../CompUtils.js'
 import {sleep} from "../../script/api.js"
 import Switch from "./Switch.svelte"
 
-export let scanner = {
+export let scanner:any = {
 	agent: "SCANNER01",
 	type: "SCANNER",
 	description: "Descrizione dello scanner",
@@ -15,7 +15,9 @@ export let scanner = {
 }
 export let colorleft = "#f0f0f0"
 export let colorrightstart = "#afffaf"
-export let colorrightstop = "#ffafaf"
+export let colorrightstop = "#ffffaf"
+export let colorrightstopnostore = "#ff2f2f"
+
 export let onClickDeploy = async (ev:any)=>{
 	console.log("DEPLOY CLICKED",ev.target)
 	const leftelem = document.getElementById(scanner.agent+'-left-hide')
@@ -40,31 +42,27 @@ export let onClickUndeploy = async (ev:any)=>{
 		rightelem.style.visibility = "hidden"
 	}
 }
-/*
-export let onClickStart =(ev:any)=>{
-	console.log("START CLICKED",ev.target)
-	const rightelem:any = document.querySelector('.upper-content.right')
-	if(rightelem){
-		rightelem.style.setProperty('--background-color', colorrightstart);
-	}
-}
-
-export let onClickStop =(ev:any)=>{
-	console.log("STOP CLICKED",ev.target)
-	const rightelem:any = document.querySelector('.upper-content.right')
-	if(rightelem){
-		rightelem.style.setProperty('--background-color', colorrightstop);
-	}
-}*/
 
 export const onCheck = (ev:any)=>{
-	const rightelem:any = document.querySelector('#'+scanner.agent+'-upper-content-right')
-	if(rightelem){
+	const leftelem:any = document.querySelector('#'+scanner.agent+'-upper-content-left')
+	const colorstop = scanner.instore?colorrightstop:colorrightstopnostore
+	if(leftelem){
+		const image:any = document.getElementById(scanner.agent+'-unload-image')
 		if(ev.target.checked){
-			rightelem.style.setProperty('--background-color', colorrightstart);
+			leftelem.style.setProperty('--background-color', colorrightstart);
+			// DISABLE UNLOAD BUTTON
+			if(image)
+				image.disabled = true
+				image.style.opacity = 0.3
+				image.style.cursor = 'not-allowed'
 		}
 		else{
-			rightelem.style.setProperty('--background-color', colorrightstop);
+			leftelem.style.setProperty('--background-color', colorstop);
+			// ENABLE UNLOAD BUTTON
+			if(image)
+				image.disabled = false
+				image.style.opacity = 1.0
+				image.style.cursor = 'pointer'
 		}
 	}
 }
@@ -78,15 +76,21 @@ const showLoaded = ()=>{
 	const leftelem = document.getElementById(scanner.agent+'-left-hide')
 	const rightelem = document.getElementById(scanner.agent+'-right-hide')
 		if(scanner.loaded){
-			if(leftelem && rightelem){
+			if(leftelem)
 				leftelem.style.visibility = "hidden"
+			if(rightelem)
 				rightelem.style.visibility = "visible"
-			}
 		else{
-			if(leftelem && rightelem){
+			if(leftelem)
 				leftelem.style.visibility = "visible"
+			if(rightelem)
 				rightelem.style.visibility = "hidden"
-			}
+		}
+	}
+	if(!leftelem){
+		const left = document.getElementById(scanner.agent+'flip-div-left')
+		if(left){
+			left.style.border = "none"
 		}
 	}
 }
@@ -102,32 +106,34 @@ onMount(()=>{
 
 	<div class="flip-div-wrapper">
 		<div class="flip-div">
-			<div class="inside-flip-div left">
-				<div class="inside-flip-hide-left" id="{scanner.agent+'-left-hide'}">
-					<div class="upper-content left" style="--background-color: {colorleft} ;" >
-						<div class="upper-content-left left">
-							AGENT: <span class="agent-name">{scanner.agent}</span> TYPE: {scanner.type}
-							<br>{scanner.description}
+			<div class="inside-flip-div left" id="{scanner.agent+'flip-div-left'}">
+				{#if scanner.instore}
+					<div class="inside-flip-hide-left" id="{scanner.agent+'-left-hide'}">
+						<div class="upper-content left" style="--background-color: {colorleft} ;" >
+							<div class="upper-content-left left">
+								AGENT: <span class="agent-name">{scanner.agent}</span> TYPE: {scanner.type}
+								<br>{scanner.description}
+							</div>
+							<div class="upper-content-right left">
+								<input type="image" src="/DARROWRIGHT.svg" alt="ALT IMAGE" height="25" on:click={onClickDeploy}/>
+							</div>
 						</div>
-						<div class="upper-content-right left">
-							<input type="image" src="/DARROWRIGHT.svg" alt="ALT IMAGE" height="25" on:click={onClickDeploy}/>
+						<div class="middle-content left">
+							SOURCE: {scanner.source} <br>DEST: {scanner.destination}
+						</div>
+						<div class="lower-content left" style="--background-color: {colorleft} ;">
 						</div>
 					</div>
-					<div class="middle-content left">
-						SOURCE: {scanner.source} <br>DEST: {scanner.destination}
+					<div class="spinner-class" id="{scanner.agent+'spinner-left-id'}">
+						<Spinner />
 					</div>
-					<div class="lower-content left" style="--background-color: {colorleft} ;">
-					</div>
-				</div>
-				<div class="spinner-class" id="{scanner.agent+'spinner-left-id'}">
-					<Spinner />
-				</div>
+				{/if}
 			</div>
 			<div class="inside-flip-div right">
 				<div class="inside-flip-hide-right" id="{scanner.agent+'-right-hide'}">
-					<div class="upper-content right" id="{scanner.agent+'-upper-content-right'}" style="--background-color: {colorrightstop} ;">
+					<div class="upper-content right" id="{scanner.agent+'-upper-content-left'}" style="--background-color: {scanner.instore?colorrightstop:colorrightstopnostore} ;">
 						<div class="upper-content-left right">
-							<input type="image"  src="/DARROWLEFT.svg" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
+							<input type="image" id="{scanner.agent+'-unload-image'}"  src="{scanner.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
 						</div>
 						<div class="upper-content-right right">
 							AGENT: <span class="agent-name">{scanner.agent}</span> TYPE: {scanner.type}
@@ -138,10 +144,6 @@ onMount(()=>{
 						SOURCE: {scanner.source} <br>DEST: {scanner.destination}
 					</div>
 					<div class="lower-content right" style="--background-color: {colorleft} ;">
-						<!--label for="agent-start" style="margin-right:3px;margin-left:3px;">Start</!--label>
-						<input name="agent-start" type="image" src="/START.svg" alt="ALT IMAGE" height="22" on:click={onClickStart}/>
-						<label for="agent-stop" style="margin-right:3px;margin-left:3px;">Stop</label>
-						<input name="agent-stop" type="image" src="/STOP.svg" alt="ALT IMAGE" height="22" on:click={onClickStop}/-->
 						<Switch height='20px' width="35px" {onCheck}/>
 					</div>
 				</div>
@@ -165,7 +167,6 @@ onMount(()=>{
 	width:800px;
 	height: 120px;
 	justify-content:space-evenly ;
-	
 }
 
 .inside-flip-div{

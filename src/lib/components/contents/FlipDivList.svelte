@@ -12,6 +12,7 @@ export let scanners = [
 		source:"s7-127.0.0.1:502",
 		destination:"mqtt-127.0.0.1:8883",
 		loaded:false,
+		instore:true,
 	},
 	{
 		agent: "HIST01",
@@ -20,6 +21,7 @@ export let scanners = [
 		source:"mqtt-127.0.0.1:8883",
 		destination:"https://pirest:8080",
 		loaded:true,
+		instore:true
 	},
 	{
 		agent: "SCANNER02",
@@ -27,52 +29,60 @@ export let scanners = [
 		description: "Scanner for AUT-01",
 		source:"modbus-127.0.0.1:108",
 		destination:"mqtt-127.0.0.1:8883",
-		loaded:false,
+		loaded:true,
+		instore:false
 	},
 ]
 </script>
 
-<div>
-	<div class="flipdivlist">
-		<div class="flipdivlist-header">
+
+	<div class="flipdivlistheader">
+		<div class="flipdivlist-header left">
 			<div class="flipdivlist-header-left">
 				<div class="flipdivlist-header-left-title">
 					<h3>CONFIGURATORE</h3>
 				</div>
 				<div class="flipdivlist-header-left-subtitle">
-					<h4>Lista degli agent</h4>
+					<h4>Lista degli agent installabili</h4>
 				</div>
 			</div>
+		</div>
+		<div class="flipdivlist-header right">
 			<div class="flipdivlist-header-right">
-				<div class="flipdivlist-header-right-title">
+				<div class="flipdivlist-header-right-title" style="text-align:center ;">
 					<h3>EDGE</h3>
 				</div>
 				<div class="flipdivlist-header-right-subtitle">
-					<h4>Lista degli agent</h4>
+					<h4>Lista degli agent installati</h4>
 				</div>
 			</div>"
 		</div>
-		{#each scanners as scanner}
-			<FlipDiv {scanner} />
-		{/each}
 	</div>
-</div>
+	<div class="flipdivlist">
+	{#each scanners as scanner}
+			<FlipDiv {scanner} />
+	{/each}
+	</div>
+
 	
 <style>
 .flipdivlist-header{
 	display:flex;
 	flex-direction:row;
 	justify-content:space-evenly;
+	color: #777;
 }
 .flipdivlist-header-left{
 	display:flex;
 	flex-direction:column;
 	justify-content:center;
+	padding-right: 100px;
 }
 .flipdivlist-header-right{
 	display:flex;
 	flex-direction:column;
 	justify-content:center;
+	padding-right: 20px;
 }
 .flipdivlist-header-left-title{
 	display:flex;
@@ -112,6 +122,16 @@ export let scanners = [
 	overflow-x: none ;
 	max-height: 500px;
 	width:100%;
+
+}
+.flipdivlistheader{
+	display:flex;
+	overflow-x: none ;
+	max-height: 500px;
+	width:100%;
+	justify-content:space-evenly;
+	margin-bottom: 10px;
+	margin-top: 10px;
 
 }
 </style>
