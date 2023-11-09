@@ -7,6 +7,7 @@ import Spinner from '../lib/components/spinner/RingLoader.svelte'
 import {token, mock} from '../lib/ustore.js'
 import {agentGetInfo, agentLogin} from '../lib/script/apidataagent.js'
 import FlipDivList from '../lib/components/contents/FlipDivList.svelte'
+import {showHideLoader} from "../lib/components/CompUtils.js"
 
 
 import { writable } from 'svelte/store';
@@ -29,6 +30,38 @@ let port = '8080'
 let agentInfo = {}
 let devtoken = ''
 let dragElem:any = {}
+let loaderid = "loading-page-id"
+let pageid = defaultWManager
+
+let agents = [
+	{
+		agent: "SCANNER01",
+		type: "SCANNER",
+		description: "Scanner for L2-M17",
+		source:"s7-127.0.0.1:502",
+		destination:"mqtt-127.0.0.1:8883",
+		loaded:false,
+		instore:true,
+	},
+	{
+		agent: "HIST01",
+		type: "HIST",
+		description: "Historian for L2-M17",
+		source:"mqtt-127.0.0.1:8883",
+		destination:"https://pirest:8080",
+		loaded:true,
+		instore:true
+	},
+	{
+		agent: "SCANNER02",
+		type: "SCANNER",
+		description: "Scanner for AUT-01",
+		source:"modbus-127.0.0.1:108",
+		destination:"mqtt-127.0.0.1:8883",
+		loaded:true,
+		instore:false
+	},
+]
 
 
 const onClickGetText = async (ev:any)=>{
@@ -53,7 +86,7 @@ const onClickGetText = async (ev:any)=>{
 
 const onClickSubmit = async (ev:any)=>{
 	try{
-		showHideLoader(true)
+		showHideLoader(loaderid,pageid,true)
 		let res = await agentGetInfo('https',host,port,$mock)
 		agentInfo = res.data
 		console.log("AGENT INFO",agentInfo)
@@ -68,7 +101,7 @@ const onClickSubmit = async (ev:any)=>{
 		console.log("ERROR",e)
 		footermessage = 'ERROR LOGGING INTO SERVER '+e
 	}
-	showHideLoader(false)
+	showHideLoader(loaderid,pageid,false)
 }
 
 let toolbar = [
@@ -80,35 +113,17 @@ let toolbar = [
 
 
 onMount(async () => {
-	showHideLoader(false)
+	showHideLoader(loaderid,pageid,false)
 	$mock = true
 	
  })
-
- const showHideLoader = (show:boolean)=>{
- const loader:any = document.getElementById('loading-page-id')
- const wManafer = document.getElementById(defaultWManager)
- // GET BOUNDING RECT
- let rect = wManafer.getBoundingClientRect();
- // MOVE LOADER RESPECT TO WINDOW
-	if(loader){
-		loader.style.top = rect.top+'px'
-		loader.style.left = rect.left+'px'
-		if(show)
-			loader.style.display = "flex"
-		else
-			loader.style.display = "none"
-	}
-}
-
-
 
 
 </script>
 
 	<div class="docker-manager-div">
 		<Wmanag id="{defaultWManager}" bind:dragE={dragElem} title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
-			<FlipDivList slot="bodycontent" bind:dragelem={dragElem}/>
+			<FlipDivList slot="bodycontent" bind:dragelem={dragElem} bind:agents={agents}/>
 			<WindowFooter slot="footercontent" message={footermessage}/>
 		</Wmanag>
 		<!-- MODAL WINDOW WITH SPINNER -->

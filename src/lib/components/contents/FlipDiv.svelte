@@ -5,13 +5,7 @@ import {dragElement, showHideLoader} from '../CompUtils.js'
 import {sleep} from "../../script/api.js"
 import Switch from "./Switch.svelte"
 
-export let scanner:any = {
-	agent: "SCANNER01",
-	type: "SCANNER",
-	description: "Descrizione dello scanner",
-	source:"s7-127.0.0.1:502",
-	destination:"mqtt-127.0.0.1:8883",
-	loaded:true,
+export let agent:any = {
 }
 export let colorleft = "#f0f0f0"
 export let colorrightstart = "#afffaf"
@@ -21,9 +15,9 @@ export let dragelem:any = {}
 
 export let onClickDeploy = async (ev:any)=>{
 	console.log("DEPLOY CLICKED",ev.target)
-	const leftelem = document.getElementById(scanner.agent+'-left-hide')
-	const rightelem = document.getElementById(scanner.agent+'-right-hide')
-	const switchright = document.getElementById(scanner.agent+'-lower-content-right')
+	const leftelem = document.getElementById(agent.agent+'-left-hide')
+	const rightelem = document.getElementById(agent.agent+'-right-hide')
+	const switchright = document.getElementById(agent.agent+'-lower-content-right')
 	showHideLoaderFlip(loaderidleft,pageidleft,true,dragelem)
 	await sleep(2000)
 	if(leftelem && rightelem && switchright){
@@ -36,9 +30,11 @@ export let onClickDeploy = async (ev:any)=>{
 }
 export let onClickUndeploy = async (ev:any)=>{
 	console.log("UNDEPLOY CLICKED",ev.target)
-	const rightelem = document.getElementById(scanner.agent+'-right-hide')
-	const leftelem = document.getElementById(scanner.agent+'-left-hide')
-	const switchright = document.getElementById(scanner.agent+'-lower-content-right')
+	const agentname = ev.target.id.split('-')[0]
+	
+	const rightelem = document.getElementById(agent.agent+'-right-hide')
+	const leftelem = document.getElementById(agent.agent+'-left-hide')
+	const switchright = document.getElementById(agent.agent+'-lower-content-right')
 	showHideLoaderFlip(loaderidright,pageidright,true,dragelem)
 	await sleep(2000)
 	if(leftelem && rightelem){
@@ -50,39 +46,44 @@ export let onClickUndeploy = async (ev:any)=>{
 
 }
 
-export const onCheck = (ev:any)=>{
-	const leftelem:any = document.querySelector('#'+scanner.agent+'-upper-content-left')
-	const colorstop = scanner.instore?colorrightstop:colorrightstopnostore
+export const onCheck = async (ev:any)=>{
+	const leftelem:any = document.querySelector('#'+agent.agent+'-upper-content-left')
+	const colorstop = agent.instore?colorrightstop:colorrightstopnostore
 	if(leftelem){
-		const image:any = document.getElementById(scanner.agent+'-unload-image')
+		const image:any = document.getElementById(agent.agent+'-unload-image')
+		showHideLoaderFlip(loaderidright,pageidright,true,dragelem)
+		await sleep(2000)
 		if(ev.target.checked){
 			leftelem.style.setProperty('--background-color', colorrightstart);
 			// DISABLE UNLOAD BUTTON
-			if(image)
+			if(image){
 				image.disabled = true
 				image.style.opacity = 0.3
 				image.style.cursor = 'not-allowed'
+			}
 		}
 		else{
 			leftelem.style.setProperty('--background-color', colorstop);
 			// ENABLE UNLOAD BUTTON
-			if(image)
+			if(image){
 				image.disabled = false
 				image.style.opacity = 1.0
 				image.style.cursor = 'pointer'
+			}
 		}
+		showHideLoaderFlip(loaderidright,pageidright,false,dragelem)
 	}
 }
 
-let loaderidleft =  scanner.agent+"spinner-left-id"
-let loaderidright =  scanner.agent+"spinner-right-id"
-let pageidleft = scanner.agent+'-left-hide'
-let pageidright = scanner.agent+'-right-hide'
+let loaderidleft =  agent.agent+"spinner-left-id"
+let loaderidright =  agent.agent+"spinner-right-id"
+let pageidleft = agent.agent+'-left-hide'
+let pageidright = agent.agent+'-right-hide'
 
 const showLoaded = ()=>{
-	const leftelem = document.getElementById(scanner.agent+'-left-hide')
-	const rightelem = document.getElementById(scanner.agent+'-right-hide')
-		if(scanner.loaded){
+	const leftelem = document.getElementById(agent.agent+'-left-hide')
+	const rightelem = document.getElementById(agent.agent+'-right-hide')
+		if(agent.loaded){
 			if(leftelem)
 				leftelem.style.visibility = "hidden"
 			if(rightelem)
@@ -95,7 +96,7 @@ const showLoaded = ()=>{
 		}
 	}
 	if(!leftelem){
-		const left = document.getElementById(scanner.agent+'flip-div-left')
+		const left = document.getElementById(agent.agent+'flip-div-left')
 		if(left){
 			left.style.border = "none"
 		}
@@ -119,48 +120,48 @@ onMount(()=>{
 
 	<div class="flip-div-wrapper">
 		<div class="flip-div">
-			<div class="inside-flip-div left" id="{scanner.agent+'flip-div-left'}">
-				{#if scanner.instore}
-					<div class="inside-flip-hide-left" id="{scanner.agent+'-left-hide'}">
+			<div class="inside-flip-div left" id="{agent.agent+'flip-div-left'}">
+				{#if agent.instore}
+					<div class="inside-flip-hide-left" id="{agent.agent+'-left-hide'}">
 						<div class="upper-content left" style="--background-color: {colorleft} ;" >
 							<div class="upper-content-left left">
-								AGENT: <span class="agent-name">{scanner.agent}</span> TYPE: {scanner.type}
-								<br>{scanner.description}
+								AGENT: <span class="agent-name">{agent.agent}</span> TYPE: {agent.type}
+								<br>{agent.description}
 							</div>
 							<div class="upper-content-right left">
 								<input type="image" src="/DARROWRIGHT.svg" alt="ALT IMAGE" height="25" on:click={onClickDeploy}/>
 							</div>
 						</div>
 						<div class="middle-content left">
-							SOURCE: {scanner.source} <br>DEST: {scanner.destination}
+							SOURCE: {agent.source} <br>DEST: {agent.destination}
 						</div>
 						<div class="lower-content left" style="--background-color: {colorleft} ;">
 						</div>
 					</div>
-					<div class="spinner-class" id="{scanner.agent+'spinner-left-id'}">
+					<div class="spinner-class" id="{agent.agent+'spinner-left-id'}">
 						<Spinner />
 					</div>
 				{/if}
 			</div>
 			<div class="inside-flip-div right">
-				<div class="inside-flip-hide-right" id="{scanner.agent+'-right-hide'}">
-					<div class="upper-content right" id="{scanner.agent+'-upper-content-left'}" style="--background-color: {scanner.instore?colorrightstop:colorrightstopnostore} ;">
+				<div class="inside-flip-hide-right" id="{agent.agent+'-right-hide'}">
+					<div class="upper-content right" id="{agent.agent+'-upper-content-left'}" style="--background-color: {agent.instore?colorrightstop:colorrightstopnostore} ;">
 						<div class="upper-content-left right">
-							<input type="image" id="{scanner.agent+'-unload-image'}"  src="{scanner.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
+							<input type="image" id="{agent.agent+'-unload-image'}"  src="{agent.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
 						</div>
 						<div class="upper-content-right right">
-							AGENT: <span class="agent-name">{scanner.agent}</span> TYPE: {scanner.type}
-							<br>{scanner.description}
+							AGENT: <span class="agent-name">{agent.agent}</span> TYPE: {agent.type}
+							<br>{agent.description}
 						</div>
 					</div>
 					<div class="middle-content right">
-						SOURCE: {scanner.source} <br>DEST: {scanner.destination}
+						SOURCE: {agent.source} <br>DEST: {agent.destination}
 					</div>
-					<div class="lower-content right" id="{scanner.agent+'-lower-content-right'}" style="--background-color: {colorleft} ;">
+					<div class="lower-content right" id="{agent.agent+'-lower-content-right'}" style="--background-color: {colorleft} ;">
 						<Switch height='20px' width="35px" {onCheck}/>
 					</div>
 				</div>
-				<div class="spinner-class" id="{scanner.agent+'spinner-right-id'}">
+				<div class="spinner-class" id="{agent.agent+'spinner-right-id'}">
 					<Spinner />
 				</div>
 			</div>

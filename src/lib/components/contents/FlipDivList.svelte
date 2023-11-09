@@ -4,37 +4,10 @@ import FlipDiv from "./FlipDiv.svelte";
 import { onMount } from "svelte";
 import { sleep } from "../../script/api";
 
-export let scanners = [
-	{
-		agent: "SCANNER01",
-		type: "SCANNER",
-		description: "Scanner for L2-M17",
-		source:"s7-127.0.0.1:502",
-		destination:"mqtt-127.0.0.1:8883",
-		loaded:false,
-		instore:true,
-	},
-	{
-		agent: "HIST01",
-		type: "HIST",
-		description: "Historian for L2-M17",
-		source:"mqtt-127.0.0.1:8883",
-		destination:"https://pirest:8080",
-		loaded:true,
-		instore:true
-	},
-	{
-		agent: "SCANNER02",
-		type: "SCANNER",
-		description: "Scanner for AUT-01",
-		source:"modbus-127.0.0.1:108",
-		destination:"mqtt-127.0.0.1:8883",
-		loaded:true,
-		instore:false
-	},
-]
-
+export let agents = []
 export let dragelem = {}
+export let device = "DEFAULTSERVER"
+
 </script>
 
 
@@ -52,7 +25,7 @@ export let dragelem = {}
 		<div class="flipdivlist-header right">
 			<div class="flipdivlist-header-right">
 				<div class="flipdivlist-header-right-title" style="text-align:center ;">
-					<h3>EDGE</h3>
+					<h3>EDGE <span style="color:#9fafff;">{device}</span></h3>
 				</div>
 				<div class="flipdivlist-header-right-subtitle">
 					<h4>Lista degli agent installati</h4>
@@ -61,8 +34,8 @@ export let dragelem = {}
 		</div>
 	</div>
 	<div class="flipdivlist">
-	{#each scanners as scanner}
-			<FlipDiv {scanner} dragelem={dragelem}/>
+	{#each agents as agent}
+			<FlipDiv bind:agent={agent} dragelem={dragelem}/>
 	{/each}
 	</div>
 
