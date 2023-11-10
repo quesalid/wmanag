@@ -2,6 +2,42 @@ import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.j
 import mocks from './mockdataagent.js';
 
 /**
+ * Maps a configuration agent to an edge agent
+ * @param {any} confagent
+ * @returns
+ */
+export const fromConfToEdge = function (confagent) {
+    let edgeagent = {
+        id: confagent.name,
+        description: confagent.description,
+        type: confagent.type,
+        status: confagent.status,
+        color: 'magenta',
+        client: confagent.source,
+        store: confagent.destination
+    }
+    return(edgeagent)
+}
+
+/**
+ * Maps an edge agent to a configuration agent
+ * @param {any} edgeagent
+ * @returns
+ */
+export const fromEdgeToConf = function (edgeagent) {
+    let confagent = {
+        name: edgeagent.id,
+        description: edgeagent.description,
+        type: edgeagent.type,
+        status: edgeagent.status,
+        source: edgeagent.client,
+        destination:edgeagent.store
+    }
+    return(confagent)
+}
+
+
+/**
  * Get Agent Info
  * @param {any} protocol HTTP or HTTPS or WEBSOCKET
  * @param {any} host   server hostname or IP
@@ -88,6 +124,7 @@ export const agentLogin = async function (protocol, host, port, aguserid, agpass
  * @returns
  */
 export const agentAddScanner = async function (protocol, host, port, devicetoken, scannercon, mock = false) {
+    console.log("ADDSCANNER", scannercon, fromConfToEdge(scannercon))
     return new Promise(async (resolve, reject) => {
         const url = baseUrl + '/agent'
         const body = {
@@ -98,7 +135,7 @@ export const agentAddScanner = async function (protocol, host, port, devicetoken
                 url: protocol + '://' + host + ':' + port + '/server/scanner',
                 devicetoken: devicetoken,
                 worker: 'scanner1',
-                options: scannercon
+                options: fromConfToEdge(scannercon)
             }
         };
         if (!mock) {
@@ -138,7 +175,7 @@ export const agentAddHist = async function (protocol, host, port, devicetoken, h
                 url: protocol + '://' + host + ':' + port + '/server/hist',
                 devicetoken: devicetoken,
                 worker: 'hist1',
-                options: histcon
+                options: fromConfToEdge(histcon)
             }
         };
         if (!mock) {
@@ -186,6 +223,15 @@ export const agentGetScanner = async function (protocol, host, port, devicetoken
         if (!mock) {
             callFetchPost(url, body, getCHeader())
                 .then((response) => {
+                    // TRASFORM AGENT
+                    if (response.data.length) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            response.data[i] = fromEdgeToConf(response.data[i])
+                        }
+                        console.log("API TRASFORM",response.data)
+                    } else {
+                        response.data = fromEdgeToConf(response.data)
+                    }
                     resolve(response)
                 })
                 .catch((error) => {
@@ -229,6 +275,14 @@ export const agentGetHist = async function (protocol, host, port, devicetoken, i
         if (!mock) {
             callFetchPost(url, body, getCHeader())
                 .then((response) => {
+                    // TRASFORM AGENT
+                    if (response.data.length) {
+                        for (let i = 0; i < response.data.length; i++) {
+                            response.data[i] = fromEdgeToConf(response.data[i])
+                        }
+                    } else {
+                        response.data = fromEdgeToConf(response.data)
+                    }
                     resolve(response)
                 })
                 .catch((error) => {

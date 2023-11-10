@@ -1,4 +1,6 @@
 
+import { fromEdgeToConf } from './apidataagent.js'
+
 const authorization = "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOIiwiaWF0IjoxNjM5MDYzNTEzLCJleHAiOjE2MzkwNjUzMTN9.m23DGAbqqaf0_GbOxJO6OyFTMtlhvV_2IenhtqYghU96MbURMn24LZ4DvbLntRHQlLUYB1M7O_UHSNVIZPWtqw"
 const role = "ROLE_SADMIN"
 const AUTHMODE = "JWT"
@@ -8,7 +10,91 @@ const users = [
     { userid: 'user', password: 'user', role: 'ROLE_USER' }
 ]
 
-let scanners = []
+let scanners = [
+    {
+        id: "SCANNER1",
+        type: "SCANNER",
+        description: "Scanner agent for device DEV1-001",
+        color: 'magenta',
+        status: 'START',
+        client: {
+            name: "S7 driver test client.",
+            timeout: 10,
+            driver: "s7",
+            server: "192.168.1.31",
+            port: 102,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+                rack: 0,
+                slot: 2,
+                maxmv: 15,
+                maxread: 15
+            },
+            dbs: [
+                {
+                    type: "csv",
+                    file: "TESTJEST.csv"
+                }
+            ]
+        },
+        store: {
+            name: "MQTT SCANNER1",
+            driver: "mqtt",
+            timeout: 10,
+            server: "192.168.1.31",
+            port: 8883,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+                channel: "SCANNER1",
+                mqtts: true,
+                clean: false,
+                qos: 1
+            }
+        }
+    },
+    {
+        id: "SCANNER12",
+        type: "SCANNER",
+        description: "Scanner agent for device DEV1-001",
+        color: 'magenta',
+        status: 'START',
+        client: {
+            name: "S7 driver test client.",
+            timeout: 10,
+            driver: "s7",
+            server: "192.168.1.31",
+            port: 102,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+
+            },
+            dbs: [
+                {
+                    type: "csv",
+                    file: "TEST2.csv"
+                }
+            ]
+        },
+        store: {
+            name: "MQTT SCANNER12",
+            driver: "mqtt",
+            timeout: 10,
+            server: "192.168.1.31",
+            port: 8883,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+                channel: "SCANNER12",
+                mqtts: true,
+                clean: false,
+                qos: 1
+            }
+        }
+    }
+]
 let hists = []
 const agentGetInfo = async function (body) {
     const infos = {
@@ -69,7 +155,6 @@ const agentGetInfo = async function (body) {
 
 const agentLogin = async function (body) {
     const found = users.find((user) => user.userid === body.options.options.username && user.password === body.options.options.password)
-    console.log("agentLogin", body.options.options,found,users)
     if (!found || found == null) {
         body.data = null
         body.result = false
@@ -85,15 +170,15 @@ const agentLogin = async function (body) {
 
 const agentAddScanner = async function (body) {
     // CHECK IF SCANNER EXISTS
-    const scanner = scanners.find((scanner) => scanner.id === body.options.id)
+    const scanner = scanners.find((scanner) => scanner.id === body.options.options.id)
     if (scanner) {
         body.data = null
         body.result = false
         body.error = "Scanner already exists"
         return (body)
     }
-    scanners.push(body.options)
-    body.data = 'added new scanner ' + body.options.id
+    scanners.push(body.options.options)
+    body.data = 'added new scanner ' + body.options.options.id
     body.result = true
     body.error = null
     return (body)
@@ -101,23 +186,34 @@ const agentAddScanner = async function (body) {
 
 const agentAddHist = async function (body) {
     // CHECK IF HISTORIAN EXISTS
-    const hist = hists.find((hist) => hist.id === body.options.id)
+    const hist = hists.find((hist) => hist.id === body.options.options.id)
     if (hist) {
         body.data = null
         body.result = false
         body.error = "Historian already exists"
         return (body)
     }
-    hists.push(body.options)
-    body.data = 'added new hist ' + body.options.id
+    hists.push(body.options.options)
+    body.data = 'added new hist ' + body.options.options.id
     body.result = true
     body.error = null
     return (body)
 }
 
 const agentGetScanner = async function (body) {
+    // RETURN ALL SCANNERS
+    if (body.options.options.name === null || body.options.options.name === '') {
+        const retscanners = []
+        for (let i = 0; i < scanners.length; i++) {
+            retscanners.push(fromEdgeToConf(scanners[i]))
+        }
+        body.data = retscanners
+        body.result = true
+        body.error = null
+        return (body)
+    }
     // CHECK IF SCANNER EXISTS
-    const scanner = scanners.find((scanner) => scanner.id === body.options.name)
+    const scanner = scanners.find((scanner) => scanner.id === body.options.options.name)
     if (!scanner) {
         body.data = null
         body.result = false
@@ -125,15 +221,27 @@ const agentGetScanner = async function (body) {
         return (body)
     }
     
-    body.data = scanner
+    body.data = fromEdgeToConf(scanner)
     body.result = true
     body.error = null
     return (body)
 }
 
 const agentGetHist = async function (body) {
+    // RETURN ALL HISTORIANS
+    if (body.options.options.name === null || body.options.options.name === '') {
+        const rethists = []
+        for (let i = 0; i < hists.length; i++) {
+
+            rethists.push(fromEdgeToConf(hists[i]))
+        }
+        body.data = rethists
+        body.result = true
+        body.error = null
+        return (body)
+    }
     // CHECK IF HISTORIAN EXISTS
-    const hist = hists.find((hist) => hist.id === body.options.name)
+    const hist = hists.find((hist) => hist.id === body.options.options.name)
     if (!hist) {
         body.data = null
         body.result = false
@@ -141,7 +249,7 @@ const agentGetHist = async function (body) {
         return (body)
     }
 
-    body.data = hist
+    body.data = fromEdgeToConf(hist)
     body.result = true
     body.error = null
     return (body)
@@ -157,7 +265,7 @@ const agentAddFileScanner = async function (body) {
 
 const agentStartScanner = async function (body) {
     // CHECK IF SCANNER EXISTS
-    const scanner = scanners.find((scanner) => scanner.id === body.options.name)
+    const scanner = scanners.find((scanner) => scanner.id === body.options.options.name)
     if (!scanner) {
         body.data = null
         body.result = false
@@ -180,7 +288,7 @@ const agentStartScanner = async function (body) {
 
 const agentStartHist = async function (body) {
     // CHECK IF HISTORIAN EXISTS
-    const hist = hists.find((hist) => hist.id === body.options.name)
+    const hist = hists.find((hist) => hist.id === body.options.options.name)
     if (!hist) {
         body.data = null
         body.result = false
@@ -203,7 +311,7 @@ const agentStartHist = async function (body) {
 
 const agentStopScanner = async function (body) {
     // CHECK IF SCANNER EXISTS
-    const scanner = scanners.find((scanner) => scanner.id === body.options.name)
+    const scanner = scanners.find((scanner) => scanner.id === body.options.options.name)
     if (!scanner) {
         body.data = null
         body.result = false
@@ -219,7 +327,7 @@ const agentStopScanner = async function (body) {
 
 const agentStopHist = async function (body) {
     // CHECK IF HISTORIAN EXISTS
-    const hist = hists.find((hist) => hist.id === body.options.name)
+    const hist = hists.find((hist) => hist.id === body.options.options.name)
     if (!hist) {
         body.data = null
         body.result = false
@@ -235,7 +343,7 @@ const agentStopHist = async function (body) {
 
 const agentStatusScanner = async function (body) {
     // CHECK IF SCANNER EXISTS
-    const scanner = scanners.find((scanner) => scanner.id === body.options.name)
+    const scanner = scanners.find((scanner) => scanner.id === body.options.optionss.name)
     if (!scanner) {
         body.data = null
         body.result = false
@@ -250,7 +358,7 @@ const agentStatusScanner = async function (body) {
 
 const agentStatusHist = async function (body) {
     // CHECK IF HISTORIAN EXISTS
-    const hist = hists.find((hist) => hist.id === body.options.name)
+    const hist = hists.find((hist) => hist.id === body.options.options.name)
     if (!hist) {
         body.data = null
         body.result = false
@@ -265,7 +373,7 @@ const agentStatusHist = async function (body) {
 
 const agentRemoveScanner = async function (body) {
     // CHECK IF SCANNER EXISTS
-    const scanner = scanners.find((scanner) => scanner.id === body.options.name)
+    const scanner = scanners.find((scanner) => scanner.id === body.options.options.name)
     if (!scanner) {
         body.data = null
         body.result = false
@@ -279,7 +387,7 @@ const agentRemoveScanner = async function (body) {
         body.error = "Scanner is running"
         return (body)
     }
-    scanners = scanners.filter((scanner) => scanner.id !== body.options.name)
+    scanners = scanners.filter((scanner) => scanner.id !== body.options.options.name)
     body.data = 'removed scanner ' + body.options.name
     body.result = true
     body.error = null
@@ -288,7 +396,7 @@ const agentRemoveScanner = async function (body) {
 
 const agentRemoveHist = async function (body) {
     // CHECK IF HISTORIAN EXISTS
-    const hist = hists.find((hist) => hist.id === body.options.name)
+    const hist = hists.find((hist) => hist.id === body.options.options.name)
     if (!hist) {
         body.data = null
         body.result = false
@@ -302,8 +410,8 @@ const agentRemoveHist = async function (body) {
         body.error = "Hist is  running"
         return (body)
     }
-    hists = hists.filter((hist) => hist.id !== body.options.name)
-    body.data = 'removed hist ' + body.options.name
+    hists = hists.filter((hist) => hist.id !== body.options.options.name)
+    body.data = 'removed hist ' + body.options.options.name
     body.result = true
     body.error = null
     return (body)

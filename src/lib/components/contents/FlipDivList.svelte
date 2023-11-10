@@ -7,6 +7,10 @@ import { sleep } from "../../script/api";
 export let agents = []
 export let dragelem = {}
 export let device = "DEFAULTSERVER"
+export let startAgent = async (agent:any)=>{console.log("START AGENT",agent.agent),await sleep(2000)}
+export let stopAgent = async (agent:any)=>{console.log("STOP AGENT",agent.agent),await sleep(2000)}
+export let deployAgent = async (agent:any)=>{console.log("DEPLOY AGENT",agent.agent),await sleep(2000)}
+export let undeployAgent = async (agent:any)=>{console.log("UNDEPLOY AGENT",agent.agent),await sleep(2000)}
 
 </script>
 
@@ -35,7 +39,14 @@ export let device = "DEFAULTSERVER"
 	</div>
 	<div class="flipdivlist">
 	{#each agents as agent}
-			<FlipDiv bind:agent={agent} dragelem={dragelem}/>
+			<FlipDiv 
+				bind:agent={agent} 
+				dragelem={dragelem}
+				{startAgent}
+				{stopAgent}
+				{deployAgent}
+				{undeployAgent}
+			/>
 	{/each}
 	</div>
 

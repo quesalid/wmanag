@@ -9,6 +9,6 @@
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\WManag.svelte",
+  "SelectedNode": "\\src\\lib\\script\\mockdataagent.js",
   "PreviewInSolutionExplorer": false
 }

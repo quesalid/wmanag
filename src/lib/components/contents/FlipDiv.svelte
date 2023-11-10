@@ -13,13 +13,18 @@ export let colorrightstop = "#ffffaf"
 export let colorrightstopnostore = "#ff2f2f"
 export let dragelem:any = {}
 
-export let onClickDeploy = async (ev:any)=>{
-	console.log("DEPLOY CLICKED",ev.target)
-	const leftelem = document.getElementById(agent.agent+'-left-hide')
-	const rightelem = document.getElementById(agent.agent+'-right-hide')
-	const switchright = document.getElementById(agent.agent+'-lower-content-right')
+export let startAgent = async (agent:any)=>{console.log("START AGENT",agent.name),await sleep(2000)}
+export let stopAgent = async (agent:any)=>{console.log("STOP AGENT",agent.name),await sleep(2000)}
+export let deployAgent = async (agent:any)=>{console.log("DEPLOY AGENT",agent.name),await sleep(2000)}
+export let undeployAgent = async (agent:any)=>{console.log("UNDEPLOY AGENT",agent.name),await sleep(2000)}
+
+
+let onClickDeploy = async (ev:any)=>{
+	const leftelem = document.getElementById(agent.name+'-left-hide')
+	const rightelem = document.getElementById(agent.name+'-right-hide')
+	const switchright = document.getElementById(agent.name+'-lower-content-right')
 	showHideLoaderFlip(loaderidleft,pageidleft,true,dragelem)
-	await sleep(2000)
+	await deployAgent(agent)
 	if(leftelem && rightelem && switchright){
 		leftelem.style.visibility = "hidden"
 		rightelem.style.visibility = "visible"
@@ -28,15 +33,13 @@ export let onClickDeploy = async (ev:any)=>{
 	showHideLoaderFlip(loaderidleft,pageidleft,false,dragelem)
 
 }
-export let onClickUndeploy = async (ev:any)=>{
-	console.log("UNDEPLOY CLICKED",ev.target)
+let onClickUndeploy = async (ev:any)=>{
 	const agentname = ev.target.id.split('-')[0]
-	
-	const rightelem = document.getElementById(agent.agent+'-right-hide')
-	const leftelem = document.getElementById(agent.agent+'-left-hide')
-	const switchright = document.getElementById(agent.agent+'-lower-content-right')
+	const rightelem = document.getElementById(agent.name+'-right-hide')
+	const leftelem = document.getElementById(agent.name+'-left-hide')
+	const switchright = document.getElementById(agent.name+'-lower-content-right')
 	showHideLoaderFlip(loaderidright,pageidright,true,dragelem)
-	await sleep(2000)
+	await undeployAgent(agent)
 	if(leftelem && rightelem){
 		switchright.style.visibility = "hidden"
 		leftelem.style.visibility = "visible"
@@ -46,14 +49,15 @@ export let onClickUndeploy = async (ev:any)=>{
 
 }
 
-export const onCheck = async (ev:any)=>{
-	const leftelem:any = document.querySelector('#'+agent.agent+'-upper-content-left')
+const onCheck = async (ev:any)=>{
+	const leftelem:any = document.querySelector('#'+agent.name+'-upper-content-left')
 	const colorstop = agent.instore?colorrightstop:colorrightstopnostore
 	if(leftelem){
-		const image:any = document.getElementById(agent.agent+'-unload-image')
+		const image:any = document.getElementById(agent.name+'-unload-image')
 		showHideLoaderFlip(loaderidright,pageidright,true,dragelem)
-		await sleep(2000)
+		
 		if(ev.target.checked){
+			await startAgent(agent)
 			leftelem.style.setProperty('--background-color', colorrightstart);
 			// DISABLE UNLOAD BUTTON
 			if(image){
@@ -63,6 +67,7 @@ export const onCheck = async (ev:any)=>{
 			}
 		}
 		else{
+			await stopAgent(agent)
 			leftelem.style.setProperty('--background-color', colorstop);
 			// ENABLE UNLOAD BUTTON
 			if(image){
@@ -75,14 +80,21 @@ export const onCheck = async (ev:any)=>{
 	}
 }
 
-let loaderidleft =  agent.agent+"spinner-left-id"
-let loaderidright =  agent.agent+"spinner-right-id"
-let pageidleft = agent.agent+'-left-hide'
-let pageidright = agent.agent+'-right-hide'
+const getText = (item:any)=>{
+	if(!item)
+		return ""
+	const text = item.driver + ":" + item.server + "." + item.port
+	return text
+}
+
+let loaderidleft =  agent.name+"spinner-left-id"
+let loaderidright =  agent.name+"spinner-right-id"
+let pageidleft = agent.name+'-left-hide'
+let pageidright = agent.name+'-right-hide'
 
 const showLoaded = ()=>{
-	const leftelem = document.getElementById(agent.agent+'-left-hide')
-	const rightelem = document.getElementById(agent.agent+'-right-hide')
+	const leftelem = document.getElementById(agent.name+'-left-hide')
+	const rightelem = document.getElementById(agent.name+'-right-hide')
 		if(agent.loaded){
 			if(leftelem)
 				leftelem.style.visibility = "hidden"
@@ -96,7 +108,7 @@ const showLoaded = ()=>{
 		}
 	}
 	if(!leftelem){
-		const left = document.getElementById(agent.agent+'flip-div-left')
+		const left = document.getElementById(agent.name+'flip-div-left')
 		if(left){
 			left.style.border = "none"
 		}
@@ -104,8 +116,7 @@ const showLoaded = ()=>{
 }
 
 const showHideLoaderFlip = (loaderid:any, pageid:any, show:any, options:any=null) =>{
-	console.log("SHOW HIDE LOADER",dragelem)
-	const offset = {top:10,left:10}
+	const offset = {top:14,left:12}
 	showHideLoader(loaderid,pageid,show,true,dragelem,offset)
 }
 
@@ -120,12 +131,12 @@ onMount(()=>{
 
 	<div class="flip-div-wrapper">
 		<div class="flip-div">
-			<div class="inside-flip-div left" id="{agent.agent+'flip-div-left'}">
+			<div class="inside-flip-div left" id="{agent.name+'flip-div-left'}">
 				{#if agent.instore}
-					<div class="inside-flip-hide-left" id="{agent.agent+'-left-hide'}">
+					<div class="inside-flip-hide-left" id="{agent.name+'-left-hide'}">
 						<div class="upper-content left" style="--background-color: {colorleft} ;" >
 							<div class="upper-content-left left">
-								AGENT: <span class="agent-name">{agent.agent}</span> TYPE: {agent.type}
+								AGENT: <span class="agent-name">{agent.name}</span> TYPE: {agent.type}
 								<br>{agent.description}
 							</div>
 							<div class="upper-content-right left">
@@ -133,35 +144,35 @@ onMount(()=>{
 							</div>
 						</div>
 						<div class="middle-content left">
-							SOURCE: {agent.source} <br>DEST: {agent.destination}
+							SOURCE: {getText(agent.source)} <br>DEST: {getText(agent.destination)}
 						</div>
 						<div class="lower-content left" style="--background-color: {colorleft} ;">
 						</div>
 					</div>
-					<div class="spinner-class" id="{agent.agent+'spinner-left-id'}">
+					<div class="spinner-class" id="{agent.name+'spinner-left-id'}">
 						<Spinner />
 					</div>
 				{/if}
 			</div>
 			<div class="inside-flip-div right">
-				<div class="inside-flip-hide-right" id="{agent.agent+'-right-hide'}">
-					<div class="upper-content right" id="{agent.agent+'-upper-content-left'}" style="--background-color: {agent.instore?colorrightstop:colorrightstopnostore} ;">
+				<div class="inside-flip-hide-right" id="{agent.name+'-right-hide'}">
+					<div class="upper-content right {agent.status=='START'?'started':''}" id="{agent.name+'-upper-content-left'}" style="--background-color: {agent.instore?colorrightstop:colorrightstopnostore} ;">
 						<div class="upper-content-left right">
-							<input type="image" id="{agent.agent+'-unload-image'}"  src="{agent.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
+							<input type="image" id="{agent.name+'-unload-image'}"  src="{agent.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
 						</div>
 						<div class="upper-content-right right">
-							AGENT: <span class="agent-name">{agent.agent}</span> TYPE: {agent.type}
+							AGENT: <span class="agent-name">{agent.name}</span> TYPE: {agent.type}
 							<br>{agent.description}
 						</div>
 					</div>
 					<div class="middle-content right">
-						SOURCE: {agent.source} <br>DEST: {agent.destination}
+						SOURCE: {getText(agent.source)} <br>DEST: {getText(agent.destination)}
 					</div>
-					<div class="lower-content right" id="{agent.agent+'-lower-content-right'}" style="--background-color: {colorleft} ;">
+					<div class="lower-content right" id="{agent.name+'-lower-content-right'}" style="--background-color: {colorleft} ;">
 						<Switch height='20px' width="35px" {onCheck}/>
 					</div>
 				</div>
-				<div class="spinner-class" id="{agent.agent+'spinner-right-id'}">
+				<div class="spinner-class" id="{agent.name+'spinner-right-id'}">
 					<Spinner />
 				</div>
 			</div>
@@ -213,6 +224,15 @@ onMount(()=>{
 }
 .upper-content .right{
 	background-color: var(--background-color);
+}
+
+.upper-content .right .started{
+	background-color: #afffaf;
+}
+
+.upper-content .right .started image{
+	opacity: 0.3;
+	cursor:not-allowed;
 }
 
 .middle-content{
@@ -268,8 +288,8 @@ onMount(()=>{
   position:absolute;
   /*z-index: 999;*/
   top: -3px;
-  height:113px;
-  width:323px;
+  height:110px;
+  width:320px;
   background: rgba( 255, 255, 255, .9 );
   display:flex;
   justify-content: center;
