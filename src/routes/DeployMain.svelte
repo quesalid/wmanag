@@ -55,8 +55,34 @@ let flattenagents = []
 
 let agents = []
 
-let startAgent = async (agent:any)=>{console.log("START AGENT FROM WINDOW",agent.name),await sleep(2000)}
-let stopAgent = async (agent:any)=>{console.log("STOP AGENT FROM WINDOW",agent.name),await sleep(2000)}
+let startAgent = async (agent:any)=>{
+	const confagent = confagents.find((a:any)=>a.name == agent.name)
+	if(confagent){
+		switch(confagent.type){
+			case 'SCANNER':
+				await agentStartScanner('https',host,port,devtoken,confagent.name,$mock)
+				break
+			case 'HISTORIAN':
+				await agentStartHist('https',host,port,devtoken,confagent.name,$mock)
+				break
+		}
+	}
+	agents = await onDepUndep(confagents)
+}
+let stopAgent = async (agent:any)=>{
+	const confagent = confagents.find((a:any)=>a.name == agent.name)
+	if(confagent){
+		switch(confagent.type){
+			case 'SCANNER':
+				await agentStopScanner('https',host,port,devtoken,confagent.name,$mock)
+				break
+			case 'HISTORIAN':
+				await agentStopHist('https',host,port,devtoken,confagent.name,$mock)
+				break
+		}
+	}
+	agents = await onDepUndep(confagents)
+}
 let deployAgent = async (agent:any)=>{
 	const confagent = confagents.find((a:any)=>a.name == agent.name)
 	if(confagent){
@@ -67,7 +93,7 @@ let deployAgent = async (agent:any)=>{
 			case 'FILESCANNER':
 				await agentAddFileScanner('https',host,port,devtoken,confagent,$mock)
 				break
-			case 'HIST':
+			case 'HISTORIAN':
 				await agentAddHist('https',host,port,devtoken,confagent,$mock)
 				break
 		}
@@ -154,17 +180,17 @@ onMount(async () => {
 
  const onDepUndep = async (confagents:any)=>{
 		try{
-			console.log("CONFAGENTS",confagents)
+			//console.log("CONFAGENTS",confagents)
 			let res = await agentGetScanner('https',host,port,devtoken,null,$mock)
 			const scanners = res.data
 			res = await agentGetHist('https',host,port,devtoken,null,$mock)
 			const hists = res.data
 			edgeagents = [...scanners,...hists]
-			console.log("EDGE AGENTS",edgeagents)
+			//console.log("EDGE AGENTS",edgeagents)
 			// C. COMPARE AGENTS LIST
 			var ids = new Set(confagents.map(d => d.name));
 			flattenagents = [...confagents, ...edgeagents.filter(d => !ids.has(d.name))];
-			console.log("FLATTENED AGENTS",flattenagents)
+			//console.log("FLATTENED AGENTS",flattenagents)
 			for(let i=0;i< flattenagents.length;i++){
 				const agent = flattenagents[i]
 				const confagent = confagents.find((a:any)=>a.name == agent.name)
@@ -173,6 +199,7 @@ onMount(async () => {
 					//console.log("AGENT",agent.name,"IS IN STORE AND LOADED")
 					agent.instore = true
 					agent.loaded = true
+					agent.status = edgeagent.status
 				}else if(confagent && !edgeagent){
 					//console.log("AGENT",agent.name,"IS IN STORE AND NOT LOADED")
 					agent.instore = true
@@ -181,6 +208,7 @@ onMount(async () => {
 					//console.log("AGENT",agent.name,"IS NOT IN STORE AND LOADED")
 					agent.instore = false
 					agent.loaded = true
+					agent.status = edgeagent.status
 				}else{
 					//console.log("AGENT",agent.name,"IS NOT IN STORE AND NOT LOADED")
 					agent.instore = false

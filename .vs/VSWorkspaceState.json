@@ -9,6 +9,6 @@
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\mockdataagent.js",
+  "SelectedNode": "\\src\\lib\\components\\contents\\FlipDiv.svelte",
   "PreviewInSolutionExplorer": false
 }

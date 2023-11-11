@@ -8,10 +8,12 @@
       checked = ev.target.checked;
   };
 
+  
+
 </script>
 
 <label class="switch" style="--width:{width};--heigth:{height}">
-  <input type="checkbox"  style="--background-color:{color} ;" on:change={onCheck}/>
+  <input type="checkbox"  style="--background-color:{color} ;" on:change={onCheck} checked={checked}/>
   <span class="slider" style="--border-radius:{height}"/>
 </label>
 

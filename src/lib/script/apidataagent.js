@@ -124,7 +124,6 @@ export const agentLogin = async function (protocol, host, port, aguserid, agpass
  * @returns
  */
 export const agentAddScanner = async function (protocol, host, port, devicetoken, scannercon, mock = false) {
-    console.log("ADDSCANNER", scannercon, fromConfToEdge(scannercon))
     return new Promise(async (resolve, reject) => {
         const url = baseUrl + '/agent'
         const body = {
@@ -228,7 +227,6 @@ export const agentGetScanner = async function (protocol, host, port, devicetoken
                         for (let i = 0; i < response.data.length; i++) {
                             response.data[i] = fromEdgeToConf(response.data[i])
                         }
-                        console.log("API TRASFORM",response.data)
                     } else {
                         response.data = fromEdgeToConf(response.data)
                     }

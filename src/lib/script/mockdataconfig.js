@@ -133,7 +133,7 @@ let agents = [
             name: "s7.csv",
         }],
         devuid: 'abc-1',
-        status: "ACTIVE",
+        status: "STOP",
     },
     {
         uid: 'ag-234-abc-11',
@@ -170,7 +170,7 @@ let agents = [
             name: "s7-1.csv"
         }],
         devuid: 'abc-1',
-        status: "INACTIVE",
+        status: "STOP",
     },
     {
         uid: 'ag-234-hst-1',
@@ -203,7 +203,7 @@ let agents = [
             }
         },
         devuid: 'abc-1',
-        status: "ACTIVE",
+        status: "STOP",
     },
     {
         uid: 'ag-234-abc-2',
@@ -237,7 +237,7 @@ let agents = [
             }
         },
         dbs: [{ uid: 0, name: "modbus.csv" }],
-        status: "INACTIVE",
+        status: "STOP",
         devuid: 'abc-1',
     },
     {
@@ -271,7 +271,7 @@ let agents = [
             }
         },
         devuid: 'bca-2',
-        status: "INACTIVE",
+        status: "STOP",
     },
     {
         uid: 'ag-234-abc-4',
@@ -304,7 +304,7 @@ let agents = [
             }
         },
         dbs: [{ uid: 0, name: "modbus1.csv" }],
-        status: "ACTIVE",
+        status: "STOP",
         devuid: 'abc-1',
     },
     {
@@ -340,7 +340,7 @@ let agents = [
                 cbufsize: 200
             }
         },
-        status: "ACTIVE",
+        status: "STOP",
         devuid: 'abc-1',
     },
 

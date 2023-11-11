@@ -120,6 +120,17 @@ const showHideLoaderFlip = (loaderid:any, pageid:any, show:any, options:any=null
 	showHideLoader(loaderid,pageid,show,true,dragelem,offset)
 }
 
+const getBackground = (agent:any)=>{
+	let color = ''
+	if(agent.status == 'START')
+		color =  colorrightstart
+	else if(agent.instore)
+		color =  colorrightstop
+	else 
+		color =  colorrightstopnostore
+	return(color)
+}
+
 
 onMount(()=>{
 	showHideLoaderFlip(loaderidleft,pageidleft,false,dragelem)
@@ -156,9 +167,9 @@ onMount(()=>{
 			</div>
 			<div class="inside-flip-div right">
 				<div class="inside-flip-hide-right" id="{agent.name+'-right-hide'}">
-					<div class="upper-content right {agent.status=='START'?'started':''}" id="{agent.name+'-upper-content-left'}" style="--background-color: {agent.instore?colorrightstop:colorrightstopnostore} ;">
+					<div class="upper-content right" id="{agent.name+'-upper-content-left'}" style="--background-color: {getBackground(agent)} ;">
 						<div class="upper-content-left right">
-							<input type="image" id="{agent.name+'-unload-image'}"  src="{agent.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
+							<input class="{agent.status =='START'?'imagestarted':'imagestopped'}" type="image" id="{agent.name+'-unload-image'}"  src="{agent.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
 						</div>
 						<div class="upper-content-right right">
 							AGENT: <span class="agent-name">{agent.name}</span> TYPE: {agent.type}
@@ -169,7 +180,7 @@ onMount(()=>{
 						SOURCE: {getText(agent.source)} <br>DEST: {getText(agent.destination)}
 					</div>
 					<div class="lower-content right" id="{agent.name+'-lower-content-right'}" style="--background-color: {colorleft} ;">
-						<Switch height='20px' width="35px" {onCheck}/>
+						<Switch height='20px' width="35px" {onCheck} checked={agent.status =='START'?true:false}/>
 					</div>
 				</div>
 				<div class="spinner-class" id="{agent.name+'spinner-right-id'}">
@@ -226,11 +237,7 @@ onMount(()=>{
 	background-color: var(--background-color);
 }
 
-.upper-content .right .started{
-	background-color: #afffaf;
-}
-
-.upper-content .right .started image{
+.imagestarted{
 	opacity: 0.3;
 	cursor:not-allowed;
 }

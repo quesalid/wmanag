@@ -59,7 +59,7 @@ let scanners = [
         type: "SCANNER",
         description: "Scanner agent for device DEV1-001",
         color: 'magenta',
-        status: 'START',
+        status: 'STOP',
         client: {
             name: "S7 driver test client.",
             timeout: 10,
@@ -264,6 +264,7 @@ const agentAddFileScanner = async function (body) {
 }
 
 const agentStartScanner = async function (body) {
+   
     // CHECK IF SCANNER EXISTS
     const scanner = scanners.find((scanner) => scanner.id === body.options.options.name)
     if (!scanner) {
