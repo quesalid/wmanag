@@ -169,7 +169,7 @@ onMount(()=>{
 				<div class="inside-flip-hide-right" id="{agent.name+'-right-hide'}">
 					<div class="upper-content right" id="{agent.name+'-upper-content-left'}" style="--background-color: {getBackground(agent)} ;">
 						<div class="upper-content-left right">
-							<input class="{agent.status =='START'?'imagestarted':'imagestopped'}" type="image" id="{agent.name+'-unload-image'}"  src="{agent.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
+							<input disabled={agent.status =='START'?true:false} class="{agent.status =='START'?'imagestarted':'imagestopped'}" type="image" id="{agent.name+'-unload-image'}"  src="{agent.instore?'/DARROWLEFT.svg':'/CROSS.svg'}" alt="ALT IMAGE" height="25" on:click={onClickUndeploy}/>
 						</div>
 						<div class="upper-content-right right">
 							AGENT: <span class="agent-name">{agent.name}</span> TYPE: {agent.type}

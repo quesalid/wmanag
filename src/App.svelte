@@ -8,6 +8,7 @@ import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
 import DOCKER from "./routes/DockerMain.svelte"
 import DEPLOY from "./routes/DeployMain.svelte"
+import ADMINDB from "./routes/AdminDB.svelte"
 
 
 export let url = "/deploy"
@@ -24,6 +25,7 @@ export let url = "/deploy"
   <div>
     <Route path="/docker" component={DOCKER}/>
     <Route path="/deploy" component={DEPLOY}/>
+     <Route path="/admindb" component={ADMINDB}/>
   </div>
 </Router>
 

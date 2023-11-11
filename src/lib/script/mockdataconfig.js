@@ -102,13 +102,13 @@ let agents = [
         uid: 'ag-234-abc-1',
         name: "SCANNER1",
         type: "SCANNER",
-        description: "Scanner agent for device DEV1-001",
+        description: "Scanner for AUT-01",
         lastmodified: "2022-06-30T09:58:00",
         source: {
-            name: "S7 driver test client.",
+            name: "S7 driver plc AUT-01",
             timeout: 10,
             driver: "s7",
-            server: "192.168.1.31",
+            server: "192.168.1.48",
             port: 102,
             username: "aiqadmin",
             password: "aiqadmin",
@@ -117,7 +117,7 @@ let agents = [
             }
         },
         destination: {
-            name: "MQTT SCANNER1.",
+            name: "MQTT CODA SCANNER1",
             driver: "mqtt",
             timeout: 10,
             server: "192.168.1.31",
@@ -125,7 +125,10 @@ let agents = [
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                channel: "SCANNER1",
+                mqtts: true,
+                clean: false,
+                qos: 1
             }
         },
         dbs: [{
@@ -139,13 +142,13 @@ let agents = [
         uid: 'ag-234-abc-11',
         name: "SCANNER11",
         type: "SCANNER",
-        description: "Scanner agent for device DEV1-001",
+        description: "Scanner for PREP-21",
         lastmodified: "2022-06-30T09:58:00",
         source: {
-            name: "S7 driver test client.",
+            name: "modbus driver plc PREP-21.",
             timeout: 10,
             driver: "modbus",
-            server: "192.168.1.31",
+            server: "192.168.1.108",
             port: 102,
             username: "aiqadmin",
             password: "aiqadmin",
@@ -154,7 +157,7 @@ let agents = [
             }
         },
         destination: {
-            name: "MQTT SCANNER1.",
+            name: "MQTT CODA SCANNER11",
             timeout: 10,
             driver: "mqtt",
             server: "192.168.1.31",
@@ -162,7 +165,10 @@ let agents = [
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                channel: "SCANNER11",
+                mqtts: true,
+                clean: false,
+                qos: 1
             }
         },
         dbs: [{
@@ -176,7 +182,7 @@ let agents = [
         uid: 'ag-234-hst-1',
         name: "HIST1",
         type: "HISTORIAN",
-        description: "Historian agent for device DEV1-001",
+        description: "Historian from queue SCANNER1",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "MQTT SCANNER1.",
@@ -187,14 +193,17 @@ let agents = [
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                channel: "SCANNER1",
+                mqtts: true,
+                clean: false,
+                qos: 1
             }
         },
         destination: {
-            name: "CRATEDB SERVER.",
+            name: "CRATEDB SERVER",
             driver: "craterest",
             timeout: 10,
-            server: "192.168.1.31",
+            server: "192.204.21.12",
             port: 5432,
             username: "aiqadmin",
             password: "aiqadmin",
@@ -209,13 +218,13 @@ let agents = [
         uid: 'ag-234-abc-2',
         name: "SCANNER2",
         type: "SCANNER",
-        description: "Scanner agent for device DEV2-001",
+        description: "Scanner for RMP-04",
         lastmodified: "2022-06-30T09:58:00",
         source: {
-            name: "MODBUS driver test client.",
+            name: "ip/eth driver for RMP-04.",
             timeout: 10,
             driver: "ip",
-            server: "192.168.1.31",
+            server: "192.168.1.67",
             port: 502,
             username: "aiqadmin",
             password: "aiqadmin",
@@ -225,7 +234,7 @@ let agents = [
 
         },
         destination: {
-            name: "MQTT SCANNER2.",
+            name: "MQTT CODA SCANNER2",
             driver: "mqtt",
             timeout: 10,
             server: "192.168.1.31",
@@ -233,7 +242,10 @@ let agents = [
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                channel: "SCANNER2",
+                mqtts: true,
+                clean: false,
+                qos: 1
             }
         },
         dbs: [{ uid: 0, name: "modbus.csv" }],
@@ -244,7 +256,7 @@ let agents = [
         uid: 'ag-234-hst-2',
         name: "HIST2",
         type: "HISTORIAN",
-        description: "Historian agent for device DEV2-001",
+        description: "Historian for queue SCANNER2",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "MQTT SCANNER2.",
@@ -255,19 +267,25 @@ let agents = [
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                channel: "SCANNER2",
+                mqtts: true,
+                clean: false,
+                qos: 1
             }
         },
         destination: {
-            name: "CRATEDB SERVER.",
+            name: "OSIPI SERVER.",
             driver: "pirest",
             timeout: 10,
-            server: "192.168.1.31",
+            server: "osi-pi-srv01",
             port: 5432,
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                dbosi: 'AN023',
+                machine: 'RMP-04',
+                machineprefix: 'PI_RMP_04',
+                cbufsize: 200
             }
         },
         devuid: 'bca-2',
@@ -277,13 +295,13 @@ let agents = [
         uid: 'ag-234-abc-4',
         name: "SCANNER3",
         type: "SCANNER",
-        description: "Scanner agent for device DEV2-002",
+        description: "Scanner for INF-07",
         lastmodified: "2022-06-30T09:58:00",
         source: {
-            name: "MODBUS driver test client.",
+            name: "s7 driver for INF-07",
             timeout: 10,
             driver: "s7",
-            server: "192.168.1.31",
+            server: "192.168.1.187",
             port: 502,
             username: "aiqadmin",
             password: "aiqadmin",
@@ -292,7 +310,7 @@ let agents = [
             }
         },
         destination: {
-            name: "MQTT SCANNER3.",
+            name: "MQTT CODA SCANNER3",
             driver: "mqtt",
             timeout: 10,
             server: "192.168.1.31",
@@ -300,7 +318,10 @@ let agents = [
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                channel: "SCANNER3",
+                mqtts: true,
+                clean: false,
+                qos: 1
             }
         },
         dbs: [{ uid: 0, name: "modbus1.csv" }],
@@ -311,7 +332,7 @@ let agents = [
         uid: 'ag-234-hst-3',
         name: "HIST3",
         type: "HISTORIAN",
-        description: "Historian agent for device DEV2-002",
+        description: "Historian from queue SCANNER3",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "MQTT SCANNER3.",
@@ -322,21 +343,24 @@ let agents = [
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
-
+                channel: "SCANNER3",
+                mqtts: true,
+                clean: false,
+                qos: 1
             }
         },
         destination: {
-            name: "CRATEDB SERVER.",
+            name: "OSIPI SERVER.",
             driver: "pirest",
             timeout: 10,
-            server: "192.168.1.31",
+            server: "osi-pi-srv01",
             port: 5432,
             username: "aiqadmin",
             password: "aiqadmin",
             options: {
                 dbosi: 'AN023',
-                machine: 'AUT-020',
-                machineprefix: 'PI_AUT_020',
+                machine: 'INF-07',
+                machineprefix: 'PI_INF_07',
                 cbufsize: 200
             }
         },
