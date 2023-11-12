@@ -32,4 +32,54 @@
 	padding-right: 0px;
 	padding-left: 0px;
 }
+.mb-4{
+	margin-bottom:1rem;
+}
+.font-bold{
+	font-weight:700;
+}
+.border-b{
+	border-bottom-width:1px;
+}
+.border-gray-200{
+	border-color:#edf2f7;
+}
+.dark\:border-gray-700{
+	--border-opacity:1;
+	border-color:#2d3748;
+}
+.text-gray-500{
+	--text-opacity:1;
+	color:#a0aec0;
+}
+.text-gray-400{
+	--text-opacity:1;
+	color:#cbd5e0;
+}
+.text-gray-700{
+	--text-opacity:1;
+	color:#4a5568;
+}
+.text-gray-600{
+	--text-opacity:1;
+	color:#718096;
+}
+.text-gray-300{
+	--text-opacity:1;
+	color:#e2e8f0;
+}
+.text-gray-400{
+	--text-opacity:1;
+	color:#cbd5e0;
+}
+.text-gray-200{
+	--text-opacity:1;
+	color:#edf2f7;
+}
+.text-sm{
+	font-size:0.875rem;
+}
+.font-bold{
+	font-weight:700;
+}
 </style>

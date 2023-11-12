@@ -3,18 +3,18 @@
   import classNames from 'classnames';
   export let id;
   export let activeTabValue
-  export let inactiveClass = 'inline-block py-4 px-4 text-sm font-bold text-center text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300'
-  export let activeClass = 'inline-block py-4 px-4 text-sm font-bold text-center text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500'
+  export let inactiveClass = 'inline-block py-1 px-1 text-sm font-bold text-center text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300'
+  export let activeClass = 'inline-block py-1 px-1 text-sm font-bold text-center text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500'
   type classOptions = {
     [key: string]: string;
   }
   const activeClasses: classOptions  = {
-    default: 'inline-block py-4 px-4 text-sm font-bold text-center text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500', 
-    underline: 'inline-block p-4 font-bold text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500'
+    default: 'inline-block py-1 px-1 text-sm font-bold text-center text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500', 
+    underline: 'inline-block p-1 font-bold text-blue-600 rounded-t-lg border-b-2 border-blue-600 active dark:text-blue-500 dark:border-blue-500'
   }
   const inactiveClasses: classOptions  = {
-    default: 'inline-block py-4 px-4 text-sm font-bold text-center text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300',
-    underline: 'inline-block p-4 font-bold rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
+    default: 'inline-block py-1 px-1 text-sm font-bold text-center text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300',
+    underline: 'inline-block p-1 font-bold rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
   }
   const liClasses : classOptions = {
     default: 'mr-2',
@@ -51,6 +51,20 @@ li::marker {
 .px-4{
 	padding-left:1rem;
 	padding-right:1rem;
+}
+.p-4{
+	padding:1rem;
+}
+.py-1{
+	padding-top:0.25rem;
+	padding-bottom:0.25rem;
+}
+.px-1{
+	padding-left:0.25rem;
+	padding-right:0.25rem;
+}
+.p-1{
+	padding:0.25rem;
 }
 .text-sm{
 	font-size:0.875rem;
