@@ -18,6 +18,9 @@ export let headercolor = "#e9e9e9"
 export let bodycolor = "#ffffff"
 export let data = []
 export let dragE:any = {}
+export let width = "max-content"
+export let height = "max-content"
+export let visibility = "visible"
 
 export let toolbar:any = [
 	{type:'button',props:{value:'+'},function:onClick,label:''},
@@ -39,8 +42,7 @@ onMount(async () => {
  })
 
 const closeMenu = (ev:any)=>{
-	let win = document.getElementById(id);
-	 win.style.visibility = "hidden";
+	visibility = "hidden";
 }
 
 
@@ -57,7 +59,7 @@ const minimize = (event:any)=>{
 
 </script>
 
-<div class="window-menu" id="{id}" style="--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
+<div class="window-menu" id="{id}" style="--visibility:{visibility};--height:{height};--width:{width};--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
 	<header id="{id+'dragelement'}">
     <div class="window-menu-header" id="{id+'dragzone'}" style="background-color: {headercolor};">
 		<span>{title}</span>
@@ -107,13 +109,14 @@ const minimize = (event:any)=>{
 
 <style>
 	.window-menu{
-		display:block;
+		display:var(--visibility);
 		/*align-items: left;*/
-		visibility: visible;
+		visibility: var(--visibility);
 		position: absolute;
 		top: var(--top);
 		left: var(--left);
-		width:max-content;
+		width:var(--width);
+		height:var(--height);
 		overflow-y: auto;
 		border-radius: 6px;
 		overflow: hidden;
