@@ -31,9 +31,10 @@ let winHeight = ''
 onMount(async () => { 
 	const dragable = document.getElementById(id);
 	if(draggable){
+		const dragelement = document.getElementById(id+"dragelement");
 		const dragzone = document.getElementById(id+"dragzone");
 		dragElement(dragable, dragzone)
-		dragE = id+"dragzone"
+		dragE = id+"dragelement"
 	}
  })
 
@@ -57,8 +58,8 @@ const minimize = (event:any)=>{
 </script>
 
 <div class="window-menu" id="{id}" style="--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
-	<header id="{id+'dragzone'}">
-    <div class="window-menu-header" style="background-color: {headercolor};">
+	<header id="{id+'dragelement'}">
+    <div class="window-menu-header" id="{id+'dragzone'}" style="background-color: {headercolor};">
 		<span>{title}</span>
 		<div>
 			<input class="wmanag-button" type="button" disabled={disableMinimize} value="-" on:click={minimize} />
