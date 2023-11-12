@@ -6,7 +6,7 @@
 </script>
 
 <div class={classNames(divClass, $$props.class)}>
-  <slot />
+  <slot {tabStyle} />
 </div>
 <style>
   .w-full{

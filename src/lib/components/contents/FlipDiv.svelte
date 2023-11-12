@@ -3,7 +3,7 @@ import { onMount} from "svelte"
 import Spinner from '../spinner/RingLoader.svelte'
 import {dragElement, showHideLoader} from '../CompUtils.js'
 import {sleep} from "../../script/api.js"
-import Switch from "./Switch.svelte"
+import Switch from "../switch/Switch.svelte"
 
 export let agent:any = {
 }

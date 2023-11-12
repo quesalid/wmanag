@@ -6,7 +6,7 @@ import { writable } from "svelte/store";
 
 import {dragElement} from '../CompUtils.js'
 import Wmanag from '../WManag.svelte'
-import SimpleTable from './SimpleTable.svelte'
+import SimpleTable from '../table/SimpleTable.svelte'
 
 
 export let onClickAddContainer = (ev:any)=>{console.log("ONCLICK ADD CONTAINER")}
