@@ -1,9 +1,11 @@
 <script lang="ts">
+  import { writable } from "svelte/store";
   import { TabWrapper, TabHead, TabHeadItem , TabContentItem } from '../lib/components/tabs'
   import { ToolbarWrapper, ToolbarItem, ToolbarHead, ToolbarContentItem } from '../lib/components/toolbar'
   import {TreeView,TreeWrapper} from '../lib/components/tree'
   import WManag from '../lib/components/WManag.svelte'
   import WindowFooter from '../lib/components/contents/WindowFooter.svelte'
+  import DbAddTable from '../lib/components/contents/DbAddTable.svelte'
 
   export let tree = {
 		label: "Tabelle", name:'Tabelle', children: [
@@ -67,6 +69,10 @@
   const draggable = false
   const toolbar = []
   let title = "WINDOW TITLE"
+  let innernode = DbAddTable
+  let datarows = writable([
+      {name:'',type:'',notnull:'',primarykey:'',autoincrement:'',unique:'',default:''}
+  ])
 
   
 </script>
@@ -131,7 +137,7 @@
   </TabContentItem>
 </TabWrapper>
 
-<!--div class="dialog-window-container" id="{wmParentId}"-->
+<!-- DIALOG WINDOW -->
 	<WManag id="{defaultManager}" {draggable} 
     toolbar={toolbar} 
     top="2px" 
@@ -140,23 +146,12 @@
     height="99%"
     {title}
     bind:visibility="{dialogVisibility}">
-        
+        <DbAddTable
+            slot="bodycontent"
+            datarows={datarows}/>
 	</WManag>
-<!--/!--div-->
+
 
 <style>
-.dialog-window-container{
-  display: block; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  visibility:hidden;
-  z-index: 10; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
+
 </style>

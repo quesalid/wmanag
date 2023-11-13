@@ -20,6 +20,7 @@
   ];
 
   export let pagesize = true;
+  export let showpag = true;
 
   const getColumns = (datacolumns) => {
 	  let columns = []
@@ -104,6 +105,9 @@
 			{/each}
 		</tbody>
 </table>
+
+
+{#if showpag}
 <div class="pagination-div">
 	<div>
 	  <button
@@ -121,6 +125,8 @@
 		<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
 	{/if}
 </div>
+{/if}
+
 
 <style>
 	table {

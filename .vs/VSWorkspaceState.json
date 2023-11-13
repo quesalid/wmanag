@@ -4,10 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\tabs",
-    "\\src\\lib\\script",
+    "\\src\\lib\\components\\contents",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\src\\lib\\components\\WManag.svelte",
   "PreviewInSolutionExplorer": false
 }
