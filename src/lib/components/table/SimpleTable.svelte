@@ -2,6 +2,9 @@
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy,addPagination } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
+  import CheckRender from './CheckRender.svelte'
+  import SelectRender from './SelectRender.svelte'
+  import TextRender from './TextRender.svelte'
 
   export let data:any = [
 		{ name: 'Ada Lovelace', age: 21 },
@@ -21,28 +24,68 @@
 
   export let pagesize = true;
   export let showpag = true;
+  export let pSize = 2;
 
   const getColumns = (datacolumns) => {
 	  let columns = []
 	  for (let i = 0; i < datacolumns.length; i++) {
 		  if(datacolumns[i].renderdef){
-			  datacolumns[i].cell = getRenderer(datacolumns[i].renderdef.type,datacolumns[i].renderdef.idtag,datacolumns[i].renderdef.params)
+			  datacolumns[i].cell = getRenderer(datacolumns[i].renderdef.type,datacolumns[i].renderdef.idtag,datacolumns[i].renderdef.uid,datacolumns[i].renderdef.params)
 		  }
 		  columns.push(table.column(datacolumns[i]))
 	  }
 	  return columns
   }
 
-  const getRenderer =(type:any,idtag:any,params:any)=>{
+  const getRenderer =(type:any,idtag:any,uid:any,params:any)=>{
 	  let ret
 	  switch(type){
 		  case 'image':
 			ret = ({row})=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
-				if(key)
-					params.uid = row.original[key]
+				const id = keys.find((k)=>k==uid)
+				if(id)
+					params.uid = row.original[id]
 				return createRender(ImageRender,{...params})
+			}
+			break;
+		  case 'checkbox':
+			ret = ({row})=>{
+				const keys = Object.keys(row.original)
+				const key = keys.find((k)=>k==idtag)
+				const id = keys.find((k)=>k==uid)
+				if(id)
+					params.uid = row.original[id]
+				if(key)
+					params.value = row.original[key]
+				return createRender(CheckRender,{...params})
+			}
+			break;
+		  case 'select':
+			ret = ({row})=>{
+				const keys = Object.keys(row.original)
+				const key = keys.find((k)=>k==idtag)
+				const id = keys.find((k)=>k==uid)
+				if(id)
+					params.uid = row.original[id]
+				if(key)
+					params.type = row.original[key]
+				console.log("SELECT RENDER",params)
+				return createRender(SelectRender,{...params})
+			}
+			break;
+		  case 'text':
+			ret = ({row})=>{
+				const keys = Object.keys(row.original)
+				const key = keys.find((k)=>k==idtag)
+				const id = keys.find((k)=>k==uid)
+				if(id)
+					params.uid = row.original[id]
+				if(key)
+					params.value = row.original[key]
+				console.log("SELECT RENDER",params)
+				return createRender(TextRender,{...params})
 			}
 			break;
 		  default:
@@ -64,7 +107,7 @@
   const { sortKeys } = pluginStates.sort;
   const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
 
-  $pageSize = 2
+  $pageSize = pSize
 
 </script>
 

@@ -4,30 +4,44 @@
 		/* treeNodeId: expanded <boolean> */
 	}
 
-	let selected = ''
+	const _selectionState = {
+		/* treeNodeId: expanded <boolean> */
+	}
+
 </script>
 <script>
 //	import { slide } from 'svelte/transition'
 	export let tree
-	const {label, children} = tree
+	const {label, children, type} = tree
 
 	let expanded = _expansionState[label] || false
+	let selected = _selectionState[label] || false
 	const toggleExpansion = () => {
 		expanded = _expansionState[label] = !expanded
-		if(expanded){
-			selected = label
-		}
-		if(tree.type==='TABLE'){
-			console.log('TABLE',label,expanded,selected)
-		}
 	}
 	$: arrowDown = expanded
+
+	const selectItem = (ev) => {
+		ev.stopPropagation()
+
+		if(type == 'TABLE'){
+			selected = _selectionState[label] = !_selectionState[label]
+			const keys = Object.keys(_selectionState)
+			keys.forEach(key => {
+				if(key !== label){
+					_selectionState[key] = false
+				}
+			})
+			console.log('selectItem',label,selected,_selectionState[label])
+
+		}
+	}
 </script>
 
 <ul><!-- transition:slide -->
-	<li>
+	<li on:click={selectItem}>
 		{#if children}
-			<span on:click={toggleExpansion}>
+			<span on:click={toggleExpansion} class="{ _selectionState[label]?'class-selected':'class-unselected'}">
 				<span class="arrow" class:arrowDown>&#x25b6</span>
 				{label}
 			</span>
@@ -37,7 +51,7 @@
 				{/each}
 			{/if}
 		{:else}
-			<span>
+			<span >
 				<span class="no-arrow"/>
 				<!-- Expand tree node keys-->
 				<span class="item-container">
@@ -77,5 +91,8 @@
 		grid-template-columns: 15% 10% 75%;
 		grid-template-rows: auto;
 	}
-	
+	.class-selected{
+		background-color: #FFbbbb;
+		width:100%;
+	}
 </style>

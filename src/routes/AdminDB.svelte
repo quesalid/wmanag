@@ -1,14 +1,23 @@
 <script lang="ts">
+  import {onMount} from 'svelte'
   import { writable } from "svelte/store";
   import { TabWrapper, TabHead, TabHeadItem , TabContentItem } from '../lib/components/tabs'
   import { ToolbarWrapper, ToolbarItem, ToolbarHead, ToolbarContentItem } from '../lib/components/toolbar'
-  import {TreeView,TreeWrapper} from '../lib/components/tree'
-  import WManag from '../lib/components/WManag.svelte'
   import WindowFooter from '../lib/components/contents/WindowFooter.svelte'
   import DbAddTable from '../lib/components/contents/DbAddTable.svelte'
+  import {mock} from '../lib/ustore.js'
+  import {dbConnect, 
+    dbGetTables, 
+    dbCreateTable,
+    dbModifyTable, 
+    dbDeleteTable,
+    dbGetTable,
+    dbDisconnect} from '../lib/script/apidb.js'
 
+  export let connectionString = 'sqlite://test.db'
+  
   export let tree = {
-		label: "Tabelle", name:'Tabelle', children: [
+		label: "Tabelle", name:'Tabelle',children: [
 			{label: "event", name: "event", type:'TABLE',children: [
 				{label: "uid",name: "uid", type:'TEXT',schema:"'uid' TEXT PRIMARY KEY"},
 				{label: "start",name: "start", type:'TEXT',schema:"'start' TEXT"},
@@ -27,25 +36,62 @@
 	}
 
   let activeTabValue = 1;
+  $mock = true
+  onMount(async () => {
+	try{
+        // CONNECT TO DB
+        let ret= await dbConnect(connectionString,mock)
+        dbconnection = ret.data
+        // GET TABLES
+        ret = await dbGetTables(dbconnection,mock)
+        $tables = ret.data
+    }catch(error){
+	  console.log("ERROR",error)
+	}
+  })
+
   const handleClick = (tabValue) => () => {
     activeTabValue = tabValue;
   };
 
   let activeToolbarValue1 = 1;
-   const handleClickToolbar1 = (tabValue) => () => {
+   const handleClickToolbar1 =  (tabValue) => async() => {
     activeToolbarValue1 = tabValue;
     switch(tabValue){
 		case 1:
 			title = "CREATE TABLE"
+            $datarows = []
+            op='add'
 			break;
 		case 2:
 			title = "MODIFY TABLE"
+            try{
+            const ret = await dbGetTable(dbconnection,tablename,mock)
+            /*$datarows = [
+                {name:'uid',type:'TEXT',notnull:'false',primarykey:'true',autoincrement:'false',unique:'false',default:''},
+                {name:'start',type:'TEXT',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:''},
+                {name:'nlsubscription',type:'BOOLEAN',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:'false'}
+                ]*/
+                $datarows = ret.data
+            }catch(error){
+				//console.log("ERROR",error)
+                $datarows = []
+			}
+            op='modify'
 			break;
 		case 3:
 			title = "DELETE TABLE"
+            try{
+            const ret = await dbGetTable(dbconnection,tablename,mock)
+                $datarows = ret.data
+            }catch(error){
+				//console.log("ERROR",error)
+                $datarows = []
+			}
+			op='delete'
 			break;
 	}
-    dialogVisibility = 'visible'
+    //dialogVisibility = 'visible'
   };
 
   let activeToolbarValue2 = 1;
@@ -70,9 +116,12 @@
   const toolbar = []
   let title = "WINDOW TITLE"
   let innernode = DbAddTable
-  let datarows = writable([
-      {name:'',type:'',notnull:'',primarykey:'',autoincrement:'',unique:'',default:''}
-  ])
+  let datarows = writable([])
+  let tables = writable([])
+  let dbconnection = writable('')
+  let op = 'add'
+  let tablename = writable('')
+  
 
   
 </script>
@@ -101,9 +150,13 @@
             <!-- DELETE TABLE-->
         </ToolbarContentItem>
       </ToolbarWrapper>
-       <TreeWrapper>
-		    <TreeView {tree}/>
-       </TreeWrapper>
+      <DbAddTable
+                datarows={datarows}
+                bind:op={op}
+                bind:tablename={tablename}
+                bind:tables={tables}
+                bind:dbconnection={dbconnection}
+                />
   </TabContentItem>
   <TabContentItem id={2} activeTabValue={activeTabValue}>
       <ToolbarWrapper tabStyle='underline' let:tabStyle>
@@ -137,19 +190,7 @@
   </TabContentItem>
 </TabWrapper>
 
-<!-- DIALOG WINDOW -->
-	<WManag id="{defaultManager}" {draggable} 
-    toolbar={toolbar} 
-    top="2px" 
-    left="2px" 
-    width="99%" 
-    height="99%"
-    {title}
-    bind:visibility="{dialogVisibility}">
-        <DbAddTable
-            slot="bodycontent"
-            datarows={datarows}/>
-	</WManag>
+
 
 
 <style>

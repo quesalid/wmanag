@@ -35,7 +35,7 @@ let images = [
     },
 ]
 
-const chcekDockerClient = async function (body) {
+const checkDockerClient = async function (body) {
     const dockerid = body.options.uid
     const docker = dockers.find(d => d.uid === dockerid)
     if(!docker)
@@ -77,7 +77,7 @@ const dockerDelete = async function (body) {
 }
 
 const dockerInfo = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     const infos = {
         ID: 'B74L:44XG:GQKA:SKB4:ZUO6:XNB4:X7CR:TNPZ:GMJ5:2I3Q:657H:PAUY',
         Containers: 2,
@@ -179,7 +179,7 @@ const dockerInfo = async function (body) {
 }
 
 const dockerListContainers = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     const listed = JSON.parse(JSON.stringify(containers))
     const reversed = listed.reverse()
     body.data = reversed
@@ -189,7 +189,7 @@ const dockerListContainers = async function (body) {
 }
 
 const dockerListImages = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     const listed = JSON.parse(JSON.stringify(images))
     const reversed = listed.reverse()
     body.data = reversed
@@ -199,7 +199,7 @@ const dockerListImages = async function (body) {
 }
 
 const dockerStartContainer = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     // Change state of container
     const id = body.options.id
     const container = containers.find(c => c.Id === id)
@@ -214,7 +214,7 @@ const dockerStartContainer = async function (body) {
 }
 
 const dockerStopContainer = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     // Change state of container
     const id = body.options.id
     const container = containers.find(c => c.Id === id)
@@ -225,7 +225,7 @@ const dockerStopContainer = async function (body) {
     return (body)
 }
 const dockerRestartContainer = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     // Change state of container
     body.result = true
     body.error = null
@@ -233,7 +233,7 @@ const dockerRestartContainer = async function (body) {
 }
 
 const dockerRemoveContainer = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     // Remove container
     const id = body.options.id
     // CAN'T REMOVE CONTAINER IF IT IS RUNNING
@@ -248,7 +248,7 @@ const dockerRemoveContainer = async function (body) {
 }
 
 const dockerRemoveImage = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     // Remove image
     const id = body.options.id
     const imageid = id.split(':')[1]
@@ -264,7 +264,7 @@ const dockerRemoveImage = async function (body) {
 }
 
 const dockerPullImage = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     const genRanHex = size => [...Array(size)]
         .map(() => Math.floor(Math.random() * 16).toString(16)).join('')
     const newimageid = "sha256:"+genRanHex(64)
@@ -287,14 +287,14 @@ const dockerPullImage = async function (body) {
 }
 
 const dockerBuildImage = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     body.result = true
     body.error = null
     return (body)
 }
 
 const dockerCreateContainer = async function (body) {
-    chcekDockerClient(body)
+    checkDockerClient(body)
     console.log("dockerCreateContainer", body)
     const image = images.find(i => i.RepoTags.includes(body.options.containeroptions.Image))
     const imageid = image.Id.split(':')[1]

@@ -5,8 +5,9 @@
     "\\src\\lib",
     "\\src\\lib\\components",
     "\\src\\lib\\components\\contents",
-    "\\src\\routes"
+    "\\src\\lib\\components\\table",
+    "\\src\\lib\\components\\tabs"
   ],
-  "SelectedNode": "\\src\\lib\\components\\WManag.svelte",
+  "SelectedNode": "\\src\\lib\\components\\table\\TextRender.svelte",
   "PreviewInSolutionExplorer": false
 }
