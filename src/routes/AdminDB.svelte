@@ -40,10 +40,10 @@
   onMount(async () => {
 	try{
         // CONNECT TO DB
-        let ret= await dbConnect(connectionString,mock)
-        dbconnection = ret.data
+        let ret= await dbConnect(connectionString,$mock)
+        $dbconnection = ret.data
         // GET TABLES
-        ret = await dbGetTables(dbconnection,mock)
+        ret = await dbGetTables($dbconnection,$mock)
         $tables = ret.data
     }catch(error){
 	  console.log("ERROR",error)
@@ -52,6 +52,7 @@
 
   const handleClick = (tabValue) => () => {
     activeTabValue = tabValue;
+    handleClickToolbar1(activeToolbarValue1)
   };
 
   let activeToolbarValue1 = 1;
@@ -59,6 +60,7 @@
     activeToolbarValue1 = tabValue;
     switch(tabValue){
 		case 1:
+            console.log("CREATE TABLE",$tables,$tablename)
 			title = "CREATE TABLE"
             $datarows = []
             op='add'
@@ -66,15 +68,12 @@
 		case 2:
 			title = "MODIFY TABLE"
             try{
-            const ret = await dbGetTable(dbconnection,tablename,mock)
-            /*$datarows = [
-                {name:'uid',type:'TEXT',notnull:'false',primarykey:'true',autoincrement:'false',unique:'false',default:''},
-                {name:'start',type:'TEXT',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:''},
-                {name:'nlsubscription',type:'BOOLEAN',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:'false'}
-                ]*/
-                $datarows = ret.data
+                const ret = await dbGetTable($dbconnection,$tablename,$mock)
+                console.log("MODIFY TABLE",$tables,$tablename,ret.data)
+                $datarows = ret.data.columns
+                console.log("MODIFY TABLE",$datarows)
             }catch(error){
-				//console.log("ERROR",error)
+                console.log("MODIFY TABLE ERROR")
                 $datarows = []
 			}
             op='modify'
@@ -82,11 +81,11 @@
 		case 3:
 			title = "DELETE TABLE"
             try{
-            const ret = await dbGetTable(dbconnection,tablename,mock)
-                $datarows = ret.data
+                const ret = await dbGetTable($dbconnection,$tablename,$mock)
+                $datarows = ret.data.columns
             }catch(error){
-				//console.log("ERROR",error)
-                $datarows = []
+				console.log("DELETE TABLE ERROR")
+                 $datarows = []
 			}
 			op='delete'
 			break;
@@ -116,13 +115,68 @@
   const toolbar = []
   let title = "WINDOW TITLE"
   let innernode = DbAddTable
-  let datarows = writable([])
-  let tables = writable([])
+  let datarows:any = writable([])
+  let tables:any = writable([])
   let dbconnection = writable('')
   let op = 'add'
-  let tablename = writable('')
+  let tablename:any = writable('')
   
+ const downClick = (ev:any)=>{console.log("DOWN CLICK",ev.target)}
+ const  topClick = (ev:any)=>{console.log("TOP CLICK",ev.target)}
+ const  bottomClick = (ev:any)=>{console.log("BOTTOM CLICK",ev.target)}
+ const  saveClick = (ev:any)=>{console.log("SAVE CLICK",ev.target)}
+ const  createClick = async (ev:any)=>{
+	 console.log("CREATE CLICK",$datarows)
+	 await dbCreateTable($dbconnection,$tablename,$datarows,$mock)
+	 const ret = await dbGetTables($dbconnection,$mock)
+	 console.log("CREATE TABLE RET",ret)
+	 $tables = ret.data
+	 console.log("CREATE TABLE RET",$tables)
+	
+ }
+ const  deleteClick = async (ev:any)=>{
+	 console.log("DELETE CLICK",ev.target)
+	 await dbDeleteTable($dbconnection,$tablename,$mock)
+	 const ret = await dbGetTables($dbconnection,$mock)
+	 $tables = ret.data
+     $tablename = ''
+     if($tables.length>0)
+		$tablename = $tables[0]
+	 console.log("DELETE TABLE RET",$tablename,$tables)
+	
+ }
 
+ const newrow = {name:'',type:'TEXT',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:''}
+
+ let addClick = (ev:any)=>{
+	 console.log("ADD CLICK",ev.target,$datarows)
+	 /*datarows.update((data:any)=>{
+		 data.push(newrow)
+		 return data
+	 })*/
+	 $datarows.push(newrow)
+	 $datarows = $datarows
+ }
+
+ const  setTablename = async (ev:any)=>{
+	  $tablename = ev.target.value
+      try{
+            console.log("GET TABLENAME ",$tablename)
+            const ret = await dbGetTable($dbconnection,$tablename,$mock)
+            $datarows = ret.data.columns
+            console.log("SET TABLENAME",$datarows)
+        }catch(error){
+            console.log("SET TABLENAME ERROR")
+            $datarows = []
+	  }
+  }
+
+  let  setTablenameAdd = (ev:any)=>{
+	  $tablename = ev.target.value
+      $datarows = []
+	  console.log("SET TABLENAME ADD",$tablename)
+	  
+  }
   
 </script>
 
@@ -151,11 +205,16 @@
         </ToolbarContentItem>
       </ToolbarWrapper>
       <DbAddTable
-                datarows={datarows}
+                bind:datarows={datarows}
                 bind:op={op}
                 bind:tablename={tablename}
                 bind:tables={tables}
                 bind:dbconnection={dbconnection}
+                {createClick}
+                {deleteClick}
+                {addClick}
+                {setTablename}
+                {setTablenameAdd}
                 />
   </TabContentItem>
   <TabContentItem id={2} activeTabValue={activeTabValue}>

@@ -12,56 +12,72 @@
 	dbDisconnect} from '../../script/apidb.js'
 
  export let divClass = 'w-full'
- export let datarows:any = []
- export let tables:any = []
- export let tablename:any = ''
+ export let datarows:any = writable([])
+ export let tables:any = writable([])
+ export let tablename:any = writable('')
  export let op = 'add'
- export let dbconnection = null
+ export let dbconnection = writable(null)
 
  const newrow = {name:'',type:'TEXT',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:''}
 
  const voidfunction = ()=>{return ""}
  const onClickCheck = (ev:any)=>{console.log("ONCLICK CHECK",ev.target)}
  const onChangeSelect = (ev:any)=>{console.log("ON CHANGE SELECT",ev.target)}
- const onChangeText = (ev:any)=>{console.log("ON CHANGE TEXT",ev.target)}
- const addClick = (ev:any)=>{
-	 console.log("ADD CLICK",ev.target)
-	 datarows.update((rows:any)=>{
-		 rows.push(newrow)
-		 return rows
-	 })
+ export let addClick = (ev:any)=>{
+	 console.log("ADD CLICK",ev.target,$datarows)
+	 /*datarows.update((data:any)=>{
+		 data.push(newrow)
+		 return data
+	 })*/
+	 $datarows.push(newrow)
+	 $datarows = $datarows
  }
  const removeClick = (ev:any)=>{
 	 console.log("REMOVE CLICK",ev.target)
-	 datarows.update((rows:any)=>{
-		 rows.pop()
-		 return rows
-	 })
+	 /*datarows.update((data:any)=>{
+		 data.pop()
+		 return data
+	 })*/
+	$datarows.pop()
+	$datarows = $datarows
  }
  const upClick = (ev:any)=>{console.log("UP CLICK",ev.target)}
- const downClick = (ev:any)=>{console.log("DOWN CLICK",ev.target)}
- const topClick = (ev:any)=>{console.log("TOP CLICK",ev.target)}
- const bottomClick = (ev:any)=>{console.log("BOTTOM CLICK",ev.target)}
- const saveClick = (ev:any)=>{console.log("SAVE CLICK",ev.target)}
- const createClick = async (ev:any)=>{
-	 console.log("SAVE CLICK",ev.target)
-	 await dbCreateTable(dbconnection,tablename,datarows,mock)
-	 const ret = await dbGetTables(dbconnection,mock)
-	 tables.set(ret.data)
- }
- const deleteClick = async (ev:any)=>{
-	 console.log("DELETE CLICK",ev.target)
-	 await dbDeleteTable(dbconnection,tablename,mock)
-	 const ret = await dbGetTables(dbconnection,mock)
-	 tables.set(ret.data)
- }
+ export let downClick = (ev:any)=>{console.log("DOWN CLICK",ev.target)}
+ export let  topClick = (ev:any)=>{console.log("TOP CLICK",ev.target)}
+ export let  bottomClick = (ev:any)=>{console.log("BOTTOM CLICK",ev.target)}
+ export let  saveClick = (ev:any)=>{console.log("SAVE CLICK",ev.target)}
+ export let  createClick = async (ev:any)=>{console.log("SAVE CLICK",ev.target)}
+ export let  deleteClick = async (ev:any)=>{console.log("DELETE CLICK",ev.target)}
 
+ // FIELD UPDATERS
+
+ const onChangeText = (rowDataId, columnId, newValue) => {
+	console.log("ON CHANGE TEXT",rowDataId, columnId, newValue)
+	const idx = parseInt(rowDataId);
+    const currentItem = $datarows[idx];
+    const key = columnId; // Cast as `keyof YourDataItem`
+    const newItem = {...currentItem, [key]: newValue};
+    //console.log(newItem);
+    $datarows[idx] = newItem;
+    $datarows = $datarows;
+  }
+
+  const onChangeCheck = (rowDataId, columnId, newValue) => {
+	console.log("ON CHANGE CHECK",rowDataId, columnId, newValue)
+	const idx = parseInt(rowDataId);
+    const currentItem = $datarows[idx];
+    const key = columnId; // Cast as `keyof YourDataItem`
+    const newItem = {...currentItem, [key]: newValue};
+    //console.log(newItem);
+    $datarows[idx] = newItem;
+    $datarows = $datarows;
+  }
 
  export let datacolumns:any = [
 	  {
 		header: 'Nome',
-		accessor: voidfunction,
-		renderdef:{type:'text',params:{onClick:onChangeText},idtag:'name',uid:'name'}
+		accessor: 'name',
+		renderdef:{type:'editext',params:{onClick:onChangeText},idtag:'name',uid:'name'}
 	  },
 	  {
 		header: 'Tipo',
@@ -70,23 +86,23 @@
 	  },
 	  {
 		header: 'NN',
-		accessor: voidfunction,
-		renderdef:{type:'checkbox',params:{onClick:onClickCheck},idtag:'notnull',uid:'name'}
+		accessor: 'notnull',
+		renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'notnull',uid:'notnull'}
 	  },
 	  {
 		header: 'CP',
-		accessor: voidfunction,
-		 renderdef:{type:'checkbox',params:{onClick:onClickCheck},idtag:'primarykey',uid:'name'}
+		accessor: 'primarykey',
+		 renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'primarykey',uid:'primarykey'}
 	  },
 	  {
 		header: 'AI',
-		accessor: voidfunction,
-		 renderdef:{type:'checkbox',params:{onClick:onClickCheck},idtag:'autoincrement',uid:'name'}
+		accessor: 'autoincrement',
+		 renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'autoincrement',uid:'autoincrement'}
 	  },
 	  {
 		header: 'U',
-		accessor: voidfunction,
-		renderdef:{type:'checkbox',params:{onClick:onClickCheck},idtag:'unique',uid:'name'}
+		accessor: 'unique',
+		renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'unique',uid:'unique'}
 	  },
 	  {
 		header: 'Default',
@@ -94,9 +110,11 @@
 	  }
   ];
 
-  const setTablename = (ev:any)=>{
-	  tablename = ev.target.value
-	  console.log("SET TABLENAME",tablename)
+  export let  setTablename = (ev:any)=>{console.log("SET TABLENAME",$tablename)}
+
+  export let  setTablenameAdd = (ev:any)=>{
+	  $tablename = ev.target.value
+	  console.log("SET TABLENAME ADD",$tablename)
 	  
   }
 
@@ -107,24 +125,28 @@
 <div class="w-full">
 	{#if op =='add'}
 		<label for="table-name-input" class="text-sm font-medium text-gray-700">Table Name</label>
-		<input type="text" id="table-name-input"  class=""  on:change={setTablename}/>
+		<input type="text" id="table-name-input"  class=""  on:change={setTablenameAdd}/>
 	{:else}
 	<label for="table-name-input" class="text-sm font-medium text-gray-700">Select table</label>
-		<select id="table-name-input"  class=""  bind:value={tablename}>
+		<select id="table-name-input"  class=""  on:change={setTablename}>
 			{#each $tables as table}
-				<option value={table}>{table}</option>
+				{#if table == $tablename}
+					<option value={table} selected>{table}</option>
+				{:else}
+					<option value={table}>{table}</option>
+				{/if}
 			{/each}
 		</select>
 	{/if}
 	<div class="flex">
 		<!-- ADD TOOLMENU -->
 		{#if op !='delete'}
-		<input class="m-1" type="button" on:click={addClick} id="add-field-input" disabled={(!tablename || tablename =='') && op =='add'?true:false} value="ADD FIELD"/>
-		<input class="m-1" type="button" on:click={removeClick} id="remove-field-input" disabled={(!tablename || tablename =='') && op =='add'?true:false} value="REMOVE FIELD"/>
-		<input class="m-1" type="button" on:click={upClick} id="up-field-input" disabled={(!tablename || tablename =='') && op =='add'?true:false} value="MOVE UP"/>
-		<input class="m-1" type="button" on:click={downClick} id="down-field-input" disabled={(!tablename || tablename =='') && op=='add'?true:false}  value="MOVE DOWN"/>
-		<input class="m-1" type="button" on:click={topClick} id="top-field-input" disabled={(!tablename || tablename =='') && op =='add'?true:false}  value="MOVE TOP"/>
-		<input class="m-1" type="button" on:click={bottomClick} id="bottom-field-input" disabled={(!tablename || tablename =='') && op =='add'?true:false} value="MOVE BOTTOM"/>
+		<input class="m-1" type="button" on:click={addClick} id="add-field-input" disabled={(!$tablename || $tablename =='') && op =='add'?true:false} value="ADD FIELD"/>
+		<input class="m-1" type="button" on:click={removeClick} id="remove-field-input" disabled={(!$tablename || $tablename =='') && op =='add'?true:false} value="REMOVE FIELD"/>
+		<input class="m-1" type="button" on:click={upClick} id="up-field-input" disabled={(!$tablename || $tablename =='') && op =='add'?true:false} value="MOVE UP"/>
+		<input class="m-1" type="button" on:click={downClick} id="down-field-input" disabled={(!$tablename || $tablename =='') && op=='add'?true:false}  value="MOVE DOWN"/>
+		<input class="m-1" type="button" on:click={topClick} id="top-field-input" disabled={(!$tablename || $tablename =='') && op =='add'?true:false}  value="MOVE TOP"/>
+		<input class="m-1" type="button" on:click={bottomClick} id="bottom-field-input" disabled={(!$tablename || $tablename =='') && op =='add'?true:false} value="MOVE BOTTOM"/>
 	    {/if}
 	</div>
 	<div style="visibility:{op !='delete'?'visible':'hidden'};">
@@ -136,7 +158,7 @@
 		{#if op =='modify'}
 			<input class="m-1" type="button" on:click={saveClick} id="button-save-table" value="SAVE TABLE"/>
 		{:else if op=='add'}
-			<input class="m-1" type="button" on:click={createClick} id="button-save-table" disabled={(!tablename || tablename =='') && op =='add'?true:false} value="CREATE TABLE"/>
+			<input class="m-1" type="button" on:click={createClick} id="button-save-table" disabled={(!$tablename || $tablename =='') && op =='add'?true:false} value="CREATE TABLE"/>
 		{:else}
 			<input class="m-1" type="button" on:click={deleteClick} id="button-delete-table"  value="DELETE TABLE"/>
 		{/if}

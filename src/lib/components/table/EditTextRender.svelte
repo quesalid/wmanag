@@ -4,14 +4,20 @@ export let image = "/BUDDY.png"
 export let style  = "enabled;"
 export let onClick = null
 export let name = 'text-generic'
-export let uid = ''
-export let value = ''
+export let uid:any = ''
+export let key = ''
+export let value:any = ''
 export let height = "25"
 export let classname = "image-tool-component"
 
+const onChange = (ev:any)=>{
+	if(onClick)
+		onClick(uid,key,ev.target.value)
+}
+
 </script>
 	<div class="text-tool-component-div">
-		<input type="text" id="{name+'-'+uid}" data-uid={uid} style="{style}" class="text-tool-component {classname}" value="{value}" on:change={onClick?onClick:null}/>
+		<input type="text"  style="{style}" class="text-tool-component {classname}" value="{value}" on:change={onClick?onChange:null}/>
 	</div>
 <style>
 

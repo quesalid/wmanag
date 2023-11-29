@@ -79,15 +79,17 @@ const dbDeleteTable = async function (body) {
 }
 
 const dbGetTable = async function (body) {
+    console.log("DB GET TABLE",body.options.name)
     await checkDbClient(body)
     const dbid = body.options.uid
     const db = dbs.find(d => d.uid === dbid)
     const table = db.tables.find(t => t.name === body.options.name)
     if (!table)
         throw(new Error('TABLE NOT FOUND'))
-    body.data = table.name
+    body.data = table
     body.result = true
     body.error = null
+    console.log("DB GET TABLE RESULT", body.data)
     return body
 }
 

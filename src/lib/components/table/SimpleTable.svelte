@@ -5,6 +5,8 @@
   import CheckRender from './CheckRender.svelte'
   import SelectRender from './SelectRender.svelte'
   import TextRender from './TextRender.svelte'
+  import EditTextRender from './EditTextRender.svelte'
+  import EditCheckRender from './EditCheckRender.svelte'
 
   export let data:any = [
 		{ name: 'Ada Lovelace', age: 21 },
@@ -76,7 +78,7 @@
 			}
 			break;
 		  case 'text':
-			ret = ({row})=>{
+			ret = (({row})=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
 				const id = keys.find((k)=>k==uid)
@@ -84,8 +86,38 @@
 					params.uid = row.original[id]
 				if(key)
 					params.value = row.original[key]
-				console.log("SELECT RENDER",params)
+				console.log("TEXT RENDER",params)
 				return createRender(TextRender,{...params})
+			})
+			break;
+			case 'editext':
+			ret = (({row,column})=>{
+				const keys = Object.keys(row.original)
+				const key = keys.find((k)=>k==idtag)
+				const id = keys.find((k)=>k==uid)
+				if(id)
+					params.uid = row.id
+				if(key){
+					params.value = row.original[key]
+					params.key = column.id
+				}
+				//console.log("EDIT TEXT RENDER",params,row.id,column.id)
+				return createRender(EditTextRender,{...params})
+			})
+			break;
+			case 'editcheckbox':
+			ret = ({row,column})=>{
+				const keys = Object.keys(row.original)
+				const key = keys.find((k)=>k==idtag)
+				const id = keys.find((k)=>k==uid)
+				if(id)
+					params.uid = row.id
+				if(key){
+					params.value = row.original[key]
+					params.key = column.id
+				}
+				//console.log("EDIT CHECK  RENDER",params,row.id,column.id)
+				return createRender(EditCheckRender,{...params})
 			}
 			break;
 		  default:
