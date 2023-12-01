@@ -73,7 +73,6 @@
 					params.uid = row.original[id]
 				if(key)
 					params.type = row.original[key]
-				console.log("SELECT RENDER",params)
 				return createRender(SelectRender,{...params})
 			}
 			break;
@@ -86,7 +85,6 @@
 					params.uid = row.original[id]
 				if(key)
 					params.value = row.original[key]
-				console.log("TEXT RENDER",params)
 				return createRender(TextRender,{...params})
 			})
 			break;

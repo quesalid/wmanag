@@ -4,6 +4,7 @@
   import { TabWrapper, TabHead, TabHeadItem , TabContentItem } from '../lib/components/tabs'
   import { ToolbarWrapper, ToolbarItem, ToolbarHead, ToolbarContentItem } from '../lib/components/toolbar'
   import WindowFooter from '../lib/components/contents/WindowFooter.svelte'
+  import DbNavigate from '../lib/components/contents/DbNavigate.svelte'
   import DbAddTable from '../lib/components/contents/DbAddTable.svelte'
   import {mock} from '../lib/ustore.js'
   import {dbConnect, 
@@ -12,9 +13,25 @@
     dbModifyTable, 
     dbDeleteTable,
     dbGetTable,
+    dbGetNewRow,
+    dbUpsertToTable,
     dbDisconnect} from '../lib/script/apidb.js'
 
   export let connectionString = 'sqlite://test.db'
+
+  const defaultManager = 'defaultDBDialog'
+  let dialogVisibility = 'hidden'
+  const disableClose = true
+  const draggable = false
+  const toolbar = []
+  let title = "WINDOW TITLE"
+  let innernode = DbAddTable
+  let metadatarows:any = writable([])
+  let datarows:any = writable([])
+  let tables:any = writable([])
+  let dbconnection = writable('')
+  let op = 'add'
+  let tablename:any = writable('')
   
   export let tree = {
 		label: "Tabelle", name:'Tabelle',children: [
@@ -35,6 +52,116 @@
 		],
 	}
 
+    const onChangeText = (rowDataId, columnId, newValue) => {
+	    const idx = parseInt(rowDataId);
+        const currentItem = $metadatarows[idx];
+        const key = columnId; // Cast as `keyof YourDataItem`
+        const newItem = {...currentItem, [key]: newValue};
+        //console.log(newItem);
+        $metadatarows[idx] = newItem;
+        $metadatarows = $metadatarows;
+  }
+
+  const onChangeCheck = (rowDataId, columnId, newValue) => {
+	const idx = parseInt(rowDataId);
+    const currentItem = $metadatarows[idx];
+    const key = columnId; // Cast as `keyof YourDataItem`
+    const newItem = {...currentItem, [key]: newValue};
+    //console.log(newItem);
+    $metadatarows[idx] = newItem;
+    $metadatarows = $metadatarows;
+  }
+
+  const onChangeTextNav = (rowDataId, columnId, newValue) => {
+	    const idx = parseInt(rowDataId);
+        const currentItem = $datarows[idx];
+        const key = columnId; // Cast as `keyof YourDataItem`
+        console.log("ON CHANGE TEXT NAV",currentItem,key,newValue)
+        const newItem = {...currentItem, [key]: newValue};
+        //console.log(newItem);
+        $datarows[idx] = newItem;
+        $datarows = $datarows;
+  }
+
+
+const voidfunction = ()=>{return ""}
+const onChangeSelect = (ev:any)=>{console.log("ON CHANGE SELECT",ev.target)}
+let datacolumnsnavigate:any = []
+
+let datacolumnscreate:any = [
+	  {
+		header: 'Nome',
+		accessor: 'name',
+		renderdef:{type:'editext',params:{onClick:onChangeText},idtag:'name',uid:'name'}
+	  },
+	  {
+		header: 'Tipo',
+		accessor: voidfunction,
+		renderdef:{type:'select',params:{options:['TEXT','INTEGER','BLOB','REAL','BOOLEAN'],onClick:onChangeSelect},idtag:'type',uid:'name'}
+	  },
+	  {
+		header: 'NN',
+		accessor: 'notnull',
+		renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'notnull',uid:'notnull'}
+	  },
+	  {
+		header: 'CP',
+		accessor: 'primarykey',
+		 renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'primarykey',uid:'primarykey'}
+	  },
+	  {
+		header: 'AI',
+		accessor: 'autoincrement',
+		 renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'autoincrement',uid:'autoincrement'}
+	  },
+	  {
+		header: 'U',
+		accessor: 'unique',
+		renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'unique',uid:'unique'}
+	  },
+	  {
+		header: 'Default',
+		accessor: 'default',
+		renderdef:{type:'editext',params:{onClick:onChangeText},idtag:'default',uid:'default'}
+	  }
+  ];
+
+  
+
+  let getColumnsDefinition = async (columns:any)=>{
+       return new Promise(async (resolve, reject) => {
+	  let ret = []
+      let type ='editext'
+      for(let column of columns){
+          switch(column){
+              case 'TEXT':
+                type='editext'
+                break;
+              case 'INTEGER':
+                type='editext'
+			    break;
+              case 'BLOB':
+                type='editext'
+			    break;
+              case 'REAL':
+                type='editext'
+			    break;
+              case 'BOOLEAN':
+                type='editcheckbox'
+			    break;
+              default:
+                break;
+          }
+		  ret.push({
+			header: column.name,
+			accessor: column.name,
+			renderdef:{type:type,params:{onClick:onChangeTextNav},idtag:column.name,uid:column.name}
+		  })
+      }
+	  resolve( ret)
+      })
+  }
+
   let activeTabValue = 1;
   $mock = true
   onMount(async () => {
@@ -50,10 +177,24 @@
 	}
   })
 
-  const handleClick = (tabValue) => () => {
+  const handleClick = (tabValue) => async () => {
     activeTabValue = tabValue;
-    handleClickToolbar1(activeToolbarValue1)
-  };
+    switch(tabValue){
+        case 1:
+            await handleClickToolbar1(activeToolbarValue1)()
+            break
+        case 2:
+            await handleClickToolbar2(activeToolbarValue2)()
+            break;
+        case 3:
+            await handleClickToolbar3(activeToolbarValue3)()
+            break;
+        case 4:
+            await handleClickToolbar4(activeToolbarValue4)()
+            break;
+    }
+  }
+		
 
   let activeToolbarValue1 = 1;
    const handleClickToolbar1 =  (tabValue) => async() => {
@@ -62,7 +203,7 @@
 		case 1:
             console.log("CREATE TABLE",$tables,$tablename)
 			title = "CREATE TABLE"
-            $datarows = []
+            $metadatarows = []
             op='add'
 			break;
 		case 2:
@@ -70,11 +211,11 @@
             try{
                 const ret = await dbGetTable($dbconnection,$tablename,$mock)
                 console.log("MODIFY TABLE",$tables,$tablename,ret.data)
-                $datarows = ret.data.columns
-                console.log("MODIFY TABLE",$datarows)
+                $metadatarows =ret.data.columns
+                console.log("MODIFY TABLE",$metadatarows)
             }catch(error){
                 console.log("MODIFY TABLE ERROR")
-                $datarows = []
+                $metadatarows = []
 			}
             op='modify'
 			break;
@@ -82,10 +223,10 @@
 			title = "DELETE TABLE"
             try{
                 const ret = await dbGetTable($dbconnection,$tablename,$mock)
-                $datarows = ret.data.columns
+                $metadatarows = ret.data.columns
             }catch(error){
 				console.log("DELETE TABLE ERROR")
-                 $datarows = []
+                 $metadatarows = []
 			}
 			op='delete'
 			break;
@@ -94,8 +235,24 @@
   };
 
   let activeToolbarValue2 = 1;
-   const handleClickToolbar2 = (tabValue) => () => {
+   const handleClickToolbar2 = (tabValue) => async () => {
     activeToolbarValue2 = tabValue;
+    try{
+    switch(tabValue){
+		case 1:
+            const ret = await dbGetTable($dbconnection,$tablename,$mock)
+            const retcols = await getColumnsDefinition(ret.data.columns)
+            console.log("NAVIGATE TABLE ",ret)
+            datacolumnsnavigate =  retcols
+            console.log("NAVIGATE TABLE COLUMNS",datacolumnsnavigate)
+            $datarows =  ret.data.rows
+            console.log("NAVIGATE TABLE ROWS",$datarows)
+			break;
+    }
+    }catch(error){
+		console.log("NAVIGATE TABLE ERROR")
+		$datarows = []
+	}
   };
 
   let activeToolbarValue3 = 1;
@@ -108,74 +265,86 @@
     activeToolbarValue4 = tabValue;
   };
 
-  const defaultManager = 'defaultDBDialog'
-  let dialogVisibility = 'hidden'
-  const disableClose = true
-  const draggable = false
-  const toolbar = []
-  let title = "WINDOW TITLE"
-  let innernode = DbAddTable
-  let datarows:any = writable([])
-  let tables:any = writable([])
-  let dbconnection = writable('')
-  let op = 'add'
-  let tablename:any = writable('')
   
  const downClick = (ev:any)=>{console.log("DOWN CLICK",ev.target)}
  const  topClick = (ev:any)=>{console.log("TOP CLICK",ev.target)}
  const  bottomClick = (ev:any)=>{console.log("BOTTOM CLICK",ev.target)}
- const  saveClick = (ev:any)=>{console.log("SAVE CLICK",ev.target)}
  const  createClick = async (ev:any)=>{
-	 console.log("CREATE CLICK",$datarows)
-	 await dbCreateTable($dbconnection,$tablename,$datarows,$mock)
-	 const ret = await dbGetTables($dbconnection,$mock)
-	 console.log("CREATE TABLE RET",ret)
-	 $tables = ret.data
-	 console.log("CREATE TABLE RET",$tables)
-	
+     try{
+	     await dbCreateTable($dbconnection,$tablename,$metadatarows,$mock)
+	     const ret = await dbGetTables($dbconnection,$mock)
+	     $tables = ret.data
+     }catch(error){
+         console.log("CREATE TABLE ERROR")
+     }
  }
  const  deleteClick = async (ev:any)=>{
-	 console.log("DELETE CLICK",ev.target)
+     try{
 	 await dbDeleteTable($dbconnection,$tablename,$mock)
 	 const ret = await dbGetTables($dbconnection,$mock)
 	 $tables = ret.data
      $tablename = ''
      if($tables.length>0)
 		$tablename = $tables[0]
-	 console.log("DELETE TABLE RET",$tablename,$tables)
+     }catch(error){
+		 console.log("DELETE TABLE ERROR")
+	 }
 	
  }
+ const  saveClick = async (ev:any)=>{
+     try{
+	     await dbModifyTable($dbconnection,$tablename,$metadatarows,$mock)
+	     const ret = await dbGetTables($dbconnection,$mock)
+	     $tables = ret.data
+     }catch(error){
+         console.log("SAVE TABLE ERROR")
+     }
+ }
 
- const newrow = {name:'',type:'TEXT',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:''}
+ const saveClickNavigate = async (ev:any)=>{
+	 try{
+         console.log("SAVE TABLE ROWS",$datarows)
+	     await dbUpsertToTable($dbconnection,$tablename,$datarows,$mock)
+	     const ret = await dbGetTables($dbconnection,$mock)
+	     $tables = ret.data
+	 }catch(error){
+		 console.log("SAVE TABLE ROWS ERROR")
+	 }
+ }
 
  let addClick = (ev:any)=>{
-	 console.log("ADD CLICK",ev.target,$datarows)
-	 /*datarows.update((data:any)=>{
-		 data.push(newrow)
-		 return data
-	 })*/
-	 $datarows.push(newrow)
+     const newrow = {name:'',type:'TEXT',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:''}
+	 $metadatarows.push(newrow)
+	 $metadatarows = $metadatarows
+ }
+
+ let addClickNavigate= async (ev:any)=>{
+     const ret = await dbGetNewRow($dbconnection,$tablename,$mock)
+	 $datarows.push(ret.data)
+     console.log("ADD CLICK NAVIGATE",$datarows)
 	 $datarows = $datarows
  }
 
  const  setTablename = async (ev:any)=>{
 	  $tablename = ev.target.value
       try{
-            console.log("GET TABLENAME ",$tablename)
             const ret = await dbGetTable($dbconnection,$tablename,$mock)
-            $datarows = ret.data.columns
-            console.log("SET TABLENAME",$datarows)
+            $metadatarows = ret.data.columns
         }catch(error){
             console.log("SET TABLENAME ERROR")
-            $datarows = []
+            $metadatarows = []
 	  }
   }
 
   let  setTablenameAdd = (ev:any)=>{
 	  $tablename = ev.target.value
-      $datarows = []
-	  console.log("SET TABLENAME ADD",$tablename)
+      $metadatarows = []
 	  
+  }
+
+  const  setTablenameNavigate = async (ev:any)=>{
+	  $tablename = ev.target.value
+      
   }
   
 </script>
@@ -205,16 +374,17 @@
         </ToolbarContentItem>
       </ToolbarWrapper>
       <DbAddTable
-                bind:datarows={datarows}
+                bind:metadatarows={metadatarows}
                 bind:op={op}
                 bind:tablename={tablename}
                 bind:tables={tables}
-                bind:dbconnection={dbconnection}
-                {createClick}
-                {deleteClick}
-                {addClick}
-                {setTablename}
-                {setTablenameAdd}
+                bind:metadatacolumns={datacolumnscreate}
+                createClick={createClick}
+                deleteClick={deleteClick}
+                addClick={addClick}
+                saveClick={saveClick}
+                setTablename={setTablename}
+                setTablenameAdd={setTablenameAdd}
                 />
   </TabContentItem>
   <TabContentItem id={2} activeTabValue={activeTabValue}>
@@ -222,8 +392,18 @@
         <ToolbarHead {tabStyle}>
             <ToolbarItem id={1} {tabStyle} on:click={handleClickToolbar2(1)} activeToolbarValue={activeToolbarValue2}>Tabella</ToolbarItem>
         </ToolbarHead>
-        <ToolbarContentItem id={1} activeToolbarValue={activeToolbarValue2}> Toolbar Content 2.1 </ToolbarContentItem>
+        <ToolbarContentItem id={1} activeToolbarValue={activeToolbarValue2}> 
+        </ToolbarContentItem>
       </ToolbarWrapper>
+      <DbNavigate
+                bind:datarows={datarows}
+                bind:tablename={tablename}
+                bind:tables={tables}
+                bind:datacolumns={datacolumnsnavigate}
+                addClick={addClickNavigate}
+                setTablename = {setTablenameNavigate}
+                saveClick ={saveClickNavigate}
+                />
   </TabContentItem>
   <TabContentItem id={3} activeTabValue={activeTabValue}>
     <ToolbarWrapper tabStyle='underline' let:tabStyle>

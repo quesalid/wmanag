@@ -9,6 +9,9 @@ import { onMount} from "svelte";
 import DOCKER from "./routes/DockerMain.svelte"
 import DEPLOY from "./routes/DeployMain.svelte"
 import ADMINDB from "./routes/AdminDB.svelte"
+import GRAPHBAYES from "./routes/GraphBayes.svelte"
+import GRAPHISA from "./routes/GraphIsa.svelte"
+
 
 
 export let url = "/deploy"
@@ -26,6 +29,8 @@ export let url = "/deploy"
     <Route path="/docker" component={DOCKER}/>
     <Route path="/deploy" component={DEPLOY}/>
      <Route path="/admindb" component={ADMINDB}/>
+    <Route path="/graphbayes" component={GRAPHBAYES}/>
+    <Route path="/graphisa" component={GRAPHISA}/>
   </div>
 </Router>
 

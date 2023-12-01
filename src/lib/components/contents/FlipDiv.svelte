@@ -2,8 +2,13 @@
 import { onMount} from "svelte"
 import Spinner from '../spinner/RingLoader.svelte'
 import {dragElement, showHideLoader} from '../CompUtils.js'
-import {sleep} from "../../script/api.js"
 import Switch from "../switch/Switch.svelte"
+
+
+
+const sleep = function (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 export let agent:any = {
 }

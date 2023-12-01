@@ -3,125 +3,34 @@
  import SimpleTable from '../table/SimpleTable.svelte'
  import { writable } from "svelte/store";
  import {mock} from '../../ustore.js'
- import {dbConnect, 
-	dbGetTables, 
-	dbCreateTable,
-	dbModifyTable, 
-	dbDeleteTable,
-	dbGetTable,
-	dbDisconnect} from '../../script/apidb.js'
-
+ 
  export let divClass = 'w-full'
- export let datarows:any = writable([])
+ export let metadatarows:any = writable([])
  export let tables:any = writable([])
  export let tablename:any = writable('')
  export let op = 'add'
- export let dbconnection = writable(null)
+ export let metadatacolumns:any = [];
 
- const newrow = {name:'',type:'TEXT',notnull:'false',primarykey:'false',autoincrement:'false',unique:'false',default:''}
-
- const voidfunction = ()=>{return ""}
  const onClickCheck = (ev:any)=>{console.log("ONCLICK CHECK",ev.target)}
- const onChangeSelect = (ev:any)=>{console.log("ON CHANGE SELECT",ev.target)}
- export let addClick = (ev:any)=>{
-	 console.log("ADD CLICK",ev.target,$datarows)
-	 /*datarows.update((data:any)=>{
-		 data.push(newrow)
-		 return data
-	 })*/
-	 $datarows.push(newrow)
-	 $datarows = $datarows
- }
+ 
  const removeClick = (ev:any)=>{
-	 console.log("REMOVE CLICK",ev.target)
-	 /*datarows.update((data:any)=>{
-		 data.pop()
-		 return data
-	 })*/
-	$datarows.pop()
-	$datarows = $datarows
+	console.log("REMOVE CLICK",ev.target)
+	$metadatarows.pop()
+	$metadatarows = $metadatarows
  }
- const upClick = (ev:any)=>{console.log("UP CLICK",ev.target)}
- export let downClick = (ev:any)=>{console.log("DOWN CLICK",ev.target)}
+ export let  upClick = (ev:any)=>{console.log("UP CLICK",ev.target)}
+ export let  downClick = (ev:any)=>{console.log("DOWN CLICK",ev.target)}
  export let  topClick = (ev:any)=>{console.log("TOP CLICK",ev.target)}
  export let  bottomClick = (ev:any)=>{console.log("BOTTOM CLICK",ev.target)}
  export let  saveClick = (ev:any)=>{console.log("SAVE CLICK",ev.target)}
  export let  createClick = async (ev:any)=>{console.log("SAVE CLICK",ev.target)}
  export let  deleteClick = async (ev:any)=>{console.log("DELETE CLICK",ev.target)}
+ export let  setTablename = (ev:any)=>{console.log("SET TABLENAME",ev.target)}
+ export let  setTablenameAdd = (ev:any)=>{console.log("SET TABLENAME ADD",ev.target)}
+ export let  addClick = (ev:any)=>{console.log("ADD CLICK",ev.target)}
 
- // FIELD UPDATERS
-
- const onChangeText = (rowDataId, columnId, newValue) => {
-	console.log("ON CHANGE TEXT",rowDataId, columnId, newValue)
-	const idx = parseInt(rowDataId);
-    const currentItem = $datarows[idx];
-    const key = columnId; // Cast as `keyof YourDataItem`
-    const newItem = {...currentItem, [key]: newValue};
-    //console.log(newItem);
-    $datarows[idx] = newItem;
-    $datarows = $datarows;
-  }
-
-  const onChangeCheck = (rowDataId, columnId, newValue) => {
-	console.log("ON CHANGE CHECK",rowDataId, columnId, newValue)
-	const idx = parseInt(rowDataId);
-    const currentItem = $datarows[idx];
-    const key = columnId; // Cast as `keyof YourDataItem`
-    const newItem = {...currentItem, [key]: newValue};
-    //console.log(newItem);
-    $datarows[idx] = newItem;
-    $datarows = $datarows;
-  }
-
- export let datacolumns:any = [
-	  {
-		header: 'Nome',
-		accessor: 'name',
-		renderdef:{type:'editext',params:{onClick:onChangeText},idtag:'name',uid:'name'}
-	  },
-	  {
-		header: 'Tipo',
-		accessor: voidfunction,
-		renderdef:{type:'select',params:{options:['TEXT','INTEGER','BLOB','REAL','BOOLEAN'],onClick:onChangeSelect},idtag:'type',uid:'name'}
-	  },
-	  {
-		header: 'NN',
-		accessor: 'notnull',
-		renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'notnull',uid:'notnull'}
-	  },
-	  {
-		header: 'CP',
-		accessor: 'primarykey',
-		 renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'primarykey',uid:'primarykey'}
-	  },
-	  {
-		header: 'AI',
-		accessor: 'autoincrement',
-		 renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'autoincrement',uid:'autoincrement'}
-	  },
-	  {
-		header: 'U',
-		accessor: 'unique',
-		renderdef:{type:'editcheckbox',params:{onClick:onChangeCheck},idtag:'unique',uid:'unique'}
-	  },
-	  {
-		header: 'Default',
-		accessor: 'default',
-	  }
-  ];
-
-  export let  setTablename = (ev:any)=>{console.log("SET TABLENAME",$tablename)}
-
-  export let  setTablenameAdd = (ev:any)=>{
-	  $tablename = ev.target.value
-	  console.log("SET TABLENAME ADD",$tablename)
-	  
-  }
-
-  let localdatarows = []
 </script>
 
-<!--div class={classNames(divClass, $$props.class)}-->
 <div class="w-full">
 	{#if op =='add'}
 		<label for="table-name-input" class="text-sm font-medium text-gray-700">Table Name</label>
@@ -151,7 +60,7 @@
 	</div>
 	<div style="visibility:{op !='delete'?'visible':'hidden'};">
 		
-			<SimpleTable  bind:data={datarows} datacolumns={datacolumns} showpag={false} pSize={30}/>
+			<SimpleTable  bind:data={metadatarows} datacolumns={metadatacolumns} showpag={true} pSize={9}/>
 		
 	</div>
 	<div>

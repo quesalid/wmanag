@@ -10,7 +10,7 @@ export let type = ''
 export let uid = ''
 
 onMount(async () => { 
-	console.log("SELECT RENDER",options)
+	//console.log("SELECT RENDER",options)
 	
   })
 </script>

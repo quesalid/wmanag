@@ -245,3 +245,142 @@ export const dbDeleteTable = async (dbuid, tablename, mock = false) => {
         }
     })
 }
+
+/**
+ * Select from table
+ * @param {any} dbuid db connection id
+ * @param {any} tablename table name
+ * @param {any} filters select filters
+ * @param {any} mock (default=false)
+ * @returns selected rows
+ */
+export const dbSelectFromTable = async (dbuid, tablename,filters, mock = false) => {
+    return new Promise(async (resolve, reject) => {
+        const url = baseUrl + '/db'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "dbSelectFromTable",
+            options: {
+                uid: dbuid,
+                name: tablename,
+                filters:filters
+            }
+        };
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            await sleep(1000)
+            resolve(mocks.dbSelectFromTable(body))
+        }
+    })
+}
+
+/**
+ * Insert/updates  table
+ * @param {any} dbuid db connection id
+ * @param {any} tablename table name
+ * @param {any} rows array of rows to insert/update
+ * @param {any} mock (default=false)
+ * @returns # of inserted rows
+ */
+export const dbUpsertToTable = async (dbuid, tablename, rows, mock = false) => {
+    return new Promise(async (resolve, reject) => {
+        const url = baseUrl + '/db'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "dbUpsertToTable",
+            options: {
+                uid: dbuid,
+                name: tablename,
+                rows: rows
+            }
+        };
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            await sleep(1000)
+            resolve(mocks.dbUpsertToTable(body))
+        }
+    })
+}
+/**
+ * delete from  table
+ * @param {any} dbuid db connection id
+ * @param {any} tablename table name
+ * @param {any} rowids array of rows ids to delete
+ * @param {any} mock (default=false)
+ * @returns # of inserted rows
+ */
+export const dbDeleteFromTable = async (dbuid, tablename, rowids, mock = false) => {
+    return new Promise(async (resolve, reject) => {
+        const url = baseUrl + '/db'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "dbDeleteFromTable",
+            options: {
+                uid: dbuid,
+                name: tablename,
+                rowids: rowids
+            }
+        };
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            await sleep(1000)
+            resolve(mocks.dbDeleteFromTable(body))
+        }
+    })
+}
+
+export const dbGetNewRow = async (dbuid, tablename,mock = false) => {
+    return new Promise(async (resolve, reject) => {
+        const url = baseUrl + '/db'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "dbGetNewRow",
+            options: {
+                uid: dbuid,
+                name: tablename
+            }
+        };
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            await sleep(1000)
+            resolve(mocks.dbGetNewRow(body))
+        }
+    })
+}
+

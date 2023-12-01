@@ -4,11 +4,11 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
+    "\\src\\lib\\components\\contents",
     "\\src\\lib\\components\\table",
-    "\\src\\lib\\components\\toolbar",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\api.js",
+  "SelectedNode": "\\vite.config.ts",
   "PreviewInSolutionExplorer": false
 }
