@@ -11,6 +11,8 @@ import DEPLOY from "./routes/DeployMain.svelte"
 import ADMINDB from "./routes/AdminDB.svelte"
 import GRAPHBAYES from "./routes/GraphBayes.svelte"
 import GRAPHISA from "./routes/GraphIsa.svelte"
+import PORTALTEMPLATE from "./routes/PortalTemplate.svelte"
+import TailWindCss from "./lib/TailwindCSS.svelte";
 
 
 
@@ -23,7 +25,7 @@ export let url = "/deploy"
  })
 
 </script>
-
+<TailWindCss/>
 <Router>
   <div>
     <Route path="/docker" component={DOCKER}/>
@@ -31,6 +33,7 @@ export let url = "/deploy"
      <Route path="/admindb" component={ADMINDB}/>
     <Route path="/graphbayes" component={GRAPHBAYES}/>
     <Route path="/graphisa" component={GRAPHISA}/>
+    <Route path="/portaltemplate" component={PORTALTEMPLATE}/>
   </div>
 </Router>
 

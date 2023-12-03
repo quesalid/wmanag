@@ -5,10 +5,9 @@
     "\\src\\lib",
     "\\src\\lib\\components",
     "\\src\\lib\\components\\contents",
-    "\\src\\lib\\components\\table",
-    "\\src\\lib\\script",
+    "\\src\\lib\\components\\topbar",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\vite.config.ts",
+  "SelectedNode": "\\src\\lib\\components\\topbar\\TopBar.svelte",
   "PreviewInSolutionExplorer": false
 }

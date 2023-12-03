@@ -1,6 +1,6 @@
 <script lang="ts">
  import classNames from 'classnames'
- import SimpleTable from '../table/SimpleTable.svelte'
+ import {SimpleTable} from '../table'
  import { writable } from "svelte/store";
  import {mock} from '../../ustore.js'
  
