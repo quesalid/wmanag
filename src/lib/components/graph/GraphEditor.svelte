@@ -24,6 +24,7 @@
 		getParamsModNode,
 		getAllEdges,
 		updateAllCValues} from './GraphUtils.js'
+    import AdminDb from "../../../routes/AdminDB.svelte";
    
     
 
@@ -41,13 +42,15 @@
 	export const sleep = function (ms:any) {
 						return new Promise(resolve => setTimeout(resolve, ms));
 						}
+	let svgwidth = 1000
+	let svgheight = 600
+	let svgtop = 0
+	let svgleft = 0
 
 	// OPTIONS
 	let contextmenu = 'myContext'
 	let currentnode = ''
 	let datacomp= 'ISA'
-	let svwidth = 1000
-	let svheight = 600
 	let oldanchors = []
 	
 	
@@ -74,10 +77,14 @@
 			zoom = options.zoom
 		if(options.datacomp)
 			datacomp = options.datacomp
-		if(options.svwidth)
-			svwidth = options.svwidth
-		if(options.svheight)
-			svheight = options.svheight
+		if(options.svgwidth)
+			svgwidth = options.svgwidth
+		if(options.svgheight)
+			svgheight = options.svgheight
+		if(options.svgtop)
+			svgtop = options.svgtop
+		if(options.svgleft)
+			svgleft = options.svgleft
 		if(options.title)
 			title = options.title
 		nodePropsVals.data = loadData(datacomp)
@@ -250,7 +257,7 @@
 		}
 		
 		nodeParam.id = null
-		nodeProps = utilAddNode(e,nodeParam,svwidth,svheight)
+		nodeProps = utilAddNode(e,nodeParam,svgwidth,svgheight)
 		ancs = utilAddAnchor(nodeProps,edges)
 
 		if(node){
@@ -407,7 +414,7 @@
 			const node = nodes[i]
 			let nodeProps
 			let ancs
-			nodeProps = utilAddNode(e,node,svwidth,svheight)
+			nodeProps = utilAddNode(e,node,svgwidth,svgheight)
 			ancs = utilAddAnchor(node,edges)
 			anchors.push(ancs)
 			defaultNodes = [...defaultNodes, { ...nodeProps }]
@@ -679,7 +686,7 @@
 	id="drop_zone"
 	on:contextmenu={onContextMenu}
 	class="editor-container"
-	style="--width:{svwidth+'px'};--height:{svheight+'px'};position:relative;"
+	style="--width:{svgwidth+'px'};--height:{svgheight+'px'};--top:{svgtop+'px'};--left:{svgleft+'px'};position:relative;"
 	>
 
 		<Svelvet  bind:zoom={zoom} minimap controls id="GRAPH-CANVAS">
@@ -704,7 +711,7 @@
 	
 		<input id="file-db-input"name="file-db-input" type='file' accept=".json" style="visibility:hidden;"  on:change={downloadFile} >
 		<input id="file-data-input"name="file-data-input" type='file' accept=".json" style="visibility:hidden;"  on:change={downloadData}>
-		<div id="defaultDataMenuContainer">
+		<div id="defaultDataMenuContainer" style="--top:{svgtop};--left:{svgleft};">
 			<slot name="data">No slot </slot>
 		</div>
 		<div id="defaultDistributionMenuContainer">
@@ -729,19 +736,19 @@
 	width: var(--width);
 	height: var(--height);
 	position: fixed; /* Stay in place */
-	left: 0;
-	top: 0;
+	left: var(--left);
+	top: var(--top);
 	overflow:hidden ;
 }
 #defaultDataMenuContainer{
   visibility: hidden; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width:inherit; /* Full width */
-  height: inherit; /* Full height */
+  width:100%; /* Full width */
+  height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
@@ -750,12 +757,12 @@
 #defaultDistributionMenuContainer{
   visibility: hidden; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width:inherit; /* Full width */
-  height: inherit; /* Full height */
+  width:100%; /* Full width */
+  height: 100%; /* Full height */
   overflow: auto; /*Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
@@ -764,12 +771,12 @@
 #defaultDistributionDefContainer{
   visibility: hidden; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width:inherit; /* Full width */
-  height: inherit; /* Full height */
+  width:100%; /* Full width */
+  height: 100%; /* Full height */
   overflow: auto; /*Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
@@ -778,12 +785,12 @@
 #defaultLoadGraphContainer{
   visibility: hidden; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width:inherit; /* Full width */
-  height: inherit; /* Full height */
+  width:100%; /* Full width */
+  height: 100%; /* Full height */
   overflow: auto; /*Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
@@ -792,12 +799,12 @@
 #defaultSaveGraphContainer{
   visibility: hidden; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width:inherit; /* Full width */
-  height: inherit; /* Full height */
+  width:100%; /* Full width */
+  height: 100%; /* Full height */
   overflow: auto; /*Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
@@ -806,12 +813,12 @@
 #defaultDeleteGraphContainer{
   visibility: hidden; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 3; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
-  width:inherit; /* Full width */
-  height: inherit; /* Full height */
+  width:100%; /* Full width */
+  height: 100%; /* Full height */
   overflow: auto; /*Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.1); /* Black w/ opacity */

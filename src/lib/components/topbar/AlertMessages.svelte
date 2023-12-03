@@ -73,7 +73,7 @@
   />
 
   <div
-    class="absolute right-10 top-10 p-3 mt-1 text-gray-600 bg-white bg-gray-100 rounded shadow-md messages"
+    class="absolute right-10 top-10 p-3 mt-1 text-gray-600 bg-white bg-gray-100 rounded shadow-md messages z-10"
 	>
     <ul class="space-y-3">
       {#each messages as message}

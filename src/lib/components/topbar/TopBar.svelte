@@ -21,6 +21,7 @@ export let bgcolor = "#f0f0f0"
   margin: 0 auto;
 }
 #navbar {
+  z-index: 99;
   position: fixed;
   left: 0;
   right: 0;

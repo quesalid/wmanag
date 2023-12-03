@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
 import {onMount} from "svelte"
 import {TopBar,Logo,DropDownMenu,AlertMessages} from "../lib/components/topbar"
- import { center } from '../lib/components/topbar/notifications';
+import { center } from '../lib/components/topbar/notifications';
 
 
 onMount(() => {
@@ -37,22 +37,24 @@ const avatarclass = "font-bold text-sm italic"
 const bgcolor = "#fff2e8"
 </script>
 
-<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
-	<div slot="lefttop">
-		<Logo logofilename="ICO_UP2_DATA.png" imgheight={barheigth}>
-		</Logo>
-	</div>
-	<div slot="centertop">
-	</div>
-	<div slot="righttop" class='flex'>
-	<AlertMessages/>
-	<DropDownMenu groups={avatargroups} image="{avatar}" 
-			imagesize={avatarsize} 
-			message={avatarmessage}
-			messageclass={avatarclass}>
-	</DropDownMenu>
-	</div>
-</TopBar>
+<div>
+	<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
+		<div slot="lefttop">
+			<Logo logofilename="ICO_UP2_DATA.png" imgheight={barheigth}>
+			</Logo>
+		</div>
+		<div slot="centertop">
+		</div>
+		<div slot="righttop" class='flex'>
+		<AlertMessages/>
+		<DropDownMenu groups={avatargroups} image="{avatar}" 
+				imagesize={avatarsize} 
+				message={avatarmessage}
+				messageclass={avatarclass}>
+		</DropDownMenu>
+		</div>
+	</TopBar>
+</div>
 
 <style>
 </style>
