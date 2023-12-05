@@ -16,12 +16,12 @@ export let clear = (ev:any|undefined)=>console.log("CLEAR GRAPH")
 
 export let propArrayVal: any ={}
 export let title = 'GRAPH MENU'
-export let zoom  
+export let zoom:any 
 export let x = 1
 export let y = 1
 
 
-const formattedZoom = (zoom)=>{return new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(zoom)}
+const formattedZoom = (zoom:any)=>{return new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(zoom)}
 const getX = ()=>{return x}
 const getY = ()=>{return y}
 
@@ -50,6 +50,7 @@ onMount(async () => {
 
 const closeMenu = (ev:any)=>{
 	let contextMenu = document.getElementById(id);
+	if(contextMenu)
 	 contextMenu.style.visibility = "hidden";
 }
 
@@ -98,13 +99,15 @@ const clearLoc = (event:any)=>{
 
 const minimize = (event:any)=>{
 	let contextMenu = document.getElementById(id);
-	contextHeight = contextMenu.style.height
-	if(contextHeight == '')
-      contextHeight ="20px"
-	else
-	  contextHeight = ""
+	if(contextMenu){
+		contextHeight = contextMenu.style.height
+		if(contextHeight == '')
+		  contextHeight ="20px"
+		else
+		  contextHeight = ""
 
-	contextMenu.style.height = contextHeight;
+		contextMenu.style.height = contextHeight;
+	}
 }
 
 </script>
@@ -207,7 +210,7 @@ const minimize = (event:any)=>{
 		cursor:grab;
 	}
 
-	.context-menu-header input {
+	.context-menu-header input[type="button"] {
 		cursor: pointer;
 	}
 	.context-menu-toolbar{

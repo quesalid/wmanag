@@ -21,12 +21,14 @@ export let bgcolor = "#f0f0f0"
   margin: 0 auto;
 }
 #navbar {
+width: 100%;
   z-index: 99;
   position: fixed;
   left: 0;
   right: 0;
 }
 .navbar-container {
+  /*margin-top:1px;*/
   display: flex;
   justify-content: space-between;
   height: var(--height);

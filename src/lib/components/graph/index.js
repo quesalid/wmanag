@@ -10,7 +10,6 @@ export { default as CustomEdge } from './CustomEdge.svelte';
 export { default as DeleteGraph } from './DeleteGraph.svelte';
 export { default as DiscreteValue } from './DiscreteValue.svelte';
 export { default as DRangeInput } from './DRangeInput.svelte';
-export { default as DRangeSlider } from './DRangeSlider.svelte';
 export { default as GaussParams } from './GaussParams.svelte';
 export { default as GraphEditor } from './GraphEditor.svelte';
 export { default as IpInput } from './IpInput.svelte';

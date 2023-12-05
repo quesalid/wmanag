@@ -4,7 +4,7 @@ export default {
     theme: {
         extend: {},
     },
-    purge: ["./index.html", './src/**/*.{svelte,js,ts}'], //for unused css
+    content: ['./src/**/*.{html,js,svelte,ts}'],
     variants: {
         extend: {},
     },

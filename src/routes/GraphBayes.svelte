@@ -30,7 +30,7 @@
 	});
 
 	// BAR VARIABLES
-	const barheigth = "50px"
+	const barheigth = "60px"
 	const avatargroups = [
 		[
 			{ icon: null, text: `Dashborad` },
@@ -41,7 +41,7 @@
 		]
 	]
 	
-	const avatarsize = 'w-10'
+	const avatarsize = "w-10"
 	const avatar = 'PPULICANI.png'
 	const avatarmessage = "p.pulicani@up2twin.com"
 	const avatarclass = "font-bold text-sm italic"
@@ -53,7 +53,7 @@
 	let currentnode = {}
 	let editnode:any = {}
 	let graph = {nodes:[],edges:[],name:''}
-	let graphs = []
+	let graphs:any[] = []
 	let innernode = BayesNode
 	let typeOptions = [
 		{value:"DISCRETE",options:{level:'level1'}},
@@ -172,7 +172,7 @@
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
 				<DropDownMenu groups={avatargroups} image="{avatar}" 
-						imagesize={avatarsize} 
+						imagesize='{avatarsize}'
 						message={avatarmessage}
 						messageclass={avatarclass}>
 				</DropDownMenu>

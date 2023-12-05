@@ -22,9 +22,11 @@
 	]
 
 	export let image = "AVATAR.svg"
-	export let imagesize = 'w-10'
+	export let imagesize = "w-9"
 	export let message = "Use menu to say something"
 	export let messageclass = "font-bold"
+
+	const imgclass = "inline-flex justify-center rounded-full  px-0 py-0 "+ imagesize +" text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
 </script>
 
 <div class="flex w-full flex-col items-center justify-center">
@@ -39,7 +41,7 @@
 			</!--button-->
 			<div class="badge-count-top" data-count='0'>
 			<img alt='Options' src="{image}" on:select={onSelect}  use:menu.button
-			class="inline-flex w-full justify-center rounded-full  px-0 py-0 {imagesize} text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+			class="{imgclass}"
 			/>
 			</div>
 			<Transition
