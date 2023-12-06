@@ -30,7 +30,7 @@ let newkey = ''
 let newtype='text'
 let newvalue= ''
 let index = 0
-let keys = []
+let keys:any[] = []
 let inpuHeaderColor = '#f1f1f1'
 let inputStatus = {name:''}
 
@@ -50,8 +50,9 @@ onMount(async () => {
 const closeMenu = (ev:any)=>{
 	setGraphInitialDistribution(graph)
 	let dataMenu = document.getElementById(id);
-	 dataMenu.style.visibility = "hidden";
-	 let div  = document.getElementById('id-class-data-input-type')
+	if(dataMenu)
+		dataMenu.style.visibility = "hidden";
+	let div  = document.getElementById('id-class-data-input-type')
 	if(div){
 		div.style.height= "10px";
 		div.style.visibility = "hidden";
@@ -128,13 +129,13 @@ const getInputStatus = ()=>{
 			<span>STATES DEFINITION - {node.label}</span>
 			<input type="button" value="CLOSE" on:click={closeMenu} />
 		</div>
-		 <div class="data-menu-toolbar">
+		 <div class="data-menu-toolbar text-sm">
 			<input type="button" value="+" on:click={defVar} />
 			<input type="button" value="EXP" on:click={exp} />
 			<input type="button" value="IMP" on:click={imp} />
 			<div>
 			{#if node.data && index != -1 && node.data[index].type}
-				<label class="tooltip" for="nodetype-select">TYPE: 
+				<label class="tooltip text-sm m-0.5" for="nodetype-select">TYPE: 
 					<span class="tooltiptext">State value type</span>
 				</label>
 				<select name="nodetype" id="nodetype-select" on:change={changeVal} disabled={node.nodetype=="CONTINUOUS"?true:false}>
@@ -218,10 +219,15 @@ const getInputStatus = ()=>{
 	.data-menu-toolbar input {
 		cursor: pointer;
 	}
-	.data-menu-toolbar input{
+	.data-menu-toolbar input[type="button"]{
 		margin-top: 2px;
 		margin-bottom: 2px;
 		margin-left: 2px;
+		background-color:#e9e9e9 ;
+		border: 1px solid;
+	}
+	.data-menu-toolbar input[type="button"]:hover{
+		background-color:#b9b9b9 ;
 	}
 	.data-menu-body{
 		display:block;
@@ -232,19 +238,15 @@ const getInputStatus = ()=>{
 		width: 100%;
 	}
 
-	label{
+	/*label{
 		font-size: x-small;
-	}
+	}*/
 
-	.statustext{ 
-		height: 14px; 
-		font-size:12px;
-	}
 
 	.tooltip {
   position: relative;
   display: inline-block;
-  border-bottom: 1px dotted black;
+  
 }
 
 .tooltip .tooltiptext {

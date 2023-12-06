@@ -213,6 +213,10 @@ const minimize = (event:any)=>{
 	.context-menu-header input[type="button"] {
 		cursor: pointer;
 	}
+
+	.context-menu-header input[type="button"]:hover{
+		background-color: #b9b9b9;
+	}
 	.context-menu-toolbar{
 		display:flex;
 		justify-content: left;
@@ -221,12 +225,19 @@ const minimize = (event:any)=>{
 		margin-left: 2px;
 	}
 
-	.context-menu-toolbar input{
+	.context-menu-toolbar input[type="button"]{
 		cursor: pointer;
 		margin-top: 2px;
 		margin-bottom: 2px;
 		margin-left: 2px;
+		background-color: #e9e9e9;
+		border: 1px solid;
 	}
+
+	.context-menu-toolbar input[type="button"]:hover{
+		background-color: #b9b9b9;
+	}
+
 	.context-menu-body{
 		display:block;
 		justify-content: left;

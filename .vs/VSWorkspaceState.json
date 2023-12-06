@@ -2,9 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\topbar"
+    "\\src\\lib\\components\\graph"
   ],
-  "SelectedNode": "\\src\\App.svelte",
+  "SelectedNode": "\\src\\app.css",
   "PreviewInSolutionExplorer": false
 }

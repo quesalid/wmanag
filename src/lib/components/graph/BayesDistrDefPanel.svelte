@@ -100,7 +100,7 @@ const isNumber = (value:any)=>{
 			<span style="margin-right:5px;">DISTRIBUTION DEF  {node.label}</span>
 			<input type="button" value="CLOSE" on:click={closeMenu} />
 		</div>
-		<div class="dist-menu-toolbar">
+		<div class="dist-menu-toolbar text-sm">
 			<input type="button" value="EXP" on:click={exp} />
 			<input type="button" value="IMP" on:click={imp} />
 		</div>
@@ -165,6 +165,22 @@ const isNumber = (value:any)=>{
 		margin-bottom: 2px;
 		margin-left: 2px;
 		background-color: var(--background-color);
+	}
+
+	.data-menu-header input[type="button"]{
+		cursor:pointer;
+	}
+
+	.dist-menu-toolbar input[type="button"]{
+		margin-top: 2px;
+		margin-bottom: 2px;
+		margin-left: 2px;
+		background-color:#e9e9e9 ;
+		border: 1px solid;
+		cursor:pointer;
+	}
+	.dist-menu-toolbar input[type="button"]:hover{
+		background-color:#b9b9b9 ;
 	}
 
 	table{
