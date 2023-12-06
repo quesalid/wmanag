@@ -1,4 +1,8 @@
 <script lang="ts">
+   import {TopBar,Logo,DropDownMenu,AlertMessages} from "../lib/components/topbar"
+   import { center } from '../lib/components/topbar/notifications';
+   import {onMount} from "svelte"
+
    import { GraphEditor,
 			IsaNode,
 			IsaDataPanel,
@@ -8,12 +12,45 @@
 
     import { loadData, uploadFile} from '../lib/components/graph/GraphUtils.js'
 
+	onMount(() => {
+		center.init([
+			  'Suspicious login on your server less then a minute ago',
+			  'Successful login attempt by @johndoe',
+			  'Successful login attempt by @amy',
+			  'Suspicious login on your server 7 min',
+			  'Suspicious login on your server 11 min ago',
+			  'Successful login attempt by @horace',
+			  'Suspicious login on your server 14 min ago',
+			  'Successful login attempt by @jack'
+		])
+	});
+
+	// BAR VARIABLES
+	const barheigth = "60px"
+	const avatargroups = [
+		[
+			{ icon: null, text: `Dashborad` },
+			{ icon: null, text: `Profile` },
+			{ icon: null, text: `Settings` },
+		], [
+			{ icon: null, text: `Logout` },
+		]
+	]
+
+	// GRAPH VARIABLES
+	
+	const avatarsize = "w-10"
+	const avatar = 'PPULICANI.png'
+	const avatarmessage = "p.pulicani@up2twin.com"
+	const avatarclass = "font-bold text-sm italic"
+	const bgcolor = "#fff2e8"
+
     let defaultNodes: any[] = [];
 	let contextmenu = 'myContext'
 	let currentnode = {}
 	let editnode:any = {}
 	let graph = {nodes:[],edges:[],name:''}
-	let graphs = []
+	let graphs:any = []
 	let innernode = IsaNode
 	
 
@@ -98,7 +135,7 @@
 	}
 
 	const submitQuery = async (ev:any|undefined)=>{
-		const elem = document.getElementById("ggraph-search") 
+		const elem:any = document.getElementById("ggraph-search") 
 		const query = elem?elem.value:''
 	
 		graphs = [
@@ -125,20 +162,38 @@
 	}
 
 	//const options = {datacomp:'ISA'}
-	const options = {datacomp:'ISA'}
+	const options = {datacomp:'ISA',svgtop:50,svgleft:0,svgwidth:1200,svgheight:550}
 
 </script>
-
-	<GraphEditor bind:graph={graph} typeOptions={typeOptions}  bind:editnode={editnode} innernode={innernode} options={options}>
-		<IsaDataPanel slot="data" id="defaultDataMenuContainer" bind:node={editnode} bind:graph={graph} filterKey={filterKey} exp={exportData} imp={importData} panel={panel}/>
-		<LoadGraph slot="importgraph" id="defaultLoadGraphContainer" bind:graph={graph} bind:graphs={graphs} submitQuery={submitQuery} graphSelect={graphSelect}/>"
-		<SaveGraph slot="savegraph" id="defaultSaveGraphContainer" bind:graph={graph}  saveQuery={saveQuery} />"
-		<DeleteGraph slot="deletegraph" id="defaultDeleteGraphContainer" bind:graph={graph}  deleteQuery={deleteQuery} />"
-		<!-- ADD LOAD,SAVE AND DELETE PANELS-->
-
-
-    </GraphEditor>
-
+<div>
+		<div>
+			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
+				<div slot="lefttop">
+					<Logo logofilename="ICO_UP2_DATA.png" imgheight={barheigth}>
+					</Logo>
+				</div>
+				<div slot="centertop">
+				</div>
+				<div slot="righttop" class='flex'>
+				<AlertMessages/>
+				<DropDownMenu groups={avatargroups} image="{avatar}" 
+						imagesize='{avatarsize}'
+						message={avatarmessage}
+						messageclass={avatarclass}>
+				</DropDownMenu>
+				</div>
+			</TopBar>
+		</div>
+		<div style="width:100%;display:flex;justify-content:right;align-items: right;">
+			<GraphEditor bind:graph={graph} typeOptions={typeOptions}  bind:editnode={editnode} innernode={innernode} options={options}>
+				<IsaDataPanel slot="data" id="defaultDataMenuContainer" bind:node={editnode} bind:graph={graph} filterKey={filterKey} exp={exportData} imp={importData} panel={panel}/>
+				<LoadGraph slot="importgraph" id="defaultLoadGraphContainer" bind:graph={graph} bind:graphs={graphs} submitQuery={submitQuery} graphSelect={graphSelect}/>"
+				<SaveGraph slot="savegraph" id="defaultSaveGraphContainer" bind:graph={graph}  saveQuery={saveQuery} />"
+				<DeleteGraph slot="deletegraph" id="defaultDeleteGraphContainer" bind:graph={graph}  deleteQuery={deleteQuery} />"
+				<!-- ADD LOAD,SAVE AND DELETE PANELS-->
+			</GraphEditor>
+	</div>
+    </div>
 
 <style>
 

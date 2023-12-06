@@ -11,9 +11,9 @@ export let id: string|any = 'defaultDataMenuContainer'
 export let node: any 
 export let exp = (ev:any|undefined)=>console.log("EXPORT DATA")
 export let imp = (ev:any|undefined)=>console.log("INPORT DATA")
-export let filterKey = []
-export let panel = []
-export let graph = {nodes:[],edges:[]}
+export let filterKey:any = []
+export let panel:any = []
+export let graph:any = {nodes:[],edges:[]}
 
 
 
@@ -21,7 +21,7 @@ let newkey = ''
 let newtype='text'
 let newvalue= ''
 let newsubtype=''
-let newoptions = []
+let newoptions:any = []
 let ipArray = ['','','','']
 let ipAddress = ''
 
@@ -64,7 +64,8 @@ onMount(async () => {
 
 const closeMenu = (ev:any)=>{
 	let dataMenu = document.getElementById(id);
-	 dataMenu.style.visibility = "hidden";
+	if(dataMenu)
+		dataMenu.style.visibility = "hidden";
 
 }
 
@@ -107,7 +108,7 @@ const addToNode =  (ev:any)=>{
 }
 
 const deleteFromNode = (ev:any)=>{
-	const target = event.target
+	const target = ev.target
 	const key = target.id
 	if(key){
 		const filter = node.data.filter((item:any)=> item.key != key)
@@ -153,11 +154,11 @@ const updateIp = (ev:any)=>{
 			<span>DATA MENU {node.label}</span>
 			<input type="button" value="CLOSE" on:click={closeMenu} />
 		</div>
-		 <div class="data-menu-toolbar">
+		 <div class="data-menu-toolbar text-sm">
 			<input type="button" value="EXPORT" on:click={exp} />
 			<input type="button" value="IMPORT" on:click={imp} />
 		</div>
-		<div class="data-menu-body">
+		<div class="data-menu-body text-sm">
 			<div class='list-item-add' id="list-item-add-id">
 				<!-- USE PREDEFINED KEYS IN PANEL COMPONENT-->
 				<select name="nodekey" id="nodekey" on:change={changeKey}>
@@ -263,13 +264,16 @@ const updateIp = (ev:any)=>{
 		margin-left: 2px;
 	}
 
-	.data-menu-toolbar input {
-		cursor: pointer;
-	}
-	.data-menu-toolbar input{
+	.data-menu-toolbar input[type="button"]{
 		margin-top: 2px;
 		margin-bottom: 2px;
 		margin-left: 2px;
+		background-color:#e9e9e9 ;
+		border: 1px solid;
+		cursor: pointer;
+	}
+	.data-menu-toolbar input[type="button"]:hover{
+		background-color:#b9b9b9 ;
 	}
 	.data-menu-body{
 		display:block;
@@ -278,6 +282,18 @@ const updateIp = (ev:any)=>{
 		overflow-x:hidden;
 		/*height: 250px;*/
 		width: 100%;
+	}
+
+	.data-menu-body input[type="button"]{
+		margin-top: 2px;
+		margin-bottom: 2px;
+		margin-left: 2px;
+		background-color:#e9e9e9 ;
+		border: 1px solid;
+		cursor: pointer;
+	}
+	.data-menu-body input[type="button"]:hover{
+		background-color:#b9b9b9 ;
 	}
 	.list-item{
 		display:block;

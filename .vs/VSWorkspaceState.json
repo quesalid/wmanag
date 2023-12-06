@@ -1,11 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
     "\\src\\lib",
-    "\\src\\lib\\components",
     "\\src\\lib\\components\\graph"
   ],
-  "SelectedNode": "\\src\\app.css",
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }

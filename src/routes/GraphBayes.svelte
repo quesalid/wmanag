@@ -129,7 +129,7 @@
 	}
 
 	const submitQuery = async (ev:any|undefined)=>{
-		const elem = document.getElementById("ggraph-search") 
+		const elem:any = document.getElementById("ggraph-search") 
 		const query = elem?elem.value:''
 	
 		graphs = [

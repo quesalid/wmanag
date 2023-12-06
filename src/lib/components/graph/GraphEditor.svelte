@@ -35,9 +35,9 @@
 	export let edges: any[] = []
 	export let editnode:any = {}
 	export let typeOptions = [{value:"DEFAULT",options:{level:'level0'}}]
-	export let sgnode:any = {}
+	//export let sgnode:any = {}
 	export let innernode = IsaNode
-	export let graph = {nodes:[],edges:[]}
+	export let graph:any = {nodes:[],edges:[]}
     export let options: any = {};
 	export const sleep = function (ms:any) {
 						return new Promise(resolve => setTimeout(resolve, ms));
@@ -128,9 +128,9 @@
 	 * Add zoom listener to zoom in/out buttons
 	 */
    const addZoomListener = async ()=>{
-		const zoomins = document.getElementsByClassName("zoom-in")
-		const zoomouts = document.getElementsByClassName("zoom-out")
-		const resets = document.getElementsByClassName("reset")
+		const zoomins:any = document.getElementsByClassName("zoom-in")
+		const zoomouts:any = document.getElementsByClassName("zoom-out")
+		const resets:any = document.getElementsByClassName("reset")
 		const dropzone = document.getElementById("drop_zone")
 		if(zoomins.length >0 && !inListener){
 			zoomins.item(0).addEventListener("mousedown", function() {
@@ -183,8 +183,8 @@
 	 * @param wanted zoom value
 	 */
 	const setZoomValue = (wanted:number)=>{
-		const zoomins = document.getElementsByClassName("zoom-in")
-		const zoomouts = document.getElementsByClassName("zoom-out")
+		const zoomins:any = document.getElementsByClassName("zoom-in")
+		const zoomouts:any = document.getElementsByClassName("zoom-out")
 		const direction = (wanted - zoom > 0)? 'in' : 'out'
 		// LIMIT WANTED ZOOM VALUES
 		if(wanted > 2.0)
@@ -212,7 +212,7 @@
 	}
 
 	const clickReset = ()=>{
-		const resets = document.getElementsByClassName("reset")
+		const resets:any = document.getElementsByClassName("reset")
 		if(resets.length){
 			resets.item(0).dispatchEvent(new Event('mousedown'));
 		}
@@ -225,13 +225,15 @@
 	const onContextMenu = (ev:any)=>{
 		ev.preventDefault()
 		let contextMenu = document.getElementById(contextmenu);
-		contextMenu.style.height = ""
-		contextMenu.style.visibility = "visible";
+		if(contextMenu){
+			contextMenu.style.height = ""
+			contextMenu.style.visibility = "visible";
+		}
 	}
 
 	
-	let nodePropNames = getDefaultPropertiesNames()
-	let nodePropsVals = getDefaultProperties(typeOptions,options)
+	let nodePropNames:any = getDefaultPropertiesNames()
+	let nodePropsVals:any = getDefaultProperties(typeOptions,options)
 
 	/**
 	 * Add new node to graph
@@ -239,9 +241,9 @@
 	 * @param node node to add
 	 * @param edges edges to add
 	 */
-	const addNode = async (e:any|undefined,node=null,edges=[])=>{
-		let nodeProps
-		let ancs
+	const addNode = async (e:any|undefined,node:any=null,edges=[])=>{
+		let nodeProps:any
+		let ancs:any
 		let nodeParam = JSON.parse(JSON.stringify(nodePropsVals))
 
 		// Adjust node params to current node type and graph type
@@ -320,7 +322,8 @@
 					detail: { node: found }
 				}
 			)
-			div.dispatchEvent(event)
+			if(div)
+				div.dispatchEvent(event)
 		}
 		
 	}
@@ -336,7 +339,7 @@
 		const exp = updateGraph()
 		if(exp.nodes && exp.nodes.length > 0 && exp.nodes[0].graphtype == 'ISA'){
 			 const tree = await getTreeFromGraph(exp,exp.nodes[0],null)
-			 let seen = []
+			 let seen:any = []
 		     filestring = JSON.stringify(tree, function (key, val) {
 					if (typeof val == "object") {
 						if (seen.indexOf(val) >= 0)
@@ -567,7 +570,7 @@
 				editnode = found
 				const keys = Object.keys(found)
 				for(let i=0;i<keys.length;i++){
-					const value = found[keys[i]]
+					const value:any = found[keys[i]]
 					// DO NOT UPDATE node id WITH OLD VALUE
 					if(keys[i] != 'id')
 						nodePropsVals[keys[i]] = value
@@ -576,7 +579,7 @@
 				for(let i=0; i<nodePropNames.length;i++ ){
 					let variable = undefined
 					if(ev.detail.node[nodePropNames[i]] && ev.detail.node[nodePropNames[i]].subscribe){
-						ev.detail.node[nodePropNames[i]].subscribe((value) => {variable=value})
+						ev.detail.node[nodePropNames[i]].subscribe((value:any) => {variable=value})
 						nodePropsVals[nodePropNames[i]] = variable
 					}
 				}
@@ -682,11 +685,12 @@
 	</script>
 
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	id="drop_zone"
 	on:contextmenu={onContextMenu}
 	class="editor-container"
-	style="--width:{svgwidth+'px'};--height:{svgheight+'px'};--top:{svgtop+'px'};--left:{svgleft+'px'};position:relative;"
+	style="--width:100%;--height:{svgheight+'px'};--top:{svgtop+'px'};--left:{svgleft+'px'};position:relative;"
 	>
 
 		<Svelvet  bind:zoom={zoom} minimap controls id="GRAPH-CANVAS">

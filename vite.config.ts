@@ -25,9 +25,9 @@ const config: UserConfig = {
         lib: {
             // Could also be a dictionary or array of multiple entry points
             entry: path.resolve(__dirname, 'src/index.js'),
-            name: 'TSvelvet',
+            name: 'WManag',
             // the proper extensions will be added
-            fileName: 'tsvelvet',
+            fileName: 'wmanag',
         }
     },
     css: {
