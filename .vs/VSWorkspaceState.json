@@ -1,9 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\lib",
-    "\\src\\lib\\components\\graph"
+    "\\src\\lib\\components",
+    "\\src\\lib\\components\\graph",
+    "\\src\\routes"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\src\\lib\\components\\graph\\BayesDataPanel.svelte",
   "PreviewInSolutionExplorer": false
 }

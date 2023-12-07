@@ -2,7 +2,7 @@
 <!-- Messsages.svelte -->
 <!-- style tag is omitted -->
 
-<script>
+<script lang='ts'>
   // import the custom store
   import { center } from './notifications';
 
@@ -11,7 +11,7 @@
   // open-close state
   let show = false;
 
-  const handleDismiss = message => {
+  const handleDismiss = (message:any) => {
     center.dismiss(message);
 
     // guard to close popup when there are no more messages
