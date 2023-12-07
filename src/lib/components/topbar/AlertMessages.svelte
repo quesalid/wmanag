@@ -82,7 +82,7 @@
           <div class="mt-1">
             <!-- add dismiss handler -->
             <button
-              class="px-2 text-sm text-blue-200 bg-blue-700 rounded-sm"
+              class="px-2 text-sm text-blue-200 bg-teal-600 rounded-sm"
               on:click={() => handleDismiss(message)}
             >
               dismiss
@@ -94,7 +94,7 @@
     <div class="flex justify-end mt-3">
       <!-- add clear all handler -->
       <button
-        class="px-2 text-sm text-blue-200 bg-blue-700 rounded-sm"
+        class="px-2 text-sm text-blue-200 bg-teal-600 rounded-sm"
         on:click={clearAll}
       >
         clear all

@@ -41,7 +41,7 @@ const toggleNav = (ev:any)=> {
     {#each groups as group}
 		{#each group as item}
 			{@const active = $menu.active === item.text}
-			<button class="group flex rounded-md justify-items-start w-full px-2 py-2 text-sm {active ? 'bg-violet-500 text-white' : 'text-gray-900'}"  use:menu.item>{item.text}</button>
+			<button class="group flex rounded-md justify-items-start w-full px-2 py-2 text-sm {active ? 'bg-teal-600 text-white' : 'text-gray-900'}"  use:menu.item>{item.text}</button>
 		{/each}
 	{/each}
   </div>

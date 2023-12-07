@@ -4,9 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\graph",
+    "\\src\\lib\\components\\icons",
+    "\\src\\lib\\components\\topbar",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\graph\\BayesDataPanel.svelte",
+  "SelectedNode": "\\src\\lib\\components\\topbar\\index.js",
   "PreviewInSolutionExplorer": false
 }

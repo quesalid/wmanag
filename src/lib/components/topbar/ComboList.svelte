@@ -4,7 +4,7 @@
 	import Selector from '../icons/Selector.svelte'
 	import Check from '../icons/Check.svelte'
 
-	const people = [
+	export let  data:any = [
 		{ name: 'Wade Cooper' },
 		{ name: 'Arlene Mccoy' },
 		{ name: 'Devon Webb' },
@@ -12,13 +12,13 @@
 		{ name: 'Tanya Fox' },
 		{ name: 'Hellen Schmidt' },
 	]
-	const combobox = createCombobox({ label: 'Actions', selected: people[2] })
+	const combobox = createCombobox({ label: 'Actions', selected: data.length >0?data[1]:'' })
 
 	function onSelect(e: Event) {
 		console.log('select', (e as CustomEvent).detail)
 	}
 
-	$: filtered = people.filter(person => person.name.toLowerCase().replace(/\s+/g, '').includes($combobox.filter.toLowerCase().replace(/\s+/g, '')))
+	$: filtered = data.filter((person:any)=> person.name.toLowerCase().replace(/\s+/g, '').includes($combobox.filter.toLowerCase().replace(/\s+/g, '')))
 
 </script>
 
@@ -80,5 +80,3 @@
 
 <style>
 </style>
-
-```

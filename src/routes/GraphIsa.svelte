@@ -1,5 +1,5 @@
 <script lang="ts">
-   import {TopBar,Logo,DropDownMenu,AlertMessages} from "../lib/components/topbar"
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
 
@@ -27,6 +27,8 @@
 
 	// BAR VARIABLES
 	const barheigth = "60px"
+	const imgheight = "60px"
+	const topbarheight = "90%"
 	const avatargroups = [
 		[
 			{ icon: null, text: `Dashborad` },
@@ -36,8 +38,6 @@
 			{ icon: null, text: `Logout` },
 		]
 	]
-
-	// GRAPH VARIABLES
 	
 	const avatarsize = "w-10"
 	const avatar = 'PPULICANI.png'
@@ -45,6 +45,9 @@
 	const avatarclass = "font-bold text-sm italic"
 	const bgcolor = "#fff2e8"
 
+	// GRAPH VARIABLES
+	
+	
     let defaultNodes: any[] = [];
 	let contextmenu = 'myContext'
 	let currentnode = {}
@@ -169,12 +172,14 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
-					<Logo logofilename="ICO_UP2_DATA.png" imgheight={barheigth}>
+					<Logo logofilename="ICO_UP2_DATA.png" imgheight={imgheight}>
 					</Logo>
 				</div>
 				<div slot="centertop">
+					<ComboList />
 				</div>
 				<div slot="righttop" class='flex'>
+				<SideMenu  topbarheight='{topbarheight}'/>
 				<AlertMessages/>
 				<DropDownMenu groups={avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
