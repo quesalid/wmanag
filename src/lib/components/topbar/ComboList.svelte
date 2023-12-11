@@ -3,22 +3,31 @@
 	import Transition from 'svelte-transition'
 	import Selector from '../icons/Selector.svelte'
 	import Check from '../icons/Check.svelte'
+	import {onMount} from "svelte"
+	import {currentplant} from "../../ustore.js"
+   
+   
 
-	export let  data:any = [
-		{ name: 'Wade Cooper' },
-		{ name: 'Arlene Mccoy' },
-		{ name: 'Devon Webb' },
-		{ name: 'Tom Cook' },
-		{ name: 'Tanya Fox' },
-		{ name: 'Hellen Schmidt' },
-	]
-	const combobox = createCombobox({ label: 'Actions', selected: data.length >0?data[1]:'' })
+	
+	export let data:any = []
+
+   const combobox = createCombobox({ label: 'Actions', selected:$currentplant.name })
+   onMount(() => {
+	    console.log("DATA",data,$currentplant )
+		$combobox.selected = $currentplant
+		$combobox =$combobox
+	});
+
+
 
 	function onSelect(e: Event) {
-		console.log('select', (e as CustomEvent).detail)
+		const selected = (e as CustomEvent).detail.selected
+		console.log('select', selected)
+		$currentplant = selected
+		$combobox.selected = selected
 	}
 
-	$: filtered = data.filter((person:any)=> person.name.toLowerCase().replace(/\s+/g, '').includes($combobox.filter.toLowerCase().replace(/\s+/g, '')))
+	$: filtered = data.filter((item:any)=> item.name.toLowerCase().replace(/\s+/g, '').includes($combobox.filter.toLowerCase().replace(/\s+/g, '')))
 
 </script>
 
@@ -32,7 +41,7 @@
 					use:combobox.input
 					on:select={onSelect}
 					class="w-full border-none py-2 pl-3 pr-10 leading-5 text-gray-900 focus:ring-0"
-					value={$combobox.selected.name}
+					value={$currentplant.name}
 				/>
 				<!-- <span class="block truncate">{people[$listbox.selected].name}</span> -->
 				<button use:combobox.button class="absolute inset-y-0 right-0 flex items-center pr-2" type="button">

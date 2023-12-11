@@ -1,6 +1,5 @@
 
-import { v4 as uuidv4 } from "uuid"
-
+import { filterArray } from './mock.js'
 // **************** DATA ****************
 let devices = [
     {
@@ -10,7 +9,7 @@ let devices = [
         description: "Virtual Machine Line XY Plant Z",
         module: "DATA",
         localization: {
-            plant: 1,
+            plant: 'plant-1',
             department: 2,
             line: 7,
         },
@@ -33,7 +32,7 @@ let devices = [
         description: "Edge Computer Line XY Plant Z",
         module: "DATA",
         localization: {
-            plant: 1,
+            plant: 'plant-1',
             department: 2,
             line: 3,
         },
@@ -56,7 +55,7 @@ let devices = [
         description: "Edge Computer Line WY Plant Z",
         module: "DATA",
         localization: {
-            plant: 1,
+            plant: 'plant-2',
             department: 2,
             line: 3,
         },
@@ -79,7 +78,7 @@ let devices = [
         description: "VMWare VM-2012-H ",
         module: "CLONE",
         localization: {
-            plant: 1,
+            plant: 'plant-2',
             department: 2,
             line: 7,
         },
@@ -102,7 +101,7 @@ let agents = [
         uid: 'ag-234-abc-1',
         name: "SCANNER1",
         type: "SCANNER",
-        description: "Scanner for AUT-01",
+        description: "Scanner for AUT-01 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "S7 driver plc AUT-01",
@@ -142,7 +141,7 @@ let agents = [
         uid: 'ag-234-abc-11',
         name: "SCANNER11",
         type: "SCANNER",
-        description: "Scanner for PREP-21",
+        description: "Scanner for PREP-21 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "modbus driver plc PREP-21.",
@@ -182,7 +181,7 @@ let agents = [
         uid: 'ag-234-hst-1',
         name: "HIST1",
         type: "HISTORIAN",
-        description: "Historian from queue SCANNER1",
+        description: "Historian from queue SCANNER1 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "MQTT SCANNER1.",
@@ -218,7 +217,7 @@ let agents = [
         uid: 'ag-234-abc-2',
         name: "SCANNER2",
         type: "SCANNER",
-        description: "Scanner for RMP-04",
+        description: "Scanner for RMP-04 (bca-2)",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "ip/eth driver for RMP-04.",
@@ -250,13 +249,13 @@ let agents = [
         },
         dbs: [{ uid: 0, name: "modbus.csv" }],
         status: "STOP",
-        devuid: 'abc-1',
+        devuid: 'bca-2',
     },
     {
         uid: 'ag-234-hst-2',
         name: "HIST2",
         type: "HISTORIAN",
-        description: "Historian for queue SCANNER2",
+        description: "Historian for queue SCANNER2 (bca-2)",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "MQTT SCANNER2.",
@@ -295,7 +294,7 @@ let agents = [
         uid: 'ag-234-abc-4',
         name: "SCANNER3",
         type: "SCANNER",
-        description: "Scanner for INF-07",
+        description: "Scanner for INF-07 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "s7 driver for INF-07",
@@ -332,7 +331,7 @@ let agents = [
         uid: 'ag-234-hst-3',
         name: "HIST3",
         type: "HISTORIAN",
-        description: "Historian from queue SCANNER3",
+        description: "Historian from queue SCANNER3 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
         source: {
             name: "MQTT SCANNER3.",
@@ -370,8 +369,31 @@ let agents = [
 
 ]
 
+let plants = [
+    {
+        uid: 'plant-1',
+        name: 'PLANT-001',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Vallinfreda Plant",
+        lat: 42.08485000,
+        lon: 12.99595000,
+        label: 'PL1',
+        address: 'Vallinfreda, RM, Italia'
+    },
+    {
+        uid: 'plant-2',
+        name: 'PLANT-002',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Tusla Plant",
+        lat: 36.153798,
+        lon: -95.992403,
+        label: 'PL2',
+        address: 'Tulsa, OK, USA'
+    }
+]
+
 // **************** UTILS ****************
-const filterArray = (array, filters, neg = false) => {
+/*const filterArray = (array, filters, neg = false) => {
     if (filters && filters.length) {
         for (let i = 0; i < filters.length; i++) {
             const filter = filters[i]
@@ -422,13 +444,15 @@ const filterArray = (array, filters, neg = false) => {
         }
     }
     return array
-}
+}*/
 
 // **************** CALLS ****************
 const getDevices = async function (body) {
     let retDevices = JSON.parse(JSON.stringify(devices))
     const filters = body.options.filters
-    retDevices = filterArray(retDevices, filters)
+    if (filters && filters.length) {
+        retDevices = filterArray(retDevices, filters)
+    }
     body.data = retDevices
     return (body)
 }
@@ -458,7 +482,9 @@ const deleteDevice = async function (body) {
 const getAgents = async function (body) {
     let retAgents = JSON.parse(JSON.stringify(agents))
     const filters = body.options.filters
-    retAgents = filterArray(retAgents, filters)
+    if (filters && filters.length) {
+        retAgents = filterArray(retAgents, filters)
+    }
     body.data = retAgents
     return (body)
 }
@@ -485,13 +511,48 @@ const deleteAgent = async function (body) {
     return (body)
 }
 
+const getPlants = async function (body) {
+    let retPlants = JSON.parse(JSON.stringify(plants))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retPlants = filterArray(retPlants, filters)
+    }
+    body.data = retPlants
+    return (body)
+}
+
+const setPlant = async function (body) {
+    const plant = body.options.plant
+    let old = null
+    if (plant) {
+        const existing = plants.findIndex((item) => { return item.uid == plant.uid })
+        if (existing > -1) {
+            old = plants[existing]
+            plants[existing] = plant
+        } else {
+            plants.push(plant)
+        }
+    }
+    return old
+}
+
+const deletePlant = async function (body) {
+    const filters = body.options.filters
+    plants = filterArray(plants, filters, true)
+    body.data = plants
+    return (body)
+}
+
 const CONFIG = {
     getDevices,
     setDevice,
     deleteDevice,
     getAgents,
     setAgent,
-    deleteAgent
+    deleteAgent,
+    getPlants,
+    setPlant,
+    deletePlant
 }
 
 export default CONFIG

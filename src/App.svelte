@@ -12,6 +12,7 @@ import ADMINDB from "./routes/AdminDB.svelte"
 import GRAPHBAYES from "./routes/GraphBayes.svelte"
 import GRAPHISA from "./routes/GraphIsa.svelte"
 import PORTALTEMPLATE from "./routes/PortalTemplate.svelte"
+import MAPMANAGER from "./routes/MapManager.svelte"
 
 export const url = "/deploy"
 
@@ -29,6 +30,7 @@ export const url = "/deploy"
     <Route path="/graphbayes" component={GRAPHBAYES}/>
     <Route path="/graphisa" component={GRAPHISA}/>
     <Route path="/portaltemplate" component={PORTALTEMPLATE}/>
+    <Route path="/mapmanager" component={MAPMANAGER}/>
   </div>
 </Router>
 

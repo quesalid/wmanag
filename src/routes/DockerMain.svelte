@@ -27,7 +27,7 @@ import {showHideLoader} from "../lib/components/CompUtils.js"
 let cafile
 let certfile
 let keyfile
-let reqfile
+let reqfile:any
 let host = "127.0.0.1"
 let port = "2376"
 let title = "DOCKER MANAGEMENT - DAEMON: "+host+":"+port
@@ -91,7 +91,8 @@ const onClickFile = async (ev:any)=>{
 	reqfile = ev.target.id
 	const target = document.getElementById("pem-file-input")
 	footermessage = "load certificate files"
-	target.click()
+	if(target)
+		target.click()
 }
 
 /**
@@ -190,10 +191,13 @@ const updateToolbarContainer = ()=>{
 const adjustPosition = ()=>{
 	const wcont = document.getElementById('containerWManager')
 	const icont = document.getElementById('imageWManager')
-	var crect = wcont.getBoundingClientRect();
-	var irect = icont.getBoundingClientRect();
-	const newtop = crect.height + 20
-	icont.style.top = newtop+"px"
+	var crect = wcont?wcont.getBoundingClientRect():null;
+	var irect = icont?icont.getBoundingClientRect():null;
+	let newtop = 0
+	if(crect)
+	   newtop = crect.height + 20
+	if(icont)
+		icont.style.top = newtop+"px"
 }
 
 /**

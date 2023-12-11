@@ -3,12 +3,12 @@
 import FlipDiv from "./FlipDiv.svelte";
 import { onMount } from "svelte";
 
-const sleep = function (ms) {
+const sleep = function (ms:any) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
-export let agents = []
+export let agents:any = []
 export let dragelem = {}
 export let device = "DEFAULTSERVER"
 export let startAgent = async (agent:any)=>{console.log("START AGENT",agent.agent),await sleep(2000)}

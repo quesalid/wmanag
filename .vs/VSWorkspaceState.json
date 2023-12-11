@@ -4,10 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\icons",
-    "\\src\\lib\\components\\topbar",
+    "\\src\\lib\\components\\contents",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\topbar\\index.js",
+  "SelectedNode": "\\src\\lib\\components\\contents\\FlipDiv.svelte",
   "PreviewInSolutionExplorer": false
 }

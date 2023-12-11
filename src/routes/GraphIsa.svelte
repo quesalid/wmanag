@@ -2,6 +2,9 @@
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
+   import {combolist} from '../lib/components/topbar/combolist'
+   import {getPlants} from '../lib/script/apidataconfig.js'
+   import {token, mock, currentplant} from '../lib/ustore.js'
 
    import { GraphEditor,
 			IsaNode,
@@ -10,9 +13,10 @@
 			SaveGraph,
 			DeleteGraph} from '../lib/components/graph'
 
-    import { loadData, uploadFile} from '../lib/components/graph/GraphUtils.js'
+    import { uploadFile} from '../lib/components/graph/GraphUtils.js'
 
-	onMount(() => {
+
+	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
 			  'Successful login attempt by @johndoe',
@@ -23,6 +27,9 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
+		const filters:any = []
+		const ret = await getPlants(filters,$mock)
+		combolist.init(ret.data)
 	});
 
 	// BAR VARIABLES
@@ -155,28 +162,31 @@
 	}
 
 	const saveQuery = async (ev:any|undefined)=>{
-		
 		console.log("SAVE GRAPH",graph)
 	}
 
 	const deleteQuery = async (ev:any|undefined)=>{
-		
 		console.log("DELETE GRAPH",graph)
 	}
 
 	//const options = {datacomp:'ISA'}
 	const options = {datacomp:'ISA',svgtop:50,svgleft:0,svgwidth:1200,svgheight:550}
 
+	// click Logo
+	const onClickLogo = (ev:any)=>{
+		console.log("LOGO CLICKED",$currentplant)
+	}
+
 </script>
 <div>
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
-					<Logo logofilename="ICO_UP2_DATA.png" imgheight={imgheight}>
+					<Logo logofilename="ICO_UP2_DATA.png" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
 				</div>
 				<div slot="centertop">
-					<ComboList />
+					<ComboList data={$combolist}/>
 				</div>
 				<div slot="righttop" class='flex'>
 				<SideMenu  topbarheight='{topbarheight}'/>

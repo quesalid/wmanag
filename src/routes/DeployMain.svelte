@@ -48,12 +48,12 @@ let devtoken = ''
 let dragElem:any = {}
 let loaderid = "loading-page-id"
 let pageid = defaultWManager
-let confagents = []
+let confagents:any = []
 let edgeagents = []
-let flattenagents = []
+let flattenagents:any = []
 
 
-let agents = []
+let agents:any = []
 
 let startAgent = async (agent:any)=>{
 	const confagent = confagents.find((a:any)=>a.name == agent.name)
@@ -148,7 +148,7 @@ const onClickSubmit = async (ev:any)=>{
 			devtoken = res.data.token.split(' ')[1]
 			// LOGGED IN - PROCEED TO GET AGENTS
 			// A. LOAD AGENT FROM CONFIGURATION REPOSITORY
-			let filters = [{deviceuid:deviceuid,type:'eq'}]
+			let filters = [{name:'devuid',op:'eq',value:deviceuid}]
 			res  = await getAgents(filters,$mock)
 			confagents = res.data
 			//console.log("CONFIG AGENTS",confagents)
@@ -188,7 +188,7 @@ onMount(async () => {
 			edgeagents = [...scanners,...hists]
 			//console.log("EDGE AGENTS",edgeagents)
 			// C. COMPARE AGENTS LIST
-			var ids = new Set(confagents.map(d => d.name));
+			var ids = new Set(confagents.map((d:any) => d.name));
 			flattenagents = [...confagents, ...edgeagents.filter(d => !ids.has(d.name))];
 			//console.log("FLATTENED AGENTS",flattenagents)
 			for(let i=0;i< flattenagents.length;i++){
@@ -225,7 +225,7 @@ onMount(async () => {
 
 </script>
 
-	<div class="docker-manager-div">
+	<div class="relative w-fit h-fit block">
 		<Wmanag id="{defaultWManager}" bind:dragE={dragElem} title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
 			<FlipDivList slot="bodycontent" 
 			    bind:dragelem={dragElem} 
@@ -238,7 +238,7 @@ onMount(async () => {
 			<WindowFooter slot="footercontent" message={footermessage}/>
 		</Wmanag>
 		<!-- MODAL WINDOW WITH SPINNER -->
-		<div class="loading" id="loading-page-id">
+		<div class="absolute z-10 flex border-1 -t-1 h-screen w-screen bg-white/90 justify-center items-center border-solid border-1" id="loading-page-id">
 			<!--div class="spinner-wrapper"-->
 				<Spinner message={spinnermessage}/>
 			<!--/div-->
@@ -246,27 +246,6 @@ onMount(async () => {
 	</div>
 	
 <style>
-.docker-manager-div{
-	position: relative;
-	width: 500px;
-	height: fit-content;
-	display: block;
-}
-#pem-file-input{
-	visibility:hidden;
-}
-.loading {
-  position: absolute;
-  z-index: 999;
-  top: -3px;
-  height:620px;
-  width:1100px;
-  background: rgba( 255, 255, 255, .9 );
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  border: solid, 1px;
-}
 
 </style>
 

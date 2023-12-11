@@ -2,7 +2,11 @@
 export default {
     plugins: [],
     theme: {
-        extend: {},
+        extend: {
+            inset: {
+             '-1': '-1rem',
+            }
+        },
     },
     content: ['./src/**/*.{html,js,svelte,ts}'],
     variants: {

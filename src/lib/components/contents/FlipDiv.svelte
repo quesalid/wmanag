@@ -6,7 +6,7 @@ import Switch from "../switch/Switch.svelte"
 
 
 
-const sleep = function (ms) {
+const sleep = function (ms:any) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -45,7 +45,7 @@ let onClickUndeploy = async (ev:any)=>{
 	const switchright = document.getElementById(agent.name+'-lower-content-right')
 	showHideLoaderFlip(loaderidright,pageidright,true,dragelem)
 	await undeployAgent(agent)
-	if(leftelem && rightelem){
+	if(leftelem && rightelem && switchright){
 		switchright.style.visibility = "hidden"
 		leftelem.style.visibility = "visible"
 		rightelem.style.visibility = "hidden"
@@ -98,8 +98,8 @@ let pageidleft = agent.name+'-left-hide'
 let pageidright = agent.name+'-right-hide'
 
 const showLoaded = ()=>{
-	const leftelem = document.getElementById(agent.name+'-left-hide')
-	const rightelem = document.getElementById(agent.name+'-right-hide')
+	const leftelem:any = document.getElementById(agent.name+'-left-hide')
+	const rightelem:any = document.getElementById(agent.name+'-right-hide')
 		if(agent.loaded){
 			if(leftelem)
 				leftelem.style.visibility = "hidden"
@@ -145,7 +145,7 @@ onMount(()=>{
 
 </script>
 
-	<div class="flip-div-wrapper">
+	<div class="flip-div-wrapper flex justify-center m-1 overflow-y-auto h-fit">
 		<div class="flip-div">
 			<div class="inside-flip-div left" id="{agent.name+'flip-div-left'}">
 				{#if agent.instore}
@@ -197,11 +197,11 @@ onMount(()=>{
 
 <style>
 .flip-div-wrapper{
-	display:flexbox;
+	/*display:flexbox;
 	justify-content:center ;
 	margin: 4px;
 	overflow-y:auto ;
-	height: fit-content;
+	height: fit-content;*/
 }
 .flip-div{
 	display:flex;
