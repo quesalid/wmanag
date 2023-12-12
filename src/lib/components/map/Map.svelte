@@ -12,16 +12,13 @@ import { MapLibre,
         Popup} from 'svelte-maplibre';
 
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
-export let group:any = [
-    {name:'Italy',lon:12,lat:41,label:'IT'},
-    {name:'UK',lon:-2,lat:54,label:'UK'},
-    {name:'US',lon:-100,lat:40,label:'US'},
-    {name:'Philippines',lon:121,lat:14,label:'PH'},
-]
-
+export let group:any = []
 export let zoom = 5;
+export let clickedName:any = (g:any)=>{console.log("CLICKED: ",g.name);}
+
 
 let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-6 h-6 '+'bg-indigo-400'+' text-white text-[8px] font-bold rounded-full grid place-items-center'
+
 
 </script>
 
@@ -60,20 +57,20 @@ let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outli
     </ControlGroup>
 
     <ControlGroup>
-      <ControlButton on:click={() => {
+      <ControlButton class="text-lg" on:click={() => {
           if(map)
 			map.flyTo({
 				center: [-30, 30],
 				zoom: 0.5,
 			})
-      }}>!</ControlButton>
+      }}>&#127757</ControlButton>
     </ControlGroup>
   </Control>
 
   {#each group as g}
   <Marker
       lngLat ={[g.lon,g.lat]}
-      on:click={() => {const clickedName = g.name;console.log("CLICKED: ",clickedName);}}
+      on:click={clickedName(g)}
       class="{g.name!='PLANT-001'?markerClass:markerClass.replace('bg-indigo-400','bg-red-300')}"
     >
       <span>
@@ -83,7 +80,7 @@ let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outli
       <Popup openOn="hover" offset={[0, -10]}>
         <div class="text-sm font-bold">{g.name}</div>
         <div class="text-sm font-bold">{g.description}</div>
-         <div class="text-xs ">{g.address}</div>
+        <div class="text-xs ">{g.address}</div>
       </Popup>
     </Marker>
     {/each}

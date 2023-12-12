@@ -21,10 +21,11 @@ export let dragE:any = {}
 export let width = "max-content"
 export let height = "max-content"
 export let visibility = "visible"
+export let resize = 'none'
 
 export let toolbar:any = [
-	{type:'button',props:{value:'+'},function:onClick,label:''},
-	{type:'button',props:{value:'-'},function:onClick,label:''},
+	/*{type:'button',props:{value:'+'},function:onClick,label:''},
+	{type:'button',props:{value:'-'},function:onClick,label:''},*/
 ]
 
 
@@ -50,7 +51,7 @@ const minimize = (event:any)=>{
 	let win = document.getElementById(id);
 	winHeight = win.style.height
 	if(winHeight == '')
-      winHeight ="20px"
+      winHeight ="25px"
 	else
 	  winHeight = ""
 
@@ -59,12 +60,12 @@ const minimize = (event:any)=>{
 
 </script>
 
-<div class="window-menu" id="{id}" style="--visibility:{visibility};--height:{height};--width:{width};--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
+<div class="window-menu" id="{id}" style="--resize:{resize};--visibility:{visibility};--height:{height};--width:{width};--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
 	<header id="{id+'dragelement'}">
     <div class="window-menu-header" id="{id+'dragzone'}" style="background-color: {headercolor};">
 		<span>{title}</span>
 		<div>
-			<input class="wmanag-button" type="button" disabled={disableMinimize} value="-" on:click={minimize} />
+			<input class="wmanag-button cursor-pointer text-lg" type="button" disabled={disableMinimize} value="-" on:click={minimize} />
 			<input class="wmanag-button" type="button" disabled={disableClose} value="X" on:click={closeMenu} />
 		</div>
 	</div>
@@ -132,6 +133,7 @@ const minimize = (event:any)=>{
 		);
 		font-family:Verdana, Geneva, Tahoma, sans-serif;
 		font-size: small;
+		resize: var(--resize);
 	}
 
 	.window-menu-header{

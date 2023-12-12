@@ -22,7 +22,8 @@ onMount(async () => {
 		disableClose={true} 
 		draggable={true} 
 		headercolor="#fff2e8"
-		width="400px">
+		width="400px"
+		resize='both'>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 			<Map bind:group={group} zoom=14/>
 		</div>
