@@ -5,6 +5,7 @@
    import {combolist} from '../lib/components/topbar/combolist'
    import {getPlants} from '../lib/script/apidataconfig.js'
    import {token, mock, currentplant} from '../lib/ustore.js'
+  
 
    import { GraphEditor,
 			IsaNode,
@@ -66,7 +67,7 @@
 
 	let typeOptions = [
 		{value:"COMPANY",options:{level:'level1',color:'#ffff80'}},
-		{value:"PLANT",options:{level:'level2',color:'#80ff80'}},
+		{value:"PLANT",options:{level:'level2',color:'#80ff80',image:'FACTORY.png'}},
 		{value:"DEPARTMENT",options:{level:'level3',color:'#ff80ff'}},
 		{value:"LINE",options:{level:'level4',color:'#8080ff'}},
 		{value:"MACHINE",options:{level:'level5',color:'#ff00ff'}},
@@ -208,7 +209,7 @@
 				<!-- ADD LOAD,SAVE AND DELETE PANELS-->
 			</GraphEditor>
 	</div>
-    </div>
+</div>
 
 <style>
 

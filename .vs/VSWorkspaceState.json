@@ -1,13 +1,14 @@
 {
   "ExpandedNodes": [
     "",
+    "\\public",
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\map",
+    "\\src\\lib\\components\\topbar",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\ustore.js",
+  "SelectedNode": "\\src\\lib\\components\\topbar\\TopBar.svelte",
   "PreviewInSolutionExplorer": false
 }

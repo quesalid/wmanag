@@ -170,17 +170,17 @@ const updateIp = (ev:any)=>{
 				<input type="button" value="ADD" on:click={addToNode}/>
 			</div>
 			{#if node.data}
-				
+					{#each node.data as Item}
 					<div class='list-item'>
 						<div class="labels1">
-							{#each node.data as Item}
+							
 								{#if filterData(Item.key)}
 									<label for="{'IN'+Item.key}">{Item.key}: </label>
 								{/if}
-							{/each}
+							
 						</div>
 						<div class="inputs1">
-							{#each node.data as Item}
+							
 								{#if filterData(Item.key)}
 									<!-- INSERT INPUT TYPES-->
 									{#if Item.subtype == 'ip'}
@@ -197,16 +197,17 @@ const updateIp = (ev:any)=>{
 										<input min="0" max="65535" name="{'IN'+Item.key}" id="{Item.key}" type="{Item.type}" value={Item.value} style=" margin: 10px 0 0;" on:change={changeValData}/>
 									{/if}
 								{/if}
-							{/each}
+							
 						</div>
 						<div class="inputs2">
-							{#each node.data as Item}
+							
 								{#if filterData(Item.key)}
 									<input type="button" id={Item.key} value="X" on:click={deleteFromNode} style=" margin: 11px 0 0;" />
 								{/if}
-							{/each}
+							
 						</div>
 					</div>
+					{/each}
 				
 			{/if}
 		</div>

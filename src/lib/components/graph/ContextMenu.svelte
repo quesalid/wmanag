@@ -55,15 +55,16 @@ const closeMenu = (ev:any)=>{
 }
 
 const changeVal = (ev:any)=>{
+	    console.log("CHANGE VAL",ev.target.id)
 		if(ev.target.type == 'number')
 			propArrayVal[ev.target.id]= Number(ev.target.value)
 		else
 			propArrayVal[ev.target.id] = ev.target.value
 		// PUSH AUTOMATIC NODE LEVEL AND NODETYPE  IF graphtype is ISA
-		if(propArrayVal.graphtype == 'ISA'){
-			switch(propArrayVal){
+		//if(propArrayVal.graphtype == 'ISA'){
+			switch(ev.target.id ){
 				case 'nodetype':
-					let level = typeOptions.find((item:any)=>item.value == ev.target.value)
+					let level:any = typeOptions.find((item:any)=>item.value == ev.target.value)
 					const dt = {type:'text', key:'level', value:level.options.level}
 					const dt1 = {type:'text', key:'nodetype', value:ev.target.value}
 					const index = propArrayVal['data'].findIndex((item:any)=>item.key == 'level')
@@ -76,8 +77,15 @@ const changeVal = (ev:any)=>{
 						propArrayVal['data'][index1] = dt1
 					else
 						propArrayVal['data'].push(dt1)
+					if(level && level.options)
+						propArrayVal['image'] = level.options.image?level.options.image:''
+					if(level.options)
+						propArrayVal['bgColor'] = level.options.color?level.options.color:''
+
+					propArrayVal = propArrayVal;
+					console.log("CONTEXT MENU PROPARRAYVAL",level)
 					break
-				case 'label':
+				case 'input':
 					const dt2 =  {type:'text', key:'name', value:ev.target.value}
 					const index2 = propArrayVal['data'].findIndex((item:any)=>item.key == 'name')
 					if(index2 > -1)
@@ -88,7 +96,8 @@ const changeVal = (ev:any)=>{
 				default:
 					break
 			}
-		}
+			propArrayVal = propArrayVal
+		//}
 }
 
 const clearLoc = (event:any)=>{
@@ -159,6 +168,11 @@ const minimize = (event:any)=>{
 				{/if}
 			{/each}
 		</div>
+		<div class="list-item" style="display:flex;">
+			   <label for="nodeimage">IMAGE: </label>
+			   <img  style="border:solid 1px;width:20px;height:20px" src="{propArrayVal.image}" alt='NO'/>
+			
+	    </div>
 		<div class="context-menu-footer">
 			<input id="label" size="8" class="input-footer" value="zoom:{formattedZoom(zoom)}" type="text" min="0" />
 			<input id="label" size="5" class="input-footer" value="x:{x}" type="text" min="0" />

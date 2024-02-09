@@ -1,3 +1,4 @@
+// WEB COMPONENTS https://kinsta.com/blog/web-components/
 export { default as TopBar } from './TopBar.svelte';
 export { default as Logo } from './Logo.svelte';
 export { default as DropDownMenu } from './DropDownMenu.svelte';

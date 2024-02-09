@@ -903,7 +903,8 @@ export let getDefaultProperties = (typeOptions, options) => {
     let useDefaults
     let uid = ''
     let position = { x: svwidth / 2, y: svheight / 2 }
-    let nodetype = typeOptions[0] ? typeOptions[0].value:"COMPANY"
+    let nodetype = typeOptions[0] ? typeOptions[0].value : "COMPANY"
+    let image = null
     
 
     const nodePropsVals = {
@@ -925,7 +926,8 @@ export let getDefaultProperties = (typeOptions, options) => {
         position: position,
         nodetype: nodetype,
         data: loadData(datacomp),
-        graphtype:datacomp
+        graphtype: datacomp,
+        image: image
     };
     return nodePropsVals
 }
@@ -1174,6 +1176,8 @@ export const getParamsAddNode = (nodeParam, typeOptions) => {
             nodeParam['data'].push(dt1)
             if (typeopt.options.color)
                 nodeParam.bgColor = typeopt.options.color
+            if (typeopt.options.color)
+                nodeParam.bgColor = typeopt.options.color
             break
         case 'BAYES':
             //const ini = loadData(nodeParam.graphtype)
@@ -1211,9 +1215,10 @@ export const getParamsModNode = (nodePropsVals, typeOptions) => {
                 nodePropsVals['data'][index1] = dt1
             else
                 nodePropsVals['data'].push(dt1)
-            if (typeopt.options.color) { 
-                nodePropsVals.bgColor = typeopt.options.color
+            if (typeopt.options.image != null && typeopt.options.image != undefined) { 
+                nodePropsVals.image = typeopt.options.image
             }
+            console.log("NODEPROPSVALS ---> ", nodePropsVals)
             break
         case 'BAYES':
             if (nodePropsVals.nodetype == 'CONTINUOUS') {

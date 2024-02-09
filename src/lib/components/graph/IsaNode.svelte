@@ -24,7 +24,10 @@ export let distDefClicked = (ev:any)=>{console.log("DISTDEF CLICKED")}
 				<div style="font-weight:bold;">{node.label}</div>
 				<div>{node.nodetype}</div>
 			</div>
-			<div class="node-body-right-p">
+			<div class="node-body-right-p" >
+				{#if node.image}
+					<img src={node.image} style="object-fit: cover;" alt='NO' />	
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -76,12 +79,14 @@ export let distDefClicked = (ev:any)=>{console.log("DISTDEF CLICKED")}
   display:flexbox;
   justify-content:center;
   float: left;
-  padding: 10px;
-  height: 25px;
-  width: 25px;
+  padding:2px;
+  margin-left:10px;
+  width: 60px;
+  /*height: 50px;
+  width: 50px;
   border-radius: 50%;
   border-color: #222;
-  border: 1px solid;
+  border: 1px solid;*/
 }
 
 

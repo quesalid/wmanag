@@ -1,20 +1,31 @@
 <script lang='ts'>
 import { createMenu } from 'svelte-headlessui'
+import { navigate } from "svelte-routing";
 
 const menu = createMenu({ label: 'Menus' })
 
 function onSelect(e: Event) {
-	console.log('select', (e as CustomEvent).detail)
+	const clicked = (e as CustomEvent).detail
+	for(let i=0;i<groups.length;i++){
+		const group = groups[i]
+		const target = group.find((item:any)=>item.text === clicked.selected)
+		if(target){
+			navigate(target.link)
+			break
+		}
+	}
 }
 
 export let topbarheight = "95%"
+
+
 export let  groups = [
 		[
-			{ icon: null, text: `Monitor` },
-			{ icon: null, text: `Build` },
+			{ icon: null, text: `Monitor`,link:'/monitor' },
+			{ icon: null, text: `Build`,link:'/graphisa' },
 		], [
-			{ icon: null, text: `Configure` },
-			{ icon: null, text: `Deploy` }
+			{ icon: null, text: `Configure`,link:'/configure' },
+			{ icon: null, text: `Deploy`,link:'/deploy' }
 		]
 	]
 
@@ -61,7 +72,7 @@ const toggleNav = (ev:any)=> {
   overflow-x: hidden;
   padding-top: 60px;
    padding-top: 60px;
-  left: 0;
+  right:0;
   background-color: #fff;
   transition: 0.5s;
   padding-top: 60px;
@@ -70,7 +81,7 @@ const toggleNav = (ev:any)=> {
 .sidenav button {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
-  font-size: 22px;
+  font-size: 18px;
   color: #818181;
   transition: 0.3s;
 }

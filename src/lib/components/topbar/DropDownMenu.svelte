@@ -1,23 +1,34 @@
 <script lang="ts">
 	import { createMenu } from 'svelte-headlessui'
+	import { navigate } from "svelte-routing";
 	import Transition from 'svelte-transition'
 	
 	const menu = createMenu({ label: 'Actions' })
 
 	function onSelect(e: Event) {
+		const clicked = (e as CustomEvent).detail
 		console.log('select', (e as CustomEvent).detail)
+		for (let i = 0; i < groups.length; i++) {
+			const group = groups[i]
+			const target = group.find((item: any) => item.text === clicked.selected)
+			if (target) {
+				if(target.link)
+					navigate(target.link)
+				break
+			}
+		}
 	}
 
 	// prettier-ignore
 	export let  groups = [
 		[
-			{ icon: null, text: `Edit` },
-			{ icon: null, text: `Duplicate` },
+			{ icon: null, text: `Edit`,link:null },
+			{ icon: null, text: `Duplicate`,link:null  },
 		], [
-			{ icon: null, text: `Archive` },
-			{ icon: null, text: `Move` },
+			{ icon: null, text: `Archive`,link:null  },
+			{ icon: null, text: `Move`,link:null  },
 		], [
-			{ icon: null, text: `Delete` },
+			{ icon: null, text: `Delete` ,link:null },
 		],
 	]
 
@@ -32,13 +43,6 @@
 <div class="flex w-full flex-col items-center justify-center">
 	<div class="relative top-0 w-16 text-right">
 		<div class="relative inline-block text-left">
-			<!--button
-				use:menu.button
-				on:select={onSelect}
-				class="inline-flex w-full justify-center rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-			>
-				Options
-			</!--button-->
 			<div class="badge-count-top" data-count='0'>
 			<img alt='Options' src="{image}" on:select={onSelect}  use:menu.button
 			class="{imgclass}"
@@ -57,6 +61,7 @@
 				<div
 					use:menu.items
 					class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+
 				>
 					<div class="{messageclass}">{message}</div>
 					{#each groups as group}
@@ -65,7 +70,7 @@
 								{@const active = $menu.active === option.text}
 								<button
 									use:menu.item
-									class="group flex rounded-md items-center w-full px-2 py-2 text-sm {active ? 'bg-teal-600 text-white' : 'text-gray-900'}"
+									class="group flex rounded-md items-center w-full px-2 py-2 text-lg {active ? 'bg-teal-600 text-white' : 'text-gray-900'}"
 								>
 									<svelte:component this={option.icon} class="w-5 h-5 mr-2" {active} />
 									{option.text}
