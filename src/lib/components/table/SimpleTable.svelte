@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
-  import { addSortBy,addPagination } from 'svelte-headless-table/plugins';
+  import { addSortBy,addPagination,addTableFilter } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
   import CheckRender from './CheckRender.svelte'
   import SelectRender from './SelectRender.svelte'
@@ -129,12 +129,14 @@
  const table = createTable(data, {
     sort: addSortBy(),
 	page: addPagination(),
+	tableFilter: addTableFilter(),
   });
 
   const columns = table.createColumns(getColumns(datacolumns))
 
-  const { headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
+  const { visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
   const { sortKeys } = pluginStates.sort;
+  const { filterValue } = pluginStates.tableFilter;
   const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
 
   $pageSize = pSize
@@ -161,6 +163,11 @@
 					</tr>
 				</Subscribe>
 			{/each}
+			<tr>
+				<th class="th-input-search" colspan={$visibleColumns.length}>
+					<input class="input-search" type="text" bind:value={$filterValue} placeholder="Search rows..." />
+				</th>
+			</tr>
 		</thead>
 		<tbody {...$tableBodyAttrs}>
 			{#each $pageRows as row (row.id)}
@@ -181,23 +188,25 @@
 
 
 {#if showpag}
-<div class="pagination-div">
-	<div>
-	  <button
-		on:click={() => $pageIndex--}
-		disabled={!$hasPreviousPage}>&lt;</button
-	  >
-	  {$pageIndex + 1} out of {$pageCount}
-	  <button
-		on:click={() => $pageIndex++}
-		disabled={!$hasNextPage}>&gt;</button
-	  >
+	<div class="pagination-div">
+		<div>
+		  <button
+			on:click={() => $pageIndex--}
+			disabled={!$hasPreviousPage} style="font-weight:bold;font-size:15px;margin-left:2px;">🞀</button
+		  >
+		  {$pageIndex + 1} out of {$pageCount}
+		  <button
+			on:click={() => $pageIndex++}
+			disabled={!$hasNextPage} style="font-weight:bold;font-size:15px;">🞂</button
+		  >
+		</div>
+		{#if pagesize}
+		   <div>
+			<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
+			<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
+		   </div>
+		{/if}
 	</div>
-	{#if pagesize}
-		<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
-		<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
-	{/if}
-</div>
 {/if}
 
 
@@ -216,9 +225,19 @@
 		th{
 			background-color: #e9e9e9;
 		}
+		.th-input-search{
+			background-color: #fff;
+		}
+		.input-search{
+			width: 100%;
+		}
 	.pagination-div{
 		display:flex;
 		vertical-align: middle;
 		margin: 0.3rem;
+		border: 1px solid;
+	}
+	#page-size{
+		border: 1px solid;
 	}
 </style>

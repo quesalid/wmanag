@@ -1,6 +1,7 @@
 <script lang='ts'>
 import { createMenu } from 'svelte-headlessui'
 import { navigate } from "svelte-routing";
+import {navigation,getArrayFromPath} from '../../ustore.js'
 
 const menu = createMenu({ label: 'Menus' })
 
@@ -11,21 +12,26 @@ function onSelect(e: Event) {
 		const target = group.find((item:any)=>item.text === clicked.selected)
 		if(target){
 			navigate(target.link)
+			// UPDATE NAVIGATION
+			$navigation = getArrayFromPath(target.link)
+			console.log("SIDE NAVIGATION",$navigation)
 			break
 		}
 	}
 }
 
 export let topbarheight = "95%"
+export let module = "data"
 
 
 export let  groups = [
 		[
-			{ icon: null, text: `Monitor`,link:'/monitor' },
-			{ icon: null, text: `Build`,link:'/graphisa' },
+			{ icon: null, text: `Dashboard`,link:'/'+module },
+			{ icon: null, text: `Monitor`,link:'/'+module+'/monitor' },
+			{ icon: null, text: `Build`,link:'/'+module+'/build' },
 		], [
-			{ icon: null, text: `Configure`,link:'/configure' },
-			{ icon: null, text: `Deploy`,link:'/deploy' }
+			{ icon: null, text: `Configure`,link:'/'+module+'/configure' },
+			{ icon: null, text: `Deploy`,link:'/'+module+'/deploy' }
 		]
 	]
 

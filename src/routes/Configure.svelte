@@ -1,16 +1,21 @@
 <script lang="ts">
    import { navigate } from "svelte-routing";
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList,BreadCrumb} from "../lib/components/topbar"
-   import Donut from "../lib/components/donut/Donut.svelte"
-   import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
-   import {combolist} from '../lib/components/topbar/combolist'
-   import {getPlants} from '../lib/script/apidataconfig.js'
+   import { writable } from "svelte/store";
+
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
+   import { center } from '../lib/components/topbar/notifications';
+   import {getDevices} from '../lib/script/apidataconfig.js'
    import {token, mock, currentplant} from '../lib/ustore.js'
- 
+   import Wmanag from '../lib/components/WManag.svelte'
+   import {SimpleTable} from '../lib/components/table'
+   import {getImage,getDeviceColumns} from '../lib/script/utils.js'
+   import {dragElement} from '../lib/components/CompUtils.js'
+   
   
 
 
+   let devicesdata:any = writable([])
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -23,8 +28,9 @@
 			  'Successful login attempt by @jack'
 		])
 		const filters:any = []
-		const ret = await getPlants(filters,$mock)
-		combolist.init(ret.data)
+		const ret = await getDevices(filters,$mock)
+		$devicesdata = ret.data
+		console.log("DEVICES DATA",$devicesdata)
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
@@ -51,32 +57,6 @@
 	const avatarmessage = "p.pulicani@up2twin.com"
 	const avatarclass = "font-bold text-sm italic"
 
-	// DONUT
-	const donut1 = {
-		id:"donut1",
-		dbTitle: "AGENTS",
-		donutWidth: '300px',
-		donutHeight: '300px',
-		conicData: [
-			{color:'#A9DC62',start:0,end:45},
-			{color:'#FF6188',start:45,end:120},
-			{color:'#B9DCCC',start:120,end:360}
-		]
-	}
-
-	const donut2 = {
-		id:"donut2",
-		dbTitle: "PLANTS",
-		donutWidth: '150px',
-		donutHeight: '150px',
-		conicData: [
-			{color:'#A9DC62',start:0,end:67},
-			{color:'#FF6188',start:67,end:203},
-			{color:'#B9DCCC',start:203,end:360}
-		]
-	}
-
-	
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -84,25 +64,18 @@
 		navigate(`/`+module)
 	}
 
-	// on mouse move
-	let setCoords = (ev:any)=>{
-		var rect = ev.target.getBoundingClientRect();
-		var x = ev.clientX - rect.left- rect.width/2; //x position within the element.
-		var y = ev.clientY - rect.top - rect.height/2;  //y position within the element.
-		// GET MOUSE POSIZTION IN POLAR COORDINATES
-		const radius = Math.sqrt(x*x + y*y)
-		let angle = Math.atan2(y, x) * 180 / Math.PI +90
-		angle = angle < 0 ? angle + 360 : angle
-		//console.log("MOUSE ENTER",radius,angle)
-		if(radius < parseInt(donutWidth, 10)/2 && radius > parseInt(donutWidth, 10)/4){
-			ev.target.style.cursor = "pointer"
-			
-		}else{
-			ev.target.style.cursor = "default"
-		}
-	}
+	// TABLE VARIABLES
+	const titleagent = 'DEVICES'
+	let onClickAddDevice = (ev:any)=>{console.log("ONCLICK ADD CONTAINER")}
+	let toolbardevice = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
+	const disableClose = true
+	const draggable = true
+	let zindex = 4
+    let headercolor = bgcolor
+	let pagesize = true
+	let pSize = 3
 
-	
+	let devicedatacolumns = getDeviceColumns(module)
 
 </script>
 <div>
@@ -127,18 +100,19 @@
 			</TopBar>
 
 		</div>
-		<div class="pippo" style="--top:{barheigth}">
-			<Donut donut={donut1}/>
-			<Donut donut={donut2}/>
+		<div class="configurator-container" style="--top:{barheigth}">
+			<Wmanag id="containerWManager"  title="{titleagent}" toolbar={toolbardevice} {disableClose} {draggable} {headercolor} {zindex}>
+				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
+			</Wmanag>
 		</div>
 </div>
 
 <style>
-.pippo{
-	display:flex;
-	position:relative;
-	top: var(--top);
-}
+.configurator-container{
+		display:flex;
+		position:relative;
+		top: var(--top);
+	}
 
 </style>
 

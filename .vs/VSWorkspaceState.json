@@ -1,14 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\public",
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
     "\\src\\lib\\components\\topbar",
-    "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\topbar\\TopBar.svelte",
+  "SelectedNode": "\\src\\routes\\DashBoard.svelte",
   "PreviewInSolutionExplorer": false
 }

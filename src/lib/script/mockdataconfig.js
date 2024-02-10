@@ -16,7 +16,8 @@ let devices = [
         host: "SRV01-01",
         port: 3001,
         type: "VM",
-        os: "MICROSOFT",
+        os: "WIN-10",
+        osver:"22H2",
         userid: "amdin",
         password: "",
         hwdetails: {
@@ -40,6 +41,7 @@ let devices = [
         port: 3000,
         type: "HW",
         os: "RASPI",
+        osver: "DEBIAN12",
         userid: "",
         password: "admin",
         hwdetails: {
@@ -63,6 +65,7 @@ let devices = [
         port: 3000,
         type: "HW",
         os: "UBUNTU",
+        osver: "18.08",
         userid: "admin",
         password: "",
         hwdetails: {
@@ -85,7 +88,8 @@ let devices = [
         host: "DC-SRV-03",
         port: 3001,
         type: "VM",
-        os: "MICROSOFT",
+        os: "WIN-XP",
+        osver: "PRO-SP3",
         userid: "amdin",
         password: "",
         hwdetails: {

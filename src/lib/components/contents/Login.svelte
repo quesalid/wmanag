@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
   //import Modal  from "./modal/Modal.svelte"
    import { navigate } from "svelte-routing";
-   //import {token, cpreason,userid,role} from "$lib/ustore"
+   import {token,user,role,navigation,getArrayFromPath} from "../../ustore.js"
 
   let usrid = "";
   let password = "";
@@ -17,7 +17,7 @@
   export let type = "UP2DATA"
 
   export let image = 'ICO_UP2_DATA.png'
-  export let landingPage = '/data/visualization'
+  export let landingPage = '/data'
   export let scale = "100%"
 
   export let errors:any = {};
@@ -49,8 +49,12 @@
         .then((res:any) => {
           isSuccess = true;
           isLoading = false;
-          if(res.authenticated)
+          if(res.authenticated){
            navigate(landingPage)
+           // UPDATE navigation
+           $navigation = getArrayFromPath(landingPage)
+           console.log("LOGIN",$navigation)
+          }
             else{
               //$cpreason = "first login"
               navigate(`/data/admin/changepasswd`)

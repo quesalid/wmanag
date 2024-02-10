@@ -1,5 +1,6 @@
 <script lang="ts">
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList} from "../lib/components/topbar"
+   import { navigate } from "svelte-routing";
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {combolist} from '../lib/components/topbar/combolist'
@@ -15,6 +16,7 @@
 			DeleteGraph} from '../lib/components/graph'
 
     import { uploadFile} from '../lib/components/graph/GraphUtils.js'
+    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
 
 
 	onMount(async () => {
@@ -33,6 +35,11 @@
 		combolist.init(ret.data)
 	});
 
+	export let logoImage = "/ICO_UP2_DATA.png"
+	export let logout = "/datalogin"
+	export let  bgcolor = "#ddefde"
+	export let module = "data"
+
 	// BAR VARIABLES
 	const barheigth = "60px"
 	const imgheight = "60px"
@@ -43,15 +50,14 @@
 			{ icon: null, text: `Profile` },
 			{ icon: null, text: `Settings` },
 		], [
-			{ icon: null, text: `Logout` },
+			{ icon: null, text: `Logout`,link:logout },
 		]
 	]
 	
 	const avatarsize = "w-10"
-	const avatar = 'PPULICANI.png'
+	const avatar = '/PPULICANI.png'
 	const avatarmessage = "p.pulicani@up2twin.com"
 	const avatarclass = "font-bold text-sm italic"
-	const bgcolor = "#fff2e8"
 
 	// GRAPH VARIABLES
 	
@@ -176,6 +182,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		console.log("LOGO CLICKED",$currentplant)
+		navigate(`/`+module)
 	}
 
 </script>
@@ -183,20 +190,20 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
-					<Logo logofilename="ICO_UP2_DATA.png" imgheight={imgheight} onClick={onClickLogo}>
+					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
 				</div>
 				<div slot="centertop">
-					<ComboList data={$combolist}/>
+					<Breadcrumb/>
 				</div>
 				<div slot="righttop" class='flex'>
-				<SideMenu  topbarheight='{topbarheight}'/>
 				<AlertMessages/>
 				<DropDownMenu groups={avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
 						message={avatarmessage}
 						messageclass={avatarclass}>
 				</DropDownMenu>
+				<SideMenu  topbarheight='{topbarheight}'  module="{module}"/>
 				</div>
 			</TopBar>
 		</div>

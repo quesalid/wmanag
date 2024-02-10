@@ -1,6 +1,7 @@
 <script lang="ts">
    // ADD TOP BAR
-	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList} from "../lib/components/topbar"
+	import { navigate } from "svelte-routing";
+	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
 	import { center } from '../lib/components/topbar/notifications';
 	import {onMount} from "svelte"
 
@@ -29,6 +30,11 @@
 		])
 	});
 
+	export let logoImage = "/ICO_UP2_DATA.png"
+	export let logout = "/datalogin"
+	export let  bgcolor = "#ddefde"
+	export let module = "data"
+
 	// BAR VARIABLES
 	const barheigth = "60px"
 	const imgheight = "60px"
@@ -39,15 +45,14 @@
 			{ icon: null, text: `Profile` },
 			{ icon: null, text: `Settings` },
 		], [
-			{ icon: null, text: `Logout` },
+			{ icon: null, text: `Logout`,link:logout },
 		]
 	]
 	
 	const avatarsize = "w-10"
-	const avatar = 'PPULICANI.png'
+	const avatar = '/PPULICANI.png'
 	const avatarmessage = "p.pulicani@up2twin.com"
 	const avatarclass = "font-bold text-sm italic"
-	const bgcolor = "#fff2e8"
 
 	// GRAPH VARIABLES
     let defaultNodes: any[] = [];
@@ -160,26 +165,32 @@
 	//const options = {datacomp:'ISA'}
 	const options = {datacomp:'BAYES',svgtop:50,svgleft:0,svgwidth:1200,svgheight:550}
 
+	// click Logo
+	const onClickLogo = (ev:any)=>{
+		navigate(`/`+module)
+	}
+
+
 </script>
 
     <div>
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
-					<Logo logofilename="ICO_UP2_DATA.png" imgheight={imgheight}>
+					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
 				</div>
 				<div slot="centertop">
-					<ComboList />
+					<BreadCrumb />
 				</div>
 				<div slot="righttop" class='flex'>
-				<SideMenu  topbarheight='{topbarheight}'/>
 				<AlertMessages/>
 				<DropDownMenu groups={avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
 						message={avatarmessage}
 						messageclass={avatarclass}>
 				</DropDownMenu>
+				<SideMenu  topbarheight='{topbarheight}'  module="{module}"/>
 				</div>
 			</TopBar>
 		</div>

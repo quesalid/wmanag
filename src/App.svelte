@@ -15,12 +15,15 @@ import DOCKER from "./routes/DockerMain.svelte"
 import DEPLOY from "./routes/DeployMain.svelte"
 import ADMINDB from "./routes/AdminDB.svelte"
 import GRAPHBAYES from "./routes/GraphBayes.svelte"
-import GRAPHISA from "./routes/GraphIsa.svelte"
 import PORTALTEMPLATE from "./routes/PortalTemplate.svelte"
 import MAPMANAGER from "./routes/MapManager.svelte"
+// *******   ROUTES *********/
 import MAINPAGE from "./routes/MainPage.svelte"
-import Login from "./lib/components/contents/Login.svelte"
+import {Login} from "./lib/components/contents"
 import DashBoard from "./routes/DashBoard.svelte"
+import Configure from "./routes/Configure.svelte"
+import GraphIsa from "./routes/GraphIsa.svelte";
+import GraphBayes from "./routes/GraphBayes.svelte"
 
 export const url = "/deploy"
 
@@ -33,47 +36,69 @@ export const url = "/deploy"
 <Router>
   <div>
     <Route path="/" component={MAINPAGE}/>
+    <!--  L O G I N -->
     <Route path="/datalogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
 		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_DATA.png' landingPage='/data/dashboard'/>
+	  }} image = 'ICO_UP2_DATA.png' landingPage='/data'/>
     </Route>
     <Route path="/clonelogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
 		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_CLONE.png' landingPage='/clone/dashboard'/>
+	  }} image = 'ICO_UP2_CLONE.png' landingPage='/clone'/>
     </Route>
     <Route path="/ailogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
 		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_AI.png' landingPage='/ai/dashboard'/>
+	  }} image = 'ICO_UP2_AI.png' landingPage='/ai'/>
     </Route>
     <Route path="/learnlogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
 		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_LEARN.png' landingPage='/learn/dashboard'/>
+	  }} image = 'ICO_UP2_LEARN.png' landingPage='/learn'/>
     </Route>
-    <Route path="/data/dashboard">
-        <DashBoard logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+    <!-- D A S H B O A R D S -->
+    <Route path="/data">
+        <DashBoard logoImage="/ICO_UP2_DATA.png" logout="/datalogin" module="data"/>
     </Route>
-    <Route path="/clone/dashboard">
-        <DashBoard logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+    <Route path="/clone">
+        <DashBoard logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin" module="clone"/>
     </Route>
-    <Route path="/ai/dashboard">
-        <DashBoard logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+    <Route path="/ai">
+        <DashBoard logoImage="/ICO_UP2_AI.png" logout="/ailogin" module="ai"/>
     </Route>
-    <Route path="/learn/dashboard">
-        <DashBoard logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+    <Route path="/learn">
+        <DashBoard logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin" module="learn"/>
     </Route>
+    <!--  C O N F I G U R E   -->
+     <Route path="/data/configure">
+        <Configure logoImage="/ICO_UP2_DATA.png" logout="/datalogin" module="data"/>
+    </Route>
+    <Route path="/clone/configure">
+		    <Configure logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin" module="clone"/>
+    </Route>
+    <Route path="/ai/configure">
+		    <Configure logoImage="/ICO_UP2_AI.png" logout="/ailogin" module="ai"/>
+    </Route>
+    <Route path="/learn/configure">
+		    <Configure logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin" module="learn"/>
+    </Route>
+    <!-- B U I L D -->
+    <Route path="/data/build">
+        <GraphIsa logoImage="/ICO_UP2_DATA.png" logout="/datalogin" module="data"/>
+    </Route>
+    <Route path="/ai/build">
+        <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin" module="ai"/>
+    </Route>
+	
     <Route path="/docker" component={DOCKER}/>
     <Route path="/deploy" component={DEPLOY}/>
     <Route path="/admindb" component={ADMINDB}/>
     <Route path="/graphbayes" component={GRAPHBAYES}/>
-    <Route path="/graphisa" component={GRAPHISA}/>
     <Route path="/portaltemplate" component={PORTALTEMPLATE}/>
     <Route path="/mapmanager" component={MAPMANAGER}/>
   </div>

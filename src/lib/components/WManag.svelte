@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 
 import { onMount} from "svelte";
 import {dragElement} from './CompUtils.js'
@@ -49,12 +49,13 @@ const closeMenu = (ev:any)=>{
 
 const minimize = (event:any)=>{
 	let win = document.getElementById(id);
+	console.log("WIN ",win)
 	winHeight = win.style.height
 	if(winHeight == '')
-      winHeight ="25px"
+      winHeight ="30px"
 	else
 	  winHeight = ""
-
+	console.log("WIN HEIGHT",winHeight)
 	win.style.height = winHeight;
 }
 
@@ -62,49 +63,49 @@ const minimize = (event:any)=>{
 
 <div class="window-menu" id="{id}" style="--resize:{resize};--visibility:{visibility};--height:{height};--width:{width};--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
 	<header id="{id+'dragelement'}">
-    <div class="window-menu-header" id="{id+'dragzone'}" style="background-color: {headercolor};">
-		<span>{title}</span>
-		<div>
-			<input class="wmanag-button cursor-pointer text-lg" type="button" disabled={disableMinimize} value="-" on:click={minimize} />
-			<input class="wmanag-button" type="button" disabled={disableClose} value="X" on:click={closeMenu} />
+		<div class="window-menu-header" id="{id+'dragzone'}" style="background-color: {headercolor};">
+			<span style="padding:4px;font-weight:bold;color:#666;font-size:15px;">{title}</span>
+			<div style="margin:2px;">
+				<input class="wmanag-button cursor-pointer text-lg" type="button" disabled={disableMinimize} value="&horbar;" on:click={minimize} />
+				<input class="wmanag-button cursor-pointer text-lg" type="button" disabled={disableClose} value="&bigotimes;" on:click={closeMenu} />
+			</div>
 		</div>
-	</div>
-	 <div class="window-menu-toolbar">
-		{#each toolbar as Tool}
-		   {#if Tool.label}
-				<label id={Tool.props.id?"label-"+Tool.props.id:null} style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}">{Tool.label}</label>
-		   {/if}
-		   {#if Tool.type == 'button'}
-				<input class="wmanag-button" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
-			{/if}
-			{#if Tool.type == 'text'}
-				<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
-			{/if}
-			{#if Tool.type == 'password'}
-				<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
-			{/if}
-		   {#if Tool.type == 'image'}
-				<input class="wmanag-image" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
-			{/if}
-			{#if Tool.type == 'select'}
-				<select class="wmanag-select" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}>
-					<option value="" style="color:#afafaf"></option>
-					{#each Tool.props.options as Opt}
-						<option value={Opt.value}>{Opt.label}</option>
-					{/each}
-				</select>
+		 <div class="window-menu-toolbar">
+			{#each toolbar as Tool}
+			   {#if Tool.label}
+					<label id={Tool.props.id?"label-"+Tool.props.id:null} style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}">{Tool.label}</label>
+			   {/if}
+			   {#if Tool.type == 'button'}
+					<input class="wmanag-button" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+				{/if}
+				{#if Tool.type == 'text'}
+					<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+				{/if}
+				{#if Tool.type == 'password'}
+					<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+				{/if}
+			   {#if Tool.type == 'image'}
+					<input class="wmanag-image" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+				{/if}
+				{#if Tool.type == 'select'}
+					<select class="wmanag-select" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}>
+						<option value="" style="color:#afafaf"></option>
+						{#each Tool.props.options as Opt}
+							<option value={Opt.value}>{Opt.label}</option>
+						{/each}
+					</select>
 			
-			{/if}
-		{/each}
-	</div>
-	<div class="window-menu-body">
-		{#if $$slots.bodycontent}
-			<slot name="bodycontent" data={data} options={dragE}></slot>
-		{/if}
-		<div class="window-menu-footer">
-			<slot name="footercontent"></slot>
+				{/if}
+			{/each}
 		</div>
-	</div>
+		<div class="window-menu-body">
+			{#if $$slots.bodycontent}
+				<slot name="bodycontent" data={data} options={dragE}></slot>
+			{/if}
+			<div class="window-menu-footer">
+				<slot name="footercontent"></slot>
+			</div>
+		</div>
 	</header>
 </div>
 
@@ -169,6 +170,7 @@ const minimize = (event:any)=>{
 
 	.window-menu-toolbar .wmanag-button{
 		cursor: pointer;
+		font-size: 15px;
 	}
 	.window-menu-toolbar .wmanag-button:disabled{
 		opacity: 0.4;

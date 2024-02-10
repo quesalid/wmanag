@@ -4,3 +4,4 @@ export { default as DockerManag } from './DockerManag.svelte';
 export { default as FlipDiv } from './FlipDiv.svelte';
 export { default as FlipDivList } from './FlipDivList.svelte';
 export { default as WindowFooter } from './WindowFooter.svelte';
+export { default as Login } from './Login.svelte';
