@@ -1,50 +1,24 @@
-const deviceTypes = [
-    { value: 'VM', img: '/VMWARE.svg' },
-    { value: 'HW', img: '/HW.svg' },
-]
-const deviceOs = [
-    { value: 'UBUNTU', img: '/UBUNTU.svg' },
-    { value: 'RASPI', img: '/RASPBERRYPI.svg' },
-    { value: 'MICROSOFT', img: '/WINDOWS.svg' },
-]
-
-export function getImage(type, value) {
-    let image = ''
-    let found
-    switch (type) {
-        case 'devicetype':
-            found = deviceTypes.find((item) => (item.value == value))
-            if (found)
-                image = found.img
-            break
-        case 'deviceos':
-            found = deviceOs.find((item) => (item.value == value))
-            if (found)
-                image = found.img
-            break
-        default:
-            break
-    }
-    return image
-}
-
-export function getImageArray(type) {
-    // @ts-ignore
-    let array = []
-    switch (type) {
-        case 'devicetype':
-            array = deviceTypes
-            break
-        case 'deviceos':
-            array = deviceOs
-            break
-        default:
-            break
-    }
-    return array
-}
 
 const voidfunction = () => { return "" }
+const onClickEdit = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('DeviceInputDiv')
+    const editClicked = new CustomEvent("editclicked", { detail: uid })
+    modalEdit?.dispatchEvent(editClicked)
+    console.log("EDIT CLICKED", uid)
+}
+const onClickDelete = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    console.log("DELETE CLICKED", uid)
+}
+const onClickAgent = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    console.log("AGENT CLICKED", uid)
+}
 let devicedatacolumns = [
     {
         header: 'Name',
@@ -56,7 +30,7 @@ let devicedatacolumns = [
     },
     {
         header: 'Plant',
-        accessor: (item) => item.localization.plant,
+        accessor: 'plant',
     },
     {
         header: 'Type',
@@ -84,17 +58,17 @@ let devicedatacolumns = [
     {
         header: 'Agents',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/START.svg', uid: 'Id' } }
+        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onClickAgent } }
     },
     {
         header: 'Edit',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/EDIT.svg', uid: 'Id' } }
+        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onClickEdit} }
     },
     {
         header: 'Delete',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/DELETE.svg', uid: 'Id' } }
+        renderdef: { type: 'image', params: { image: '/DELETE.svg', onClick: onClickDelete } }
     }
 ];
 // @ts-ignore

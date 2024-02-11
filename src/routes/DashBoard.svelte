@@ -7,6 +7,8 @@
    import {combolist} from '../lib/components/topbar/combolist'
    import {getPlants} from '../lib/script/apidataconfig.js'
    import {token, mock, currentplant} from '../lib/ustore.js'
+   // FOR TESTING ONLY
+   import {DeviceForm} from '../lib/components/forms'
  
   
 
@@ -131,6 +133,7 @@
 			<Donut donut={donut1}/>
 			<Donut donut={donut2}/>
 		</div>
+		
 </div>
 
 <style>

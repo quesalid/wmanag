@@ -5,12 +5,14 @@
 
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import {getDevices} from '../lib/script/apidataconfig.js'
    import {token, mock, currentplant} from '../lib/ustore.js'
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
-   import {getImage,getDeviceColumns} from '../lib/script/utils.js'
+   import {getDeviceColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
+   import {DeviceForm} from '../lib/components/forms'
+   // API INTERFACE
+   import {getDevices,setDevice} from '../lib/script/apidataconfig.js'
    
   
 
@@ -27,7 +29,7 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
-		const filters:any = []
+		const filters:any = [{module:module.toUpperCase(),type:'eq'}]
 		const ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		console.log("DEVICES DATA",$devicesdata)
@@ -66,7 +68,12 @@
 
 	// TABLE VARIABLES
 	const titleagent = 'DEVICES'
-	let onClickAddDevice = (ev:any)=>{console.log("ONCLICK ADD CONTAINER")}
+	let onClickAddDevice = (ev:any)=>{
+		console.log("ONCLICK ADD CONTAINER")
+		const modalEdit = document.getElementById(modalId)
+		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
+		modalEdit?.dispatchEvent(addClicked)
+	}
 	let toolbardevice = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
 	const disableClose = true
 	const draggable = true
@@ -74,8 +81,23 @@
     let headercolor = bgcolor
 	let pagesize = true
 	let pSize = 3
-
 	let devicedatacolumns = getDeviceColumns(module)
+
+	// DIALOG VARIABLES
+	let dialog = DeviceForm
+	let modalId = "DeviceInputDiv"
+	let save = async (ev:any)=>{
+		const target = ev.target
+		const cdev = JSON.parse(target.dataset.cdev)
+		let ret = await setDevice(cdev,$mock)
+		const filters:any = []
+		ret = await getDevices(filters,$mock)
+		$devicesdata = ret.data
+		// CLOSE FORM DIALOG
+		const devInputDiv = document.getElementById(modalId)
+		if(devInputDiv)
+			devInputDiv.style.display= 'none'
+	}
 
 </script>
 <div>
@@ -104,6 +126,9 @@
 			<Wmanag id="containerWManager"  title="{titleagent}" toolbar={toolbardevice} {disableClose} {draggable} {headercolor} {zindex}>
 				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
+		</div>
+		<div id="build-tool-dialog">
+			<svelte:component this={dialog} bind:modalId={modalId} save={save} {bgcolor}/>
 		</div>
 </div>
 

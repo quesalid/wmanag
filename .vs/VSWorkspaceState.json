@@ -4,9 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\topbar",
+    "\\src\\lib\\components\\table",
+    "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\routes\\DashBoard.svelte",
+  "SelectedNode": "\\src\\lib\\script\\mockdataagent.js",
   "PreviewInSolutionExplorer": false
 }

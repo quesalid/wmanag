@@ -44,11 +44,7 @@
 	  switch(type){
 		  case 'image':
 			ret = ({row})=>{
-				const keys = Object.keys(row.original)
-				const key = keys.find((k)=>k==idtag)
-				const id = keys.find((k)=>k==uid)
-				if(id)
-					params.uid = row.original[id]
+				params.uid = row.original['uid']
 				return createRender(ImageRender,{...params})
 			}
 			break;
@@ -56,9 +52,7 @@
 			ret = ({row})=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
-				const id = keys.find((k)=>k==uid)
-				if(id)
-					params.uid = row.original[id]
+				params.uid = row.original['uid']
 				if(key)
 					params.value = row.original[key]
 				return createRender(CheckRender,{...params})
@@ -68,9 +62,7 @@
 			ret = ({row})=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
-				const id = keys.find((k)=>k==uid)
-				if(id)
-					params.uid = row.original[id]
+				params.uid = row.original['uid']
 				if(key)
 					params.type = row.original[key]
 				return createRender(SelectRender,{...params})
@@ -80,9 +72,7 @@
 			ret = (({row})=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
-				const id = keys.find((k)=>k==uid)
-				if(id)
-					params.uid = row.original[id]
+				params.uid = row.original['uid']
 				if(key)
 					params.value = row.original[key]
 				return createRender(TextRender,{...params})
@@ -92,9 +82,7 @@
 			ret = (({row,column})=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
-				const id = keys.find((k)=>k==uid)
-				if(id)
-					params.uid = row.id
+				params.uid = row.original['uid']
 				if(key){
 					params.value = row.original[key]
 					params.key = column.id
@@ -107,9 +95,7 @@
 			ret = ({row,column})=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
-				const id = keys.find((k)=>k==uid)
-				if(id)
-					params.uid = row.id
+				params.uid = row.original['uid']
 				if(key){
 					params.value = row.original[key]
 					params.key = column.id
