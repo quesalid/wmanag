@@ -12,6 +12,10 @@ const onClickEdit = (ev) => {
 const onClickDelete = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('DeleteInputDiv')
+    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
+    modalEdit?.dispatchEvent(deleteClicked)
     console.log("DELETE CLICKED", uid)
 }
 const onClickAgent = (ev) => {

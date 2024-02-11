@@ -10,9 +10,9 @@
    import {SimpleTable} from '../lib/components/table'
    import {getDeviceColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
-   import {DeviceForm} from '../lib/components/forms'
+   import {DeviceForm,DeleteForm} from '../lib/components/forms'
    // API INTERFACE
-   import {getDevices,setDevice} from '../lib/script/apidataconfig.js'
+   import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
    
   
 
@@ -70,7 +70,7 @@
 	const titleagent = 'DEVICES'
 	let onClickAddDevice = (ev:any)=>{
 		console.log("ONCLICK ADD CONTAINER")
-		const modalEdit = document.getElementById(modalId)
+		const modalEdit = document.getElementById(modalIdSave)
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
 		modalEdit?.dispatchEvent(addClicked)
 	}
@@ -84,20 +84,40 @@
 	let devicedatacolumns = getDeviceColumns(module)
 
 	// DIALOG VARIABLES
-	let dialog = DeviceForm
-	let modalId = "DeviceInputDiv"
+	let savedialog = DeviceForm
+	let deletedialog = DeleteForm
+	let modalIdSave = "DeviceInputDiv"
+	let modalIdDel = "DeleteInputDiv"
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
+		// SET DEVICE
 		let ret = await setDevice(cdev,$mock)
-		const filters:any = []
+		// GET UPDATED DEVICE LIST
+		const filters:any = [{module:module.toUpperCase(),type:'eq'}]
 		ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		// CLOSE FORM DIALOG
-		const devInputDiv = document.getElementById(modalId)
+		const devInputDiv = document.getElementById(modalIdSave)
 		if(devInputDiv)
 			devInputDiv.style.display= 'none'
 	}
+	let del = async (ev:any) =>{
+		const target = ev.target
+		const uid = target.dataset.uid
+		// DELETE DEVICE
+		let filters:any = [{uid:uid,type:'eq'}]
+		let ret = await deleteDevice(filters,$mock)
+		// GET UPDATED DEVICE LIST
+		filters = [{module:module.toUpperCase(),type:'eq'}]
+		ret = await getDevices(filters,$mock)
+		$devicesdata = ret.data
+		// CLOSE FORM DIALOG
+		const devInputDiv = document.getElementById(modalIdDel)
+		if(devInputDiv)
+			devInputDiv.style.display= 'none'
+	}
+	
 
 </script>
 <div>
@@ -127,8 +147,11 @@
 				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>
-		<div id="build-tool-dialog">
-			<svelte:component this={dialog} bind:modalId={modalId} save={save} {bgcolor}/>
+		<div id="save-device-dialog">
+			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
+		</div>
+		<div id="delete-device-dialog">
+			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
 		</div>
 </div>
 

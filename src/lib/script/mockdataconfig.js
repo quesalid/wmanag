@@ -75,7 +75,7 @@ let devices = [
         },
     },
     {
-        uid: 'abc-2-2',
+        uid: 'abc-2-3',
         name: 'DEV2-003',
         lastmodified: "2023-05-30T10:00:00",
         description: "PC Computer Line WY Plant Z",
