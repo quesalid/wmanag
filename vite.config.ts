@@ -21,7 +21,7 @@ let __dirname = path.dirname(fileURLToPath(import.meta.url));
 const config: UserConfig = {
 	plugins: [svelte()],
 	//optimizeDeps: { include: ["@carbon/charts", "svelte-pdf"], exclude: ['@carbon/telemetry'] },
-    build: {
+    /*build: {
         lib: {
             // Could also be a dictionary or array of multiple entry points
             entry: path.resolve(__dirname, 'src/index.js'),
@@ -29,7 +29,7 @@ const config: UserConfig = {
             // the proper extensions will be added
             fileName: 'wmanag',
         }
-    },
+    },*/
     css: {
         postcss
     },

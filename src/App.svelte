@@ -11,6 +11,7 @@
 
 import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
+
 import DOCKER from "./routes/DockerMain.svelte"
 import DEPLOY from "./routes/DeployMain.svelte"
 import ADMINDB from "./routes/AdminDB.svelte"
@@ -39,60 +40,56 @@ export const url = "/deploy"
     <!--  L O G I N -->
     <Route path="/datalogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
-		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_DATA.png' landingPage='/data'/>
+	  }} image = 'ICO_UP2_DATA.png' landingPage='/data' modulename="data"/>
     </Route>
     <Route path="/clonelogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
-		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_CLONE.png' landingPage='/clone'/>
+	  }} image = 'ICO_UP2_CLONE.png' landingPage='/clone'modulename="clone"/>
     </Route>
     <Route path="/ailogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
-		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_AI.png' landingPage='/ai'/>
+	  }} image = 'ICO_UP2_AI.png' landingPage='/ai'modulename="ai"/>
     </Route>
     <Route path="/learnlogin">
 	  <Login openModalButton="Login" extsubmit={async (data) => {
-		console.log(data)
 		return {authenticated:true}
-	  }} image = 'ICO_UP2_LEARN.png' landingPage='/learn'/>
+	  }} image = 'ICO_UP2_LEARN.png' landingPage='/learn'modulename="learn"/>
     </Route>
     <!-- D A S H B O A R D S -->
     <Route path="/data">
-        <DashBoard logoImage="/ICO_UP2_DATA.png" logout="/datalogin" module="data"/>
+        <DashBoard logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
     </Route>
     <Route path="/clone">
-        <DashBoard logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin" module="clone"/>
+        <DashBoard logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
     </Route>
     <Route path="/ai">
-        <DashBoard logoImage="/ICO_UP2_AI.png" logout="/ailogin" module="ai"/>
+        <DashBoard logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
     </Route>
     <Route path="/learn">
-        <DashBoard logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin" module="learn"/>
+        <DashBoard logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
     </Route>
     <!--  C O N F I G U R E   -->
      <Route path="/data/configure">
-        <Configure logoImage="/ICO_UP2_DATA.png" logout="/datalogin" module="data"/>
+        <Configure logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
     </Route>
     <Route path="/clone/configure">
-		    <Configure logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin" module="clone"/>
+		    <Configure logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
     </Route>
     <Route path="/ai/configure">
-		    <Configure logoImage="/ICO_UP2_AI.png" logout="/ailogin" module="ai"/>
+		    <Configure logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
     </Route>
     <Route path="/learn/configure">
-		    <Configure logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin" module="learn"/>
+		    <Configure logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
     </Route>
     <!-- B U I L D -->
     <Route path="/data/build">
-        <GraphIsa logoImage="/ICO_UP2_DATA.png" logout="/datalogin" module="data"/>
+        <GraphIsa logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
     </Route>
     <Route path="/ai/build">
-        <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin" module="ai"/>
+        <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
     </Route>
 	
     <Route path="/docker" component={DOCKER}/>

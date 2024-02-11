@@ -4,6 +4,7 @@
 	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
 	import { center } from '../lib/components/topbar/notifications';
 	import {onMount} from "svelte"
+	import {module} from '../lib/ustore.js'
 
 
    import { GraphEditor,
@@ -33,7 +34,7 @@
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
-	export let module = "data"
+	
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -167,7 +168,7 @@
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
-		navigate(`/`+module)
+		navigate(`/`+$module)
 	}
 
 
@@ -190,7 +191,7 @@
 						message={avatarmessage}
 						messageclass={avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'  module="{module}"/>
+				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>
 			</TopBar>
 		</div>

@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
   //import Modal  from "./modal/Modal.svelte"
    import { navigate } from "svelte-routing";
-   import {token,user,role,navigation,getArrayFromPath} from "../../ustore.js"
+   import {navigation,getArrayFromPath,module} from "../../ustore.js"
 
   let usrid = "";
   let password = "";
@@ -18,6 +18,7 @@
 
   export let image = 'ICO_UP2_DATA.png'
   export let landingPage = '/data'
+  export let modulename = 'data'
   export let scale = "100%"
 
   export let errors:any = {};
@@ -50,6 +51,7 @@
           isSuccess = true;
           isLoading = false;
           if(res.authenticated){
+           $module = modulename
            navigate(landingPage)
            // UPDATE navigation
            $navigation = getArrayFromPath(landingPage)

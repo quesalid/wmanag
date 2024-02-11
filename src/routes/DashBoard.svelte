@@ -6,9 +6,8 @@
    import {onMount} from "svelte"
    import {combolist} from '../lib/components/topbar/combolist'
    import {getPlants} from '../lib/script/apidataconfig.js'
-   import {token, mock, currentplant} from '../lib/ustore.js'
-   // FOR TESTING ONLY
-   import {DeviceForm} from '../lib/components/forms'
+   import {module, mock, currentplant} from '../lib/ustore.js'
+   
  
   
 
@@ -32,7 +31,6 @@
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
-	export let module = "data"
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -83,25 +81,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		console.log("LOGO CLICKED",$currentplant)
-		navigate(`/`+module)
-	}
-
-	// on mouse move
-	let setCoords = (ev:any)=>{
-		var rect = ev.target.getBoundingClientRect();
-		var x = ev.clientX - rect.left- rect.width/2; //x position within the element.
-		var y = ev.clientY - rect.top - rect.height/2;  //y position within the element.
-		// GET MOUSE POSIZTION IN POLAR COORDINATES
-		const radius = Math.sqrt(x*x + y*y)
-		let angle = Math.atan2(y, x) * 180 / Math.PI +90
-		angle = angle < 0 ? angle + 360 : angle
-		//console.log("MOUSE ENTER",radius,angle)
-		if(radius < parseInt(donutWidth, 10)/2 && radius > parseInt(donutWidth, 10)/4){
-			ev.target.style.cursor = "pointer"
-			
-		}else{
-			ev.target.style.cursor = "default"
-		}
+		navigate(`/`+$module)
 	}
 
 	
@@ -124,7 +104,7 @@
 						message={avatarmessage}
 						messageclass={avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}' module="{module}"/>
+				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>
 			</TopBar>
 

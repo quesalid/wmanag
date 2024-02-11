@@ -5,7 +5,7 @@
    import {onMount} from "svelte"
    import {combolist} from '../lib/components/topbar/combolist'
    import {getPlants} from '../lib/script/apidataconfig.js'
-   import {token, mock, currentplant} from '../lib/ustore.js'
+   import {module, mock, currentplant} from '../lib/ustore.js'
   
 
    import { GraphEditor,
@@ -38,7 +38,7 @@
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
-	export let module = "data"
+
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -182,7 +182,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		console.log("LOGO CLICKED",$currentplant)
-		navigate(`/`+module)
+		navigate(`/`+$module)
 	}
 
 </script>
@@ -203,7 +203,7 @@
 						message={avatarmessage}
 						messageclass={avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'  module="{module}"/>
+				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>
 			</TopBar>
 		</div>

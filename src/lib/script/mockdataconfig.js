@@ -468,59 +468,6 @@ let plants = [
     }
 ]
 
-// **************** UTILS ****************
-/*const filterArray = (array, filters, neg = false) => {
-    if (filters && filters.length) {
-        for (let i = 0; i < filters.length; i++) {
-            const filter = filters[i]
-            switch (filter.op) {
-                case "eq":
-                    if (!neg)
-                        array = array.filter((item) => { return item[filter.name] == filter.value })
-                    else
-                        array = array.filter((item) => { return item[filter.name] != filter.value })
-                    break;
-                case "neq":
-                    if (!neg)
-                        array = array.filter((item) => { return item[filter.name] != filter.value })
-                    else
-                        array = array.filter((item) => { return item[filter.name] == filter.value })
-                    break;
-                case "leq":
-                    if (!neg)
-                        array = array.filter((item) => { return item[filter.name] <= filter.value })
-                    else
-                        array = array.filter((item) => { return item[filter.name] > filter.value })
-                    break;
-                case "le":
-                    if (!neg)
-                        array = array.filter((item) => { return item[filter.name] < filter.value })
-                    else
-                        array = array.filter((item) => { return item[filter.name] >= filter.value })
-                    break;
-                case "geq":
-                    if (!neg)
-                        array = array.filter((item) => { return item[filter.name] >= filter.value })
-                    else
-                        array = array.filter((item) => { return item[filter.name] < filter.value })
-                    break;
-                case "gr":
-                    if (!neg)
-                        array = array.filter((item) => { return item[filter.name] > filter.value })
-                    else
-                        array = array.filter((item) => { return item[filter.name] <= filter.value })
-                    break;
-                case "in":
-                    if (!neg)
-                        array = array.filter((item) => { return item[filter.name].includes(filter.value) })
-                    else
-                        array = array.filter((item) => { return !item[filter.name].includes(filter.value) })
-                    break;
-            }
-        }
-    }
-    return array
-}*/
 
 // **************** CALLS ****************
 const getDevices = async function (body) {

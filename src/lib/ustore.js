@@ -7,6 +7,7 @@ export const user = writable("")
 export const token = writable("")
 export const currentplant = writable({ name: "PLANT-001" })
 export const navigation = writable([{}])
+export const module = writable("")
 
 export const getArrayFromPath = (path) => {
     const retArray = []

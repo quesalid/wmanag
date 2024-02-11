@@ -5,7 +5,7 @@
 
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import {token, mock, currentplant} from '../lib/ustore.js'
+   import { mock,module} from '../lib/ustore.js'
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
    import {getDeviceColumns} from '../lib/script/utils.js'
@@ -29,16 +29,23 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
-		const filters:any = [{module:module.toUpperCase(),type:'eq'}]
+		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
 		const ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
-		console.log("DEVICES DATA",$devicesdata)
+		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
+		const confMainDiv = document.getElementById("main-configuration-page")
+		if(confMainDiv){
+			confMainDiv.addEventListener("agentclicked",async (e:any)=>{
+				deviceuid = e.detail
+				// NAVIGATE TO AGENT PAGE
+				console.log("AGENT CLICKED ---> ",deviceuid)
+			})
+		}
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
-	export let module = "data"
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -58,12 +65,12 @@
 	const avatar = '/PPULICANI.png'
 	const avatarmessage = "p.pulicani@up2twin.com"
 	const avatarclass = "font-bold text-sm italic"
+	let deviceuid = ''
 
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
-		console.log("LOGO CLICKED",$currentplant)
-		navigate(`/`+module)
+		navigate(`/`+$module)
 	}
 
 	// TABLE VARIABLES
@@ -81,7 +88,7 @@
     let headercolor = bgcolor
 	let pagesize = true
 	let pSize = 3
-	let devicedatacolumns = getDeviceColumns(module)
+	let devicedatacolumns = getDeviceColumns($module)
 
 	// DIALOG VARIABLES
 	let savedialog = DeviceForm
@@ -91,11 +98,11 @@
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
-		cdev.module = module.toLocaleUpperCase()
+		cdev.module = $module.toLocaleUpperCase()
 		// SET DEVICE
 		let ret = await setDevice(cdev,$mock)
 		// GET UPDATED DEVICE LIST
-		const filters:any = [{module:module.toUpperCase(),type:'eq'}]
+		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
 		ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		// CLOSE FORM DIALOG
@@ -110,7 +117,7 @@
 		let filters:any = [{uid:uid,type:'eq'}]
 		let ret = await deleteDevice(filters,$mock)
 		// GET UPDATED DEVICE LIST
-		filters = [{module:module.toUpperCase(),type:'eq'}]
+		filters = [{module:$module.toUpperCase(),type:'eq'}]
 		ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		// CLOSE FORM DIALOG
@@ -121,7 +128,7 @@
 	
 
 </script>
-<div>
+ <div id="main-configuration-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
@@ -138,7 +145,7 @@
 						message={avatarmessage}
 						messageclass={avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}' module="{module}"/>
+				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>
 			</TopBar>
 

@@ -7,7 +7,6 @@ const onClickEdit = (ev) => {
     const modalEdit = document.getElementById('DeviceInputDiv')
     const editClicked = new CustomEvent("editclicked", { detail: uid })
     modalEdit?.dispatchEvent(editClicked)
-    console.log("EDIT CLICKED", uid)
 }
 const onClickDelete = (ev) => {
     const target = ev.target
@@ -16,12 +15,14 @@ const onClickDelete = (ev) => {
     const modalEdit = document.getElementById('DeleteInputDiv')
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)
-    console.log("DELETE CLICKED", uid)
 }
 const onClickAgent = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
-    console.log("AGENT CLICKED", uid)
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const configPage = document.getElementById('main-configuration-page')
+    const deleteClicked = new CustomEvent("agentclicked", { detail: uid })
+    configPage?.dispatchEvent(deleteClicked)
 }
 let devicedatacolumns = [
     {

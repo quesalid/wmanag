@@ -1,7 +1,7 @@
 <script lang='ts'>
 import { createMenu } from 'svelte-headlessui'
 import { navigate } from "svelte-routing";
-import {navigation,getArrayFromPath} from '../../ustore.js'
+import {navigation,getArrayFromPath,module} from '../../ustore.js'
 
 const menu = createMenu({ label: 'Menus' })
 
@@ -21,17 +21,17 @@ function onSelect(e: Event) {
 }
 
 export let topbarheight = "95%"
-export let module = "data"
+
 
 
 export let  groups = [
 		[
-			{ icon: null, text: `Dashboard`,link:'/'+module },
-			{ icon: null, text: `Monitor`,link:'/'+module+'/monitor' },
-			{ icon: null, text: `Build`,link:'/'+module+'/build' },
+			{ icon: null, text: `Dashboard`,link:'/'+$module },
+			{ icon: null, text: `Monitor`,link:'/'+$module+'/monitor' },
+			{ icon: null, text: `Build`,link:'/'+$module+'/build' },
 		], [
-			{ icon: null, text: `Configure`,link:'/'+module+'/configure' },
-			{ icon: null, text: `Deploy`,link:'/'+module+'/deploy' }
+			{ icon: null, text: `Configure`,link:'/'+$module+'/configure' },
+			{ icon: null, text: `Deploy`,link:'/'+$module+'/deploy' }
 		]
 	]
 
