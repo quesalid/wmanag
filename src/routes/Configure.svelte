@@ -91,6 +91,7 @@
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
+		cdev.module = module.toLocaleUpperCase()
 		// SET DEVICE
 		let ret = await setDevice(cdev,$mock)
 		// GET UPDATED DEVICE LIST
