@@ -179,6 +179,7 @@ let agents = [
         type: "SCANNER",
         description: "Scanner for AUT-01 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
+        module:'DATA',
         source: {
             name: "S7 driver plc AUT-01",
             timeout: 10,
@@ -219,6 +220,7 @@ let agents = [
         type: "SCANNER",
         description: "Scanner for PREP-21 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
         source: {
             name: "modbus driver plc PREP-21.",
             timeout: 10,
@@ -248,7 +250,7 @@ let agents = [
         },
         dbs: [{
             uid: 0,
-            name: "s7-1.csv"
+            name: "modbus-1.csv"
         }],
         devuid: 'abc-1',
         status: "STOP",
@@ -256,9 +258,10 @@ let agents = [
     {
         uid: 'ag-234-hst-1',
         name: "HIST1",
-        type: "HISTORIAN",
+        type: "HIST",
         description: "Historian from queue SCANNER1 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
         source: {
             name: "MQTT SCANNER1.",
             driver: "mqtt",
@@ -295,6 +298,7 @@ let agents = [
         type: "SCANNER",
         description: "Scanner for RMP-04 (bca-2)",
         lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
         source: {
             name: "ip/eth driver for RMP-04.",
             timeout: 10,
@@ -323,16 +327,17 @@ let agents = [
                 qos: 1
             }
         },
-        dbs: [{ uid: 0, name: "modbus.csv" }],
+        dbs: [{ uid: 0, name: "iptest.csv" }],
         status: "STOP",
         devuid: 'bca-2',
     },
     {
         uid: 'ag-234-hst-2',
         name: "HIST2",
-        type: "HISTORIAN",
+        type: "HIST",
         description: "Historian for queue SCANNER2 (bca-2)",
         lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
         source: {
             name: "MQTT SCANNER2.",
             driver: "mqtt",
@@ -372,6 +377,7 @@ let agents = [
         type: "SCANNER",
         description: "Scanner for INF-07 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
         source: {
             name: "s7 driver for INF-07",
             timeout: 10,
@@ -399,16 +405,17 @@ let agents = [
                 qos: 1
             }
         },
-        dbs: [{ uid: 0, name: "modbus1.csv" }],
+        dbs: [{ uid: 0, name: "s7-02.csv" }],
         status: "STOP",
         devuid: 'abc-1',
     },
     {
         uid: 'ag-234-hst-3',
         name: "HIST3",
-        type: "HISTORIAN",
+        type: "HIST",
         description: "Historian from queue SCANNER3 (abc-1)",
         lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
         source: {
             name: "MQTT SCANNER3.",
             driver: "mqtt",
@@ -442,7 +449,34 @@ let agents = [
         status: "STOP",
         devuid: 'abc-1',
     },
-
+    {
+        uid: 'mdl-bys-001',
+        name: "BAYES01",
+        type: "BAYES",
+        description: "DECORTIN Pahse 1 Model",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'AI',
+        model: {
+            name: "DEC-PHASE1",
+            path: "/models/bayes/DECPAHSE1.json"
+        },
+        status: "STOP",
+        devuid: 'psvm-289-sqox6',
+    },
+    {
+        uid: 'rec-prc-001',
+        name: "REC-DEC-01",
+        type: "RECORDER",
+        description: "DECORTIN Pahse 1 Recorder",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'CLONE',
+        model: {
+            name: "DEC-PHASE1-REC",
+            path: "/models/recorders/DECPAHSE1.json"
+        },
+        status: "STOP",
+        devuid: 'kvz-1',
+    }
 ]
 
 let plants = [

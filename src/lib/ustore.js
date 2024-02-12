@@ -1,14 +1,21 @@
 import { writable } from 'svelte/store';
 
 // MOCK FLAG FOR DEVELOPMENT
-export const mock = writable(true)
-export const role = writable("")
-export const user = writable("")
-export const token = writable("")
-export const currentplant = writable({ name: "PLANT-001" })
-export const navigation = writable([{}])
-export const module = writable("")
+export const mock = writable(true) // MOCK DATA IF TRUE
+export const role = writable("")  // LOGGED USER ROLE
+export const user = writable("")  // LOGGED USER
+export const token = writable("") // SESSION LOGIN TOKEN
+export const currentplant = writable({ name: "PLANT-001" }) // CURRENT PLANT
+export const navigation = writable([{}]) // TOKENIZED NAVIGATION ARRAY OF OBJECT
+export const module = writable("") // CUERRENT MODULR
+export const currdevice = writable("") // CURRENT DEVICE
 
+/**
+ * getArrayFromPath
+ * @description build tokenized navigation array of objects from path
+ * @param {any} path path
+ * @returns array of navigation tokens [{href:link,name:section name,last: true if last section}]
+ */
 export const getArrayFromPath = (path) => {
     const retArray = []
     const split = path.split('/')

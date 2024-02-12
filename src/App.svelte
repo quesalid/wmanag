@@ -23,6 +23,7 @@ import MAINPAGE from "./routes/MainPage.svelte"
 import {Login} from "./lib/components/contents"
 import DashBoard from "./routes/DashBoard.svelte"
 import Configure from "./routes/Configure.svelte"
+import ConfigureAgent from "./routes/ConfigureAgent.svelte"
 import GraphIsa from "./routes/GraphIsa.svelte";
 import GraphBayes from "./routes/GraphBayes.svelte"
 
@@ -83,6 +84,19 @@ export const url = "/deploy"
     </Route>
     <Route path="/learn/configure">
 		    <Configure logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+    </Route>
+    <!-- C O N F I G U R E     A G E N T-->
+    <Route path="/data/configure/agent">
+        <ConfigureAgent logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+    </Route>
+    <Route path="/clone/configure/agent">
+		    <ConfigureAgent logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+    </Route>
+    <Route path="/ai/configure/agent">
+		    <ConfigureAgent logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+    </Route>
+    <Route path="/learn/configure/agent">
+		    <ConfigureAgent logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
     </Route>
     <!-- B U I L D -->
     <Route path="/data/build">

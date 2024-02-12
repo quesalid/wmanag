@@ -8,18 +8,18 @@
    import { center } from '../lib/components/topbar/notifications';
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
-   import {getDeviceColumns} from '../lib/script/utils.js'
+   import {getAgentColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
-   import {DeviceForm,DeleteForm} from '../lib/components/forms'
+   import {AgentForm,DeleteForm} from '../lib/components/forms'
    // API INTERFACE
-   import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
+   import {getAgents,setDevice,deleteDevice,getDevices} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,navigation,getArrayFromPath,currdevice} from '../lib/ustore.js'
-   
+   import { mock,module,currdevice} from '../lib/ustore.js'
   
 
 
-   let devicesdata:any = writable([])
+   let agentsdata:any = writable([])
+   let device:any = {name:''}
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -31,20 +31,28 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
-		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
-		const ret = await getDevices(filters,$mock)
-		$devicesdata = ret.data
+		// GET AGENT INFO
+		let filters:any = [{uid:$currdevice,type:'eq'}]
+		const devices = await getDevices(filters,$mock)
+		device = devices.data[0]
+		console.log("D E V I C E ",device)
+		titleagent = 'AGENTS for DEVICE '+device.name
+		// GET AGENTS FOR DEVICE
+		filters = [{module:$module.toUpperCase(),type:'eq'},{devuid:$currdevice,type:'eq'}]
+		const ret = await getAgents(filters,$mock)
+		$agentsdata = ret.data
 		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
-		const confMainDiv = document.getElementById("main-configuration-page")
+		const confMainDiv = document.getElementById("main-configuration-agent-page")
 		if(confMainDiv){
 			confMainDiv.addEventListener("agentclicked",async (e:any)=>{
-				// SET CURRENT DEVICE IN STORE
 				deviceuid = e.detail
-				$currdevice = deviceuid
 				// NAVIGATE TO AGENT PAGE
 				console.log("AGENT CLICKED ---> ",deviceuid)
-				navigate("/"+$module+"/configure/agent")
-				$navigation = getArrayFromPath("/"+$module+"/configure/agent")
+			})
+			confMainDiv.addEventListener("modelclicked",async (e:any)=>{
+				deviceuid = e.detail
+				// NAVIGATE TO AGENT PAGE
+				console.log("MODEL CLICKED ---> ",deviceuid)
 			})
 		}
 	});
@@ -80,26 +88,26 @@
 	}
 
 	// TABLE VARIABLES
-	const titleagent = 'DEVICES'
+	let titleagent = 'AGENTS for DEVICE '+device.name
 	let onClickAddDevice = (ev:any)=>{
 		console.log("ONCLICK ADD CONTAINER")
 		const modalEdit = document.getElementById(modalIdSave)
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
 		modalEdit?.dispatchEvent(addClicked)
 	}
-	let toolbardevice = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
+	let toolbaragent = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
 	const disableClose = true
 	const draggable = true
 	let zindex = 4
     let headercolor = bgcolor
 	let pagesize = true
 	let pSize = 3
-	let devicedatacolumns = getDeviceColumns($module)
+	let agentdatacolumns = getAgentColumns($module)
 
 	// DIALOG VARIABLES
-	let savedialog = DeviceForm
+	let savedialog = AgentForm
 	let deletedialog = DeleteForm
-	let modalIdSave = "DeviceInputDiv"
+	let modalIdSave = "AgentInputDiv"
 	let modalIdDel = "DeleteInputDiv"
 	let save = async (ev:any)=>{
 		const target = ev.target
@@ -109,8 +117,8 @@
 		let ret = await setDevice(cdev,$mock)
 		// GET UPDATED DEVICE LIST
 		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
-		ret = await getDevices(filters,$mock)
-		$devicesdata = ret.data
+		ret = await getAgents(filters,$mock)
+		$agentsdata = ret.data
 		// CLOSE FORM DIALOG
 		const devInputDiv = document.getElementById(modalIdSave)
 		if(devInputDiv)
@@ -124,8 +132,8 @@
 		let ret = await deleteDevice(filters,$mock)
 		// GET UPDATED DEVICE LIST
 		filters = [{module:$module.toUpperCase(),type:'eq'}]
-		ret = await getDevices(filters,$mock)
-		$devicesdata = ret.data
+		ret = await getAgents(filters,$mock)
+		$agentsdata = ret.data
 		// CLOSE FORM DIALOG
 		const devInputDiv = document.getElementById(modalIdDel)
 		if(devInputDiv)
@@ -134,7 +142,7 @@
 	
 
 </script>
- <div id="main-configuration-page">
+ <div id="main-configuration-agent-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
@@ -157,15 +165,15 @@
 
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  title="{titleagent}" toolbar={toolbardevice} {disableClose} {draggable} {headercolor} {zindex}>
-				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
+			<Wmanag id="containerWManager"  title="{titleagent}" toolbar={toolbaragent} {disableClose} {draggable} {headercolor} {zindex}>
+				<SimpleTable slot="bodycontent" data={agentsdata} datacolumns={agentdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>
 		<div id="save-device-dialog">
 			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
 		</div>
 		<div id="delete-device-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
+			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} mod={$module}/>
 		</div>
 </div>
 

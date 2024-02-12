@@ -1,6 +1,11 @@
 ﻿<script lang="ts">
+// EXTERNAL
 import {onMount} from "svelte"
+// INTRNAL
+import {getDeviceTemplate} from '../../script/utils.js'
+// API
 import {getDevices} from '../../script/apidataconfig.js'
+// STORE
 import {token, mock, currentplant} from '../../ustore.js'
 
 onMount(async () => {
@@ -44,25 +49,7 @@ export let save = (ev:any)=>{
 	console.log("SAVE DEVICE: ",uid)
 }
 
-let newdevice = {
-	name:'',
-	description:'',
-	plant:'',
-	localization:{department:0,line:0},
-	type:'',
-	host:'',
-	port:'',
-	os:'',
-	osver:'',
-	userid:'',
-	password:'',
-	hwdetails:{
-		brand:'',
-		mac:'',
-		model:'',
-		serial:''
-	}
-}
+let newdevice = getDeviceTemplate()
 let device = newdevice
 let title = "DEVICE"
 let uid = ''
@@ -74,7 +61,7 @@ let uid = ''
 			<h3>{title}</h3>
 		</section>
 		<fieldset>
-			<legend>identification and localization</legend>
+			<legend>IDENTIFICATION</legend>
 			<label for="device-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="device-name" name="name" bind:value={device.name}>
 			<label for="device-plant">Plant<span class="req">*</span>:</label>
@@ -96,7 +83,7 @@ let uid = ''
 			<input type="text" id="device-description" name="description" bind:value={device.description}>
 		</fieldset>
 		<fieldset>
-			<legend>network and environment</legend>
+			<legend>NETWORK and ENVIRONMENT</legend>
 			<label for="device-host">Host/IP<span class="req">*</span>:</label>
 			<input type="text" id="device-host" name="host" bind:value={device.host}>
 			<label for="device-port">Port:</label>
@@ -117,14 +104,14 @@ let uid = ''
 			<input type="text" id="device-osver" name="osver" bind:value={device.osver}>
 		</fieldset>
 		<fieldset>
-			<legend>security</legend>
+			<legend>SECURITY</legend>
 			<label for="device-userid">Userid:</label>
 			<input type="text" id="device-userid" name="userid" bind:value={device.userid}>
 			<label for="device-password">Password:</label>
 			<input type="password" id="device-password" name="password" bind:value={device.password}>
 		</fieldset>
 		<fieldset>
-			<legend>details</legend>
+			<legend>DETAILS</legend>
 			<label for="device-mac">MAC:</label>
 			<input type="text" id="device-mac" name="mac" bind:value={device.hwdetails.mac}>
 			<label for="device-brand">Brand:</label>
