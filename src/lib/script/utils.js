@@ -24,6 +24,30 @@ const onDeviceClickAgent = (ev) => {
     const agentClicked = new CustomEvent("agentclicked", { detail: uid })
     configPage?.dispatchEvent(agentClicked)
 }
+const onDeviceClickDeploy = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MAIN DEPLOY
+    const configPage = document.getElementById('main-deploy-page')
+    const agentClicked = new CustomEvent("deployclicked", { detail: uid })
+    configPage?.dispatchEvent(agentClicked)
+}
+const onDeviceClickDocker = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MAIN DEPLOY
+    const configPage = document.getElementById('main-deploy-page')
+    const agentClicked = new CustomEvent("dockerclicked", { detail: uid })
+    configPage?.dispatchEvent(agentClicked)
+}
+const onDeviceClickSsh = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MAIN DEPLOY
+    const configPage = document.getElementById('main-deploy-page')
+    const agentClicked = new CustomEvent("sshclicked", { detail: uid })
+    configPage?.dispatchEvent(agentClicked)
+}
 // CLICK AGENT FUNCTION DEPEND ON MODULE
 const onAgentClickDevice = (ev) => {
     /*const target = ev.target
@@ -261,6 +285,61 @@ export function getAgentColumns(module) {
     }
 }
 
+let devicedeploycolumns = [
+    {
+        header: 'Name',
+        accessor: 'name',
+    },
+    {
+        header: 'Description',
+        accessor: 'description',
+    },
+    {
+        header: 'Plant',
+        accessor: 'plant',
+    },
+    {
+        header: 'Type',
+        accessor: 'type'
+    },
+    {
+        header: 'Host/IP',
+        accessor: 'host',
+    },
+    {
+        header: 'Port',
+        accessor: 'port',
+    },
+    {
+        header: 'Deploy',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/DEPLOY.svg', onClick: onDeviceClickDeploy, name:'deploy' } }
+    },
+    {
+        header: 'Docker',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/DOCKER.svg', onClick: onDeviceClickDocker,name:'docker' } }
+    },
+    {
+        header: 'SSH',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/SSH.svg', onClick: onDeviceClickSsh, name:'ssh'} }
+    }
+];
+
+export function getDeviceDeployColumns(module) {
+    switch (module) {
+        case 'data':
+        case 'clone':
+        case 'ai':
+            return (devicedeploycolumns)
+            break;
+        case 'learn':
+            break;
+        default:
+            return ([])
+    }
+}
 // DEVICE TEMPLATE
 let deviceTemplate = {
     name: '',

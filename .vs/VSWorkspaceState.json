@@ -3,9 +3,11 @@
     "",
     "\\src",
     "\\src\\lib",
+    "\\src\\lib\\components",
     "\\src\\lib\\components\\topbar",
-    "\\src\\lib\\script"
+    "\\src\\lib\\script",
+    "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\App.svelte",
+  "SelectedNode": "\\src\\lib\\script\\mockdataconfig.js",
   "PreviewInSolutionExplorer": false
 }

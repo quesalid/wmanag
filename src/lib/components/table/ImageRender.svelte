@@ -2,7 +2,7 @@
 
 export let image = "/BUDDY.png"
 export let style  = "enabled;"
-export let onClick = null
+export let onClick:any = null
 export let name = 'img-generic'
 export let uid = ''
 export let height = "25"
@@ -20,6 +20,7 @@ export let classname = "image-tool-component"
 	opacity: 0.8;
 	text-align: center;
 }
+
 
 
 </style>

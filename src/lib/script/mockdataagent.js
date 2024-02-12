@@ -149,6 +149,8 @@ const agentGetInfo = async function (body) {
     body.data = infos
     body.result = true
     body.error = null
+    if (body.options.url.includes('10.112.1.71'))
+        throw("CONNECTION_REFUSED")
     return (body)
 }
 
