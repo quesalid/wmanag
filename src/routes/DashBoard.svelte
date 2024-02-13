@@ -11,7 +11,7 @@
  
   
 
-
+    let donutListener:any
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -26,6 +26,17 @@
 		const filters:any = []
 		const ret = await getPlants(filters,$mock)
 		combolist.init(ret.data)
+		const dashboardDiv = document.getElementById("dashboard-container-id")
+		// REMOVE EVENT LISTENER IF EXISTS
+		if(donutListener && dashboardDiv)
+			dashboardDiv.removeEventListener("donutclicked",donutListener)
+		// ADD EVENT LISTENER FOR DONUTS
+		if(dashboardDiv){
+			donutListener = dashboardDiv.addEventListener("donutclicked",async (e:any)=>{
+			   console.log("DONUT CLICKED",e.detail)	
+
+			})
+		}
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
@@ -57,22 +68,49 @@
 		dbTitle: "AGENTS",
 		donutWidth: '300px',
 		donutHeight: '300px',
+		pageId:"dashboard-container-id",
 		conicData: [
-			{color:'#A9DC62',start:0,end:45},
-			{color:'#FF6188',start:45,end:120},
-			{color:'#B9DCCC',start:120,end:360}
+			{color:'#888',bgcolor:'#A9DC62',start:0,end:45,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR0'},
+			{color:'#888',bgcolor:'#FF6188',start:45,end:120,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR10'},
+			{color:'#888',bgcolor:'#B9DCCC',start:120,end:360,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR13'}
 		]
 	}
 
 	const donut2 = {
 		id:"donut2",
 		dbTitle: "PLANTS",
-		donutWidth: '150px',
-		donutHeight: '150px',
+		donutWidth: '300px',
+		donutHeight: '300px',
+		pageId:"dashboard-container-id",
 		conicData: [
-			{color:'#A9DC62',start:0,end:67},
-			{color:'#FF6188',start:67,end:203},
-			{color:'#B9DCCC',start:203,end:360}
+			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='MACHINE.svg' alt='PIPPO'/>",sectorid:'MACHINE'},
+			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='CONTROLLER.svg' alt='PIPPO'/>",sectorid:'CONTROLLER'},
+			{color:'#888',bgcolor:'#B9DCCC',start:203,end:360,label:"<img src='FACTORY.svg' alt='PIPPO'/>",sectorid:'FACTORY'}
+		]
+	}
+
+	const donut3 = {
+		id:"donut3",
+		dbTitle: "MODELS",
+		donutWidth: '300px',
+		donutHeight: '300px',
+		pageId:"dashboard-container-id",
+		conicData: [
+			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='NEURALNETWORK.svg' alt='PIPPO'/>",sectorid:'NN'},
+			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='BAYESGRAPH.svg' alt='PIPPO'/>",sectorid:'BAYES'},
+			{color:'#888',bgcolor:'#B9DCCC',start:203,end:360,label:"<img src='SYSDYN.svg' alt='PIPPO'/>",sectorid:'SYSDYN'}
+		]
+	}
+
+	const donut4 = {
+		id:"donut4",
+		dbTitle: "RECORDERS",
+		donutWidth: '300px',
+		donutHeight: '300px',
+		pageId:"dashboard-container-id",
+		conicData: [
+			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='RECORDER.svg' alt='PIPPO'/>",sectorid:'RECORDER'},
+			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='PLAYER.svg' alt='PIPPO'/>",sectorid:'PLAYER'},
 		]
 	}
 
@@ -84,7 +122,21 @@
 		navigate(`/`+$module)
 	}
 
-	
+	const getDonutByType = ()=>{
+		switch($module.toUpperCase()){
+			case 'DATA':
+			    return(donut2)
+				break;
+			case 'CLONE':
+				return(donut4)
+			case 'LEARN':
+				return(donut4)
+				break;
+			case 'AI':
+				return(donut3)
+				break
+		}
+	}
 
 </script>
 <div>
@@ -109,15 +161,15 @@
 			</TopBar>
 
 		</div>
-		<div class="pippo" style="--top:{barheigth}">
+		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
 			<Donut donut={donut1}/>
-			<Donut donut={donut2}/>
+			<Donut donut={getDonutByType()}/>
 		</div>
 		
 </div>
 
 <style>
-.pippo{
+.dashboard-container{
 	display:flex;
 	position:relative;
 	top: var(--top);

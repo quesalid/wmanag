@@ -27,11 +27,15 @@ import { sleep } from "../../script/api";
 // USTORE
 import {token, mock, currdevice,module} from '../../ustore.js'
 
+let eventListener:any 
 onMount(async () => {
 
-    const confMainDiv = document.getElementById("deploy-main-container")
+		const confMainDiv = document.getElementById("deploy-main-container")
+		// REMOVE EVENT LISTENER IF EXISTS
+		if(eventListener && confMainDiv)
+			confMainDiv.removeEventListener("deployclicked",eventListener)
 		if(confMainDiv){
-			confMainDiv.addEventListener("deployclicked",async (e:any)=>{
+			eventListener = confMainDiv.addEventListener("deployclicked",async (e:any)=>{
 				confagents = []
 				edgeagents = []
 				flattenagents = []

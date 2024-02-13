@@ -10,7 +10,12 @@ onMount(async () => {
 	const polar:any = computeIntDivPositions(donut);
 	// add div at polar positions
 	const donutElement = document.getElementById(donut.id)
+	
 	if(donutElement){
+		// DELETE ALL CHILDS IF EXISTS
+		while (donutElement.firstChild) {
+			donutElement.removeChild(parent.donutElement);
+		}
 		polar.forEach((el:any)=>{
 			let i=0
 			const intWidth = parseInt(donut.donutWidth, 10)*intdivWidthRation
@@ -21,20 +26,27 @@ onMount(async () => {
 			div.style.position = "absolute"
 			div.style.width = intWidth +"px"
 			div.style.height = intWidth +"px"
-			div.style.backgroundColor = el.color
+			div.style.backgroundColor = el.bgcolor
+			div.style.color = el.color
 			div.style.left = (el.x1-intWidth/2) + "px"
 			div.style.top = (el.y1-intWidth/2) + "px"
 			div.style.border = "1px solid #888"
 			div.style.borderRadius = "50%"
 			// set font size proportional to div size
 			div.style.fontSize = intWidth/2+"px"
-			const rndInt = Math.floor(Math.random() * 6) + 1
-			div.innerText = rndInt+""
+			div.innerHTML = el.label
 			div.addEventListener("mouseover",()=>{
 				div.style.cursor = "pointer"
 			})
 			div.addEventListener("mouseleave",()=>{
 				div.style.cursor = "default"
+			})
+			div.addEventListener("click",(ev:any)=>{
+				// EMIT CUSTOM EVENT
+				const pageDiv = document.getElementById(el.pageId)
+				const donutClicked = new CustomEvent("donutclicked", { detail: el.id})
+				if(pageDiv)
+					pageDiv?.dispatchEvent(donutClicked)
 			})
 			donutElement.appendChild(div)
 			if(addNumbers){
@@ -47,7 +59,7 @@ onMount(async () => {
 				divNum.style.width = intWidthNum +"px"
 				divNum.style.height = intWidthNum +"px"
 				divNum.style.color = "#444"
-				divNum.style.backgroundColor = pSBC ( 0, el.color)
+				divNum.style.backgroundColor = pSBC ( 0, el.bgcolor)
 				divNum.style.left = (el.x2-intWidthNum/2) + "px"
 				divNum.style.top = (el.y2-intWidthNum/2) + "px"
 				//divNum.style.border = "1px solid #888"
@@ -61,6 +73,14 @@ onMount(async () => {
 	}
 })
 
+/**
+ * Background color modifier
+ * https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+ * @param p
+ * @param c0
+ * @param c1
+ * @param l
+ */
 const pSBC:any=(p:any,c0:any,c1:any,l:any)=>{
 	let r,g,b,P,f,t,h,m=Math.round,a:any=typeof(c1)=="string";
 	if(typeof(p)!="number"||p<-1||p>1||typeof(c0)!="string"||(c0[0]!='r'&&c0[0]!='#')||(c1&&!a))return null;
@@ -91,12 +111,12 @@ pSBC.pSBCr=(d:any)=>{
 };
 
 export let donut:any
-export let addNumbers :boolean = true
+export let addNumbers :boolean = false
 
 const getConicGradient = (data:any)=>{
 		let ret = ''
 		data.forEach((el:any)=>{
-			ret += `${el.color} ${el.start}deg ${el.end}deg,`
+			ret += `${el.bgcolor} ${el.start}deg ${el.end}deg,`
 		})
 		return ret.slice(0,-1)
 	}
@@ -115,8 +135,12 @@ const computeIntDivPositions = (donut:any) =>{
 			let y1 = rect.height/2 + rect.height*13/32 * Math.sin(start)
 			let x2 = rect.width/2 + rect.width*15/32 * Math.cos(start1)
 			let y2 = rect.height/2 + rect.height*15/32 * Math.sin(start1)
+			let bgcolor = el.bgcolor
+			let label = el.label
 			let color = el.color
-			return {x1,y1,x2,y2,color}
+			let pageId = donut.pageId
+			let id = el.sectorid
+			return {x1,y1,x2,y2,bgcolor,label,color,pageId,id}
 		})
 		console.log("POLAR DATA",polarData)
 		return polarData

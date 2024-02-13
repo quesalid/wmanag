@@ -46,8 +46,8 @@ export let title:any
 			<legend>MODEL</legend>
 			<label for="agent-model-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="agent-model-name" name="name" bind:value={agent.model.name}>
-			<label for="agent-model-path">Name<span class="req">*</span>:</label>
-			<input type="text" id="agent-model-path" name="path" bind:value={agent.model.name}>
+			<label for="agent-model-path">Model<span class="req">*</span>:</label>
+			<input size="30" type="text" id="agent-model-path" name="path" bind:value={agent.model.path}>
 		</fieldset>
 	</section>
 <style>

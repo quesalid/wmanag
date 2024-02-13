@@ -36,7 +36,7 @@ let imagedatarows:any = [];
 let containerdatarows:any = [];
 let contdatarows:any = writable(containerdatarows);
 let imdatarows:any = writable(imagedatarows);
-const disableClose = true
+const disableClose = false
 const draggable = true
 const zindex = 4
 const headercolor = "#f4e2d2"
@@ -563,10 +563,23 @@ const onClickImageDelete = async (ev:any)=>{
 	}
 }
 
+const closeModal = (ev:any) =>{
+	 const divCont = document.getElementById("docker-manager-div-id")
+	 if(divCont)
+		divCont.style.display = 'none'
+ }
 </script>
 
-	<div class="docker-manager-div">
-		<Wmanag id="{defaultWManager}" title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
+	<div class="docker-manager-div" id="docker-manager-div-id">
+		<Wmanag id="{defaultWManager}" 
+			title="{title}" 
+			toolbar=toolbar
+			closeMenu={closeModal}
+			top="5%" 
+			left="20%" 
+			{disableClose} 
+			{draggable} 
+			{headercolor}>
 			<DockerManag slot="bodycontent" {zindex} {headercolor} 
 					bind:contdatarows={contdatarows} bind:imdatarows={imdatarows} 
 					{onClickContainerStart} {onClickContainerStop} {onClickContainerDelete} {onClickImageDelete} {pagesize}
@@ -584,11 +597,23 @@ const onClickImageDelete = async (ev:any)=>{
 	</div>
 	
 <style>
-.docker-manager-div{
+/*.docker-manager-div{
 	position: relative;
 	width: 500px;
 	height: fit-content;
 	display: block;
+}*/
+.docker-manager-div{
+  /*display: none;*/
+  position: absolute; /* Stay in place */
+  z-index: 999; /* Sit on top */
+  padding: 10%; /* Location of the box */
+  width: 100%; /* Full width */
+  min-width: 200px; /* Full width */
+  height: 100%; /* Full height */
+  background-color: var(--background-color);
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 #pem-file-input{
 	visibility:hidden;
