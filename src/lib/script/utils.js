@@ -28,7 +28,7 @@ const onDeviceClickDeploy = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MAIN DEPLOY
-    const configPage = document.getElementById('main-deploy-page')
+    const configPage = document.getElementById('deploy-main-container')
     const agentClicked = new CustomEvent("deployclicked", { detail: uid })
     configPage?.dispatchEvent(agentClicked)
 }

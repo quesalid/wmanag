@@ -10,7 +10,7 @@
    import {SimpleTable} from '../lib/components/table'
    import {getDeviceDeployColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
-   import {DeviceForm,DeleteForm} from '../lib/components/forms'
+   import DeployMain from '../lib/components/contents/DeployMain.svelte'
    // API INTERFACE
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
    import {agentGetInfo} from '../lib/script/apidataagent.js'
@@ -38,13 +38,6 @@
 		// ADD EVENT LISTENER FOR AGENT CONFIGURATION
 		const confMainDiv = document.getElementById("main-deploy-page")
 		if(confMainDiv){
-			confMainDiv.addEventListener("deployclicked",async (e:any)=>{
-				// SET CURRENT DEVICE IN STORE
-				deviceuid = e.detail
-				$currdevice = deviceuid
-				// NAVIGATE TO AGENT PAGE
-				console.log(" DEPLOY CLICKED: "+$currdevice)
-			})
 			confMainDiv.addEventListener("dockerclicked",async (e:any)=>{
 				// SET CURRENT DEVICE IN STORE
 				deviceuid = e.detail
@@ -152,40 +145,8 @@
 	let devicedatacolumns = getDeviceDeployColumns($module)
 
 	// DIALOG VARIABLES
-	let savedialog = DeviceForm
-	let deletedialog = DeleteForm
-	let modalIdSave = "DeviceInputDiv"
-	let modalIdDel = "DeleteInputDiv"
-	let save = async (ev:any)=>{
-		const target = ev.target
-		const cdev = JSON.parse(target.dataset.cdev)
-		cdev.module = $module.toLocaleUpperCase()
-		// SET DEVICE
-		let ret = await setDevice(cdev,$mock)
-		// GET UPDATED DEVICE LIST
-		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
-		ret = await getDevices(filters,$mock)
-		$devicesdata = ret.data
-		// CLOSE FORM DIALOG
-		const devInputDiv = document.getElementById(modalIdSave)
-		if(devInputDiv)
-			devInputDiv.style.display= 'none'
-	}
-	let del = async (ev:any) =>{
-		const target = ev.target
-		const uid = target.dataset.uid
-		// DELETE DEVICE
-		let filters:any = [{uid:uid,type:'eq'}]
-		let ret = await deleteDevice(filters,$mock)
-		// GET UPDATED DEVICE LIST
-		filters = [{module:$module.toUpperCase(),type:'eq'}]
-		ret = await getDevices(filters,$mock)
-		$devicesdata = ret.data
-		// CLOSE FORM DIALOG
-		const devInputDiv = document.getElementById(modalIdDel)
-		if(devInputDiv)
-			devInputDiv.style.display= 'none'
-	}
+	let deploydialog = DeployMain
+	let deployDivName = "deploy-main-container"
 	
 
 </script>
@@ -217,10 +178,7 @@
 			</Wmanag>
 		</div>
 		<div id="save-device-dialog">
-			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
-		</div>
-		<div id="delete-device-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
+			<svelte:component this={deploydialog} headercolor={bgcolor}/>
 		</div>
 </div>
 

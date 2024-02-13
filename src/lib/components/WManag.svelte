@@ -23,12 +23,15 @@ export let height = "max-content"
 export let visibility = "visible"
 export let resize = 'none'
 
+
 export let toolbar:any = [
 	/*{type:'button',props:{value:'+'},function:onClick,label:''},
 	{type:'button',props:{value:'-'},function:onClick,label:''},*/
 ]
 
-
+export let closeMenu = (ev:any)=>{
+	visibility = "hidden";
+}
 
 let winHeight = ''
 
@@ -42,9 +45,7 @@ onMount(async () => {
 	}
  })
 
-const closeMenu = (ev:any)=>{
-	visibility = "hidden";
-}
+
 
 
 const minimize = (event:any)=>{

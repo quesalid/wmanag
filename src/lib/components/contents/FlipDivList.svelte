@@ -34,7 +34,7 @@ export let undeployAgent = async (agent:any)=>{console.log("UNDEPLOY AGENT",agen
 		<div class="flipdivlist-header right">
 			<div class="flipdivlist-header-right">
 				<div class="flipdivlist-header-right-title" style="text-align:center ;">
-					<h3>EDGE <span style="color:#9fafff;">{device}</span></h3>
+					<h3>EDGE <span style="color:#444444;font-weight:650;">{device}</span></h3>
 				</div>
 				<div class="flipdivlist-header-right-subtitle">
 					<h4>Lista degli agent installati</h4>

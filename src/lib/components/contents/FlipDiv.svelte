@@ -153,7 +153,7 @@ onMount(()=>{
 						<div class="upper-content left" style="--background-color: {colorleft} ;" >
 							<div class="upper-content-left left">
 								AGENT: <span class="agent-name">{agent.name}</span> TYPE: {agent.type}
-								<br>{agent.description}
+								<br><span class="agent-description">{agent.description}</span>
 							</div>
 							<div class="upper-content-right left">
 								<input type="image" src="/DARROWRIGHT.svg" alt="ALT IMAGE" height="25" on:click={onClickDeploy}/>
@@ -178,7 +178,7 @@ onMount(()=>{
 						</div>
 						<div class="upper-content-right right">
 							AGENT: <span class="agent-name">{agent.name}</span> TYPE: {agent.type}
-							<br>{agent.description}
+							<br><span class="agent-description">{agent.description}</span>
 						</div>
 					</div>
 					<div class="middle-content right">
@@ -205,15 +205,15 @@ onMount(()=>{
 }
 .flip-div{
 	display:flex;
-	width:800px;
+	width: 900px;
 	height: 120px;
 	justify-content:space-evenly ;
 }
 
 .inside-flip-div{
-	width:40%;
+	width:60%;
 	height: 90%;
-	border: 1px solid #333;
+	border: 1px solid #aaa;
 	background-color: #fff;
 	margin: 3px;
 }
@@ -296,12 +296,15 @@ onMount(()=>{
 .agent-name{
 	font-weight: bold;
 }
+.agent-description{
+	font-weight: 600;
+}
 .spinner-class {
   position:absolute;
   /*z-index: 999;*/
   top: -3px;
   height:110px;
-  width:320px;
+  width:48%;
   background: rgba( 255, 255, 255, .9 );
   display:flex;
   justify-content: center;

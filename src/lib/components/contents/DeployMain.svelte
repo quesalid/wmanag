@@ -1,10 +1,14 @@
 <script lang="ts">
-
+// EXTERNAL
 import { onMount} from "svelte"
-import Wmanag from '../lib/components/WManag.svelte'
-import WindowFooter from '../lib/components/contents/WindowFooter.svelte'
-import Spinner from '../lib/components/spinner/RingLoader.svelte'
-import {token, mock} from '../lib/ustore.js'
+import { writable } from 'svelte/store';
+// INTERNAL
+import Wmanag from '../WManag.svelte'
+import WindowFooter from './WindowFooter.svelte'
+import Spinner from '../spinner/RingLoader.svelte'
+import FlipDivList from './FlipDivList.svelte'
+import {showHideLoader} from "../CompUtils.js"
+// API
 import {agentGetInfo, 
 		agentLogin,
 		agentAddScanner,
@@ -17,27 +21,51 @@ import {agentGetInfo,
 		agentStopScanner,
 		agentStopHist,
 		agentGetScanner,
-		agentGetHist} from '../lib/script/apidataagent.js'
-import {getAgents} from '../lib/script/apidataconfig.js'
-import FlipDivList from '../lib/components/contents/FlipDivList.svelte'
-import {showHideLoader} from "../lib/components/CompUtils.js"
+		agentGetHist} from '../../script/apidataagent'
+import {getAgents,getDevices} from '../../script/apidataconfig.js'
+import { sleep } from "../../script/api";
+// USTORE
+import {token, mock, currdevice,module} from '../../ustore.js'
 
+onMount(async () => {
 
+    const confMainDiv = document.getElementById("deploy-main-container")
+		if(confMainDiv){
+			confMainDiv.addEventListener("deployclicked",async (e:any)=>{
+				confagents = []
+				edgeagents = []
+				flattenagents = []
+				agents=[]
+				showHideLoader(loaderid,pageid,false)
+				// SET CURRENT DEVICE IN STORE
+				deviceuid = e.detail
+				$currdevice = deviceuid
+				// NAVIGATE TO AGENT PAGE
+				console.log(" DEPLOY CLICKED: "+$currdevice)
+				confMainDiv.style.display="block"
+				// GET CURRENT DEVICE
+				const filters:any = [{uid:$currdevice,type:'eq'}]
+				const ret = await getDevices(filters,$mock)
+				const found = ret.data.find((item:any)=> {return(item.uid == $currdevice)})
+				console.log("DEPLOY MAIN FOUND", found)
+				deviceuid = $currdevice
+				title += found.name
+				devicename = found.name
+			})
+		}
+})
 
-import { writable } from 'svelte/store';
-import { sleep } from "../lib/script/api";
-
-
+// EXPORTS
+export let  headercolor = "#f4e2d2"
 
 let deviceuid = 'abc-1'
-let devicename = "DEFAULTSERVER"
+let devicename = ''
 let pagesize = false
 let spinnermessage = "Could take some time...."
-let title = "DEPLOY MANAGEMENT - DEVICE SERVER "+devicename
+let title = "DEPLOY MANAGEMENT - DEVICE SERVER "
 let footermessage = "manage agents"
-const disableClose = true
+const disableClose = false
 const draggable = true
-const headercolor = "#f4e2d2"
 let defaultWManager = 'defaultWDeploy'
 let userid = ''
 let password = ''
@@ -148,7 +176,7 @@ const onClickSubmit = async (ev:any)=>{
 			devtoken = res.data.token.split(' ')[1]
 			// LOGGED IN - PROCEED TO GET AGENTS
 			// A. LOAD AGENT FROM CONFIGURATION REPOSITORY
-			let filters = [{name:'devuid',op:'eq',value:deviceuid}]
+			let filters = [{name:'devuid',op:'eq',value:deviceuid},{module:$module.toUpperCase(),type:'eq'}]
 			res  = await getAgents(filters,$mock)
 			confagents = res.data
 			//console.log("CONFIG AGENTS",confagents)
@@ -170,13 +198,6 @@ let toolbar = [
 	{type:'password',props:{value:'',id:"device-password"},function:onClickGetText,label:'Password'},
 	{type:'button',props:{value:'\u2BC8',id:"login-submit",fsize:"small"},function:onClickSubmit,label:'',disabled:true},
 ]
-
-
-
-onMount(async () => {
-	showHideLoader(loaderid,pageid,false)
-	$mock = true
- })
 
  const onDepUndep = async (confagents:any)=>{
 		try{
@@ -222,23 +243,38 @@ onMount(async () => {
 		}
  }
 
-
+ const closeModal = (ev:any) =>{
+	 const divCont = document.getElementById("deploy-main-container")
+	 if(divCont)
+		divCont.style.display = 'none'
+ }
 </script>
 
-	<div class="relative w-fit h-fit block">
-		<Wmanag id="{defaultWManager}" bind:dragE={dragElem} title="{title}" toolbar={toolbar} {disableClose} {draggable} {headercolor}>
-			<FlipDivList slot="bodycontent" 
-			    bind:dragelem={dragElem} 
-				bind:agents={agents}
-				{startAgent}
-				{stopAgent}
-				{deployAgent}
-				{undeployAgent}
-				/>
-			<WindowFooter slot="footercontent" message={footermessage}/>
+	<div class="deploycontainer relative w-fit h-fit block" id="deploy-main-container">
+		<Wmanag id="{defaultWManager}" 
+				bind:dragE={dragElem} 
+				title="{title}" 
+				width="900px" 
+				top="5%" 
+				left="20%" 
+				toolbar={toolbar} 
+				closeMenu={closeModal}
+				{disableClose} 
+				{draggable} 
+				{headercolor}>
+				<FlipDivList slot="bodycontent" 
+					bind:dragelem={dragElem} 
+					bind:agents={agents}
+					{startAgent}
+					{stopAgent}
+					{deployAgent}
+					{undeployAgent}
+					bind:device={devicename}
+					/>
+				<WindowFooter slot="footercontent" message={footermessage}/>
 		</Wmanag>
 		<!-- MODAL WINDOW WITH SPINNER -->
-		<div class="absolute z-10 flex border-1 -t-1 h-screen w-screen bg-white/90 justify-center items-center border-solid border-1" id="loading-page-id">
+		<div class="position-absolute z-10 flex border-1 -t-1  bg-white justify-center items-center border-solid border-1" id="loading-page-id">
 			<!--div class="spinner-wrapper"-->
 				<Spinner message={spinnermessage}/>
 			<!--/div-->
@@ -246,7 +282,24 @@ onMount(async () => {
 	</div>
 	
 <style>
+.deploycontainer{
+  display: none;
+  position: absolute; /* Stay in place */
+  z-index: 999; /* Sit on top */
+  padding: 10%; /* Location of the box */
+  width: 100%; /* Full width */
+  min-width: 200px; /* Full width */
+  height: 100%; /* Full height */
+  background-color: var(--background-color);
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
 
+#loading-page-id{
+	position: absolute;
+	width: 70%;
+	height: 95%;
+}
 </style>
 
 

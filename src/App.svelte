@@ -13,7 +13,7 @@ import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
 
 import DOCKER from "./routes/DockerMain.svelte"
-import DEPLOY from "./routes/DeployMain.svelte"
+import DEPLOY from "./lib/components/contents/DeployMain.svelte"
 import ADMINDB from "./routes/AdminDB.svelte"
 import GRAPHBAYES from "./routes/GraphBayes.svelte"
 import PORTALTEMPLATE from "./routes/PortalTemplate.svelte"
