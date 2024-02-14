@@ -26,7 +26,7 @@ export let title:any
 			<legend>IDENTIFICATION</legend>
 			<label for="agent-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="agent-name" name="name" bind:value={agent.name}>
-			<label for="agent-type">Type:</label>
+			<label for="agent-type">Type<span class="req">*</span>:</label>
 			<select name="type" id="agent-type" bind:value={agent.type}>
 				<option value="SCANNER">SCANNER</option>
 				<option value="HIST">HIST</option>
@@ -36,13 +36,13 @@ export let title:any
 		</fieldset>
 		<fieldset>
 			<legend>SOURCE</legend>
-			<label for="agent-source-name">Name:</label>
+			<label for="agent-source-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="agent-source-name" name="source-name" bind:value={agent.source.name}>
-			<label for="agent-source-host">IP:</label>
+			<label for="agent-source-host">IP<span class="req">*</span>:</label>
 			<input type="text" id="agent-source-host" name="source-host" bind:value={agent.source.server}>
-			<label for="agent-source-port">Port:</label>
+			<label for="agent-source-port">Port<span class="req">*</span>:</label>
 			<input type="text" id="agent-source-port" name="source-port" bind:value={agent.source.port}>
-			<label for="agent-source-driver">Driver:</label>
+			<label for="agent-source-driver">Driver<span class="req">*</span>:</label>
 			<select name="type" id="agent-source-driver" bind:value={agent.source.driver}>
 				<option value="s7">s7</option>
 				<option value="mqtt">mqtt</option>
@@ -60,13 +60,13 @@ export let title:any
 		</fieldset>
 		<fieldset>
 			<legend>DESTINATION</legend>
-			<label for="agent-destination-name">Name:</label>
+			<label for="agent-destination-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="agent-destination-name" name="destination-name" bind:value={agent.destination.name}>
-			<label for="agent-destination-host">IP:</label>
+			<label for="agent-destination-host">IP<span class="req">*</span>:</label>
 			<input type="text" id="agent-destination-host" name="destination-host" bind:value={agent.destination.server}>
-			<label for="agent-destination-port">Port:</label>
+			<label for="agent-destination-port">Port<span class="req">*</span>:</label>
 			<input type="text" id="agent-destination-port" name="destination-port" bind:value={agent.destination.port}>
-			<label for="agent-destination-driver">Driver:</label>
+			<label for="agent-destination-driver">Driver<span class="req">*</span>:</label>
 			<select name="type" id="agent-destination-driver" bind:value={agent.destination.driver}>
 				<option value="mqtt">mqtt</option>
 				<option value="pirest">osipirest</option>
@@ -85,7 +85,7 @@ export let title:any
 		<fieldset>
 			<legend>FIELD DATABASE</legend>
 			{#each agent.dbs as db}
-				<label for="agent-db-name">Filename:</label>
+				<label for="agent-db-name">Filename<span class="req">*</span>:</label>
 				<input type="text" id="agent-db-name" name="db-name" bind:value={db.name}>
 			{/each}
 		</fieldset>

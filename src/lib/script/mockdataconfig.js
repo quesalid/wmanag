@@ -1,3 +1,5 @@
+// @ts-nocheck
+import { v4 as uuidv4 } from 'uuid';
 
 import { filterArray } from './mock.js'
 // **************** DATA ****************
@@ -546,6 +548,7 @@ let machines = [
         manufacturer: "FEDEGARI",
         model: "XFOAF7/Q253",
         room: "G041",
+        agent:'ag-234-abc-1',
     },
     {
         uid: 'mach-2',
@@ -556,6 +559,7 @@ let machines = [
         manufacturer: "Intertech",
         model: "010",
         room: "G040",
+        agent:'ag-234-abc-1'
     },
     {
         uid: 'mach-3',
@@ -566,6 +570,7 @@ let machines = [
         manufacturer: "PHARMASIENA",
         model: "A6-FC",
         room: "G043",
+        agent:'ag-234-abc-11'
     },
     {
         uid: 'mach-4',
@@ -576,6 +581,7 @@ let machines = [
         manufacturer: "IMA",
         model: "LYOFAST 25",
         room: "G044",
+        agent:'ag-234-abc-1'
     },
     {
         uid: 'mach-5',
@@ -586,6 +592,7 @@ let machines = [
         manufacturer: "PALL",
         model: "ACQUAWIT IV",
         room: "G038",
+        agent:'ag-234-abc-11'
     },
     {
         uid: 'mach-6',
@@ -595,7 +602,8 @@ let machines = [
         type: "FORNO",
         manufacturer: "DE LAMA",
         model: "DLST/L",
-        room: "G041"
+        room: "G041",
+        agent:'ag-234-abc-11'
     },
     {
         uid: 'mach-7',
@@ -606,6 +614,7 @@ let machines = [
         manufacturer: "EMI RAD",
         model: "MXC010",
         room: "G0002",
+        agent:'ag-234-abc-2'
     },
     {
         uid: 'mach-8',
@@ -616,6 +625,7 @@ let machines = [
         manufacturer: "FEDEGARI",
         model: "XFOAF9/QST",
         room: "H014",
+        agent:'ag-234-abc-2'
     },
     {
         uid: 'mach-9',
@@ -626,6 +636,7 @@ let machines = [
         manufacturer: "Intertech",
         model: "010",
         room: "H015",
+        agent:'ag-234-abc-11'
     },
     {
         uid: 'mach-10',
@@ -636,6 +647,7 @@ let machines = [
         manufacturer: "PHARMASIENA",
         model: "A6-FC",
         room: "H028",
+        agent:'ag-234-abc-2'
     },
     {
         uid: 'mach-11',
@@ -646,6 +658,7 @@ let machines = [
         manufacturer: "IMA",
         model: "LYOFAST 25",
         room: "H028",
+        agent: 'ag-234-abc-2'
     },
     {
         uid: 'mach-12',
@@ -656,6 +669,7 @@ let machines = [
         manufacturer: "PALL",
         model: "ACQUAWIT IV",
         room: "H015",
+        agent:'ag-234-abc-4'
     },
     {
         uid: 'mach-13',
@@ -665,7 +679,8 @@ let machines = [
         type: "FORNO",
         manufacturer: "DE LAMA",
         model: "DLST/L",
-        room: "H014"
+        room: "H014",
+        agent:'ag-234-abc-4'
     },
     {
         uid: 'mach-14',
@@ -676,6 +691,7 @@ let machines = [
         manufacturer: "EMI RAD",
         model: "MXC010",
         room: "H-TECH",
+        agent:'ag-234-abc-4'
     }
 ]
 
@@ -865,6 +881,259 @@ const controllers = [
         driver: "bacnet",
     }
 ]
+
+// **************** UTLITY ***************
+function randomTDUABD(length) {
+    const pre = [
+        'TT-',
+        'PP-',
+        'HH-',
+        'RPM-',
+        'AA-',
+        'VV-',
+        'NUM-',
+        "FL-",
+        "AL-T-",
+        "AL-P-",
+        "AL-H-",
+        "AL-RPM-",
+        "AL-A-",
+        "AL-V-",
+        "AL-NUM-",
+        "AL-FL-",
+        "EV-T-",
+        "EV-P-",
+        "EV-H-",
+        "EV-RPM-",
+        "EV-A-",
+        "EV-V-",
+        "EV-NUM-",
+        "EV-FL-"
+    ]
+    const desc = [
+        "Temperature measure",
+        "Pressure measure",
+        "Humidity measure",
+        "Rotational Speed measure",
+        "Current measure",
+        "Voltage measure",
+        "Particle num measure",
+        "Flow measure",
+        "Temperature alarm",
+        "Pressure alarm",
+        "Humidity alarm",
+        "Rotational Speed alarm",
+        "Current alarm",
+        "Voltage alarm",
+        "Particle num alarm",
+        "Flow alarm",
+        "Temperature set event",
+        "Pressure set event",
+        "Start event",
+        "Stop event",
+        "Switch on event",
+        "Switch off event",
+        "Open  event",
+        "Close event"
+    ]
+    const um = [
+        'DEGC',
+        'PSIA',
+        "%",
+        "RPM",
+        "A",
+        "V",
+        "#/m3",
+        "m3/sec",
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+        'ON/OFF',
+    ]
+    let result = ''
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    const charactersLength = characters.length;
+    let counter = 0;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    const index = Math.floor(Math.random() * pre.length)
+    let bit = String(Math.floor(Math.random() * 16))
+    let atype = 'ANALOG'
+    let dtype = 'bool'
+    if (index > 7) {
+        atype = 'DIGITAL'
+    } else {
+        bit = "0"
+        dtype = 'real'
+    }
+    const tag = pre[index] + result
+
+    return [tag, desc[index], um[index], atype, bit, dtype]
+}
+function getPointType(tag) {
+    let ret = ''
+    const pre = tag.substring(0, 3)
+    switch (pre) {
+        case 'TT-':
+            ret = 'TEMPERATURE'
+            break;
+        case 'PP-':
+            ret = 'PRESSURE'
+            break;
+        case 'HH-':
+            ret = 'HUMIDITY'
+            break;
+        case 'RPM':
+            ret = 'SPEED'
+            break;
+        case 'AA-':
+            ret = 'CURRENT'
+            break;
+        case 'VV-':
+            ret = 'VOLTAGE'
+            break;
+        case 'NUM':
+            ret = 'NUMBER'
+            break;
+        case 'FL-':
+            ret = 'FLOW'
+            break;
+        case 'AL-':
+            ret = 'ALARM'
+            break;
+        case 'EV-':
+            ret = 'EVENT'
+            break;
+    }
+    return (ret)
+}
+
+function getPointLims(type) {
+    let hlim = 0.0
+    let llim = 0.0
+    switch (type) {
+        case 'TEMPERATURE':
+            llim = Math.floor(Math.random() * 1) - 10.0
+            hlim = Math.floor(Math.random() * 10) + 200.0
+            break;
+        case 'PRESSURE':
+            llim = Math.floor(Math.random() * 1) - 1
+            hlim = Math.floor(Math.random() * 1) + 3.0
+            break;
+        case 'HUMIDITY':
+            llim = Math.floor(Math.random() * 10) + 40.0
+            hlim = Math.floor(Math.random() * 10) +100.0
+            break;
+        case 'SPEED':
+            llim = Math.floor(Math.random() * 500) + 1000.0
+            hlim = Math.floor(Math.random() * 500) + 5000.0
+            break;
+        case 'CURRENT':
+            llim = Math.floor(Math.random() * 4) + 10.0
+            hlim = Math.floor(Math.random() * 4) + 50.0
+            break;
+        case 'VOLTAGE':
+            llim = Math.floor(Math.random() * 10) + 295.0
+            hlim = Math.floor(Math.random() * 30) + 320.0
+            break;
+        case 'NUMBER':
+            llim = 0
+            hlim = Math.floor(Math.random() * 2) + 10
+            break;
+        case 'FLOW':
+            llim = Math.floor(Math.random() * 0.5)
+            hlim = Math.floor(Math.random() * 1) + 2.0
+            break;
+        default:
+            llim = 'N.A.'
+            hlim = 'N.A.'
+            break;
+    }
+    return [hlim, llim]
+}
+export function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
+    const points = []
+    for (let i = 0; i < num; i++) {
+        const point = { uid: uuidv4(), tag: '', description: '', um: '', dtype: '', delta: false, bit: 0, hlim: 0.0, llim: 0.0, area: '', ack: false, numarea: 0, address: 0, amount: 1, atype: '', type: '', agent: agent, device: device, controller: controller, machine: machine, db: db }
+        const [tag, desc, um, atype, bit, dtype] = randomTDUABD(5)
+        point.tag = tag
+        point.module = 'DATA'
+        point.description = desc
+        point.um = um
+        point.atype = atype
+        point.dtype = dtype
+        point.bit = Number(bit)
+        point.address = Math.floor(Math.random() * 40000)
+        point.type = getPointType(tag)
+        const [hlim, llim] = getPointLims(point.type)
+        point.hlim = hlim
+        point.llim = llim
+        switch (driver) {
+            case 's7':
+                point.area = 'DB'
+                point.numarea = Math.floor(Math.random() * 8)
+                break;
+            case 'modbus':
+                if (point.atype == 'DIGITAL')
+                    point.area = 'COIL'
+                else
+                    point.area = 'INPUT'
+                point.numarea = 0
+                break;
+            case 'ip':
+                point.area = 'NA'
+                point.numarea = 0
+                break
+        }
+        points.push(point)
+    }
+    return points
+}
+
+const generateDataPoints = () => {
+    const array = []
+    const dataAgents = agents.filter((item)=> item.module == 'DATA')
+    for (let i = 0; i < dataAgents.length; i++) {
+        if (dataAgents[i].type == 'SCANNER') {
+            console.log(" AGENT UID ",dataAgents[i].uid)
+            const agentuid = dataAgents[i].uid
+            const devuid = dataAgents[i].devuid
+            const driver = dataAgents[i].source.driver
+            // GET MACHINESFROM AGENTS
+            const agMachines = machines.filter((item) => item.agent == dataAgents[i].uid)
+            // PICK ONE MACHINE AT RANDOM
+            const index = Math.floor(Math.random() * agMachines.length)
+            const machine = agMachines[index]
+            const muid = machine.uid
+            // GET CONTROLLER FOR MACHINE
+            const cltrs = controllers.filter((item)=> item.machine == muid)
+            let cuid = ''
+            if (cltrs.length > 0)
+                cuid = cltrs[0].uid
+            const index2 = Math.floor(Math.random() * dataAgents[i].dbs.length)
+            const dbuid = dataAgents[i].dbs[index2].uid
+            const points = makeDataPointsUid(driver, agentuid, devuid, cuid, muid, dbuid)
+            array.push.apply(array, points)
+        }
+    }
+
+    return array
+}
+
+let datapoints = generateDataPoints()
 
 // **************** CALLS ****************
 const getDevices = async function (body) {
@@ -1091,6 +1360,38 @@ const deleteController = async function (body) {
     return (body)
 }
 
+const getDataPoints = async function (body) {
+    let retPoints = JSON.parse(JSON.stringify(datapoints))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retPoints = filterArray(retPoints, filters)
+    }
+    body.data = retPoints
+    return (body)
+}
+
+const setDataPoint = async function (body) {
+    const point = body.options.point
+    let old = null
+    if (point) {
+        const existing = datapoints.findIndex((item) => { return item.uid == point.uid })
+        if (existing > -1) {
+            old = datapoints[existing]
+            datapoints[existing] = point
+        } else {
+            datapoints.push(point)
+        }
+    }
+    return old
+}
+
+const deleteDataPoint = async function (body) {
+    const filters = body.options.filters
+    datapoints = filterArray(datapoints, filters, true)
+    body.data = datapoints
+    return (body)
+}
+
 const CONFIG = {
     getDevices,
     setDevice,
@@ -1112,7 +1413,10 @@ const CONFIG = {
     deleteMachine,
     getControllers,
     setController,
-    deleteController
+    deleteController,
+    getDataPoints,
+    setDataPoint,
+    deleteDataPoint
 }
 
 export default CONFIG

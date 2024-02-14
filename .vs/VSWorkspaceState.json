@@ -4,10 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\table",
+    "\\src\\lib\\components\\forms",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\apidataagent.js",
+  "SelectedNode": "\\src\\lib\\components\\forms\\AgentDataForm.svelte",
   "PreviewInSolutionExplorer": false
 }

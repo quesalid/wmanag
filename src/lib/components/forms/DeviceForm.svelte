@@ -50,7 +50,7 @@ export let save = (ev:any)=>{
 }
 
 let newdevice = getDeviceTemplate()
-let device = newdevice
+let device:any = newdevice
 let title = "DEVICE"
 let uid = ''
 

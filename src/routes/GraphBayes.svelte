@@ -40,7 +40,7 @@
 	const barheigth = "60px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
-	const avatargroups = [
+	const avatargroups:any = [
 		[
 			{ icon: null, text: `Dashborad` },
 			{ icon: null, text: `Profile` },

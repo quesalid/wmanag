@@ -13,7 +13,6 @@ import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
 
 import DOCKER from "./routes/DockerMain.svelte"
-import DEPLOY from "./lib/components/contents/DeployMain.svelte"
 import ADMINDB from "./routes/AdminDB.svelte"
 import GRAPHBAYES from "./routes/GraphBayes.svelte"
 import PORTALTEMPLATE from "./routes/PortalTemplate.svelte"
@@ -27,6 +26,7 @@ import ConfigureAgent from "./routes/ConfigureAgent.svelte"
 import GraphIsa from "./routes/GraphIsa.svelte";
 import GraphBayes from "./routes/GraphBayes.svelte"
 import Deploy from "./routes/Deploy.svelte"
+import Monitor from "./routes/Monitor.svelte"
 
 export const url = "/deploy"
 
@@ -119,9 +119,21 @@ export const url = "/deploy"
     <Route path="/ai/build">
         <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
     </Route>
-	
+	<!-- M O N I T O R-->
+    <Route path="/data/monitor">
+        <Monitor logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+    </Route>
+    <Route path="/clone/monitor">
+		<Monitor logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+    </Route>
+    <Route path="/ai/monitor">
+		 <Monitor logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+    </Route>
+    <Route path="/learn/monitor">
+		 <Monitor logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+    </Route>
+
     <Route path="/docker" component={DOCKER}/>
-    <Route path="/deploytest" component={DEPLOY}/>
     <Route path="/admindb" component={ADMINDB}/>
     <Route path="/graphbayes" component={GRAPHBAYES}/>
     <Route path="/portaltemplate" component={PORTALTEMPLATE}/>

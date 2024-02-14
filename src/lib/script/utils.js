@@ -81,6 +81,30 @@ const onAgentClickDelete = (ev) => {
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)*/
 }
+const onDataPointClickGraph = (ev) => {
+    /*const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('DeleteInputDiv')
+    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
+    modalEdit?.dispatchEvent(deleteClicked)*/
+}
+const onDataPointClickEdit = (ev) => {
+    /*const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('DeleteInputDiv')
+    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
+    modalEdit?.dispatchEvent(deleteClicked)*/
+}
+const onDataPointClickDelete = (ev) => {
+    /*const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('DeleteInputDiv')
+    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
+    modalEdit?.dispatchEvent(deleteClicked)*/
+}
 
 
 let devicedatacolumns = [
@@ -340,6 +364,65 @@ export function getDeviceDeployColumns(module) {
             return ([])
     }
 }
+
+let pointdatacolumns = [
+    {
+        header: 'Tag',
+        accessor: 'tag',
+    },
+    {
+        header: 'Description',
+        accessor: 'description',
+    },
+    {
+        header: 'Type',
+        accessor: 'type'
+    },
+    {
+        header: 'UM',
+        accessor: 'um'
+    },
+    {
+        header: 'Class',
+        accessor: 'atype'
+    },
+    {
+        header: 'Hlim',
+        accessor: 'hlim'
+    },
+    {
+        header: 'LLim',
+        accessor: 'llim'
+    },
+    {
+        header: 'Controller',
+        accessor: 'controller'
+    },
+    {
+        header: 'Machine',
+        accessor: 'machine'
+    },
+    {
+        header: 'Graph',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/GRAPH.svg', onClick: onDataPointClickGraph } }
+    },
+    {
+        header: 'Edit',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onDataPointClickEdit } }
+    },
+    {
+        header: 'Delete',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/DELETE.svg', onClick: onDataPointClickDelete } }
+    }
+];
+
+export function getPointDatColumns(module) {
+    return (pointdatacolumns)
+}
+
 // DEVICE TEMPLATE
 let deviceTemplate = {
     name: '',
@@ -395,6 +478,8 @@ let dataAgentTemplate = {
         }
     },
     dbs: [{
+        // uid:'',
+        // name:''
     }],
     devuid: '',
     status: "",
@@ -444,9 +529,39 @@ const learnAgentTemplate = {
     status: "",
     devuid: '',
 }
+// POINT TEMPLATE
+const pointTemplate = {
+    uid: '',
+    tag: '',
+    description: '',
+    um: '',
+    dtype: '',
+    delta: false,
+    bit: 0,
+    hlim: 0.0,
+    llim: 0.0,
+    area: '',
+    ack: false,
+    numarea: 0,
+    address: 0,
+    amount: 1,
+    atype: '',
+    type: '',
+    agent: '',
+    device: '',
+    controller: '',
+    machine: '',
+    db: ''
+}
 
-export const getDeviceTemplate = () => {
-    return(deviceTemplate)
+export const getDeviceTemplate = (module='DATA') => {
+    switch (module) {
+        case 'DATA':
+        case 'CLONE':
+        case 'AI':
+        case 'LEARN':
+            return (deviceTemplate)
+    }
 }
 
 export const getAgentTemplate = (module) => {
@@ -459,5 +574,15 @@ export const getAgentTemplate = (module) => {
             return (aiAgentTemplate)
         case 'LEARN':
             return(learnAgentTemplate)
+    }
+}
+
+export const getPointTemplate = (module='DATA') => {
+    switch (module) {
+        case 'DATA':
+        case 'CLONE':
+        case 'AI':
+        case 'LEARN':
+            return (pointTemplate)
     }
 }

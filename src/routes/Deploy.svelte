@@ -63,9 +63,9 @@
 			const port = dev.port
 			const uid = dev.uid
 			// GET IMAGE ELEMENTS
-			const deployImg = document.getElementById('deploy-'+uid)
-			const dockerImg = document.getElementById('docker-'+uid)
-			const sshImg = document.getElementById('ssh-'+uid)
+			const deployImg:any = document.getElementById('deploy-'+uid)
+			const dockerImg:any = document.getElementById('docker-'+uid)
+			const sshImg:any = document.getElementById('ssh-'+uid)
 			//console.log(" DEVICE IDS",'deploy-'+uid,'docker-'+uid,'ssh-'+uid)
 			//console.log(" DEVICE IMGS",deployImg,dockerImg,sshImg)
 			try{
@@ -112,7 +112,7 @@
 	const barheigth = "60px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
-	const avatargroups = [
+	const avatargroups:any = [
 		[
 			{ icon: null, text: `Dashborad` },
 			{ icon: null, text: `Profile` },

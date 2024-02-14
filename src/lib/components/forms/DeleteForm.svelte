@@ -4,7 +4,7 @@ import {getDevices} from '../../script/apidataconfig.js'
 import {token, mock, currentplant} from '../../ustore.js'
 
 onMount(async () => {
-		// GET MYSELF
+		// GET MYSELF - SHOW UP IF DELETE IS CLICKED
 		const deleteForm = document.getElementById(modalId)
 		if(deleteForm){
 			deleteForm.addEventListener("deleteclicked",async (e:any)=>{

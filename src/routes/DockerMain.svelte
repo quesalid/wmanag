@@ -1,5 +1,5 @@
 <script lang="ts">
-// http://port.us.org/docs/API.html
+// PRIVATE DOCKERHUB PORTUS http://port.us.org/docs/API.html
 import { onMount} from "svelte"
 import Wmanag from '../lib/components/WManag.svelte'
 import DockerManag from '../lib/components/contents/DockerManag.svelte'
@@ -57,6 +57,7 @@ onMount(async () => {
 	adjustPosition()
 	showHideLoader(loaderid,pageid,false)
 	$mock = true
+	disableFields()
 	
  })
 
@@ -78,6 +79,27 @@ const resetFields = ()=>{
 	imagepull.value = ''
 }
 
+const disableFields = ()=>{
+	const imageselect:any = document.getElementById('imageselect')
+	imageselect.disabled = true
+	const networkselect:any = document.getElementById('networkselect')
+	networkselect.disabled = true
+	const portmap:any = document.getElementById('portmap')
+	portmap.disabled = true
+	const imagepull:any = document.getElementById('imagepull')
+	imagepull.disabled = true
+}
+
+const enableFields = ()=>{
+	const imageselect:any = document.getElementById('imageselect')
+	imageselect.disabled = false
+	const networkselect:any = document.getElementById('networkselect')
+	networkselect.disabled = false
+	const portmap:any = document.getElementById('portmap')
+	portmap.disabled = false
+	const imagepull:any = document.getElementById('imagepull')
+	imagepull.disabled = false
+}
 /**
  * Click file download hidden button
  * @param ev
@@ -116,6 +138,7 @@ const onClickSubmit = async (ev:any)=>{
 	// Submit to docker daemon
 	footermessage = "connection to daemon "+host+":"+port
 	let res
+	disableFields()
 	showHideLoader(loaderid,pageid,true)
 	try{
 		const env = {
@@ -159,6 +182,7 @@ const onClickSubmit = async (ev:any)=>{
 						}
 						updateToolbarContainer()
 						adjustPosition()
+						enableFields()
 					}
 					break
 			}
@@ -374,7 +398,7 @@ let toolbar = [
 	{type:'button',props:{value:'CA',id:"ca-file-input"},function:onClickFile,label:''},
 	{type:'button',props:{value:'CERT',id:"cert-file-input"},function:onClickFile,label:''},
 	{type:'button',props:{value:'KEY',id:"key-file-input"},function:onClickFile,label:''},
-	{type:'button',props:{value:'\u2BC8',id:"docker-submit",fsize:"small"},function:onClickSubmit,label:'',disabled:true},
+	{type:'button',props:{value:'\u2BC8',id:"docker-submit",fsize:"small"},function:onClickSubmit,label:'',disabled:false},
 ]
 
 const networkoptions:any = [
@@ -573,7 +597,7 @@ const closeModal = (ev:any) =>{
 	<div class="docker-manager-div" id="docker-manager-div-id">
 		<Wmanag id="{defaultWManager}" 
 			title="{title}" 
-			toolbar=toolbar
+			toolbar={toolbar}
 			closeMenu={closeModal}
 			top="5%" 
 			left="20%" 
@@ -597,12 +621,6 @@ const closeModal = (ev:any) =>{
 	</div>
 	
 <style>
-/*.docker-manager-div{
-	position: relative;
-	width: 500px;
-	height: fit-content;
-	display: block;
-}*/
 .docker-manager-div{
   /*display: none;*/
   position: absolute; /* Stay in place */

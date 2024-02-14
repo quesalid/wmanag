@@ -26,7 +26,7 @@ export let title:any
 			<legend>IDENTIFICATION</legend>
 			<label for="agent-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="agent-name" name="name" bind:value={agent.name}>
-			<label for="agent-type">Type:</label>
+			<label for="agent-type">Type<span class="req">*</span>:</label>
 			<select name="type" id="agent-type" bind:value={agent.type}>
 				<option value="RECORDER">RECORDER</option>
 			</select>
@@ -37,8 +37,8 @@ export let title:any
 			<legend>MODEL</legend>
 			<label for="agent-model-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="agent-model-name" name="name" bind:value={agent.model.name}>
-			<label for="agent-model-path">Name<span class="req">*</span>:</label>
-			<input type="text" id="agent-model-path" name="path" bind:value={agent.model.name}>
+			<label for="agent-model-path">Path<span class="req">*</span>:</label>
+			<input type="text" id="agent-model-path" name="path" bind:value={agent.model.path}>
 		</fieldset>
 	</section>
 <style>

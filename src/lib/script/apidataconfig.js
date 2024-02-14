@@ -651,3 +651,96 @@ export const deleteController = async function (filters, mock = false) {
         }
     })
 }
+
+/**
+ * Get Data Points
+ * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+ * @param {any} mock use mock flag (default false)
+ */
+export const getDataPoints = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getDataPoints",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getDataPoints(body))
+        }
+    })
+}
+
+/**
+ * Set Data Point
+ * @param {any} agent agent to set (add or update)
+ * @param {any} mock use mock flag (default false)
+ */
+export const setDataPoint = async function (agent, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "setDataPoint",
+            options: {
+                agent: agent
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.setDataPoint(body))
+        }
+    })
+}
+
+/**
+ * Delete Data Point
+ * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+ * @param {any} mock use mock flag (default false)
+ */
+export const deleteDataPoint = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "deleteDataPoint",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.deleteDataPoint(body))
+        }
+    })
+}

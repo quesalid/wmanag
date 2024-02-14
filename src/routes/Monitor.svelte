@@ -1,6 +1,4 @@
 <script lang="ts">
-   // DB FILE HANDLING https://www.npmjs.com/package/jspreadsheet-ce
-   // CSS DDODLE https://css-doodle.com/
    // EXTERNAL
    import { navigate } from "svelte-routing";
    import {onMount} from "svelte"
@@ -10,18 +8,18 @@
    import { center } from '../lib/components/topbar/notifications';
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
-   import {getAgentColumns} from '../lib/script/utils.js'
+   import {getPointDatColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
-   import {AgentForm,DeleteForm} from '../lib/components/forms'
+   import {DeviceForm,DeleteForm} from '../lib/components/forms'
    // API INTERFACE
-   import {getAgents,setDevice,deleteDevice,getDevices} from '../lib/script/apidataconfig.js'
+   import {getDataPoints,setDataPoint,deleteDataPoint} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,currdevice} from '../lib/ustore.js'
+   import { mock,module,navigation,getArrayFromPath,currdevice} from '../lib/ustore.js'
+   
   
 
 
-   let agentsdata:any = writable([])
-   let device:any = {name:''}
+   let pointsdata:any = writable([])
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -33,30 +31,22 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
-		// GET AGENT INFO
-		let filters:any = [{uid:$currdevice,type:'eq'}]
-		const devices = await getDevices(filters,$mock)
-		device = devices.data[0]
-		console.log("D E V I C E ",device)
-		titleagent = 'AGENTS for DEVICE '+device.name
-		// GET AGENTS FOR DEVICE
-		filters = [{module:$module.toUpperCase(),type:'eq'},{devuid:$currdevice,type:'eq'}]
-		const ret = await getAgents(filters,$mock)
-		$agentsdata = ret.data
+		const filters:any = []
+		const ret = await getDataPoints(filters,$mock)
+		$pointsdata = ret.data
 		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
-		const confMainDiv = document.getElementById("main-configuration-agent-page")
-		if(confMainDiv){
-			confMainDiv.addEventListener("agentclicked",async (e:any)=>{
+		const monitorMainDiv = document.getElementById("main-monitor-page")
+		/*if(monitorMainDiv){
+			monitorMainDiv.addEventListener("agentclicked",async (e:any)=>{
+				// SET CURRENT DEVICE IN STORE
 				deviceuid = e.detail
+				$currdevice = deviceuid
 				// NAVIGATE TO AGENT PAGE
 				console.log("AGENT CLICKED ---> ",deviceuid)
+				navigate("/"+$module+"/configure/agent")
+				$navigation = getArrayFromPath("/"+$module+"/configure/agent")
 			})
-			confMainDiv.addEventListener("modelclicked",async (e:any)=>{
-				deviceuid = e.detail
-				// NAVIGATE TO AGENT PAGE
-				console.log("MODEL CLICKED ---> ",deviceuid)
-			})
-		}
+		}*/
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
@@ -90,61 +80,60 @@
 	}
 
 	// TABLE VARIABLES
-	let titleagent = 'AGENTS for DEVICE '+device.name
-	let onClickAddDevice = (ev:any)=>{
+	const titlepoint = 'POINTS'
+	let onClickAddPoint = (ev:any)=>{
 		console.log("ONCLICK ADD CONTAINER")
-		const modalEdit = document.getElementById(modalIdSave)
+		/*const modalEdit = document.getElementById(modalIdSave)
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
-		modalEdit?.dispatchEvent(addClicked)
+		modalEdit?.dispatchEvent(addClicked)*/
 	}
-	let toolbaragent = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
+	let toolbardevice = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
 	const disableClose = true
 	const draggable = true
 	let zindex = 4
     let headercolor = bgcolor
 	let pagesize = true
 	let pSize = 3
-	let agentdatacolumns = getAgentColumns($module)
+	let pointdatacolumns = getPointDatColumns($module.toUpperCase())
 
 	// DIALOG VARIABLES
-	let savedialog = AgentForm
+	let savedialog = DeviceForm
 	let deletedialog = DeleteForm
-	let modalIdSave = "AgentInputDiv"
+	let modalIdSave = "PointInputDiv"
 	let modalIdDel = "DeleteInputDiv"
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
-		cdev.module = $module.toLocaleUpperCase()
 		// SET DEVICE
-		let ret = await setDevice(cdev,$mock)
+		let ret = await setDataPoint(cdev,$mock)
 		// GET UPDATED DEVICE LIST
-		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
-		ret = await getAgents(filters,$mock)
-		$agentsdata = ret.data
+		const filters:any = []
+		ret = await getDataPoints(filters,$mock)
+		$pointsdata = ret.data
 		// CLOSE FORM DIALOG
-		const devInputDiv = document.getElementById(modalIdSave)
-		if(devInputDiv)
-			devInputDiv.style.display= 'none'
+		const pointInputDiv = document.getElementById(modalIdSave)
+		if(pointInputDiv)
+			pointInputDiv.style.display= 'none'
 	}
 	let del = async (ev:any) =>{
 		const target = ev.target
 		const uid = target.dataset.uid
 		// DELETE DEVICE
 		let filters:any = [{uid:uid,type:'eq'}]
-		let ret = await deleteDevice(filters,$mock)
+		let ret = await deleteDataPoint(filters,$mock)
 		// GET UPDATED DEVICE LIST
 		filters = [{module:$module.toUpperCase(),type:'eq'}]
-		ret = await getAgents(filters,$mock)
-		$agentsdata = ret.data
+		ret = await getDataPoints(filters,$mock)
+		$pointsdata = ret.data
 		// CLOSE FORM DIALOG
-		const devInputDiv = document.getElementById(modalIdDel)
-		if(devInputDiv)
-			devInputDiv.style.display= 'none'
+		const pointInputDiv = document.getElementById(modalIdDel)
+		if(pointInputDiv)
+			pointInputDiv.style.display= 'none'
 	}
 	
 
 </script>
- <div id="main-configuration-agent-page">
+ <div id="main-configuration-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
@@ -167,16 +156,16 @@
 
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  title="{titleagent}" toolbar={toolbaragent} {disableClose} {draggable} {headercolor} {zindex}>
-				<SimpleTable slot="bodycontent" data={agentsdata} datacolumns={agentdatacolumns} {pagesize} {pSize}/>
+			<Wmanag id="containerWManager"  title="{titlepoint}" toolbar={toolbardevice} {disableClose} {draggable} {headercolor} {zindex}>
+				<SimpleTable slot="bodycontent" data={pointsdata} datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>
-		<div id="save-device-dialog">
+		<!--div id="save-device-dialog">
 			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
-		</div>
+		</!--div>
 		<div id="delete-device-dialog">
 			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
-		</div>
+		</div-->
 </div>
 
 <style>

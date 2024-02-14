@@ -200,7 +200,7 @@ const onClickSubmit = async (ev:any)=>{
 let toolbar = [
 	{type:'text',props:{id:"device-userid",value:'',size:20},function:onClickGetText,label:"Userid"},
 	{type:'password',props:{value:'',id:"device-password"},function:onClickGetText,label:'Password'},
-	{type:'button',props:{value:'\u2BC8',id:"login-submit",fsize:"small"},function:onClickSubmit,label:'',disabled:true},
+	{type:'button',props:{value:'\u2BC8',id:"login-submit",fsize:"small"},function:onClickSubmit,label:'',disabled:false},
 ]
 
  const onDepUndep = async (confagents:any)=>{
