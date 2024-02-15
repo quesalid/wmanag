@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { v4 as uuidv4 } from 'uuid';
+import polycurve from './polycurve.js'
 
 import { filterArray } from './mock.js'
 // **************** DATA ****************
@@ -1140,7 +1141,7 @@ const getTSValue = (type, min, max) => {
             val = Math.random() < 0.5?0:1
             break;
         case 'ANALOG':
-            val = (Math.random() * max) + min
+            val = (Math.random() * max/2) + min
             break;
     }
     return(val)
@@ -1153,35 +1154,35 @@ const spline4Points = (t, p_1, p0, p1, p2) => {
 
 const MAXSERIES = 1000
 const TICK = 5
-const SMOOTH = 10
 
-const generateTimeSeries = (point, num) => {
+
+
+
+const generateTimeSeriesPoly = (point, num,DEGREE=5) => {
     if (num == null || num > MAXSERIES)
         num = MAXSERIES
     const timeSeries = []
-    const tickMillis = TICK * 1000
+    const xCoords = []
+    const yCoords = []
+    // A. GENERATE INTERPOLATION POINT
+    for (let i = 0; i<DEGREE; i++) {
+        const y = getTSValue(point.atype, point.llim, point.hlim)
+        const x = num * (i / DEGREE)
+        xCoords.push(x)
+        yCoords.push(y)  
+    }
+    // B. GENERATE CURVE POINT
+    const curve = polycurve.polynomialCurveFitting(xCoords,yCoords,num,DEGREE)
+    // C. RETURN TIMESERIES
     const end = Date.now()
-    const start = end - tickMillis * num
-    let step = start
-    let smooth = Math.floor(num/SMOOTH)
-    let item = 0.0
-    let splinePoints = []
-    for (let j = 0; j < smooth; j++) {
-        const item = getTSValue(point.atype, point.llim, point.hlim)
-        splinePoints.push(item)
-    }
-    console.log(" S P L I N E P O I N T", splinePoints, smooth)
-    let t=0
-    for (let i = 1; i < splinePoints.length - 2; i++) {
-        for (let j = 0; j < SMOOTH; j++) {
-            step += tickMillis
-            const value = spline4Points(t / 10, splinePoints[i - 1], splinePoints[i], splinePoints[i + 1], splinePoints[i + 2])
-            t++;
-            item = { tag: point.tag, value: value, timestamp: step }
+    const start = end - TICK*1000 * num
+    for (let i = 0; i < curve.length; i++) {
+        const step = start + curve[i][1]*TICK*1000
+        const item = { tag: point.tag, value: curve[i][1], timestamp: step }
+        if(item.value >= point.llim)
             timeSeries.push(item)
-        }
     }
-    return(timeSeries)
+    return timeSeries
 }
 
 let datapoints = generateDataPoints()
@@ -1464,7 +1465,7 @@ const getDataTimeSeries = async function (body) {
     let point
     if (ret.data.length > 0) {
         point = ret.data[0]
-        timeSeries = generateTimeSeries(point)
+        timeSeries = generateTimeSeriesPoly(point,1000,20)
     }
     body.data = timeSeries
     return (body)

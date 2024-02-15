@@ -13,6 +13,7 @@ let labels:any = []
 let title = ""
 let tag = ""
 let um = ""
+let markLine:any={}
 
 onMount(async ()=>{
       ldata = JSON.parse(JSON.stringify(data.data))
@@ -21,7 +22,7 @@ onMount(async ()=>{
       title = data.title
       tag = data.tag
       um = data.um
-
+      markLine = data.markMin
     });
 
 const drawChart = (node:any,series:any)=>{
@@ -60,7 +61,8 @@ const drawChart = (node:any,series:any)=>{
             type: 'line',
             data: ldata,
             showAllSymbol: true,
-            smooth: true
+            smooth: true,
+            markLine:markLine
           }
         ]
       };
@@ -81,6 +83,7 @@ const drawChart = (node:any,series:any)=>{
               option.legend.data = [newParams.series.tag]
               option.xAxis.data = labels
               option.yAxis.name = newParams.series.um
+               option.series[0].markLine =  newParams.series.markMin.data
               //console.log("SVELTE ECHART UPDATEA",option,newParams,newParams.tag)
               myChart.setOption(option,newParams);
          },

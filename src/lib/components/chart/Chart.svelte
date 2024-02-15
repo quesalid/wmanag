@@ -19,17 +19,22 @@ onMount(async () => {
 					point = ret.data[0]
 				let filters1 = [{tag:point.tag,_type:'eq'}]
 				let ret1 = await getDataTimeSeries(filters1,$mock)
-				echartdata = {data:[],timestamp:[],title:'',legend:[],tag:'',um:''}
+				//echartdata = {data:[],timestamp:[],title:'',legend:[],tag:'',um:''}
 				for (let i = 0; i < ret1.data.length; i++) {
 					const p = ret1.data[i]
 					var date:any = new Date(p.timestamp);
 					const pnt = { group: p.tag, value: p.value, date: date.toISOString() }
 					echartdata.data.push(p.value)
 					echartdata.timestamp.push(date.toISOString())
-					echartdata.title = "Point "+point.tag + " - "+point.description
 				}
+				echartdata.title = "Point "+point.tag + " - "+point.description
 				echartdata.legend.push(point.tag)
 				echartdata.tag = point.tag
+				echartdata.um = point.um
+				echartdata.markMin=[
+					{name:'HLIM',x:0,y:point.llim},
+					{name:'HLIM',x:1000,y:point.llim}
+				]
 				console.log("ECHART DATA",echartdata)
 			})
 		}
@@ -52,7 +57,7 @@ export let showChart = (ev:any)=>{
 let title = "CHART"
 let uid = ''
 let point:any = {}
-let echartdata = {data:[],timestamp:[],title:'',tag:'',legend:[],um:''}
+let echartdata = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markMin:[]}
 let chartoptions = {
 		"title": "Point  Macchina: ",
         "axes": {
