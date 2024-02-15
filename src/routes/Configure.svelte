@@ -31,7 +31,7 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
-		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
+		const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 		const ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
@@ -108,7 +108,7 @@
 		// SET DEVICE
 		let ret = await setDevice(cdev,$mock)
 		// GET UPDATED DEVICE LIST
-		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
+		const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 		ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		// CLOSE FORM DIALOG
@@ -120,10 +120,10 @@
 		const target = ev.target
 		const uid = target.dataset.uid
 		// DELETE DEVICE
-		let filters:any = [{uid:uid,type:'eq'}]
+		let filters:any = [{uid:uid,_type:'eq'}]
 		let ret = await deleteDevice(filters,$mock)
 		// GET UPDATED DEVICE LIST
-		filters = [{module:$module.toUpperCase(),type:'eq'}]
+		filters = [{module:$module.toUpperCase(),_type:'eq'}]
 		ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		// CLOSE FORM DIALOG

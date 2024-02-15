@@ -695,7 +695,7 @@ let machines = [
     }
 ]
 
-const controllers = [
+let controllers = [
      {
         uid: 'cntl-1',
         name: "CNTL-AUT-01",
@@ -1133,6 +1133,57 @@ const generateDataPoints = () => {
     return array
 }
 
+const getTSValue = (type, min, max) => {
+    let val =0
+    switch (type) {
+        case 'DIGITAL':
+            val = Math.random() < 0.5?0:1
+            break;
+        case 'ANALOG':
+            val = (Math.random() * max) + min
+            break;
+    }
+    return(val)
+}
+
+const spline4Points = (t, p_1, p0, p1, p2) => {
+    const spline = t * ((2 - t) * t - 1) * p_1 + (t * t * (3 * t - 5) + 2) * p0 + t * ((4 - 3 * t) * t + 1) * p1 + (t - 1) * t * t * p2 / 2
+    return(spline)
+}
+
+const MAXSERIES = 1000
+const TICK = 5
+const SMOOTH = 10
+
+const generateTimeSeries = (point, num) => {
+    if (num == null || num > MAXSERIES)
+        num = MAXSERIES
+    const timeSeries = []
+    const tickMillis = TICK * 1000
+    const end = Date.now()
+    const start = end - tickMillis * num
+    let step = start
+    let smooth = Math.floor(num/SMOOTH)
+    let item = 0.0
+    let splinePoints = []
+    for (let j = 0; j < smooth; j++) {
+        const item = getTSValue(point.atype, point.llim, point.hlim)
+        splinePoints.push(item)
+    }
+    console.log(" S P L I N E P O I N T", splinePoints, smooth)
+    let t=0
+    for (let i = 1; i < splinePoints.length - 2; i++) {
+        for (let j = 0; j < SMOOTH; j++) {
+            step += tickMillis
+            const value = spline4Points(t / 10, splinePoints[i - 1], splinePoints[i], splinePoints[i + 1], splinePoints[i + 2])
+            t++;
+            item = { tag: point.tag, value: value, timestamp: step }
+            timeSeries.push(item)
+        }
+    }
+    return(timeSeries)
+}
+
 let datapoints = generateDataPoints()
 
 // **************** CALLS ****************
@@ -1385,10 +1436,37 @@ const setDataPoint = async function (body) {
     return old
 }
 
+
 const deleteDataPoint = async function (body) {
     const filters = body.options.filters
     datapoints = filterArray(datapoints, filters, true)
     body.data = datapoints
+    return (body)
+}
+
+const getDataTimeSeries = async function (body) {
+    let timeSeries = []
+    // GENERATE TIMESERIES
+    // A. get point from tag in filters
+    let tag = ''
+    for (let j = 0; j < body.options.filters.length; j++) {
+        const filter = body.options.filters[j]
+        if (filter['tag']) {
+            tag = filter['tag']
+            break;
+        }
+    }
+    const oldFilers = JSON.parse(JSON.stringify(body.options.filters))
+    const newFilters = [{ tag: tag, _type: 'eq' }]
+    body.options.filters = newFilters
+    const ret = await getDataPoints(body)
+    console.log("GET DATA TIME SERIES", body.options.filters, ret)
+    let point
+    if (ret.data.length > 0) {
+        point = ret.data[0]
+        timeSeries = generateTimeSeries(point)
+    }
+    body.data = timeSeries
     return (body)
 }
 
@@ -1416,7 +1494,8 @@ const CONFIG = {
     deleteController,
     getDataPoints,
     setDataPoint,
-    deleteDataPoint
+    deleteDataPoint,
+    getDataTimeSeries
 }
 
 export default CONFIG

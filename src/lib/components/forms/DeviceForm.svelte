@@ -16,7 +16,7 @@ onMount(async () => {
 				deviceForm.style.display='block'
 				uid = e.detail
 				// GET DEVICES
-				const filters:any = [{uid:uid,type:'eq'}]
+				const filters:any = [{uid:uid,_type:'eq'}]
 				const ret = await getDevices(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == uid)})
 				console.log("RETURN ",found)

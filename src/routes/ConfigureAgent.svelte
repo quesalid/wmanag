@@ -34,13 +34,13 @@
 			  'Successful login attempt by @jack'
 		])
 		// GET AGENT INFO
-		let filters:any = [{uid:$currdevice,type:'eq'}]
+		let filters:any = [{uid:$currdevice,_type:'eq'}]
 		const devices = await getDevices(filters,$mock)
 		device = devices.data[0]
 		console.log("D E V I C E ",device)
 		titleagent = 'AGENTS for DEVICE '+device.name
 		// GET AGENTS FOR DEVICE
-		filters = [{module:$module.toUpperCase(),type:'eq'},{devuid:$currdevice,type:'eq'}]
+		filters = [{module:$module.toUpperCase(),_type:'eq'},{devuid:$currdevice,_type:'eq'}]
 		const ret = await getAgents(filters,$mock)
 		$agentsdata = ret.data
 		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
@@ -118,7 +118,7 @@
 		// SET DEVICE
 		let ret = await setDevice(cdev,$mock)
 		// GET UPDATED DEVICE LIST
-		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
+		const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 		ret = await getAgents(filters,$mock)
 		$agentsdata = ret.data
 		// CLOSE FORM DIALOG
@@ -130,10 +130,10 @@
 		const target = ev.target
 		const uid = target.dataset.uid
 		// DELETE DEVICE
-		let filters:any = [{uid:uid,type:'eq'}]
+		let filters:any = [{uid:uid,_type:'eq'}]
 		let ret = await deleteDevice(filters,$mock)
 		// GET UPDATED DEVICE LIST
-		filters = [{module:$module.toUpperCase(),type:'eq'}]
+		filters = [{module:$module.toUpperCase(),_type:'eq'}]
 		ret = await getAgents(filters,$mock)
 		$agentsdata = ret.data
 		// CLOSE FORM DIALOG

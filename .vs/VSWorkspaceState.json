@@ -8,6 +8,6 @@
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\forms\\AgentDataForm.svelte",
+  "SelectedNode": "\\src\\routes\\Monitor.svelte",
   "PreviewInSolutionExplorer": false
 }

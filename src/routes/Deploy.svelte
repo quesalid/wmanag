@@ -32,7 +32,7 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
-		const filters:any = [{module:$module.toUpperCase(),type:'eq'}]
+		const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 		const ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
 		// ADD EVENT LISTENER FOR AGENT CONFIGURATION

@@ -11,6 +11,7 @@
    import {getPointDatColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
    import {DeviceForm,DeleteForm} from '../lib/components/forms'
+   import {Chart} from '../lib/components/chart'
    // API INTERFACE
    import {getDataPoints,setDataPoint,deleteDataPoint} from '../lib/script/apidataconfig.js'
    // STORE
@@ -99,8 +100,10 @@
 	// DIALOG VARIABLES
 	let savedialog = DeviceForm
 	let deletedialog = DeleteForm
+	let chartdialog = Chart
 	let modalIdSave = "PointInputDiv"
 	let modalIdDel = "DeleteInputDiv"
+	let modalIdChart = "PointChartDiv"
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
@@ -119,10 +122,10 @@
 		const target = ev.target
 		const uid = target.dataset.uid
 		// DELETE DEVICE
-		let filters:any = [{uid:uid,type:'eq'}]
+		let filters:any = [{uid:uid,_type:'eq'}]
 		let ret = await deleteDataPoint(filters,$mock)
 		// GET UPDATED DEVICE LIST
-		filters = [{module:$module.toUpperCase(),type:'eq'}]
+		filters = [{module:$module.toUpperCase(),_type:'eq'}]
 		ret = await getDataPoints(filters,$mock)
 		$pointsdata = ret.data
 		// CLOSE FORM DIALOG
@@ -130,6 +133,7 @@
 		if(pointInputDiv)
 			pointInputDiv.style.display= 'none'
 	}
+
 	
 
 </script>
@@ -166,6 +170,11 @@
 		<div id="delete-device-dialog">
 			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
 		</div-->
+		{#if $module.toUpperCase() == 'DATA'}
+			<div id="delete-device-dialog">
+				<svelte:component this={chartdialog} bind:modalId={modalIdChart}  {bgcolor}/>
+			</div>
+		{/if}
 </div>
 
 <style>

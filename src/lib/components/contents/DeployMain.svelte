@@ -48,7 +48,7 @@ onMount(async () => {
 				console.log(" DEPLOY CLICKED: "+$currdevice)
 				confMainDiv.style.display="block"
 				// GET CURRENT DEVICE
-				const filters:any = [{uid:$currdevice,type:'eq'}]
+				const filters:any = [{uid:$currdevice,_type:'eq'}]
 				const ret = await getDevices(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == $currdevice)})
 				console.log("DEPLOY MAIN FOUND", found)
@@ -180,7 +180,7 @@ const onClickSubmit = async (ev:any)=>{
 			devtoken = res.data.token.split(' ')[1]
 			// LOGGED IN - PROCEED TO GET AGENTS
 			// A. LOAD AGENT FROM CONFIGURATION REPOSITORY
-			let filters = [{name:'devuid',op:'eq',value:deviceuid},{module:$module.toUpperCase(),type:'eq'}]
+			let filters = [{uid:'devuid',_type:'eq'},{module:$module.toUpperCase(),_type:'eq'}]
 			res  = await getAgents(filters,$mock)
 			confagents = res.data
 			//console.log("CONFIG AGENTS",confagents)

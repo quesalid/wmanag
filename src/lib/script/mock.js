@@ -29,8 +29,8 @@ export const filterArray = (array, filters, neg = false) => {
         for (let i = 0; i < filters.length; i++) {
             let f = filters[i]
             let keys = Object.keys(f)
-            let key = keys[0] != 'type' ? keys[0] : keys[1]
-            switch (f.type) {
+            let key = keys[0] != '_type' ? keys[0] : keys[1]
+            switch (f._type) {
                 case "eq":
                     if (!neg)
                         array = array.filter((item) => { return item[key] == f[key]})

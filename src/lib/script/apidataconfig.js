@@ -316,7 +316,7 @@ export const getDepartments = async function (filters, mock = false) {
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setDepartment = async function (agent, mock = false) {
+export const setDepartment = async function (department, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -324,7 +324,7 @@ export const setDepartment = async function (agent, mock = false) {
             version: 1.0,
             command: "setDepartment",
             options: {
-                agent: agent
+                department: department
             }
         }
         if (!mock) {
@@ -409,7 +409,7 @@ export const getLines = async function (filters, mock = false) {
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setLine = async function (agent, mock = false) {
+export const setLine = async function (line, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -417,7 +417,7 @@ export const setLine = async function (agent, mock = false) {
             version: 1.0,
             command: "setLine",
             options: {
-                agent: agent
+                line: line
             }
         }
         if (!mock) {
@@ -502,7 +502,7 @@ export const getMachines = async function (filters, mock = false) {
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setMachine = async function (agent, mock = false) {
+export const setMachine = async function (machine, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -510,7 +510,7 @@ export const setMachine = async function (agent, mock = false) {
             version: 1.0,
             command: "setLine",
             options: {
-                agent: agent
+                machine: machine
             }
         }
         if (!mock) {
@@ -595,7 +595,7 @@ export const getControllers = async function (filters, mock = false) {
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setController = async function (agent, mock = false) {
+export const setController = async function (controller, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -603,7 +603,7 @@ export const setController = async function (agent, mock = false) {
             version: 1.0,
             command: "setController",
             options: {
-                agent: agent
+                controller: controller
             }
         }
         if (!mock) {
@@ -688,7 +688,7 @@ export const getDataPoints = async function (filters, mock = false) {
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setDataPoint = async function (agent, mock = false) {
+export const setDataPoint = async function (point, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -696,7 +696,7 @@ export const setDataPoint = async function (agent, mock = false) {
             version: 1.0,
             command: "setDataPoint",
             options: {
-                agent: agent
+                point: point
             }
         }
         if (!mock) {
@@ -741,6 +741,37 @@ export const deleteDataPoint = async function (filters, mock = false) {
                 })
         } else {
             resolve(mocks.deleteDataPoint(body))
+        }
+    })
+}
+
+/**
+ * Get Data Time Series
+ * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+ * @param {any} mock use mock flag (default false)
+ */
+export const getDataTimeSeries = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getDataTimeSeries",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getDataTimeSeries(body))
         }
     })
 }

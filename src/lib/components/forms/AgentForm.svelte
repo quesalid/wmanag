@@ -18,7 +18,7 @@ onMount(async () => {
 				agentForm.style.display='block'
 				uid = e.detail
 				// GET DEVICES
-				const filters:any = [{uid:uid,type:'eq'},{module:$module.toUpperCase(),type:'eq'}]
+				const filters:any = [{uid:uid,_type:'eq'},{module:$module.toUpperCase(),_type:'eq'}]
 				const ret = await getAgents(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == uid)})
 				console.log("RETURN ",found)
