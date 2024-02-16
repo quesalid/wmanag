@@ -33,10 +33,11 @@ onMount(async () => {
 				echartdata.tag = point.tag
 				echartdata.um = point.um
 				echartdata.yAxis = {min:point.llim >0?point.llim*0.8:point.llim*1.1,max:point.hlim >0?point.hlim*1.2:point.hlim*0.8}
-				echartdata.markMin=[
+				echartdata.markData=[
 					{name:'LLIM',yAxis:point.llim,lineStyle: {type:'dashed',color:'#f00'}},
 					{name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'#f00'}},
 				]
+				echartdata.markOptions={symbol:['circle','circle']}
 				console.log("ECHART DATA",echartdata)
 			})
 		}
@@ -59,7 +60,7 @@ export let showChart = (ev:any)=>{
 let title = "CHART"
 let uid = ''
 let point:any = {}
-let echartdata = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markMin:[],yAxis:{}}
+let echartdata = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markData:[],yAxis:{},markOptions:{}}
 let chartoptions = {
 		"title": "Point  Macchina: ",
         "axes": {
