@@ -7,7 +7,6 @@ const onClick = (ev:any) =>{
 	// UPDATE NAVIGATION
 	navigate(ev.target.href.split('#')[1])
 	$navigation = getArrayFromPath(ev.target.pathname)
-	console.log("TARGET NAVIGATION",$navigation,ev.target.href)
 }
 
 

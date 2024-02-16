@@ -45,13 +45,11 @@ onMount(async () => {
 				deviceuid = e.detail
 				$currdevice = deviceuid
 				// NAVIGATE TO AGENT PAGE
-				console.log(" DEPLOY CLICKED: "+$currdevice)
 				confMainDiv.style.display="block"
 				// GET CURRENT DEVICE
 				const filters:any = [{uid:$currdevice,_type:'eq'}]
 				const ret = await getDevices(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == $currdevice)})
-				console.log("DEPLOY MAIN FOUND", found)
 				deviceuid = $currdevice
 				title += found.name
 				devicename = found.name
@@ -180,14 +178,10 @@ const onClickSubmit = async (ev:any)=>{
 			devtoken = res.data.token.split(' ')[1]
 			// LOGGED IN - PROCEED TO GET AGENTS
 			// A. LOAD AGENT FROM CONFIGURATION REPOSITORY
-			let filters = [{uid:'devuid',_type:'eq'},{module:$module.toUpperCase(),_type:'eq'}]
+			let filters = [{devuid:$currdevice,_type:'eq'},{module:$module.toUpperCase(),_type:'eq'}]
 			res  = await getAgents(filters,$mock)
 			confagents = res.data
-			//console.log("CONFIG AGENTS",confagents)
-
 			agents = await onDepUndep(confagents)
-
-			//console.log("FLATTENED AGENTS",agents)
 			
 		}
 	}catch(e){

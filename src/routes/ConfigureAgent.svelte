@@ -37,7 +37,6 @@
 		let filters:any = [{uid:$currdevice,_type:'eq'}]
 		const devices = await getDevices(filters,$mock)
 		device = devices.data[0]
-		console.log("D E V I C E ",device)
 		titleagent = 'AGENTS for DEVICE '+device.name
 		// GET AGENTS FOR DEVICE
 		filters = [{module:$module.toUpperCase(),_type:'eq'},{devuid:$currdevice,_type:'eq'}]

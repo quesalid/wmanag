@@ -7,7 +7,6 @@
 
 	function onSelect(e: Event) {
 		const clicked = (e as CustomEvent).detail
-		console.log('select', (e as CustomEvent).detail)
 		for (let i = 0; i < groups.length; i++) {
 			const group = groups[i]
 			const target = group.find((item: any) => item.text === clicked.selected)

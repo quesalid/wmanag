@@ -67,8 +67,6 @@ const drawChart = (node:any,series:any)=>{
         ]
       };
 
-      console.log("DRAW SVELTE ECHART",node,series)
-      console.log("DRAW SVELTE ECHART",option)
       // Display the chart using the configuration items and data just specified.
       myChart.setOption(option);
 

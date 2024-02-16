@@ -32,13 +32,12 @@ onMount(async () => {
 				echartdata.legend.push(point.tag)
 				echartdata.tag = point.tag
 				echartdata.um = point.um
-				echartdata.yAxis = {min:point.llim >0?point.llim*0.8:point.llim*1.1,max:point.hlim >0?point.hlim*1.2:point.hlim*0.8}
+				echartdata.yAxis = {min:point.llim >0?Math.floor(point.llim*0.8):Math.floor(point.llim*1.1),max:point.hlim >0?Math.ceil(point.hlim*1.2):Math.ceil(point.hlim*0.8)}
 				echartdata.markData=[
 					{name:'LLIM',yAxis:point.llim,lineStyle: {type:'dashed',color:'#f00'}},
 					{name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'#f00'}},
 				]
 				echartdata.markOptions={symbol:['circle','circle']}
-				console.log("ECHART DATA",echartdata)
 			})
 		}
 	});

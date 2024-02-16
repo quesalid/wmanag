@@ -1109,7 +1109,6 @@ const generateDataPoints = () => {
     const dataAgents = agents.filter((item)=> item.module == 'DATA')
     for (let i = 0; i < dataAgents.length; i++) {
         if (dataAgents[i].type == 'SCANNER') {
-            console.log(" AGENT UID ",dataAgents[i].uid)
             const agentuid = dataAgents[i].uid
             const devuid = dataAgents[i].devuid
             const driver = dataAgents[i].source.driver
@@ -1461,7 +1460,6 @@ const getDataTimeSeries = async function (body) {
     const newFilters = [{ tag: tag, _type: 'eq' }]
     body.options.filters = newFilters
     const ret = await getDataPoints(body)
-    console.log("GET DATA TIME SERIES", body.options.filters, ret)
     let point
     if (ret.data.length > 0) {
         point = ret.data[0]

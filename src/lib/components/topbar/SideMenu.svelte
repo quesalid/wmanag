@@ -14,7 +14,6 @@ function onSelect(e: Event) {
 			navigate(target.link)
 			// UPDATE NAVIGATION
 			$navigation = getArrayFromPath(target.link)
-			console.log("SIDE NAVIGATION",$navigation)
 			break
 		}
 	}
