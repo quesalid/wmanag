@@ -81,6 +81,7 @@ const onAgentClickDelete = (ev) => {
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)
 }
+// CLICK POINT FUNCTION DEPEND ON MODULE
 const onDataPointClickGraph = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
@@ -106,8 +107,9 @@ const onDataPointClickDelete = (ev) => {
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)
 }
+// ACCESSORS
 
-
+// COLUMNS DEFINITION
 let devicedatacolumns = [
     {
         header: 'Name',
@@ -424,6 +426,7 @@ export function getPointDatColumns(module) {
     return (pointdatacolumns)
 }
 
+/******** TEMPLATES *******/
 // DEVICE TEMPLATE
 let deviceTemplate = {
     name: '',
@@ -530,7 +533,7 @@ const learnAgentTemplate = {
     status: "",
     devuid: '',
 }
-// POINT TEMPLATE
+// POINT TEMPLATES
 const pointDataTemplate = {
     uid: '',
     tag: '',
@@ -549,6 +552,20 @@ const pointDataTemplate = {
     atype: '',
     type: '',
     agent: '',
+    device: '',
+    controller: '',
+    machine: '',
+    db: ''
+}
+
+const pointCloneTemplate = {
+    uid: '',
+    tag: '',
+    description: '',
+    type: '',
+    startdate: '',
+    enddate:'',
+    agent:'',
     device: '',
     controller: '',
     machine: '',

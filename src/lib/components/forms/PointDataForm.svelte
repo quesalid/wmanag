@@ -136,13 +136,13 @@ const setClass = (ev:any) =>{
 		</fieldset>
 		<fieldset>
 			<legend>MEMORY MAP</legend>
-			<label for="point-address">Address<span class="req">*</span>:</label>
-			<input type="number" id="point-address" name="llim" bind:value={point.address}>
-			{#if point.atype == 'DIGITAL'}
-				<label for="point-bit">Bit<span class="req">*</span>:</label>
-				<input type="number" id="point-bit" name="bit" bind:value={point.bit}>
-			{/if}
 			{#if driver == 'modbus'}
+				<label for="point-address">Address<span class="req">*</span>:</label>
+				<input type="number" id="point-address" name="llim" bind:value={point.address}>
+				{#if point.atype == 'DIGITAL'}
+					<label for="point-bit">Bit<span class="req">*</span>:</label>
+					<input type="number" id="point-bit" name="bit" bind:value={point.bit}>
+				{/if}
 				<label for="point-area">Area<span class="req">*</span>:</label>
 				<select name="device" id="point-device-uid" bind:value={point.area}>
 					{#each areaModbus as area}
@@ -150,6 +150,12 @@ const setClass = (ev:any) =>{
 					{/each}
 				</select>
 			{:else if driver == 's7'}
+				<label for="point-address">Address<span class="req">*</span>:</label>
+				<input type="number" id="point-address" name="llim" bind:value={point.address}>
+				{#if point.atype == 'DIGITAL'}
+					<label for="point-bit">Bit<span class="req">*</span>:</label>
+					<input type="number" id="point-bit" name="bit" bind:value={point.bit}>
+				{/if}
 				<label for="point-area">Area<span class="req">*</span>:</label>
 				<select name="device" id="point-device-uid" bind:value={point.area}>
 					{#each areaS7 as area}
@@ -157,7 +163,10 @@ const setClass = (ev:any) =>{
 					{/each}
 				</select>
 				<label for="point-numarea">Num Area<span class="req">*</span>:</label>
-				<input type="number" id="point-numarea" name="numarea" bind:value={point.area}>
+				<input type="number" id="point-numarea" name="numarea" bind:value={point.numarea}>
+			{:else if driver == 'ip'}
+				<label for="point-address">IP TAG<span class="req">*</span>:</label>
+				<input type="text" id="point-address" name="llim" bind:value={point.address}>
 			{/if}
 		</fieldset>
 	</section>

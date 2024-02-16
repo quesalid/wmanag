@@ -1077,7 +1077,6 @@ export function makeDataPointsUid(driver, agent, device, controller, machine, db
         point.atype = atype
         point.dtype = dtype
         point.bit = Number(bit)
-        point.address = Math.floor(Math.random() * 40000)
         point.type = getPointType(tag)
         const [hlim, llim] = getPointLims(point.type)
         point.hlim = hlim
@@ -1086,6 +1085,7 @@ export function makeDataPointsUid(driver, agent, device, controller, machine, db
             case 's7':
                 point.area = 'DB'
                 point.numarea = Math.floor(Math.random() * 8)
+                point.address = Math.floor(Math.random() * 40000)
                 break;
             case 'modbus':
                 if (point.atype == 'DIGITAL')
@@ -1093,10 +1093,12 @@ export function makeDataPointsUid(driver, agent, device, controller, machine, db
                 else
                     point.area = 'INPUT'
                 point.numarea = 0
+                point.address = Math.floor(Math.random() * 40000)
                 break;
             default:
                 point.area = 'NA'
                 point.numarea = 0
+                point.address = tag
                 break
         }
         points.push(point)
