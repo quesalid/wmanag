@@ -19,7 +19,8 @@ onMount(async () => {
 					point = ret.data[0]
 				let filters1 = [{tag:point.tag,_type:'eq'}]
 				let ret1 = await getDataTimeSeries(filters1,$mock)
-				//echartdata = {data:[],timestamp:[],title:'',legend:[],tag:'',um:''}
+				echartdata.data = []
+				echartdata.timestamp = []
 				for (let i = 0; i < ret1.data.length; i++) {
 					const p = ret1.data[i]
 					var date:any = new Date(p.timestamp);
@@ -32,8 +33,8 @@ onMount(async () => {
 				echartdata.tag = point.tag
 				echartdata.um = point.um
 				echartdata.markMin=[
-					{name:'HLIM',x:0,y:point.llim},
-					{name:'HLIM',x:1000,y:point.llim}
+					{name:'LLIM',yAxis:point.llim,lineStyle: {type:'dashed',color:'#f00'}},
+					{name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'#f00'}},
 				]
 				console.log("ECHART DATA",echartdata)
 			})
