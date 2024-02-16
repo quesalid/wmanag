@@ -28,10 +28,11 @@ onMount(async () => {
 					echartdata.data.push(p.value)
 					echartdata.timestamp.push(date.toISOString())
 				}
-				echartdata.title = "Point "+point.tag + " - "+point.description
+				echartdata.title = "Point "+point.tag
 				echartdata.legend.push(point.tag)
 				echartdata.tag = point.tag
 				echartdata.um = point.um
+				echartdata.yAxis = {min:point.llim >0?point.llim*0.8:point.llim*1.1,max:point.hlim >0?point.hlim*1.2:point.hlim*0.8}
 				echartdata.markMin=[
 					{name:'LLIM',yAxis:point.llim,lineStyle: {type:'dashed',color:'#f00'}},
 					{name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'#f00'}},
@@ -58,7 +59,7 @@ export let showChart = (ev:any)=>{
 let title = "CHART"
 let uid = ''
 let point:any = {}
-let echartdata = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markMin:[]}
+let echartdata = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markMin:[],yAxis:{}}
 let chartoptions = {
 		"title": "Point  Macchina: ",
         "axes": {
@@ -90,7 +91,7 @@ let chartoptions = {
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
 	   <div class="chart-form"> 
 		<div class="banner">
-			POINT CHART 
+			POINT CHART - {point.description}
 		</div>
 		<div class="chart-div" style="margin-left:auto;">
 			    <div class="filter-div" >

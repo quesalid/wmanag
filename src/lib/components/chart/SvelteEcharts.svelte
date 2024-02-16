@@ -83,7 +83,9 @@ const drawChart = (node:any,series:any)=>{
               option.legend.data = [newParams.series.tag]
               option.xAxis.data = labels
               option.yAxis.name = newParams.series.um
-               option.series[0].markLine.data =  newParams.series.markMin
+              option.yAxis.min = newParams.series.yAxis.min
+              option.yAxis.max = newParams.series.yAxis.max
+              option.series[0].markLine.data =  newParams.series.markMin
               //console.log("SVELTE ECHART UPDATEA",option,newParams,newParams.tag)
               myChart.setOption(option,newParams);
          },

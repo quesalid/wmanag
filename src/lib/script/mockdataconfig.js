@@ -1040,7 +1040,7 @@ function getPointLims(type) {
             break;
         case 'SPEED':
             llim = Math.floor(Math.random() * 500) + 1000.0
-            hlim = Math.floor(Math.random() * 500) + 5000.0
+            hlim = Math.floor(Math.random() * 500) + 4000.0
             break;
         case 'CURRENT':
             llim = Math.floor(Math.random() * 4) + 10.0
