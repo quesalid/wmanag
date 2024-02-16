@@ -14,7 +14,7 @@
    import {dragElement} from '../lib/components/CompUtils.js'
    import {AgentForm,DeleteForm} from '../lib/components/forms'
    // API INTERFACE
-   import {getAgents,setDevice,deleteDevice,getDevices} from '../lib/script/apidataconfig.js'
+   import {getAgents,setAgent,deleteAgent,getDevices} from '../lib/script/apidataconfig.js'
    // STORE
    import { mock,module,currdevice} from '../lib/ustore.js'
   
@@ -45,10 +45,10 @@
 		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
 		const confMainDiv = document.getElementById("main-configuration-agent-page")
 		if(confMainDiv){
-			confMainDiv.addEventListener("agentclicked",async (e:any)=>{
+			confMainDiv.addEventListener("deviceclicked",async (e:any)=>{
 				deviceuid = e.detail
 				// NAVIGATE TO AGENT PAGE
-				console.log("AGENT CLICKED ---> ",deviceuid)
+				console.log("DEVICE CLICKED ---> ",deviceuid)
 			})
 			confMainDiv.addEventListener("modelclicked",async (e:any)=>{
 				deviceuid = e.detail
@@ -110,12 +110,13 @@
 	let deletedialog = DeleteForm
 	let modalIdSave = "AgentInputDiv"
 	let modalIdDel = "DeleteInputDiv"
+	let deleteTitle = "Clicking DELETE the agent will be cancelled"
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
 		cdev.module = $module.toLocaleUpperCase()
 		// SET DEVICE
-		let ret = await setDevice(cdev,$mock)
+		let ret = await setAgent(cdev,$mock)
 		// GET UPDATED DEVICE LIST
 		const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 		ret = await getAgents(filters,$mock)
@@ -130,7 +131,7 @@
 		const uid = target.dataset.uid
 		// DELETE DEVICE
 		let filters:any = [{uid:uid,_type:'eq'}]
-		let ret = await deleteDevice(filters,$mock)
+		let ret = await deleteAgent(filters,$mock)
 		// GET UPDATED DEVICE LIST
 		filters = [{module:$module.toUpperCase(),_type:'eq'}]
 		ret = await getAgents(filters,$mock)
@@ -174,7 +175,7 @@
 			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
 		</div>
 		<div id="delete-device-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
+			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
 		</div>
 </div>
 

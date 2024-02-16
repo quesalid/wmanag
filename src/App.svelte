@@ -8,6 +8,9 @@
 // SYSTEM Dynamics
 // https://www.systemdynamics.org/
 // https://insightmaker.com/
+//
+// SECURITY ANS PRIVATE CLOUD
+// https://blog.cozy.io/en/cozy-cloud-how-to-encrypt-web-application/
 
 import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";

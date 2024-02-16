@@ -9,7 +9,7 @@ import {getDevices} from '../../script/apidataconfig.js'
 import {token, mock, currentplant} from '../../ustore.js'
 
 onMount(async () => {
-		console.log("DATA FORM", agent)
+		//console.log("DATA FORM", agent)
 	});
 
 

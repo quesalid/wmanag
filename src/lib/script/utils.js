@@ -50,12 +50,12 @@ const onDeviceClickSsh = (ev) => {
 }
 // CLICK AGENT FUNCTION DEPEND ON MODULE
 const onAgentClickDevice = (ev) => {
-    /*const target = ev.target
+    const target = ev.target
     const uid = target.getAttribute("data-uid")
     /// SEND EDIT CLICKED EVENT TO MAIN CONFIGURATION AGENT
-    const configPage = document.getElementById('main-configuration-page')
-    const deleteClicked = new CustomEvent("agentclicked", { detail: uid })
-    configPage?.dispatchEvent(deleteClicked)*/
+    const configPage = document.getElementById('main-configuration-agent-page')
+    const deleteClicked = new CustomEvent("deviceclicked", { detail: uid })
+    configPage?.dispatchEvent(deleteClicked)
 }
 const onAgentClickEdit = (ev) => {
     const target = ev.target
@@ -74,12 +74,12 @@ const onAgentClickModel = (ev) => {
     configPage?.dispatchEvent(modelClicked)
 }
 const onAgentClickDelete = (ev) => {
-    /*const target = ev.target
+    const target = ev.target
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MODAL
     const modalEdit = document.getElementById('DeleteInputDiv')
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
-    modalEdit?.dispatchEvent(deleteClicked)*/
+    modalEdit?.dispatchEvent(deleteClicked)
 }
 const onDataPointClickGraph = (ev) => {
     const target = ev.target
@@ -91,20 +91,20 @@ const onDataPointClickGraph = (ev) => {
     modalEdit?.dispatchEvent(deleteClicked)
 }
 const onDataPointClickEdit = (ev) => {
-    /*const target = ev.target
+    const target = ev.target
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MODAL
-    const modalEdit = document.getElementById('DeleteInputDiv')
-    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
-    modalEdit?.dispatchEvent(deleteClicked)*/
+    const modalEdit = document.getElementById('PointInputDiv')
+    const editClicked = new CustomEvent("editclicked", { detail: uid })
+    modalEdit?.dispatchEvent(editClicked)
 }
 const onDataPointClickDelete = (ev) => {
-    /*const target = ev.target
+    const target = ev.target
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MODAL
     const modalEdit = document.getElementById('DeleteInputDiv')
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
-    modalEdit?.dispatchEvent(deleteClicked)*/
+    modalEdit?.dispatchEvent(deleteClicked)
 }
 
 

@@ -25,12 +25,12 @@ export let topbarheight = "95%"
 
 export let  groups = [
 		[
-			{ icon: null, text: `Dashboard`,link:'/'+$module },
-			{ icon: null, text: `Monitor`,link:'/'+$module+'/monitor' },
-			{ icon: null, text: `Build`,link:'/'+$module+'/build' },
+			{ icon: '/DASHBOARD.svg', text: `Home`,link:'/'+$module },
+			{ icon: '/MONITOR.svg', text: `Monitor`,link:'/'+$module+'/monitor' },
+			{ icon: '/BUILD.svg', text: `Build`,link:'/'+$module+'/build' },
 		], [
-			{ icon: null, text: `Configure`,link:'/'+$module+'/configure' },
-			{ icon: null, text: `Deploy`,link:'/'+$module+'/deploy' }
+			{ icon: '/EDIT.svg', text: `Configure`,link:'/'+$module+'/configure' },
+			{ icon: '/DEPLOY.svg', text: `Deploy`,link:'/'+$module+'/deploy' }
 		]
 	]
 
@@ -57,7 +57,12 @@ const toggleNav = (ev:any)=> {
     {#each groups as group}
 		{#each group as item}
 			{@const active = $menu.active === item.text}
+			<div style='display:flex'>
+				{#if item.icon}
+					<img src={item.icon} alt='' width='25' height='25' style='opacity:0.8;margin-left:2px;'/>
+				{/if}
 			<button class="group flex rounded-md justify-items-start w-full px-2 py-2 text-sm {active ? 'bg-teal-600 text-white' : 'text-gray-900'}"  use:menu.item>{item.text}</button>
+			</div>
 		{/each}
 	{/each}
   </div>

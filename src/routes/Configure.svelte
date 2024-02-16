@@ -101,6 +101,7 @@
 	let deletedialog = DeleteForm
 	let modalIdSave = "DeviceInputDiv"
 	let modalIdDel = "DeleteInputDiv"
+	let deleteTitle = "Clicking DELETE the device will be cancelled"
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
@@ -165,7 +166,7 @@
 			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
 		</div>
 		<div id="delete-device-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
+			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
 		</div>
 </div>
 

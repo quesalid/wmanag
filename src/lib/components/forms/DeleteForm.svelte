@@ -28,10 +28,9 @@ export let  bgcolor = "#ddefde"
 export let del = (ev:any)=>{
 	console.log("delete DEVICE: ",uid)
 }
+export let title = "Clicking DELETE the device will be cancelled"
 
 
-
-let title = "DELETE"
 let uid = ''
 
 </script>
@@ -41,7 +40,8 @@ let uid = ''
 			<h3></h3>
 		</section>
 		<div class="banner">
-			Clicking DELETE the device will be cancelled
+			<img src='/WARNING.svg' alt='WARNING' width='40' height='40' />
+			<span>{title}</span>
 		</div>
 		<div class="button-div">
 			<!--div><span class="req">*</span> - Required field</!--div-->
@@ -93,9 +93,11 @@ section{
 	margin-top: 2em;
 }
 .banner{
+	display:flexbox;
 	margin-top: 1.5em;
 	text-align: center;
 	font-size:large;
 	font-weight: bold;
+	justify-content:center ;
 }
 </style>

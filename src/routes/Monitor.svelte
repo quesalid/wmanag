@@ -10,7 +10,7 @@
    import {SimpleTable} from '../lib/components/table'
    import {getPointDatColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
-   import {DeviceForm,DeleteForm} from '../lib/components/forms'
+   import {PointForm,DeleteForm} from '../lib/components/forms'
    import {Chart} from '../lib/components/chart'
    // API INTERFACE
    import {getDataPoints,setDataPoint,deleteDataPoint} from '../lib/script/apidataconfig.js'
@@ -98,12 +98,13 @@
 	let pointdatacolumns = getPointDatColumns($module.toUpperCase())
 
 	// DIALOG VARIABLES
-	let savedialog = DeviceForm
+	let savedialog = PointForm
 	let deletedialog = DeleteForm
 	let chartdialog = Chart
 	let modalIdSave = "PointInputDiv"
 	let modalIdDel = "DeleteInputDiv"
 	let modalIdChart = "PointChartDiv"
+	let deleteTitle = "Clicking DELETE the point will be cancelled"
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
@@ -164,12 +165,12 @@
 				<SimpleTable slot="bodycontent" data={pointsdata} datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>
-		<!--div id="save-device-dialog">
+		<div id="save-device-dialog">
 			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
-		</!--div>
+		</div>
 		<div id="delete-device-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor}/>
-		</div-->
+			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
+		</div>
 		{#if $module.toUpperCase() == 'DATA'}
 			<div id="delete-device-dialog">
 				<svelte:component this={chartdialog} bind:modalId={modalIdChart}  {bgcolor}/>
