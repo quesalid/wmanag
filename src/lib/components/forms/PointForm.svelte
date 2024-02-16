@@ -67,7 +67,7 @@ export let save = (ev:any)=>{
 export let mod = 'DATA'
 
 
-let newpoint = getPointTemplate(mod.toUpperCase())
+let newpoint = getPointTemplate($module.toUpperCase())
 let point = newpoint
 let title = "POINT "+ mod
 let uid = ''
@@ -79,7 +79,7 @@ let pointform = PointDataForm
 		<section>
 			<h3>{title}</h3>
 		</section>
-		<svelte:component this={pointform} bind:agent={point} title={title}/>
+		<svelte:component this={pointform} bind:point={point} title={title}/>
 		<div class="button-div">
 			<div><span class="req">*</span> - Required field</div>
 			<div style="margin-left:auto;">

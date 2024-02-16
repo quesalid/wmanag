@@ -80,15 +80,15 @@
 		navigate(`/`+$module)
 	}
 
-	// TABLE VARIABLES
+	// TABLE VARIABLES - CALLS PointForm edit with uid = 'NONE'
 	const titlepoint = 'POINTS'
 	let onClickAddPoint = (ev:any)=>{
 		console.log("ONCLICK ADD CONTAINER")
-		/*const modalEdit = document.getElementById(modalIdSave)
+		const modalEdit = document.getElementById(modalIdSave)
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
-		modalEdit?.dispatchEvent(addClicked)*/
+		modalEdit?.dispatchEvent(addClicked)
 	}
-	let toolbardevice = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
+	let toolbarpoint = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
 	const disableClose = true
 	const draggable = true
 	let zindex = 4
@@ -161,7 +161,7 @@
 
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  title="{titlepoint}" toolbar={toolbardevice} {disableClose} {draggable} {headercolor} {zindex}>
+			<Wmanag id="containerWManager"  title="{titlepoint}" toolbar={toolbarpoint} {disableClose} {draggable} {headercolor} {zindex}>
 				<SimpleTable slot="bodycontent" data={pointsdata} datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

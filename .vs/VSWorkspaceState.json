@@ -4,9 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
+    "\\src\\lib\\components\\forms",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\polycurve.js",
+  "SelectedNode": "\\src\\routes\\Configure.svelte",
   "PreviewInSolutionExplorer": false
 }

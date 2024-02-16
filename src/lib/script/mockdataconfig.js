@@ -1094,7 +1094,7 @@ export function makeDataPointsUid(driver, agent, device, controller, machine, db
                     point.area = 'INPUT'
                 point.numarea = 0
                 break;
-            case 'ip':
+            default:
                 point.area = 'NA'
                 point.numarea = 0
                 break

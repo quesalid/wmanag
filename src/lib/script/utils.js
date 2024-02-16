@@ -531,7 +531,7 @@ const learnAgentTemplate = {
     devuid: '',
 }
 // POINT TEMPLATE
-const pointTemplate = {
+const pointDataTemplate = {
     uid: '',
     tag: '',
     description: '',
@@ -584,6 +584,6 @@ export const getPointTemplate = (module='DATA') => {
         case 'CLONE':
         case 'AI':
         case 'LEARN':
-            return (pointTemplate)
+            return (pointDataTemplate)
     }
 }
