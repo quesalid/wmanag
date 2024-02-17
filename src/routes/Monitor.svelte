@@ -8,12 +8,17 @@
    import { center } from '../lib/components/topbar/notifications';
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
-   import {getPointDatColumns} from '../lib/script/utils.js'
+   import {getPointColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
    import {PointForm,DeleteForm} from '../lib/components/forms'
    import {Chart} from '../lib/components/chart'
    // API INTERFACE
-   import {getDataPoints,setDataPoint,deleteDataPoint} from '../lib/script/apidataconfig.js'
+   import {getDataPoints,
+			setDataPoint,
+			deleteDataPoint,
+			getClonePoints,
+			setClonePoint,
+			deleteClonePoint} from '../lib/script/apidataconfig.js'
    // STORE
    import { mock,module,navigation,getArrayFromPath,currdevice} from '../lib/ustore.js'
    
@@ -33,7 +38,15 @@
 			  'Successful login attempt by @jack'
 		])
 		const filters:any = []
-		const ret = await getDataPoints(filters,$mock)
+		let ret:any
+		switch($module.toUpperCase()){
+			case 'CLONE':
+				ret = await getClonePoints(filters,$mock)
+				break;
+			default:
+				ret = await getDataPoints(filters,$mock)
+				break;
+		}
 		$pointsdata = ret.data
 		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
 		const monitorMainDiv = document.getElementById("main-monitor-page")
@@ -95,7 +108,7 @@
     let headercolor = bgcolor
 	let pagesize = true
 	let pSize = 3
-	let pointdatacolumns = getPointDatColumns($module.toUpperCase())
+	let pointdatacolumns = getPointColumns($module.toUpperCase())
 
 	// DIALOG VARIABLES
 	let savedialog = PointForm

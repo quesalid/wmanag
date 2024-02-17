@@ -1148,10 +1148,6 @@ const getTSValue = (type, min, max) => {
     return(val)
 }
 
-const spline4Points = (t, p_1, p0, p1, p2) => {
-    const spline = t * ((2 - t) * t - 1) * p_1 + (t * t * (3 * t - 5) + 2) * p0 + t * ((4 - 3 * t) * t + 1) * p1 + (t - 1) * t * t * p2 / 2
-    return(spline)
-}
 
 const MAXSERIES = 1000
 const TICK = 5
@@ -1187,6 +1183,61 @@ const generateTimeSeriesPoly = (point, num,DEGREE=5) => {
 }
 
 let datapoints = generateDataPoints()
+
+function randomTD(length) {
+    let result = ''
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    const tag = 'BATCH-' + result
+    const desc = 'PRODUCT XYZ BATCH '+tag
+
+    return [tag, desc]
+}
+export function makeClonePointsUid(agent, device, num = 30) {
+    const points = []
+    for (let i = 0; i < num; i++) {
+        const point = { uid: uuidv4(), tag: '', description: '', agent: agent, device: device }
+        const [tag, desc] = randomTD(7)
+        point.tag = tag
+        point.module = 'CLONE'
+        point.description = desc
+        point.type = 'BATCH' // 'BATCH'|'CONTINUOUS'|'PROCEDURAL'
+        const now = Date.now()
+        const start = new Date("2023-01-01")
+        const newdate1 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
+        const newdate2 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
+        if (newdate1.getTime() < newdate2.getTime()) {
+            point.startdate = newdate1.toISOString().split('Z')[0]
+            point.enddate = newdate2.toISOString().split('Z')[0]
+        } else {
+            point.startdate = newdate2.toISOString().split('Z')[0]
+            point.enddate = newdate1.toISOString().split('Z')[0]
+        }
+        points.push(point)
+    }
+    return points
+}
+
+const generateClonePoints = () => {
+    const array = []
+    const dataAgents = agents.filter((item) => item.module == 'CLONE')
+    for (let i = 0; i < dataAgents.length; i++) {
+        if (dataAgents[i].type == 'RECORDER') {
+            const agentuid = dataAgents[i].uid
+            const devuid = dataAgents[i].devuid
+            const points = makeClonePointsUid(agentuid, devuid)
+            array.push.apply(array, points)
+        }
+    }
+
+    return array
+}
+
+let clonepoints = generateClonePoints()
+
 
 // **************** CALLS ****************
 const getDevices = async function (body) {
@@ -1471,6 +1522,40 @@ const getDataTimeSeries = async function (body) {
     return (body)
 }
 
+const getClonePoints = async function (body) {
+    let retPoints = JSON.parse(JSON.stringify(clonepoints))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retPoints = filterArray(retPoints, filters)
+    }
+    body.data = retPoints
+    return (body)
+}
+
+const setClonePoint = async function (body) {
+    const point = body.options.point
+    let old = null
+    if (point) {
+        const existing = clonepoints.findIndex((item) => { return item.uid == point.uid })
+        if (existing > -1) {
+            old = clonepoints[existing]
+            clonepoints[existing] = point
+        } else {
+            clonepoints.push(point)
+        }
+    }
+    return old
+}
+
+
+const deleteClonePoint = async function (body) {
+    const filters = body.options.filters
+    clonepoints = filterArray(clonepoints, filters, true)
+    body.data = clonepoints
+    return (body)
+}
+
+
 const CONFIG = {
     getDevices,
     setDevice,
@@ -1496,7 +1581,10 @@ const CONFIG = {
     getDataPoints,
     setDataPoint,
     deleteDataPoint,
-    getDataTimeSeries
+    getDataTimeSeries,
+    getClonePoints,
+    setClonePoint,
+    deleteClonePoint,
 }
 
 export default CONFIG

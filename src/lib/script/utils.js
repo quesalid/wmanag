@@ -422,8 +422,43 @@ let pointdatacolumns = [
     }
 ];
 
-export function getPointDatColumns(module) {
-    return (pointdatacolumns)
+let pointclonecolumns = [
+    {
+        header: 'Tag',
+        accessor: 'tag',
+    },
+    {
+        header: 'Description',
+        accessor: 'description',
+    },
+    {
+        header: 'Start Date',
+        accessor: 'startdate'
+    },
+    {
+        header: 'End Date',
+        accessor: 'enddate'
+    },
+    {
+        header: 'Edit',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onDataPointClickEdit } }
+    },
+    {
+        header: 'Delete',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/DELETE.svg', onClick: onDataPointClickDelete } }
+    }
+];
+export function getPointColumns(module) {
+    switch (module) {
+        case 'CLONE':
+        case 'AI':
+        case 'LEARN':
+            return (pointclonecolumns)
+        case 'DATA':
+            return (pointdatacolumns)
+    }
 }
 
 /******** TEMPLATES *******/
@@ -566,10 +601,7 @@ const pointCloneTemplate = {
     startdate: '',
     enddate:'',
     agent:'',
-    device: '',
-    controller: '',
-    machine: '',
-    db: ''
+    device: ''
 }
 
 export const getDeviceTemplate = (module='DATA') => {
@@ -598,9 +630,10 @@ export const getAgentTemplate = (module) => {
 export const getPointTemplate = (module='DATA') => {
     switch (module) {
         case 'DATA':
-        case 'CLONE':
+            return (pointDataTemplate)
         case 'AI':
         case 'LEARN':
-            return (pointDataTemplate)
+        case 'CLONE':
+            return (pointCloneTemplate)
     }
 }

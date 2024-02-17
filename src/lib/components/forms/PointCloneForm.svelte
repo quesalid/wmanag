@@ -16,7 +16,8 @@ onMount(async () => {
 
 
 // EXPORTS
-export let agent:any
+// EXPORTS
+export let point:any
 export let title:any
 
 
@@ -24,12 +25,17 @@ export let title:any
 	<section class="device-form">
 		<fieldset>
 			<legend>IDENTIFICATION</legend>
+			<label for="point-tag">Tag<span class="req">*</span>:</label>
+			<input type="text" id="point-tag" name="tag" bind:value={point.tag}>
+			<label for="point-description">Description:</label>
+			<input type="text" id="point-description" name="description" bind:value={point.description}>
 		</fieldset>
 		<fieldset>
-			<legend>MEASUREMENT</legend>
-		</fieldset>
-		<fieldset>
-			<legend>FIELD</legend>
+			<legend>PROCESS</legend>
+			<label for="point-startdate">Start Date:</label>
+			<input type="datetime-local" id="point-startdate" name="startdate" bind:value={point.startdate}>
+			<label for="point-enddate">End Date:</label>
+			<input type="datetime-local" id="point-enddate" name="enddate" bind:value={point.enddate}>
 		</fieldset>
 	</section>
 <style>

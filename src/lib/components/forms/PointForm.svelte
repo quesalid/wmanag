@@ -5,7 +5,7 @@ import {onMount} from "svelte"
 import {getPointTemplate} from '../../script/utils.js'
 import {PointDataForm,PointAiForm,PointLearnForm,PointCloneForm} from './'
 // API
-import {getDataPoints} from '../../script/apidataconfig.js'
+import {getDataPoints,getClonePoints} from '../../script/apidataconfig.js'
 // STORE
 import {mock, module} from '../../ustore.js'
 
@@ -16,9 +16,27 @@ onMount(async () => {
 			pointForm.addEventListener("editclicked",async (e:any)=>{
 				pointForm.style.display='block'
 				uid = e.detail
-				// GET DEVICES
+				// GET POINTS
 				const filters:any = [{uid:uid,_type:'eq'},{module:$module.toUpperCase(),_type:'eq'}]
-				const ret = await getDataPoints(filters,$mock)
+				let ret
+				switch($module.toUpperCase()){
+					case 'CLONE':
+						ret = await getClonePoints(filters,$mock)
+						pointform = PointCloneForm
+						break;
+					case 'AI':
+						ret = await getClonePoints(filters,$mock)
+						pointform = PointAiForm
+						break;
+					case 'LEARN':
+						ret = await getClonePoints(filters,$mock)
+						pointform = PointLearnForm
+						break;
+					case 'DATA':
+						pointform = PointDataForm
+						ret = await getDataPoints(filters,$mock)
+						break;
+				}
 				const found = ret.data.find((item:any)=> {return(item.uid == uid)})
 				if(found){
 					point = found
@@ -28,21 +46,6 @@ onMount(async () => {
 				else{
 					point = newpoint
 					title = "AGENT "+$module
-				}
-				// SELECT AGENT FOEM
-				switch($module.toUpperCase()){
-					case 'DATA':
-						pointform = PointDataForm
-						break;
-					case 'CLONE':
-						pointform = PointCloneForm
-						break;
-					case 'AI':
-						pointform = PointAiForm
-						break;
-					case 'LEARN':
-						pointform = PointLearnForm
-						break;
 				}
 			})
 		}
@@ -71,7 +74,7 @@ let newpoint = getPointTemplate($module.toUpperCase())
 let point = newpoint
 let title = "POINT "+ mod
 let uid = ''
-let pointform = PointDataForm
+let pointform:any = PointDataForm
 
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">

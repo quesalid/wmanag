@@ -7,7 +7,6 @@ import {getDeviceTemplate} from '../../script/utils.js'
 import {getControllers,getMachines,getAgents,getDevices} from '../../script/apidataconfig.js'
 // STORE
 import {token, mock,module} from '../../ustore.js'
-    import AdminDb from "../../../routes/AdminDB.svelte";
 
 onMount(async () => {
 		//console.log("DATA FORM", agent)
