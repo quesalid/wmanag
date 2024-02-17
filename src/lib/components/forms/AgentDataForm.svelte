@@ -32,7 +32,7 @@ export let title:any
 				<option value="HIST">HIST</option>
 			</select>
 			<label for="agent-description">Description:</label>
-			<input type="text" id="agent-description" name="description" bind:value={agent.description}>
+			<input type="text" size="35" id="agent-description" name="description" bind:value={agent.description}>
 		</fieldset>
 		<fieldset>
 			<legend>SOURCE</legend>
@@ -110,7 +110,7 @@ fieldset {
 }
 label{
 	color: #444;
-	margin: 2px;
+	margin: 3px;
 	font-weight:600 ;
 }
 input{

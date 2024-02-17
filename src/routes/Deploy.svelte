@@ -11,6 +11,7 @@
    import {getDeviceDeployColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
    import DeployMain from '../lib/components/contents/DeployMain.svelte'
+   import DockerMain from '../lib/components/contents/DockerMain.svelte'
    // API INTERFACE
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
    import {agentGetInfo} from '../lib/script/apidataagent.js'
@@ -147,6 +148,8 @@
 	// DIALOG VARIABLES
 	let deploydialog = DeployMain
 	let deployDivName = "deploy-main-container"
+	let dockerdialog = DockerMain
+	let dockerDivName = "docker-main-container"
 	
 
 </script>
@@ -177,8 +180,11 @@
 				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>
-		<div id="save-device-dialog">
+		<div>
 			<svelte:component this={deploydialog} headercolor={bgcolor}/>
+		</div>
+		<div>
+			<svelte:component this={dockerdialog} headercolor={bgcolor}/>
 		</div>
 </div>
 

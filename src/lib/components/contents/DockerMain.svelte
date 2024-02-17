@@ -1,11 +1,11 @@
 <script lang="ts">
 // PRIVATE DOCKERHUB PORTUS http://port.us.org/docs/API.html
 import { onMount} from "svelte"
-import Wmanag from '../lib/components/WManag.svelte'
-import DockerManag from '../lib/components/contents/DockerManag.svelte'
-import WindowFooter from '../lib/components/contents/WindowFooter.svelte'
-import Spinner from '../lib/components/spinner/RingLoader.svelte'
-import {token, mock} from '../lib/ustore.js'
+import Wmanag from '../WManag.svelte'
+import DockerManag from '../contents/DockerManag.svelte'
+import WindowFooter from '../contents/WindowFooter.svelte'
+import Spinner from '../spinner/RingLoader.svelte'
+import {token, mock, currdevice} from '../../ustore'
 import {setDockerEnv, 
 	dockerCreate, 
 	dockerInfo, 
@@ -17,11 +17,11 @@ import {setDockerEnv,
 	dockerStopContainer,
 	dockerPullImage,
 	dockerRemoveContainer,
-	dockerRemoveImage} from '../lib/script/apidocker.js'
-
+	dockerRemoveImage} from '../../script/apidocker.js'
+import {getDevices} from '../../script/apidataconfig.js'
 import { writable } from 'svelte/store';
-import { sleep } from "../lib/script/api";
-import {showHideLoader} from "../lib/components/CompUtils.js"
+import { sleep } from "../../script/api";
+import {showHideLoader} from "../CompUtils.js"
 
 
 let cafile
@@ -39,7 +39,7 @@ let imdatarows:any = writable(imagedatarows);
 const disableClose = false
 const draggable = true
 const zindex = 4
-const headercolor = "#f4e2d2"
+export let  headercolor = "#f4e2d2"
 let dockeruid = ""
 let selectedImage = ""
 let selectedNetwork = ""
@@ -50,14 +50,38 @@ let toolbarimage:any =[]
 let defaultWManager = 'defaultWDocker'
 let pagesize = false
 let spinnermessage = "Could take some time...."
-let loaderid = "loading-page-id"
+let loaderid = "loading-docker-id"
 let pageid = defaultWManager
+let deviceuid = ''
 
+let eventListener:any 
 onMount(async () => {
-	adjustPosition()
-	showHideLoader(loaderid,pageid,false)
-	$mock = true
-	disableFields()
+	const confMainDiv = document.getElementById("docker-main-container")
+		// REMOVE EVENT LISTENER IF EXISTS
+		if(eventListener && confMainDiv)
+			confMainDiv.removeEventListener("dockerclicked",eventListener)
+		if(confMainDiv){
+			eventListener = confMainDiv.addEventListener("dockerclicked",async (e:any)=>{
+				adjustPosition()
+				showHideLoader(loaderid,pageid,false)
+				disableFields()
+				$contdatarows=[]
+				$imdatarows=[]
+				// SET CURRENT DEVICE IN STORE
+				deviceuid = e.detail
+				$currdevice = deviceuid
+				// NAVIGATE TO AGENT PAGE
+				confMainDiv.style.display="block"
+				// GET CURRENT DEVICE
+				const filters:any = [{uid:$currdevice,_type:'eq'}]
+				const ret = await getDevices(filters,$mock)
+				const found = ret.data.find((item:any)=> {return(item.uid == $currdevice)})
+				deviceuid = $currdevice
+				// NAVIGATE TO AGENT PAGE
+				confMainDiv.style.display="block"
+				title = "DOCKER MANAGEMENT - DAEMON: "+found.host+":"+found.port
+			})
+		}
 	
  })
 
@@ -588,13 +612,13 @@ const onClickImageDelete = async (ev:any)=>{
 }
 
 const closeModal = (ev:any) =>{
-	 const divCont = document.getElementById("docker-manager-div-id")
+	 const divCont = document.getElementById("docker-main-container")
 	 if(divCont)
 		divCont.style.display = 'none'
  }
 </script>
 
-	<div class="docker-manager-div" id="docker-manager-div-id">
+	<div class="docker-manager-div" id="docker-main-container">
 		<Wmanag id="{defaultWManager}" 
 			title="{title}" 
 			toolbar={toolbar}
@@ -613,16 +637,14 @@ const closeModal = (ev:any) =>{
 		</Wmanag>
 		<input id="pem-file-input" type="file" accept=".pem"  on:change={readFile}>
 		<!-- MODAL WINDOW WITH SPINNER -->
-		<div class="loading" id="loading-page-id">
-			<!--div class="spinner-wrapper"-->
+		<div class="position-absolute z-10 flex border-1 -t-1  bg-white justify-center items-center border-solid border-1" id="loading-docker-id">
 				<Spinner message={spinnermessage}/>
-			<!--/div-->
 		</div>
 	</div>
 	
 <style>
 .docker-manager-div{
-  /*display: none;*/
+  display: none;
   position: absolute; /* Stay in place */
   z-index: 999; /* Sit on top */
   padding: 10%; /* Location of the box */
@@ -636,17 +658,10 @@ const closeModal = (ev:any) =>{
 #pem-file-input{
 	visibility:hidden;
 }
-.loading {
-  position: absolute;
-  z-index: 999;
-  top: -20px;
-  height:620px;
-  width:1100px;
-  background: rgba( 255, 255, 255, .9 );
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  border: solid, 1px;
+#loading-docker-id {
+	position: absolute;
+	width: 70%;
+	height: 95%;
 }
 
 </style>

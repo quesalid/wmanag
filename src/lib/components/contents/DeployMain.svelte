@@ -51,14 +51,14 @@ onMount(async () => {
 				const ret = await getDevices(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == $currdevice)})
 				deviceuid = $currdevice
-				title += found.name
+				title = "DEPLOY MANAGEMENT - DEVICE SERVER "+found.name
 				devicename = found.name
 			})
 		}
 })
 
 // EXPORTS
-export let  headercolor = "#f4e2d2"
+export let  headercolor:any = "#f4e2d2"
 
 let deviceuid = 'abc-1'
 let devicename = ''

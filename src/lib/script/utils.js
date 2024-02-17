@@ -36,7 +36,7 @@ const onDeviceClickDocker = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MAIN DEPLOY
-    const configPage = document.getElementById('main-deploy-page')
+    const configPage = document.getElementById('docker-main-container')
     const agentClicked = new CustomEvent("dockerclicked", { detail: uid })
     configPage?.dispatchEvent(agentClicked)
 }
