@@ -14,6 +14,7 @@ export let disableClose = true
 export let title = "MAP MANAGER"
 export let top = '20%'
 export let left = '20%'
+export let minimized = 'on'
 export let toolbar:any = [{type:'button',props:{value:'\u2BC8',id:"login-submit",fsize:"small"},label:'',disabled:false},]
 
 onMount(async () => { 
@@ -34,6 +35,7 @@ onMount(async () => {
 		top={top}
 		left={left}
 		toolbar = {toolbar}
+		minimized="{minimized}"
 		resize='both'>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 			<Map bind:group={group} zoom=14/>

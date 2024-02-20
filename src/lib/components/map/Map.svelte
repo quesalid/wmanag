@@ -1,4 +1,6 @@
 <script lang="ts">
+// BOOTSRAP BG COLORS https://toruskit.com/docs/utilities/background-color/
+import {onMount} from 'svelte'
 import { MapLibre,
         NavigationControl,
         GeolocateControl,
@@ -11,6 +13,10 @@ import { MapLibre,
         Marker,
         Popup} from 'svelte-maplibre';
 
+
+onMount(async () => { 
+})
+
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
 export let group:any = []
 export let zoom:any = 5;
@@ -19,6 +25,12 @@ export let clickedName:any = (g:any)=>{console.log("CLICKED: ",g.name);}
 
 let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-6 h-6 '+'bg-indigo-400'+' text-white text-[8px] font-bold rounded-full grid place-items-center'
 
+const getMarkerClass = (cl:string) =>{
+    let newClass = JSON.parse(JSON.stringify(markerClass))
+    const ret = newClass.replace('bg-indigo-400',cl)
+    console.log("NEW CLASS",ret)
+    return(ret)
+}
 
 </script>
 
@@ -74,17 +86,17 @@ let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outli
           <Marker
               lngLat ={[g.lon,g.lat]}
               on:click={clickedName(g)}
-              class="{g.name!='PLANT-001'?markerClass:markerClass.replace('bg-indigo-400','bg-red-300')}"
+              class="{getMarkerClass(g.class)}"
             >
-              <span>
-                {g.label}
-              </span>
+                  <span>
+                    {g.label}
+                  </span>
 
-              <Popup openOn="hover" offset={[0, -10]}>
-                <div class="text-sm font-bold">{g.name}</div>
-                <div class="text-sm font-bold">{g.description}</div>
-                <div class="text-xs ">{g.address}</div>
-              </Popup>
+                  <Popup openOn="hover" offset={[0, -10]}>
+                    <div class="text-sm font-bold">{g.name}</div>
+                    <div class="text-sm font-bold">{g.description}</div>
+                    <div class="text-xs ">{g.address}</div>
+                  </Popup>
             </Marker>
     {/if}
   {/each}
@@ -94,4 +106,13 @@ let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outli
 
 
 <style>
+.plant-lightred{
+    background-color: #FF6188;
+}
+.plant-lightblue{
+    background-color: #B9DCCC;
+}
+.plant-lightgreen{
+    background-color: #A9DC62;
+}
 </style>

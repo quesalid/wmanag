@@ -491,17 +491,19 @@ let plants = [
         lat: 42.08485000,
         lon: 12.99595000,
         label: 'PL1',
-        address: 'Vallinfreda, RM, Italia'
+        address: 'Vallinfreda, RM, Italia',
+        class:'bg-red-300'
     },
     {
         uid: 'plant-2',
         name: 'PLANT-002',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Tusla Plant",
+        description: "Tulsa Plant",
         lat: 36.153798,
         lon: -95.992403,
         label: 'PL2',
-        address: 'Tulsa, OK, USA'
+        address: 'Tulsa, OK, USA',
+        class:'bg-blue-400 bg-lighten-xl'
     },
     {
         uid: 'plant-3',
@@ -511,7 +513,8 @@ let plants = [
         lat: null,
         lon: null,
         label: 'PL3',
-        address: 'No address'
+        address: 'No address',
+        class:'plant-lightgreen'
     }
 ]
 
@@ -1149,7 +1152,7 @@ const getTSValue = (type, min, max) => {
     let val =0
     switch (type) {
         case 'DIGITAL':
-            val = Math.random() < 0.5?0:1
+            val = Math.random() < 0.8?0:1
             break;
         case 'ANALOG':
             val = (Math.random() * max/2) + min
@@ -1186,8 +1189,43 @@ const generateTimeSeriesPoly = (point, num,DEGREE=5) => {
     for (let i = 0; i < curve.length; i++) {
         const step = start + curve[i][1]*TICK*1000
         const item = { tag: point.tag, value: curve[i][1], timestamp: step }
-        if(item.value >= (point.llim*0.9) && item.value <= (point.hlim*1.1))
+        if (item.value >= (point.llim * 0.9) && item.value <= (point.hlim * 1.1))
             timeSeries.push(item)
+    }
+    
+    return timeSeries
+}
+
+const generateTimeSeriesRect = (point, num,DEGREE=5) => {
+    if (num == null || num > MAXSERIES)
+        num = MAXSERIES
+    const timeSeries = []
+    const xCoords = []
+    const yCoords = []
+    // A. GENERATE INTERPOLATION POINT
+    for (let i = 0; i < DEGREE; i++) {
+        const y = getTSValue(point.atype, point.llim, point.hlim)
+        const x = num * (i / DEGREE)
+        xCoords.push(x)
+        yCoords.push(y)
+    }
+    console.log("generateTimeSeriesRect", xCoords, yCoords)
+    let curve = []
+    for (let j = 0; j < num; j++) {
+        let index = Math.floor(j *DEGREE/ num)
+        const value = yCoords[index]
+        const item = [value,j]
+        curve.push(item)
+    }
+    console.log("generateTimeSeriesRect", curve)
+    // C. RETURN TIMESERIES
+    const end = Date.now()
+    const start = end - TICK * 1000 * num
+    for (let i = 0; i < curve.length; i++) {
+        const step = start + curve[i][1] * TICK * 1000
+        const item = { tag: point.tag, value: curve[i][0], timestamp: step }
+        
+                timeSeries.push(item)
     }
     return timeSeries
 }
@@ -1526,7 +1564,8 @@ const getDataTimeSeries = async function (body) {
     let point
     if (ret.data.length > 0) {
         point = ret.data[0]
-        timeSeries = generateTimeSeriesPoly(point,1000,20)
+        const deg = 10
+        timeSeries = point.atype=='ANALOG'?generateTimeSeriesPoly(point,1000,deg):generateTimeSeriesRect(point,1000,deg)
     }
     body.data = timeSeries
     return (body)

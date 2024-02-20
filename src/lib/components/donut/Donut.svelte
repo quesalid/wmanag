@@ -1,7 +1,5 @@
 <script lang='ts'>
 import {onMount} from "svelte"
-    import AdminDb from "../../../routes/AdminDB.svelte";
-    import AlertMessages from "../topbar/AlertMessages.svelte";
 
 
 const intdivWidthRation = 0.133333333
@@ -113,6 +111,7 @@ pSBC.pSBCr=(d:any)=>{
 export let donut:any
 export let addNumbers :boolean = false
 
+
 const getConicGradient = (data:any)=>{
 		let ret = ''
 		data.forEach((el:any)=>{
@@ -168,7 +167,9 @@ const computeIntDivPositions = (donut:any) =>{
 </script>
 
 	<div class="dash-bubble border  rounded -bs-dark-border-subtle">
-		<h2>{donut.dbTitle}</h2>
+		{#if donut.showTitle == true}
+			<h2>{donut.dbTitle}</h2>
+		{/if}
 		<div class="dash-area flex">
 			<div class="dash-content-header">
 					<div id="{donut.id}" class="donut" style="--width:{donut.donutWidth};--height:{donut.donutHeight};--conic-gradient:{conicGradient};">

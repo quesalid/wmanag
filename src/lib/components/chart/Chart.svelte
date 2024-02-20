@@ -3,7 +3,7 @@ import {onMount} from "svelte"
 import SvelteEchart from './SvelteEcharts.svelte'
 import {token, mock} from '../../ustore.js'
 import {getDataPoints,getDataTimeSeries} from '../../script/apidataconfig.js'
-    import SvelteEcharts from "./SvelteEcharts.svelte";
+import SvelteEcharts from "./SvelteEcharts.svelte";
 
 onMount(async () => {
 		// GET MYSELF - SHOW UP IF DELETE IS CLICKED
@@ -22,7 +22,7 @@ onMount(async () => {
 				echartdata.data = []
 				echartdata.timestamp = []
 				for (let i = 0; i < ret1.data.length; i++) {
-					const p = ret1.data[i]
+					const p:any = ret1.data[i]
 					var date:any = new Date(p.timestamp);
 					const pnt = { group: p.tag, value: p.value, date: date.toISOString() }
 					echartdata.data.push(p.value)
@@ -59,7 +59,7 @@ export let showChart = (ev:any)=>{
 let title = "CHART"
 let uid = ''
 let point:any = {}
-let echartdata = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markData:[],yAxis:{},markOptions:{}}
+let echartdata:any = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markData:[],yAxis:{},markOptions:{}}
 let chartoptions = {
 		"title": "Point  Macchina: ",
         "axes": {

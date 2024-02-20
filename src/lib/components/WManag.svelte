@@ -3,9 +3,7 @@
 import { onMount} from "svelte";
 import {dragElement} from './CompUtils.js'
 
-const onClick = (ev:any)=>{
-	console.log("ONCLICK")
-}
+
 export let id = 'defaultWManager'
 export let title = 'WINDOW TITLE'
 export let disableClose = false
@@ -22,11 +20,11 @@ export let width = "max-content"
 export let height = "max-content"
 export let visibility = "visible"
 export let resize = 'none'
+export let minimized = 'off'
 
 
 export let toolbar:any = [
-	/*{type:'button',props:{value:'+'},function:onClick,label:''},
-	{type:'button',props:{value:'-'},function:onClick,label:''},*/
+	
 ]
 
 export let closeMenu = (ev:any)=>{
@@ -42,6 +40,15 @@ onMount(async () => {
 		const dragzone = document.getElementById(id+"dragzone");
 		dragElement(dragable, dragzone)
 		dragE = id+"dragelement"
+	}
+	let win = document.getElementById(id);
+	switch(minimized){
+		case 'on':
+			 win.style.height ="30px"
+			 break;
+		default:
+			win.style.height =''
+			break;
 	}
  })
 

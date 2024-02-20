@@ -107,6 +107,14 @@ const onDataPointClickDelete = (ev) => {
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)
 }
+const onAlarmPointClickAck = (ev) => {
+    /*const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('DeleteInputDiv')
+    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
+    modalEdit?.dispatchEvent(deleteClicked)*/
+}
 // ACCESSORS
 
 // COLUMNS DEFINITION
@@ -458,6 +466,40 @@ export function getPointColumns(module) {
             return (pointclonecolumns)
         case 'DATA':
             return (pointdatacolumns)
+    }
+}
+
+let pointdataalarmcolumns = [
+    {
+        header: 'Tag',
+        accessor: 'tag',
+    },
+    {
+        header: 'Description',
+        accessor: 'description',
+    },
+    {
+        header: 'Controller',
+        accessor: 'controller'
+    },
+    {
+        header: 'Machine',
+        accessor: 'machine'
+    },
+    {
+        header: 'Acknowledge',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/CHECK.svg', onClick: onAlarmPointClickAck } }
+    }
+];
+
+export function getAlarmColumns(module) {
+    switch (module) {
+        case 'CLONE':
+        case 'AI':
+        case 'LEARN':
+        case 'DATA':
+            return (pointdataalarmcolumns)
     }
 }
 

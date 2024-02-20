@@ -3,6 +3,8 @@
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList,BreadCrumb} from "../lib/components/topbar"
    import Donut from "../lib/components/donut/Donut.svelte"
    import MapManager from '../lib/components/contents/MapManager.svelte'
+   import AlarmManager from '../lib/components/contents/AlarmManager.svelte'
+   import WManag from '../lib/components/WManag.svelte'
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {combolist} from '../lib/components/topbar/combolist'
@@ -67,9 +69,10 @@
 	const donut1 = {
 		id:"donut1",
 		dbTitle: "AGENTS",
-		donutWidth: '300px',
-		donutHeight: '300px',
+		donutWidth: '200px',
+		donutHeight: '200px',
 		pageId:"dashboard-container-id",
+		showTitle:false,
 		conicData: [
 			{color:'#888',bgcolor:'#A9DC62',start:0,end:45,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR0'},
 			{color:'#888',bgcolor:'#FF6188',start:45,end:120,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR10'},
@@ -83,6 +86,7 @@
 		donutWidth: '300px',
 		donutHeight: '300px',
 		pageId:"dashboard-container-id",
+		showTitle:true,
 		conicData: [
 			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='MACHINE.svg' alt='PIPPO'/>",sectorid:'MACHINE'},
 			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='CONTROLLER.svg' alt='PIPPO'/>",sectorid:'CONTROLLER'},
@@ -96,6 +100,7 @@
 		donutWidth: '300px',
 		donutHeight: '300px',
 		pageId:"dashboard-container-id",
+		showTitle:true,
 		conicData: [
 			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='NEURALNETWORK.svg' alt='PIPPO'/>",sectorid:'NN'},
 			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='BAYESGRAPH.svg' alt='PIPPO'/>",sectorid:'BAYES'},
@@ -109,6 +114,7 @@
 		donutWidth: '300px',
 		donutHeight: '300px',
 		pageId:"dashboard-container-id",
+		showTitle:true,
 		conicData: [
 			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='RECORDER.svg' alt='PIPPO'/>",sectorid:'RECORDER'},
 			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='PLAYER.svg' alt='PIPPO'/>",sectorid:'PLAYER'},
@@ -163,21 +169,39 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
-			{#if $module.toUpperCase() == 'DATA'}
-				<MapManager headercolor={bgcolor} left="30%" top="8%" title="PLANTS"/>
-			{:else}
-				<Donut donut={getDonutByType()}/>
-			{/if}
-			<Donut donut={donut1}/>
+			
+				<WManag id="donutManager" 
+					title="{donut1.dbTitle}" 
+					disableClose={true}
+					draggable={true} 
+					headercolor={bgcolor}
+					width={donut1.donutWidth+' +10'}
+					top="400px"
+					left="1%"
+					minimized="off"
+					resize='both'>
+					<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
+						<Donut donut={donut1}/>
+					</div>
+				</WManag>
+				{#if $module.toUpperCase() == 'DATA'}
+					<MapManager headercolor={bgcolor} left="1%" top="0%" title="PLANTS" minimized="off"/>
+					<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>
+				{:else}
+					<Donut donut={getDonutByType()}/>
+				{/if}
+			
 		</div>
 		
 </div>
 
 <style>
 .dashboard-container{
-	display:flex;
+	display:block;
 	position:relative;
 	top: var(--top);
+	overflow-y: auto;
+	height: calc( 100vh - 50px );
 }
 
 </style>
