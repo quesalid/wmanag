@@ -1,5 +1,6 @@
 <script lang="ts">
 import Map from '../map/Map.svelte';
+import MarkerClicked from './MarkerClicked.svelte'
 import WManag from '../WManag.svelte'
 import {onMount} from 'svelte'
 import {token, mock, currentplant} from '../../ustore.js'
@@ -15,7 +16,7 @@ export let title = "MAP MANAGER"
 export let top = '20%'
 export let left = '20%'
 export let minimized = 'on'
-export let toolbar:any = [{type:'button',props:{value:'\u2BC8',id:"login-submit",fsize:"small"},label:'',disabled:false},]
+export let toolbar:any = []
 
 onMount(async () => { 
 	const filters:any = []
@@ -41,6 +42,10 @@ onMount(async () => {
 			<Map bind:group={group} zoom=14/>
 		</div>
 	</WManag>
+</div>
+
+<div>
+	<MarkerClicked />
 </div>
 
 <style>
