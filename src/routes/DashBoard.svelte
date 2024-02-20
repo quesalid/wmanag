@@ -2,6 +2,7 @@
    import { navigate } from "svelte-routing";
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList,BreadCrumb} from "../lib/components/topbar"
    import Donut from "../lib/components/donut/Donut.svelte"
+   import MapManager from '../lib/components/contents/MapManager.svelte'
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {combolist} from '../lib/components/topbar/combolist'
@@ -162,8 +163,12 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
+			{#if $module.toUpperCase() == 'DATA'}
+				<MapManager headercolor={bgcolor} left="30%" top="8%" title="PLANTS"/>
+			{:else}
+				<Donut donut={getDonutByType()}/>
+			{/if}
 			<Donut donut={donut1}/>
-			<Donut donut={getDonutByType()}/>
 		</div>
 		
 </div>

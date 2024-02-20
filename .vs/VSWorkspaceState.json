@@ -4,9 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
+    "\\src\\lib\\components\\forms",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\routes\\Monitor.svelte",
+  "SelectedNode": "\\src\\lib\\components\\forms\\AgentDataForm.svelte",
   "PreviewInSolutionExplorer": false
 }

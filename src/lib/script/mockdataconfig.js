@@ -502,6 +502,16 @@ let plants = [
         lon: -95.992403,
         label: 'PL2',
         address: 'Tulsa, OK, USA'
+    },
+    {
+        uid: 'plant-3',
+        name: 'PLANT-003',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Fake Plant",
+        lat: null,
+        lon: null,
+        label: 'PL3',
+        address: 'No address'
     }
 ]
 

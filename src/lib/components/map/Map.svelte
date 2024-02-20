@@ -13,7 +13,7 @@ import { MapLibre,
 
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
 export let group:any = []
-export let zoom = 5;
+export let zoom:any = 5;
 export let clickedName:any = (g:any)=>{console.log("CLICKED: ",g.name);}
 
 
@@ -42,17 +42,19 @@ let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outli
   <Control class="flex flex-col gap-y-2">
     <ControlGroup>
         {#each group as g}
-			<ControlButton class="text-left w-fit text-xs"
-				on:click={() => {
-					if(map)
-					map.flyTo({
-						center: [g.lon, g.lat],
-						zoom: zoom,
-					});
-				}}
-			>
-				{g.label}
-			</ControlButton>
+            {#if (g.lon && g.lat)}
+			    <ControlButton class="text-left w-fit text-xs"
+				    on:click={() => {
+					    if(map)
+					    map.flyTo({
+						    center: [g.lon, g.lat],
+						    zoom: zoom,
+					    });
+				    }}
+			    >
+				    {g.label}
+			    </ControlButton>
+            {/if}
 		{/each}
     </ControlGroup>
 
@@ -61,29 +63,31 @@ let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outli
           if(map)
 			map.flyTo({
 				center: [-30, 30],
-				zoom: 0.5,
+				zoom: 1,
 			})
       }}>&#127757</ControlButton>
     </ControlGroup>
   </Control>
 
   {#each group as g}
-  <Marker
-      lngLat ={[g.lon,g.lat]}
-      on:click={clickedName(g)}
-      class="{g.name!='PLANT-001'?markerClass:markerClass.replace('bg-indigo-400','bg-red-300')}"
-    >
-      <span>
-        {g.label}
-      </span>
+    {#if (g.lon && g.lat)}
+          <Marker
+              lngLat ={[g.lon,g.lat]}
+              on:click={clickedName(g)}
+              class="{g.name!='PLANT-001'?markerClass:markerClass.replace('bg-indigo-400','bg-red-300')}"
+            >
+              <span>
+                {g.label}
+              </span>
 
-      <Popup openOn="hover" offset={[0, -10]}>
-        <div class="text-sm font-bold">{g.name}</div>
-        <div class="text-sm font-bold">{g.description}</div>
-        <div class="text-xs ">{g.address}</div>
-      </Popup>
-    </Marker>
-    {/each}
+              <Popup openOn="hover" offset={[0, -10]}>
+                <div class="text-sm font-bold">{g.name}</div>
+                <div class="text-sm font-bold">{g.description}</div>
+                <div class="text-xs ">{g.address}</div>
+              </Popup>
+            </Marker>
+    {/if}
+  {/each}
   
 
 </MapLibre>

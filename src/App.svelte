@@ -15,11 +15,9 @@
 import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
 
-import DOCKER from "./lib/components/contents/DockerMain.svelte"
+
 import ADMINDB from "./routes/AdminDB.svelte"
-import GRAPHBAYES from "./routes/GraphBayes.svelte"
-import PORTALTEMPLATE from "./routes/PortalTemplate.svelte"
-import MAPMANAGER from "./routes/MapManager.svelte"
+import MAPMANAGER from "./lib/components/contents/MapManager.svelte"
 // *******   ROUTES *********/
 import MAINPAGE from "./routes/MainPage.svelte"
 import {Login} from "./lib/components/contents"
@@ -30,6 +28,8 @@ import GraphIsa from "./routes/GraphIsa.svelte";
 import GraphBayes from "./routes/GraphBayes.svelte"
 import Deploy from "./routes/Deploy.svelte"
 import Monitor from "./routes/Monitor.svelte"
+    import AdminDb from "./routes/AdminDB.svelte";
+    import AgentAiForm from "./lib/components/forms/AgentAiForm.svelte";
 
 export const url = "/deploy"
 
@@ -136,10 +136,7 @@ export const url = "/deploy"
 		 <Monitor logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
     </Route>
 
-    <Route path="/docker" component={DOCKER}/>
     <Route path="/admindb" component={ADMINDB}/>
-    <Route path="/graphbayes" component={GRAPHBAYES}/>
-    <Route path="/portaltemplate" component={PORTALTEMPLATE}/>
     <Route path="/mapmanager" component={MAPMANAGER}/>
   </div>
 </Router>
