@@ -2,7 +2,7 @@
 import {onMount} from "svelte"
 import SvelteEchart from './SvelteEcharts.svelte'
 import {token, mock} from '../../ustore.js'
-import {getDataPoints,getDataTimeSeries} from '../../script/apidataconfig.js'
+import {getDataPoints,getDataTimeSeries,getMachines} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
 
 onMount(async () => {
@@ -17,6 +17,14 @@ onMount(async () => {
 				const ret = await getDataPoints(filters,$mock)
 				if(ret.data && ret.data.length > 0)
 					point = ret.data[0]
+				// B. GET MACHINES
+				const filters2 = [{uid:point.machine,_type:'eq'}]
+				const ret2 = await getMachines(filters2,$mock)
+				if(ret2.data && ret2.data.length > 0)
+					machine = ret2.data[0]
+				if(machine.type)
+					machineImg = '/'+machine.type +'.jpg'
+				// C. GET TIME SERIES
 				let filters1 = [{tag:point.tag,_type:'eq'}]
 				let ret1 = await getDataTimeSeries(filters1,$mock)
 				echartdata.data = []
@@ -47,6 +55,7 @@ const exit = (ev:any)=>{
 	const thisDiv = document.getElementById(modalId)
 	if(thisDiv)
 		thisDiv.style.display = 'none'
+	machineImg = ''
 }
 
 // EXPORTS
@@ -59,6 +68,8 @@ export let showChart = (ev:any)=>{
 let title = "CHART"
 let uid = ''
 let point:any = {}
+let machine:any = {}
+let machineImg='/LIOFILIZZATORE.jpg'
 let echartdata:any = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markData:[],yAxis:{},markOptions:{}}
 let chartoptions = {
 		"title": "Point  Macchina: ",
@@ -95,15 +106,16 @@ let chartoptions = {
 		</div>
 		<div class="chart-div" style="margin-left:auto;">
 			    <div class="filter-div" >
-					<div style='display:block;font-weight:bold;font-size:large;'>Filtri</div>
-					    <div style="border:1px solid;margin:2px;">
+					<div style='display:block;font-weight:bold;font-size:large;'>{machine.type} - {machine.name}</div>
+					    <!--div style="border:1px solid;margin:2px;">
 						<label for="input-start-date" class="text-sm font-medium text-gray-700">Data inizio</label>
 						<input type="date" name="input-start-date">
-						</div>
+						</!--div>
 						 <div style="border:1px solid;margin:2px;">
 						<label for="input-end-date" class="text-sm font-medium text-gray-700">Data Fine</label>
 						<input type="date" name="input-end-date">
-						</div>
+						</div-->
+						<img src={machineImg} alt="machImg" width='50%'/>
 					</div>
 				<div class="chart-container-div" style="margin-left:auto;">
 					<SvelteEcharts bind:data={echartdata} bind:options={chartoptions}/>
@@ -143,8 +155,6 @@ let chartoptions = {
 }
 .filter-div{
 	display:block;
-	border: 1px solid;
-	border-radius: 5px;
 	margin-left:auto;
 }
 .chart-container-div{

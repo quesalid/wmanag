@@ -562,7 +562,7 @@ let machines = [
         manufacturer: "FEDEGARI",
         model: "XFOAF7/Q253",
         room: "G041",
-        agent:'ag-234-abc-1',
+        agent: 'ag-234-abc-1',
     },
     {
         uid: 'mach-2',
