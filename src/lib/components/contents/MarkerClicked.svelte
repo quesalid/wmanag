@@ -10,6 +10,7 @@ import {PlantForm} from '../forms'
 import {getPlants,getDepartments,getLines,getMachines,getControllers} from '../../script/apidataconfig.js'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
+    import AdminDb from "../../../routes/AdminDB.svelte";
 
 onMount(async () => {
 		// GET MYSELF
@@ -28,6 +29,12 @@ onMount(async () => {
 				const filtdep = [{plant:found.uid,_type:'eq'}]
 				const retdep = await getDepartments(filtdep,$mock)
 				departments = retdep.data
+				const retlines = await getLines([],$mock)
+				lines = retlines.data
+				for(let i=0; i< departments.length;i++){
+					const ln = lines.filter((item:any)=>item.department == departments[i].uid)
+					departments[i].lines = ln
+				}
 				console.log("DEPARTMENTS",departments)
 				if(videostarted){
 					stopVideo()

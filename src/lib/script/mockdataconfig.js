@@ -565,7 +565,7 @@ let plants = [
         lat: 41.46614000,
         lon: 12.90430000,
         label: 'PL3',
-        address: 'No address',
+        address: 'Borgo Santa Maria, LT',
         color: '#49CDA8', // TEAL
     }
 ]
