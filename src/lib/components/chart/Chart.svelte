@@ -4,6 +4,7 @@ import SvelteEchart from './SvelteEcharts.svelte'
 import {token, mock} from '../../ustore.js'
 import {getDataPoints,getDataTimeSeries,getMachines} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
+import WManag from '../WManag.svelte'
 
 onMount(async () => {
 		// GET MYSELF - SHOW UP IF DELETE IS CLICKED
@@ -46,24 +47,23 @@ onMount(async () => {
 					{name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'#f00'}},
 				]
 				echartdata.markOptions={symbol:['circle','circle']}
+				title = "POINT CHART - "+point.description
 			})
 		}
 	});
 
-const exit = (ev:any)=>{
-	console.log("EXIT")
-	const thisDiv = document.getElementById(modalId)
-	if(thisDiv)
-		thisDiv.style.display = 'none'
-	machineImg = ''
-}
+const closeModal = (ev:any) =>{
+	 const divCont = document.getElementById(modalId)
+	 if(divCont)
+		divCont.style.display = 'none'
+	 machineImg = ''
+ }
 
 // EXPORTS
 export let modalId = "PointChartDiv"
 export let  bgcolor = "#ddefde"
-export let showChart = (ev:any)=>{
-	console.log("show  Chart: ",uid)
-}
+export let toolbar:any = []
+
 // INTERNAL
 let title = "CHART"
 let uid = ''
@@ -98,35 +98,42 @@ let chartoptions = {
 		"toolbar":{"enabled":false}
 }
 
+
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
-	   <div class="chart-form"> 
-		<div class="banner">
-			POINT CHART - {point.description}
-		</div>
-		<div class="chart-div" style="margin-left:auto;">
-			    <div class="filter-div" >
-					<div style='display:block;font-weight:bold;font-size:large;'>{machine.type} - {machine.name}</div>
-					    <!--div style="border:1px solid;margin:2px;">
-						<label for="input-start-date" class="text-sm font-medium text-gray-700">Data inizio</label>
-						<input type="date" name="input-start-date">
-						</!--div>
-						 <div style="border:1px solid;margin:2px;">
-						<label for="input-end-date" class="text-sm font-medium text-gray-700">Data Fine</label>
-						<input type="date" name="input-end-date">
-						</div-->
-						<img src={machineImg} alt="machImg" width='50%'/>
+		<WManag id="MarkClickedWindow"
+		closeMenu={closeModal}
+		title="{title}" 
+		disableClose={false} 
+		draggable={true} 
+		headercolor={bgcolor}
+		width="1100px"
+		top="10%"
+		left="15%"
+		toolbar = {toolbar}
+		minimized="off"
+		resize='both'>
+		   <div class="chart-form" slot="bodycontent"> 
+			<div class="chart-div" style="margin-left:auto;">
+					<div class="filter-div" >
+						<div style='display:block;font-weight:bold;font-size:16px;'>{machine.type} - {machine.name}</div>
+							<!--div style="border:1px solid;margin:2px;">
+							<label for="input-start-date" class="text-sm font-medium text-gray-700">Data inizio</label>
+							<input type="date" name="input-start-date">
+							</!--div>
+							 <div style="border:1px solid;margin:2px;">
+							<label for="input-end-date" class="text-sm font-medium text-gray-700">Data Fine</label>
+							<input type="date" name="input-end-date">
+							</div-->
+							<img src={machineImg} alt="machImg"/>
+						</div>
+					<div class="chart-container-div" style="margin-left:auto;">
+						<SvelteEcharts bind:data={echartdata} bind:options={chartoptions}/>
+						<div style="height:40%;"></div>
 					</div>
-				<div class="chart-container-div" style="margin-left:auto;">
-					<SvelteEcharts bind:data={echartdata} bind:options={chartoptions}/>
 				</div>
-			</div>
-		<div class="button-div">
-			<!--div><span class="req">*</span> - Required field</!--div-->
-			
-			<input class="formbutton" type="button" value="EXIT" on:click={exit}>
-		</div>
-	  </div>
+		  </div>
+		</WManag>>
 </div>
 <style>
 .modal{
@@ -152,15 +159,14 @@ let chartoptions = {
 .chart-div{
 	display:flex;
 	margin-left:auto;
+	justify-content: space-between ;
 }
 .filter-div{
 	display:block;
-	margin-left:auto;
+	margin-right:4px;
 }
 .chart-container-div{
 	display:block;
-	border: 1px solid;
-	border-radius: 5px;
 	margin-left:auto;
 }
 .formbutton{

@@ -3,12 +3,11 @@
     "",
     "\\src",
     "\\src\\lib",
-    "\\src\\lib\\components",
-    "\\src\\lib\\components\\contents",
-    "\\src\\lib\\components\\topbar",
+    "\\src\\lib\\components\\chart",
+    "\\src\\lib\\components\\donut",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\topbar\\AlertMessages.svelte",
+  "SelectedNode": "\\src\\routes\\Monitor.svelte",
   "PreviewInSolutionExplorer": false
 }

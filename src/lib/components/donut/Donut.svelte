@@ -4,12 +4,26 @@ import {onMount} from "svelte"
 
 const intdivWidthRation = 0.133333333
 const intdivColor = "white"
+let eventListener:any 
 onMount(async () => {
-	const polar:any = computeIntDivPositions(donut);
+	//const polar:any = computeIntDivPositions(donut);
 	// add div at polar positions
 	const donutElement = document.getElementById(donut.id)
-	
+	// REMOVE EVENT LISTENER IF EXISTS
+	if(eventListener && donutElement)
+		donutElement.removeEventListener("donutredraw",eventListener)
 	if(donutElement){
+		eventListener = donutElement.addEventListener("donutredraw",async (e:any)=>{
+			// SET CURRENT DEVICE IN STORE
+			redrawDonut(donutElement)
+		})
+	}
+	redrawDonut(donutElement)
+})
+
+const redrawDonut = (donutElement:any) => {
+	if(donutElement){
+		const polar:any = computeIntDivPositions(donut);
 		// DELETE ALL CHILDS IF EXISTS
 		while (donutElement.firstChild) {
 			donutElement.removeChild(parent.donutElement);
@@ -69,7 +83,7 @@ onMount(async () => {
 			}
 		})
 	}
-})
+}
 
 /**
  * Background color modifier
@@ -141,7 +155,6 @@ const computeIntDivPositions = (donut:any) =>{
 			let id = el.sectorid
 			return {x1,y1,x2,y2,bgcolor,label,color,pageId,id}
 		})
-		console.log("POLAR DATA",polarData)
 		return polarData
 	}
 }
@@ -156,7 +169,6 @@ const computeIntDivPositions = (donut:any) =>{
 		const radius = Math.sqrt(x*x + y*y)
 		let angle = Math.atan2(y, x) * 180 / Math.PI +90
 		angle = angle < 0 ? angle + 360 : angle
-		//console.log("MOUSE ENTER",radius,angle)
 		if(radius < parseInt(donut.donutWidth, 10)/2 && radius > parseInt(donut.donutWidth, 10)/4){
 			ev.target.style.cursor = "pointer"
 			

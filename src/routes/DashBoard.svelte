@@ -1,20 +1,31 @@
 <script lang="ts">
+   // EXTERN IMPORT
    import { navigate } from "svelte-routing";
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList,BreadCrumb} from "../lib/components/topbar"
+   import {onMount} from "svelte"
+   // INTERN IMPORT
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import Donut from "../lib/components/donut/Donut.svelte"
    import MapManager from '../lib/components/contents/MapManager.svelte'
    import AlarmManager from '../lib/components/contents/AlarmManager.svelte'
    import WManag from '../lib/components/WManag.svelte'
    import { center } from '../lib/components/topbar/notifications';
-   import {onMount} from "svelte"
-   import {combolist} from '../lib/components/topbar/combolist'
-   import {getPlants} from '../lib/script/apidataconfig.js'
+
+   // UTILS
+   import {setConicData} from '../lib/script/utils.js'
+   //API
+   import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
+   // STORE
    import {module, mock, currentplant} from '../lib/ustore.js'
    
  
   
 
     let donutListener:any
+	let plants:any = []
+	let devices:any = []
+	let agents:any = []
+	
+	let pippo = 0
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -27,8 +38,12 @@
 			  'Successful login attempt by @jack'
 		])
 		const filters:any = []
-		const ret = await getPlants(filters,$mock)
-		combolist.init(ret.data)
+		let ret = await getPlants(filters,$mock)
+		plants = ret.data
+		ret = await getDevices(filters,$mock)
+		devices = ret.data
+		ret = await getAgents(filters,$mock)
+		agents = ret.data
 		const dashboardDiv = document.getElementById("dashboard-container-id")
 		// REMOVE EVENT LISTENER IF EXISTS
 		if(donutListener && dashboardDiv)
@@ -40,6 +55,12 @@
 
 			})
 		}
+		donut = getDonutByType()
+		const donutDiv = document.getElementById(donut.id)
+		const donutRedraw = new CustomEvent("donutredraw", { detail: 'redraw' })
+		donutDiv?.dispatchEvent(donutRedraw)
+		pippo = pippo+1
+
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
@@ -66,7 +87,7 @@
 	const avatarclass = "font-bold text-sm italic"
 
 	// DONUT
-	const donut1 = {
+	let donut1 = {
 		id:"donut1",
 		dbTitle: "AGENTS",
 		donutWidth: '200px',
@@ -79,34 +100,20 @@
 			{color:'#888',bgcolor:'#B9DCCC',start:120,end:360,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR13'}
 		]
 	}
-
-	const donut2 = {
-		id:"donut2",
-		dbTitle: "PLANTS",
-		donutWidth: '300px',
-		donutHeight: '300px',
-		pageId:"dashboard-container-id",
-		showTitle:true,
-		conicData: [
-			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='MACHINE.svg' alt='PIPPO'/>",sectorid:'MACHINE'},
-			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='CONTROLLER.svg' alt='PIPPO'/>",sectorid:'CONTROLLER'},
-			{color:'#888',bgcolor:'#B9DCCC',start:203,end:360,label:"<img src='FACTORY.svg' alt='PIPPO'/>",sectorid:'FACTORY'}
-		]
-	}
-
+	
+	
 	const donut3 = {
-		id:"donut3",
-		dbTitle: "MODELS",
+		id:"donut-deafult",
+		dbTitle: "",
 		donutWidth: '300px',
 		donutHeight: '300px',
 		pageId:"dashboard-container-id",
 		showTitle:true,
 		conicData: [
-			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='NEURALNETWORK.svg' alt='PIPPO'/>",sectorid:'NN'},
-			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='BAYESGRAPH.svg' alt='PIPPO'/>",sectorid:'BAYES'},
-			{color:'#888',bgcolor:'#B9DCCC',start:203,end:360,label:"<img src='SYSDYN.svg' alt='PIPPO'/>",sectorid:'SYSDYN'}
-		]
+					]
 	}
+
+	let donut:any = donut3
 
 	const donut4 = {
 		id:"donut4",
@@ -130,19 +137,38 @@
 	}
 
 	const getDonutByType = ()=>{
+		// TEST setConicData
+		let conicData:any = []
+		let ret:any = {}
 		switch($module.toUpperCase()){
 			case 'DATA':
-			    return(donut2)
+				ret.dbTitle = "AGENTS",
+				conicData = setConicData(agents,devices,plants,'AGENTS')
+				ret.conicData = conicData
 				break;
 			case 'CLONE':
-				return(donut4)
+				ret.dbTitle = "RECORDERS",
+				conicData = setConicData(agents,devices,plants,'RECORDERS')
+				ret.conicData = conicData
+				break;
 			case 'LEARN':
-				return(donut4)
+				ret.dbTitle = "PLAYERS",
+				conicData = setConicData(agents,devices,plants,'PLAYERS')
+				ret.conicData = conicData
 				break;
 			case 'AI':
-				return(donut3)
-				break
+				ret.dbTitle = "MODELS",
+				conicData = setConicData(agents,devices,plants,'MODELS')
+				ret.conicData = conicData
+				break;	
 		}
+		ret.id = "donut-deafult"
+		ret.donutWidth = '300px'
+		ret.donutHeight = '300px'
+		ret.pageId = "dashboard-container-id"
+		ret.showTitle =true
+		console.log("getDonumtByType",ret)
+		return(ret)
 	}
 
 </script>
@@ -169,26 +195,42 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
-			
-				<WManag id="donutManager" 
-					title="{donut1.dbTitle}" 
-					disableClose={true}
-					draggable={true} 
-					headercolor={bgcolor}
-					width={donut1.donutWidth+' +10'}
-					top="400px"
-					left="1%"
-					minimized="off"
-					resize='both'>
-					<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
-						<Donut donut={donut1}/>
-					</div>
-				</WManag>
 				{#if $module.toUpperCase() == 'DATA'}
+					<WManag id="donutManager" 
+						title="{donut.dbTitle}" 
+						disableClose={true}
+						draggable={true} 
+						headercolor={bgcolor}
+						width={donut.donutWidth+' +10'}
+						top="400px"
+						left="1%"
+						minimized="off"
+						resize='both'>
+						<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
+						    {#key pippo}
+								<Donut donut={donut}/>
+							{/key}
+						</div>
+					</WManag>
 					<MapManager headercolor={bgcolor} left="1%" top="0%" title="PLANTS" minimized="off"/>
 					<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>
 				{:else}
-					<Donut donut={getDonutByType()}/>
+					<WManag id="donutManager" 
+						title="{donut.dbTitle}" 
+						disableClose={true}
+						draggable={true} 
+						headercolor={bgcolor}
+						width={donut.donutWidth+' +10'}
+						top="1%"
+						left="1%"
+						minimized="off"
+						resize='both'>
+						<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
+							{#key pippo}
+								<Donut donut={donut}/>
+							{/key}
+						</div>
+					</WManag>
 				{/if}
 			
 		</div>

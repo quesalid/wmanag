@@ -35,10 +35,10 @@ let devices = [
         lastmodified: "2022-06-30T10:00:00",
         description: "Edge Computer Line XY Plant Z",
         module: "DATA",
-        plant: 'plant-1',
+        plant: 'plant-2',
         localization: {
-            department: 2,
-            line: 3,
+            department: 'dept-2',
+            line: 'line-2',
         },
         host: "192.164.0.23",
         port: 3000,
@@ -107,10 +107,10 @@ let devices = [
         lastmodified: "2022-06-30T10:00:00",
         description: "VMWare VM-2012-H ",
         module: "CLONE",
-        plant: 'plant-2',
+        plant: 'plant-1',
         localization: {
-            department: 'dept-2',
-            line: 'lin-2',
+            department: 'dept-1',
+            line: 'lin-1',
         },
         host: "DC-SRV-03",
         port: 8080,
@@ -159,6 +159,30 @@ let devices = [
         localization: {
             department: 'dept-2',
             line: 'lin-2',
+        },
+        host: "DC-SRV-11",
+        port: 5252,
+        type: "VM",
+        os: "WIN-11",
+        osver: "23H2",
+        userid: "amdin",
+        password: "",
+        hwdetails: {
+            mac: "00:0a:4f:40:03:d0",
+            brand: "DELL",
+            model: "PowerEdge M640",
+        },
+    },
+    {
+        uid: 'psvm-100-sqox6',
+        name: 'MODEL-01',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "VMWare VM-2012-H ",
+        module: "AI",
+        plant: 'plant-1',
+        localization: {
+            department: 'dept-1',
+            line: 'line-1',
         },
         host: "DC-SRV-11",
         port: 5252,
@@ -467,6 +491,20 @@ let agents = [
         devuid: 'psvm-289-sqox6',
     },
     {
+        uid: 'mdl-sysdyn-001',
+        name: "SYSDYN01",
+        type: "SYSDYN",
+        description: "FREEZE DRYING Model",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'AI',
+        model: {
+            name: "LYO-MODEL01",
+            path: "/models/bayes/LYOMODEL01.json"
+        },
+        status: "STOP",
+        devuid: 'psvm-100-sqox6',
+    },
+    {
         uid: 'rec-prc-001',
         name: "REC-DEC-01",
         type: "RECORDER",
@@ -479,6 +517,20 @@ let agents = [
         },
         status: "STOP",
         devuid: 'kvz-1',
+    },
+    {
+        uid: 'rec-prc-002',
+        name: "REC-DEC-02",
+        type: "RECORDER",
+        description: "DECORTIN Pahse 2 Recorder",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'CLONE',
+        model: {
+            name: "DEC-PHASE2-REC",
+            path: "/models/recorders/DECPAHSE2.json"
+        },
+        status: "STOP",
+        devuid: 'jhm-289-pod6',
     }
 ]
 
@@ -492,7 +544,7 @@ let plants = [
         lon: 12.99595000,
         label: 'PL1',
         address: 'Vallinfreda, RM, Italia',
-        class:'bg-red-300'
+        color: '#FF6188', // RED SOFT
     },
     {
         uid: 'plant-2',
@@ -503,7 +555,7 @@ let plants = [
         lon: -95.992403,
         label: 'PL2',
         address: 'Tulsa, OK, USA',
-        class:'bg-blue-400 bg-lighten-xl'
+        color: '#B9DCCC', // BLUE SOFT
     },
     {
         uid: 'plant-3',
@@ -514,7 +566,7 @@ let plants = [
         lon: null,
         label: 'PL3',
         address: 'No address',
-        class:'plant-lightgreen'
+        color: '#E3ED63', // YELLOW SOFT
     }
 ]
 

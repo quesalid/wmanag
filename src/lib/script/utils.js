@@ -679,3 +679,82 @@ export const getPointTemplate = (module='DATA') => {
             return (pointCloneTemplate)
     }
 }
+
+const models = ['BAYES', 'NEURALNETWORK', 'SYSDYN']
+
+
+export const setConicData = (agents,devices,plants,type) => {
+    const conicData = []
+    let ag = []
+    let label = ''
+    let start = 0
+    let end = 0
+    // Compute conic sectors start/end
+    switch (type) {
+        case 'AGENTS':
+            // GET TOTAL SCANNER AGENTS
+            ag = agents.filter((item) => item.type == 'SCANNER')
+            label = "<img src='/AVATAR.svg' alt='avatar'/>"
+            break;
+        case 'MODELS':
+            // GET TOTAL MODEL AGENTS
+            ag = agents.filter((item) => models.includes(item.type))
+            label = "<img src='/BAYESGRAPH.svg' alt='model'/>"
+            break;
+        case 'RECORDERS':
+            // GET TOTAL RECORDER AGENTS
+            ag = agents.filter((item) => item.type == 'RECORDER')
+            label = "<img src='/RECORDER.svg' alt='recorder'/>"
+            break
+        case 'PLAYERS':
+            // GET TOTAL PLAYER AGENTS
+            ag = agents.filter((item) => item.type == 'PLAYER')
+            label = "<img src='/PLAYER.svg' alt='player'/>"
+            break;
+        default:
+            return conicData
+    }
+    for (let i = 0; i < plants.length; i++) {
+        // FOR EACH PLANT GET THE DEVICES ARRAY
+        let dv = devices.filter((item) => item.plant == plants[i].uid)
+        const itemList = dv.map(({ uid }) => uid);
+        // GET TOTAL AGENTS IN PLANT
+        const lag = ag.filter((item) => itemList.includes(item.devuid))
+        if (lag.length > 0) {
+            start = end
+            const color = plants[i].color
+            end = start + Math.ceil((360 * lag.length) / (ag.length))
+            const conicItem = { color: '#888', bgcolor: color, start: start, end: end, label: label, sectorid: plants[i].uid }
+            conicData.push(conicItem)
+        }
+    }
+    return conicData
+}
+
+export const getClassFromColor = (color) => {
+    let ret = ''
+    switch (color) {
+        case '#FF6188': // RED SOFT
+            ret = 'bg-red-300'
+            break;
+        case '#B9DCCC': // BLUE SOFT
+            ret = 'bg-blue-400 bg-lighten-xl'
+            break;
+        case '#A9DC62': // GREEN SOFT
+            ret = 'bg-lime-400'
+            break
+        case '#E3ED63': // YELLOW SOFT
+            ret = 'bg-warning-400 bg-lighten-md'
+            break
+        case '#C872BE': // INDIGO SOFT
+            ret = 'bg-indigo-400 bg-lighten-xl'
+            break
+        case '#EABC63': // ORANGE SOFT
+            ret = 'bg-orange-400 bg-lighten-md'
+            break
+        case '#49CDA8': // TEAL SOFT
+            ret = 'bg-teal-400'
+            break
+    }
+    return(ret)
+}

@@ -1,10 +1,13 @@
 <script lang="ts">
+// IMAGE MAP GENERATOR
+// https://imagemap.org/
 // EXTERNAL
 import {onMount} from "svelte"
 // INTRNAL
 import WManag from '../WManag.svelte'
+import {PlantForm} from '../forms'
 // API
-import {getPlants} from '../../script/apidataconfig.js'
+import {getPlants,getDepartments,getLines,getMachines,getControllers} from '../../script/apidataconfig.js'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 
@@ -22,6 +25,15 @@ onMount(async () => {
 				title = "PLANT "+found.name
 				image = "/"+found.name+".jpg"
 				plant = found
+				const filtdep = [{plant:found.uid,_type:'eq'}]
+				const retdep = await getDepartments(filtdep,$mock)
+				departments = retdep.data
+				console.log("DEPARTMENTS",departments)
+				if(videostarted){
+					stopVideo()
+					videostarted = false
+				}
+				
 			})
 		}
 	});
@@ -38,12 +50,61 @@ let title = "PLANT"
 let uid = ''
 let image = '/PLANT-001.jpg'
 let plant:any = {}
+let departments:any = []
+let lines:any = []
+let machines:any = []
+let controllers:any = []
+let videostarted = false
 
 const closeModal = (ev:any) =>{
 	 const divCont = document.getElementById(modalId)
 	 if(divCont)
 		divCont.style.display = 'none'
 	 image = ''
+ }
+
+ const cameraClicked = (ev:any) =>{
+	 ev.preventDefault();
+	 console.log("CAMERA CLICKED",uid)
+	 if(!videostarted){
+		startVideo()
+		videostarted=true
+	 }else{
+		 stopVideo()
+		videostarted = false
+	 }
+ }
+
+ const startVideo = () =>{
+	let maindiv:any =  document.getElementById('marker-left-panel-content-id')
+	let div:any = document.getElementById('factoryVidPlayerDiv')
+	let video: any = document.getElementById('factoryVidPlayer')
+	div.style.display='block'
+	maindiv.style.display='none'
+    let vendorUrl = window.URL || window.webkitURL; 
+	if (navigator.mediaDevices.getUserMedia) { 
+		navigator.mediaDevices.getUserMedia({ video: true }) 
+			.then(function (stream) { 
+				video.srcObject = stream; 
+			}).catch(function (error) { 
+				console.log("Something went wrong!"); 
+			}); 
+	} 
+ }
+
+ const stopVideo = () =>{
+	let maindiv:any =  document.getElementById('marker-left-panel-content-id')
+    let div:any = document.getElementById('factoryVidPlayerDiv')
+	let video:any = document.getElementById('factoryVidPlayer')
+	let stream = video.srcObject; 
+    let tracks = stream.getTracks(); 
+    for (var i = 0; i < tracks.length; i++) { 
+        var track = tracks[i]; 
+        track.stop(); 
+    } 
+    video.srcObject = null; 
+	div.style.display='none'
+	maindiv.style.display='block'
  }
 
 </script>
@@ -62,9 +123,18 @@ const closeModal = (ev:any) =>{
 		resize='both'>
 		<div class="mc-content-div" slot="bodycontent">
 			<div class="left-panel">
+				<div class="left-panel-content" id="factoryVidPlayerDiv">
+					<video  id="factoryVidPlayer" controls muted autoplay></video>
+				</div>
+				<div class="left-panel-content" id="marker-left-panel-content-id">
+					<PlantForm plant={plant} {departments}/>
+				</div>
 			</div>
 			<div style="margin-left:auto;">
-				<img src={image} alt={plant.name} />
+				<img src={image} alt={plant.name}>
+			</div>
+			<div id="camera-div" style="margin-left:auto;">
+				<img src="/WEBCAM.png" alt="camera" width="40px" on:click={cameraClicked}>
 			</div>
 		</div>
 	</WManag>
@@ -89,5 +159,21 @@ const closeModal = (ev:any) =>{
 	display:flex;
 	justify-content:space-between;
 	margin-top: 2em;
+}
+#camera-div{
+	position:absolute;
+	cursor: pointer;
+	top: 90%;
+	left:95%;
+}
+#marker-left-panel-content-id{
+	display:block;
+}
+#factoryVidPlayerDiv{
+	display:none;
+	margin: 3px;
+}
+#factoryVidPlayer{
+	margin: 3px;
 }
 </style>

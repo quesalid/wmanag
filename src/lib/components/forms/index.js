@@ -10,6 +10,8 @@ export { default as PointDataForm } from './PointDataForm.svelte';
 export { default as PointCloneForm } from './PointCloneForm.svelte';
 export { default as PointAiForm } from './PointAiForm.svelte';
 export { default as PointLearnForm } from './PointLearnForm.svelte';
+export { default as PlantForm } from './PlantForm.svelte';
+
 
 
 

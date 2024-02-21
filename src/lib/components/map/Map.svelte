@@ -12,6 +12,7 @@ import { MapLibre,
         ControlButton,
         Marker,
         Popup} from 'svelte-maplibre';
+import {getClassFromColor} from '../../script/utils.js'
 
 
 onMount(async () => { 
@@ -27,12 +28,12 @@ export let clickedName:any = (g:any)=>{
 }
 
 
+// CONSIDER MOVE THIS ON UTILITIES
 let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-6 h-6 '+'bg-indigo-400'+' text-white text-[8px] font-bold rounded-full grid place-items-center'
-
-const getMarkerClass = (cl:string) =>{
+const getMarkerClass = (color:string) =>{
     let newClass = JSON.parse(JSON.stringify(markerClass))
+    const cl = getClassFromColor(color)
     const ret = newClass.replace('bg-indigo-400',cl)
-    console.log("NEW CLASS",ret)
     return(ret)
 }
 
@@ -90,7 +91,7 @@ const getMarkerClass = (cl:string) =>{
           <Marker
               lngLat ={[g.lon,g.lat]}
               on:click={clickedName(g)}
-              class="{getMarkerClass(g.class)}">
+              class="{getMarkerClass(g.color)}">
                   <span>
                     {g.label}
                   </span>
