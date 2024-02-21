@@ -1,10 +1,11 @@
 ﻿<script lang="ts">
 // EXTERNAL
 import {onMount} from "svelte"
+import { v4 as uuidv4 } from 'uuid';
 // INTRNAL
 import {getDeviceTemplate} from '../../script/utils.js'
 // API
-import {getDevices} from '../../script/apidataconfig.js'
+import {getDevices,getPlants,getDepartments,getLines} from '../../script/apidataconfig.js'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 
@@ -19,12 +20,24 @@ onMount(async () => {
 				const filters:any = [{uid:uid,_type:'eq'}]
 				const ret = await getDevices(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == uid)})
+				const filters1:any = []
+				let ret1:any
+				// GET PLANTS
+				ret1 = await getPlants(filters1,$mock)
+				plants = ret1.data
+				// GET DEPARTMENTS
+				ret1 = await getDepartments(filters1,$mock)
+				departments = ret1.data
+				// GET LINES
+				ret1 = await getLines(filters1,$mock)
+				lines = ret1.data
 				console.log("RETURN ",found)
 				if(found){
 					device = found
 					title = "DEVICE"
 				}
 				else{
+					newdevice.uid = uuidv4()
 					device = newdevice
 					title = "NEW DEVICE"
 				}
@@ -49,10 +62,34 @@ export let save = (ev:any)=>{
 	console.log("SAVE DEVICE: ",uid)
 }
 
-let newdevice = getDeviceTemplate()
+let newdevice:any = getDeviceTemplate()
 let device:any = newdevice
 let title = "DEVICE"
 let uid = ''
+let plants:any = []
+let departments:any = []
+let lines:any = []
+
+const filterDepts = async (ev:any) =>{
+	const target = ev.target
+	console.log(target.value)
+	const filters = [{plant:target.value,_type:'eq'}]
+	const ret = await getDepartments(filters,$mock)
+	departments = ret.data
+	const itemList = departments.map(({uid}:any) => uid);
+	// RELOAD LINES
+	const ret1 =  await getLines([],$mock)
+	lines = ret1.data
+	lines = lines.filter((item:any) => itemList.includes(item.department))
+}
+
+const filterLines = async (ev:any) =>{
+	const target = ev.target
+	console.log(target.value)
+	const filters = [{department:target.value,_type:'eq'}]
+	const ret = await getLines(filters,$mock)
+	lines = ret.data
+}
 
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
@@ -65,19 +102,22 @@ let uid = ''
 			<label for="device-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="device-name" name="name" bind:value={device.name}>
 			<label for="device-plant">Plant<span class="req">*</span>:</label>
-			<select name="plant" id="device-plant" value={device.plant}>
-				<option value="plant-1">PLANT 1</option>
-				<option value="plant-2">PLANT 2</option>
+			<select name="plant" id="device-plant" bind:value={device.plant} on:change={filterDepts}>
+				{#each plants as plant}
+					<option value="{plant.uid}">{plant.name}</option>
+				{/each}
 			</select>
 			<label for="device-department">Department:</label>
-			<select name="department" id="device-department" bind:value={device.localization.department}>
-				<option value="0">DEP 1</option>
-				<option value="1">DEP 2</option>
+			<select name="department" id="device-department" bind:value={device.localization.department} on:change={filterLines}>
+				{#each departments as dept}
+					<option value="{dept.uid}">{dept.name}</option>
+				{/each}
 			</select>
 			<label for="device-line">Line:</label>
 			<select name="line" id="device-line" bind:value={device.localization.line}>
-				<option value="0">LINE 1</option>
-				<option value="1">LINE 2</option>
+				{#each lines as line}
+					<option value="{line.uid}">{line.name}</option>
+				{/each}
 			</select>
 			<label for="device-description">Description:</label>
 			<input type="text" id="device-description" name="description" bind:value={device.description}>

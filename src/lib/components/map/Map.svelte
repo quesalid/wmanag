@@ -42,8 +42,8 @@ const getMarkerClass = (color:string) =>{
 <MapLibre
   style="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
   class={mapClasses}
-  center={[-120, 50]}
-  zoom={2}
+  center={[-30, 30]}
+  zoom={1}
   attributionControl={false}
   let:map
 >

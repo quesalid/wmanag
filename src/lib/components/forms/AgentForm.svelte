@@ -1,6 +1,7 @@
 <script lang="ts">
 // EXTERNAL
 import {onMount} from "svelte"
+import { v4 as uuidv4 } from 'uuid';
 // INTERNAL 
 import {getAgentTemplate} from '../../script/utils.js'
 import {AgentDataForm,AgentAiForm,AgentLearnForm,AgentCloneForm} from './'
@@ -26,6 +27,7 @@ onMount(async () => {
 					title = "AGENT "+name
 				}
 				else{
+					newagent.uid = uuidv4()
 					agent = newagent
 					title = "AGENT "+$module
 				}
@@ -67,7 +69,7 @@ export let save = (ev:any)=>{
 export let mod = 'DATA'
 
 
-let newagent = getAgentTemplate(mod.toUpperCase())
+let newagent:any = getAgentTemplate(mod.toUpperCase())
 let agent = newagent
 let title = "AGENT "+ mod
 let uid = ''

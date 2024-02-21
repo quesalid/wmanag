@@ -86,7 +86,7 @@ let devices = [
         plant: 'plant-2',
         localization: {
             department: 'dept-2',
-            line: 'lin-2',
+            line: 'line-2',
         },
         host: "10.112.1.71",
         port: 3000,
@@ -110,7 +110,7 @@ let devices = [
         plant: 'plant-1',
         localization: {
             department: 'dept-1',
-            line: 'lin-1',
+            line: 'line-1',
         },
         host: "DC-SRV-03",
         port: 8080,
@@ -134,7 +134,7 @@ let devices = [
         plant: 'plant-2',
         localization: {
             department: 'dept-2',
-            line: 'lin-2',
+            line: 'line-2',
         },
         host: "DC-SRV-03",
         port: 8080,
@@ -158,7 +158,7 @@ let devices = [
         plant: 'plant-2',
         localization: {
             department: 'dept-2',
-            line: 'lin-2',
+            line: 'line-2',
         },
         host: "DC-SRV-11",
         port: 5252,
@@ -539,11 +539,11 @@ let plants = [
         uid: 'plant-1',
         name: 'PLANT-001',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Vallinfreda Plant",
-        lat: 42.08485000,
-        lon: 12.99595000,
+        description: "Pabianice Plant",
+        lat: 51.66446000, 
+        lon: 19.35473000,
         label: 'PL1',
-        address: 'Vallinfreda, RM, Italia',
+        address: 'Pabianice, ul G. Zapolskej, Poland',
         color: '#FF6188', // RED SOFT
     },
     {
@@ -561,12 +561,12 @@ let plants = [
         uid: 'plant-3',
         name: 'PLANT-003',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Fake Plant",
-        lat: null,
-        lon: null,
+        description: "Latina Plant",
+        lat: 41.46614000,
+        lon: 12.90430000,
         label: 'PL3',
         address: 'No address',
-        color: '#E3ED63', // YELLOW SOFT
+        color: '#49CDA8', // TEAL
     }
 ]
 
@@ -584,23 +584,51 @@ let departments = [
         lastmodified: "2022-06-30T10:00:00",
         description: "Sterile Production New",
         plant:'plant-2'
+    },
+    {
+        uid: 'dept-3',
+        name: 'DEPT-003',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Oral Solid Production",
+        plant: 'plant-2'
+    },
+    {
+        uid: 'dept-4',
+        name: 'DEPT-004',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Oral Solid Production New",
+        plant: 'plant-3'
     }
 ]
 
 let lines = [
     {
-        uid: 'lin-1',
-        name: 'KINE-001',
+        uid: 'line-1',
+        name: 'LINE-001',
         lastmodified: "2022-06-30T10:00:00",
         description: "DESALPHA Line",
         department: 'dept-1'
     },
     {
-        uid: 'lin-2',
+        uid: 'line-2',
         name: 'LINE-002',
         lastmodified: "2022-06-30T10:00:00",
         description: "NOVOMIXIN Line",
         department: 'dept-2'
+    },
+    {
+        uid: 'line-3',
+        name: 'LINE-003',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "CERINOL Line",
+        department: 'dept-3'
+    },
+    {
+        uid: 'line-4',
+        name: 'LINE-004',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "CERINOL Line New",
+        department: 'dept-4'
     }
 ]
 
@@ -609,7 +637,7 @@ let machines = [
         uid: 'mach-1',
         name: "AUT-01",
         description: "Autoclave Fedegari",
-        line: 'lin-1',
+        line: 'line-1',
         type: "AUTOCLAVE",
         manufacturer: "FEDEGARI",
         model: "XFOAF7/Q253",
@@ -620,7 +648,7 @@ let machines = [
         uid: 'mach-2',
         name: "PRP-01",
         description: "Preparatore",
-        line: 'lin-1',
+        line: 'line-1',
         type: "PREPARATORE",
         manufacturer: "Intertech",
         model: "010",
@@ -631,7 +659,7 @@ let machines = [
         uid: 'mach-3',
         name: "INF-01",
         description: "Infialatrice Pharmasiena",
-        line: 'lin-1',
+        line: 'line-1',
         type: "INFIALATRICE",
         manufacturer: "PHARMASIENA",
         model: "A6-FC",
@@ -642,7 +670,7 @@ let machines = [
         uid: 'mach-4',
         name: "LIO-01",
         description: "Liofilizzatore IMA",
-        line: 'lin-01',
+        line: 'line-01',
         type: "LIOFILIZZATORE",
         manufacturer: "IMA",
         model: "LYOFAST 25",
@@ -653,7 +681,7 @@ let machines = [
         uid: 'mach-5',
         name: "ITU-01",
         description: "Test filtri Pall",
-        line: 'lin-1',
+        line: 'line-1',
         type: "FILTERTEST",
         manufacturer: "PALL",
         model: "ACQUAWIT IV",
@@ -664,7 +692,7 @@ let machines = [
         uid: 'mach-6',
         name: "STE-01",
         description: "Forno De Lama",
-        line: 'lin-1',
+        line: 'line-1',
         type: "FORNO",
         manufacturer: "DE LAMA",
         model: "DLST/L",
@@ -675,7 +703,7 @@ let machines = [
         uid: 'mach-7',
         name: "UTA-01-1",
         description: "Unita Trattamento Aria",
-        line: 'lin-1',
+        line: 'line-1',
         type: "UTA",
         manufacturer: "EMI RAD",
         model: "MXC010",
@@ -686,7 +714,7 @@ let machines = [
         uid: 'mach-8',
         name: "AUT-02",
         description: "Autoclave Fedegari",
-        line: 'lin-2',
+        line: 'line-2',
         type: "AUTOCLAVE",
         manufacturer: "FEDEGARI",
         model: "XFOAF9/QST",
@@ -697,7 +725,7 @@ let machines = [
         uid: 'mach-9',
         name: "PRP-02",
         description: "Preparatore",
-        line: 'lin-2',
+        line: 'line-2',
         type: "PREPARATORE",
         manufacturer: "Intertech",
         model: "010",
@@ -708,7 +736,7 @@ let machines = [
         uid: 'mach-10',
         name: "INF-02",
         description: "Infialatrice Pharmasiena",
-        line: 'lin-2',
+        line: 'line-2',
         type: "INFIALATRICE",
         manufacturer: "PHARMASIENA",
         model: "A6-FC",
@@ -719,7 +747,7 @@ let machines = [
         uid: 'mach-11',
         name: "LIO-02",
         description: "Liofilizzatore IMA",
-        line: 'lin-02',
+        line: 'line-2',
         type: "LIOFILIZZATORE",
         manufacturer: "IMA",
         model: "LYOFAST 25",
@@ -730,7 +758,7 @@ let machines = [
         uid: 'mach-12',
         name: "ITU-02",
         description: "Test filtri Pall",
-        line: 'lin-1',
+        line: 'line-1',
         type: "FILTERTEST",
         manufacturer: "PALL",
         model: "ACQUAWIT IV",
@@ -741,7 +769,7 @@ let machines = [
         uid: 'mach-13',
         name: "STE-02",
         description: "Forno De Lama",
-        line: 'lin-2',
+        line: 'line-2',
         type: "FORNO",
         manufacturer: "DE LAMA",
         model: "DLST/L",
@@ -752,7 +780,7 @@ let machines = [
         uid: 'mach-14',
         name: "UTA-02-1",
         description: "Unita Trattamento Aria",
-        line: 'lin-2',
+        line: 'line-2',
         type: "UTA",
         manufacturer: "EMI RAD",
         model: "MXC010",

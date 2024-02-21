@@ -91,7 +91,6 @@
 	// TABLE VARIABLES
 	let titleagent = 'AGENTS for DEVICE '+device.name
 	let onClickAddDevice = (ev:any)=>{
-		console.log("ONCLICK ADD CONTAINER")
 		const modalEdit = document.getElementById(modalIdSave)
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
 		modalEdit?.dispatchEvent(addClicked)

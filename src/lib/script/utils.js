@@ -506,6 +506,7 @@ export function getAlarmColumns(module) {
 /******** TEMPLATES *******/
 // DEVICE TEMPLATE
 let deviceTemplate = {
+    uid:'',
     name: '',
     description: '',
     plant: '',

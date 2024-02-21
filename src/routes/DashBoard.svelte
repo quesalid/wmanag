@@ -5,8 +5,7 @@
    // INTERN IMPORT
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import Donut from "../lib/components/donut/Donut.svelte"
-   import MapManager from '../lib/components/contents/MapManager.svelte'
-   import AlarmManager from '../lib/components/contents/AlarmManager.svelte'
+   import {AlarmManager,MapManager,DonutClicked} from '../lib/components/contents'
    import WManag from '../lib/components/WManag.svelte'
    import { center } from '../lib/components/topbar/notifications';
 
@@ -51,7 +50,11 @@
 		// ADD EVENT LISTENER FOR DONUTS
 		if(dashboardDiv){
 			donutListener = dashboardDiv.addEventListener("donutclicked",async (e:any)=>{
-			   console.log("DONUT CLICKED",e.detail)	
+			   console.log("DONUT CLICKED",e.detail)
+			   // GET donutClickedDiv DIV
+			   const donutDiv = document.getElementById("donutClickedDiv")
+			   if(donutDiv)
+					donutDiv.style.display='block'
 
 			})
 		}
@@ -87,20 +90,6 @@
 	const avatarclass = "font-bold text-sm italic"
 
 	// DONUT
-	let donut1 = {
-		id:"donut1",
-		dbTitle: "AGENTS",
-		donutWidth: '200px',
-		donutHeight: '200px',
-		pageId:"dashboard-container-id",
-		showTitle:false,
-		conicData: [
-			{color:'#888',bgcolor:'#A9DC62',start:0,end:45,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR0'},
-			{color:'#888',bgcolor:'#FF6188',start:45,end:120,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR10'},
-			{color:'#888',bgcolor:'#B9DCCC',start:120,end:360,label:"<img src='AVATAR.svg' alt='PIPPO'/>",sectorid:'SECTOR13'}
-		]
-	}
-	
 	
 	const donut3 = {
 		id:"donut-deafult",
@@ -115,20 +104,6 @@
 
 	let donut:any = donut3
 
-	const donut4 = {
-		id:"donut4",
-		dbTitle: "RECORDERS",
-		donutWidth: '300px',
-		donutHeight: '300px',
-		pageId:"dashboard-container-id",
-		showTitle:true,
-		conicData: [
-			{color:'#888',bgcolor:'#A9DC62',start:0,end:67,label:"<img src='RECORDER.svg' alt='PIPPO'/>",sectorid:'RECORDER'},
-			{color:'#888',bgcolor:'#FF6188',start:67,end:203,label:"<img src='PLAYER.svg' alt='PIPPO'/>",sectorid:'PLAYER'},
-		]
-	}
-
-	
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -142,29 +117,37 @@
 		let ret:any = {}
 		switch($module.toUpperCase()){
 			case 'DATA':
-				ret.dbTitle = "AGENTS",
+				ret.dbTitle = "AGENTS"
+				ret.donutWidth = '280px'
+				ret.donutHeight = '280'
 				conicData = setConicData(agents,devices,plants,'AGENTS')
 				ret.conicData = conicData
 				break;
 			case 'CLONE':
-				ret.dbTitle = "RECORDERS",
+				ret.dbTitle = "RECORDERS"
+				ret.donutWidth = '300px'
+				ret.donutHeight = '300px'
 				conicData = setConicData(agents,devices,plants,'RECORDERS')
 				ret.conicData = conicData
 				break;
 			case 'LEARN':
-				ret.dbTitle = "PLAYERS",
+				ret.dbTitle = "PLAYERS"
+				ret.donutWidth = '300px'
+				ret.donutHeight = '300px'
 				conicData = setConicData(agents,devices,plants,'PLAYERS')
 				ret.conicData = conicData
 				break;
 			case 'AI':
-				ret.dbTitle = "MODELS",
+				ret.dbTitle = "MODELS"
+				ret.donutWidth = '300px'
+				ret.donutHeight = '300px'
 				conicData = setConicData(agents,devices,plants,'MODELS')
 				ret.conicData = conicData
 				break;	
 		}
-		ret.id = "donut-deafult"
-		ret.donutWidth = '300px'
-		ret.donutHeight = '300px'
+		ret.id = "donut-default-id"
+		ret.donutWidth = '220px'
+		ret.donutHeight = '220px'
 		ret.pageId = "dashboard-container-id"
 		ret.showTitle =true
 		console.log("getDonumtByType",ret)
@@ -195,14 +178,13 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
-				{#if $module.toUpperCase() == 'DATA'}
-					<WManag id="donutManager" 
+				<WManag id="donutManager" 
 						title="{donut.dbTitle}" 
 						disableClose={true}
 						draggable={true} 
 						headercolor={bgcolor}
 						width={donut.donutWidth+' +10'}
-						top="400px"
+						top={$module.toUpperCase() == 'DATA'?'380px':'10px'}
 						left="1%"
 						minimized="off"
 						resize='both'>
@@ -212,29 +194,17 @@
 							{/key}
 						</div>
 					</WManag>
+				{#if $module.toUpperCase() == 'DATA'}
 					<MapManager headercolor={bgcolor} left="1%" top="0%" title="PLANTS" minimized="off"/>
 					<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>
-				{:else}
-					<WManag id="donutManager" 
-						title="{donut.dbTitle}" 
-						disableClose={true}
-						draggable={true} 
-						headercolor={bgcolor}
-						width={donut.donutWidth+' +10'}
-						top="1%"
-						left="1%"
-						minimized="off"
-						resize='both'>
-						<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
-							{#key pippo}
-								<Donut donut={donut}/>
-							{/key}
-						</div>
-					</WManag>
 				{/if}
 			
 		</div>
-		
+
+</div>
+
+<div>
+	<DonutClicked />
 </div>
 
 <style>
