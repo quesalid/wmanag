@@ -85,7 +85,6 @@ const onAgentClickDelete = (ev) => {
 const onDataPointClickGraph = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
-    console.log("DATA POINT GRAPH",uid)
     // SEND EDIT CLICKED EVENT TO MODAL
     const modalEdit = document.getElementById('PointChartDiv')
     const deleteClicked = new CustomEvent("chartclicked", { detail: uid })

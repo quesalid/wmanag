@@ -43,9 +43,10 @@
 		devices = ret.data
 		ret = await getAgents(filters,$mock)
 		agents = ret.data
-		const dashboardDiv = document.getElementById("dashboard-container-id")
+		console.log("AGENTS FOR DONUT",agents)
+		/*const dashboardDiv = document.getElementById("dashboard-container-id")
 		// REMOVE EVENT LISTENER IF EXISTS
-		/*if(donutListener && dashboardDiv)
+		if(donutListener && dashboardDiv)
 			dashboardDiv.removeEventListener("donutclicked",donutListener)
 		// ADD EVENT LISTENER FOR DONUTS
 		if(dashboardDiv){
@@ -113,7 +114,6 @@
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
-		console.log("LOGO CLICKED",$currentplant)
 		navigate(`/`+$module)
 	}
 
@@ -156,7 +156,6 @@
 		ret.donutHeight = '220px'
 		ret.pageId = "donutClickedDiv"
 		ret.showTitle =true
-		console.log("getDonumtByType",ret)
 		return(ret)
 	}
 

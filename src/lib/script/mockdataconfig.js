@@ -1289,7 +1289,6 @@ const generateTimeSeriesRect = (point, num,DEGREE=5) => {
         xCoords.push(x)
         yCoords.push(y)
     }
-    console.log("generateTimeSeriesRect", xCoords, yCoords)
     let curve = []
     for (let j = 0; j < num; j++) {
         let index = Math.floor(j *DEGREE/ num)
@@ -1297,7 +1296,6 @@ const generateTimeSeriesRect = (point, num,DEGREE=5) => {
         const item = [value,j]
         curve.push(item)
     }
-    console.log("generateTimeSeriesRect", curve)
     // C. RETURN TIMESERIES
     const end = Date.now()
     const start = end - TICK * 1000 * num

@@ -63,7 +63,6 @@ const minimize = (event:any)=>{
       winHeight ="30px"
 	else
 	  winHeight = ""
-	console.log("WIN HEIGHT",winHeight)
 	win.style.height = winHeight;
 }
 

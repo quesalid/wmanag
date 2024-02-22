@@ -35,7 +35,6 @@ onMount(async () => {
 					const ln = lines.filter((item:any)=>item.department == departments[i].uid)
 					departments[i].lines = ln
 				}
-				console.log("DEPARTMENTS",departments)
 				if(videostarted){
 					stopVideo()
 					videostarted = false
@@ -72,7 +71,6 @@ const closeModal = (ev:any) =>{
 
  const cameraClicked = (ev:any) =>{
 	 ev.preventDefault();
-	 console.log("CAMERA CLICKED",uid)
 	 if(!videostarted){
 		startVideo()
 		videostarted=true

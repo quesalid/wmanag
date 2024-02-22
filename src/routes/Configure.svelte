@@ -42,7 +42,6 @@
 				deviceuid = e.detail
 				$currdevice = deviceuid
 				// NAVIGATE TO AGENT PAGE
-				console.log("AGENT CLICKED ---> ",deviceuid)
 				navigate("/"+$module+"/configure/agent")
 				$navigation = getArrayFromPath("/"+$module+"/configure/agent")
 			})
@@ -82,7 +81,6 @@
 	// TABLE VARIABLES
 	const titleagent = 'DEVICES'
 	let onClickAddDevice = (ev:any)=>{
-		console.log("ONCLICK ADD CONTAINER")
 		const modalEdit = document.getElementById(modalIdSave)
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
 		modalEdit?.dispatchEvent(addClicked)
@@ -93,7 +91,7 @@
 	let zindex = 4
     let headercolor = bgcolor
 	let pagesize = true
-	let pSize = 3
+	let pSize = 8
 	let devicedatacolumns = getDeviceColumns($module)
 
 	// DIALOG VARIABLES
@@ -158,7 +156,13 @@
 
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  title="{titleagent}" toolbar={toolbardevice} {disableClose} {draggable} {headercolor} {zindex}>
+			<Wmanag id="containerWManager"  
+					title="{titleagent}" 
+					toolbar={toolbardevice}
+					{disableClose} 
+					{draggable} 
+					{headercolor} 
+					{zindex}>
 				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

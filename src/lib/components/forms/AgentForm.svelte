@@ -8,7 +8,7 @@ import {AgentDataForm,AgentAiForm,AgentLearnForm,AgentCloneForm} from './'
 // API
 import {getAgents} from '../../script/apidataconfig.js'
 // STORE
-import {mock, module} from '../../ustore.js'
+import {mock, module,currdevice} from '../../ustore.js'
 
 onMount(async () => {
 		// GET MYSELF
@@ -28,6 +28,7 @@ onMount(async () => {
 				}
 				else{
 					newagent.uid = uuidv4()
+					newagent.devuid = $currdevice
 					agent = newagent
 					title = "AGENT "+$module
 				}

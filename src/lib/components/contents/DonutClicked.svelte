@@ -19,7 +19,6 @@ onMount(async () => {
 		// ADD EVENT LISTENER FOR DONUTS
 		if(donutClicked){
 			donutListener = donutClicked.addEventListener("donutclicked",async (e:any)=>{
-			   console.log("DONUT CLICKED",e.detail)
 			   // GET PLANT ID
 			   uid = e.detail
 			   // GET PLANTS
