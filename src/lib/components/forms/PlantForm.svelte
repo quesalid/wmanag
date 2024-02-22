@@ -25,29 +25,29 @@ export let departments:any = []
 		<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff;">
 			<legend>IDENTIFICATION</legend>
 			<label for="plant-name">Name:</label>
-			<input type="text" size="20"  id="palnt-name" name="name" bind:value={plant.name}>
+			<input disabled type="text" size="20"  id="palnt-name" name="name" bind:value={plant.name}>
 			<label for="plant-description">Description:</label>
-			<input type="text" size="15" id="plant-description" name="description" value={plant.description}>
+			<input disabled type="text" size="15" id="plant-description" name="description" value={plant.description}>
 			<label for="plant-address">Address:</label>
-			<input type="text" size="20" id="plant-address" name="address" value={plant.address}>
+			<input disabled type="text" size="20" id="plant-address" name="address" value={plant.address}>
 			<label for="plant-label">Code:</label>
-			<input type="text" size="15" id="plant-label" name="address" value={plant.label}>
+			<input disabled type="text" size="15" id="plant-label" name="address" value={plant.label}>
 		</fieldset>
 		<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff;">
 			<legend>DEPARTMENTS</legend>
 			{#each departments as dept}
 				<label for="department-name">Name:</label>
-				<input type="text" size="15"  id="department-name" name="name" value={dept.name}>
+				<input disabled type="text" size="15"  id="department-name" name="name" value={dept.name}>
 				<label for="department-description">Description:</label>
-				<input type="text" size="17" id="department-description" name="description" value={dept.description}>
+				<input disabled type="text" size="17" id="department-description" name="description" value={dept.description}>
 				<fieldset>
 					<legend>LINES</legend>
 					{#if dept.lines}
 						{#each dept.lines as line}
 							<label for="line-name">Name:</label>
-							<input type="text" id="line-name" name="name" value={line.name}>
+							<input disabled type="text" id="line-name" name="name" value={line.name}>
 							<label for="line-description">Description:</label>
-							<input type="text" size="15" id="line-description" name="description" value={line.description}>
+							<input disabled type="text" size="15" id="line-description" name="description" value={line.description}>
 						{/each}
 					{/if}
 				</fieldset>

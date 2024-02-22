@@ -24,17 +24,26 @@ onMount(async () => {
 			   // GET PLANTS
 			   const retplants = await getPlants([{uid:uid,_type:'eq'}],$mock)
 			   const plants = retplants.data
-			   // GET DEPARTMEBTS
 			   const plant = plants[0]
 			   const pname = plant?plant.name:''
 			   title = 'AGENTS FOR PLANT '+pname
+			   // GET MACHINES
+			   const retmachines = await getMachines([],$mock)
+			   const machines = retmachines.data
+			   // GET DEVICES
 			   const retdevices = await getDevices([{plant:uid,_type:'eq'},{module:$module.toUpperCase(),_type:'eq'}],$mock)
 			   devices = retdevices.data
 			   // ADD agents to device
 			   for(let i=0;i<devices.length;i++){
 				   const dev = devices[i]
 				   const retagents:any = await getAgents([{devuid:dev.uid,_type:'eq'},{type:'SCANNER',_type:'eq'}],$mock)
-				   devices[i].agents = retagents.data
+				   const agts =  retagents.data
+				   // ADD MACHINES TO AGENTS
+				   for(let j=0;j<agts.length;j++){
+					   const mcs = machines.filter((item:any)=> item.agent == agts[j].uid)
+					   agts[j].machines = mcs
+				   }
+				   devices[i].agents = agts
 			   }
 			   // SHOW ME
 				donutClicked.style.display='block'
