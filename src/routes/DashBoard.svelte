@@ -45,19 +45,24 @@
 		agents = ret.data
 		const dashboardDiv = document.getElementById("dashboard-container-id")
 		// REMOVE EVENT LISTENER IF EXISTS
-		if(donutListener && dashboardDiv)
+		/*if(donutListener && dashboardDiv)
 			dashboardDiv.removeEventListener("donutclicked",donutListener)
 		// ADD EVENT LISTENER FOR DONUTS
 		if(dashboardDiv){
 			donutListener = dashboardDiv.addEventListener("donutclicked",async (e:any)=>{
 			   console.log("DONUT CLICKED",e.detail)
-			   // GET donutClickedDiv DIV
+			   // GET PLANT ID
+			   donutid = e.detail
+			   const plant = plants.find((item:any)=>{item.uid == donutid})
+			   const pname = plant?plant.name:''
+			   donuttitle = 'AGENT FOR PLANT '+pname
+			   // GET send Event to display donutClickedDiv
 			   const donutDiv = document.getElementById("donutClickedDiv")
 			   if(donutDiv)
 					donutDiv.style.display='block'
 
 			})
-		}
+		}*/
 		donut = getDonutByType()
 		const donutDiv = document.getElementById(donut.id)
 		const donutRedraw = new CustomEvent("donutredraw", { detail: 'redraw' })
@@ -103,7 +108,8 @@
 	}
 
 	let donut:any = donut3
-
+	let donutid = ''
+	let donuttitle = 'DONUT CLICKED'
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -148,7 +154,7 @@
 		ret.id = "donut-default-id"
 		ret.donutWidth = '220px'
 		ret.donutHeight = '220px'
-		ret.pageId = "dashboard-container-id"
+		ret.pageId = "donutClickedDiv"
 		ret.showTitle =true
 		console.log("getDonumtByType",ret)
 		return(ret)
@@ -203,9 +209,9 @@
 
 </div>
 
-<div>
+
 	<DonutClicked />
-</div>
+
 
 <style>
 .dashboard-container{
@@ -214,6 +220,11 @@
 	top: var(--top);
 	overflow-y: auto;
 	height: calc( 100vh - 50px );
+}
+
+.dashboard-container-modal{
+	position:absolute;
+	top:0px;
 }
 
 </style>

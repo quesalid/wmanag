@@ -3,8 +3,9 @@
     "",
     "\\src",
     "\\src\\lib",
-    "\\src\\lib\\components\\chart",
-    "\\src\\lib\\components\\donut",
+    "\\src\\lib\\components",
+    "\\src\\lib\\components\\contents",
+    "\\src\\lib\\components\\forms",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],

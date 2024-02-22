@@ -107,7 +107,7 @@
 	let zindex = 4
     let headercolor = bgcolor
 	let pagesize = true
-	let pSize = 3
+	let pSize = 8
 	let pointdatacolumns = getPointColumns($module.toUpperCase())
 
 	// DIALOG VARIABLES
