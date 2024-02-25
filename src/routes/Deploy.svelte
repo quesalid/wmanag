@@ -16,7 +16,7 @@
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
    import {agentGetInfo} from '../lib/script/apidataagent.js'
    // STORE
-   import { mock,module,navigation,getArrayFromPath,currdevice} from '../lib/ustore.js'
+   import { mock,module,user,getArrayFromPath,currdevice,avatargroups} from '../lib/ustore.js'
    
   
 
@@ -113,19 +113,10 @@
 	const barheigth = "60px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
-	const avatargroups:any = [
-		[
-			{ icon: null, text: `Dashborad` },
-			{ icon: null, text: `Profile` },
-			{ icon: null, text: `Settings` },
-		], [
-			{ icon: null, text: `Logout`,link:logout },
-		]
-	]
+	
 	
 	const avatarsize = "w-10"
 	const avatar = '/PPULICANI.png'
-	const avatarmessage = "p.pulicani@up2twin.com"
 	const avatarclass = "font-bold text-sm italic"
 	let deviceuid = ''
 
@@ -165,9 +156,9 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<DropDownMenu groups={avatargroups} image="{avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
-						message={avatarmessage}
+						message={$user.username}
 						messageclass={avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}'/>

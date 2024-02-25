@@ -56,10 +56,10 @@
             isLoading = false;
             const decoded = await  decodeToken(restoken,$mock)
             // A. SET MODULE NAME IN STORE
-            $module = modulename.toUpperCase()
+            $module = modulename
             // B. SET USER,ROLE AND TOKEN IN STORE
             $token = restoken
-            $user = decoded.token.uuid
+            $user = { username: decoded.token.sub, uid: decoded.token.uid, name: decoded.token.name, surname: decoded.token.surname };
             $role = decoded.token.auth
             // C. SET AVATAR GROUPS IN STORE
             $avatargroups = getMenuGroups($role,$module.toUpperCase())
