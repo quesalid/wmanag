@@ -14,6 +14,7 @@
 
 import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
+import {login} from './lib/script/apisecurity'
 
 
 import ADMINDB from "./routes/AdminDB.svelte"

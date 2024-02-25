@@ -14,7 +14,7 @@
    //API
    import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
-   import {module, mock, currentplant} from '../lib/ustore.js'
+   import {module, mock, currentplant,avatargroups} from '../lib/ustore.js'
    
  
   
@@ -80,7 +80,7 @@
 	const barheigth = "60px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
-	const avatargroups:any = [
+	/*const avatargroups:any = [
 		[
 			{ icon: null, text: `Dashborad` },
 			{ icon: null, text: `Profile` },
@@ -88,7 +88,8 @@
 		], [
 			{ icon: null, text: `Logout`,link:logout },
 		]
-	]
+	]*/
+
 	
 	const avatarsize = "w-10"
 	const avatar = '/PPULICANI.png'
@@ -172,7 +173,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<DropDownMenu groups={avatargroups} image="{avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
 						message={avatarmessage}
 						messageclass={avatarclass}>

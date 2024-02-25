@@ -1,3 +1,4 @@
+// @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
 const voidfunction = () => { return "" }
 const onDeviceClickEdit = (ev) => {
@@ -757,4 +758,39 @@ export const getClassFromColor = (color) => {
             break
     }
     return(ret)
+}
+
+const avatargroups = [
+    [
+        { icon: null, text: `Dashboard` },
+        { icon: null, text: `Settings` },
+        { icon: null, text: `Admin` },
+    ],
+    [
+        { icon: null, text: `Logout`, link: null },
+    ]
+]
+
+export const getMenuGroups = (role,module) => {
+    let clone = JSON.parse(JSON.stringify(avatargroups))
+    let dashboard = null
+    let settings = null
+    let admin = null
+    switch (module) {
+        case 'DATA':
+            clone[1][0].link = "/datalogin"
+            break;
+        case 'AI':
+            clone[1][0].link = "/ailogin"
+            break;
+        case 'CLONE':
+            clone[1][0].link = "/clonelogin"
+            break;
+        case 'LEARN':
+            clone[1][0].link = "/learnlogin"
+            break;
+    }
+    if (role == 'USER')
+        clone[0] = clone[0].filter((item) => item.text != 'Admin')
+    return (clone)
 }

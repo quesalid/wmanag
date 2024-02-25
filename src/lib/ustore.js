@@ -7,8 +7,9 @@ export const user = writable("")  // LOGGED USER
 export const token = writable("") // SESSION LOGIN TOKEN
 export const currentplant = writable({ name: "PLANT-001" }) // CURRENT PLANT
 export const navigation = writable([{}]) // TOKENIZED NAVIGATION ARRAY OF OBJECT
-export const module = writable("") // CUERRENT MODULR
+export const module = writable("") // CUERRENT MODULE
 export const currdevice = writable("") // CURRENT DEVICE
+export const avatargroups = writable([]) // TOKENIZED AVATAR MENU ARRAY OF OBJECTS
 
 /**
  * getArrayFromPath

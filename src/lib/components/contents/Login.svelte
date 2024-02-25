@@ -1,8 +1,11 @@
 ﻿<script lang="ts">
   //import Modal  from "./modal/Modal.svelte"
    import { navigate } from "svelte-routing";
-   import {navigation,getArrayFromPath,module} from "../../ustore.js"
-
+   import {token, user, role,mock,navigation,getArrayFromPath,module,avatargroups} from "../../ustore.js"
+   import {login,decodeToken} from '../../script/apisecurity.js'
+   import {getMenuGroups} from '../../script/utils.js'
+ 
+   
   let usrid = "";
   let password = "";
 
@@ -46,25 +49,29 @@
     if (Object.keys(errors).length === 0) {
       isLoading = true;
       //await submit({ usrid, password })
-     extsubmit({ usrid, password })
-        .then((res:any) => {
-          isSuccess = true;
-          isLoading = false;
-          if(res.authenticated){
-           $module = modulename
-           navigate(landingPage)
-           // UPDATE navigation
-           $navigation = getArrayFromPath(landingPage)
-           console.log("LOGIN",$navigation)
-          }
-            else{
-              //$cpreason = "first login"
-              navigate(`/data/admin/changepasswd`)
-            }
+     extsubmit({ usrid, password})
+        .then(async (res:any) => {
+            const restoken = await login(usrid,password,$mock)
+            isSuccess = true;
+            isLoading = false;
+            const decoded = await  decodeToken(restoken,$mock)
+            // A. SET MODULE NAME IN STORE
+            $module = modulename.toUpperCase()
+            // B. SET USER,ROLE AND TOKEN IN STORE
+            $token = restoken
+            $user = decoded.token.uuid
+            $role = decoded.token.auth
+            // C. SET AVATAR GROUPS IN STORE
+            $avatargroups = getMenuGroups($role,$module.toUpperCase())
+            console.log("AVATARGROUPS",$avatargroups,$module)
+            navigate(landingPage)
+            // UPDATE navigation
+            $navigation = getArrayFromPath(landingPage)
+            console.log("LOGIN",$navigation)
         })
         .catch((err:any) => {
           isLoading = true;
-          switch(err.code){
+          switch(err){
               case "ERR_PASSWD_EXPIRED":
                 //$cpreason = "password expired"
                 //$userid = usrid
@@ -74,16 +81,17 @@
                 errors['1'] = err.code
                 errors['2'] = "contact system admin"
                 errors['link'] = "mailto:amdin@google.com?subject:Blocked%20Password"
-                openModalButton.click()
+                // TBD - ADD ERROR MANAGEMENT
+                console.log(err)
                 break;
               default:
                  errors['server'] = err.code;
-                openModalButton.click()
+                 console.log(err)
                 break;
           }
         });
     }else{
-        openModalButton.click()
+         console.log("END OF THE QUEUE")
     }
   };
 
