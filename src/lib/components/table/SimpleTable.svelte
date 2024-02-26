@@ -2,6 +2,7 @@
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy,addPagination,addTableFilter } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
+  import ImageRenderDynamic from './ImageRenderDynamic.svelte'
   import CheckRender from './CheckRender.svelte'
   import SelectRender from './SelectRender.svelte'
   import TextRender from './TextRender.svelte'
@@ -28,7 +29,7 @@
   export let showpag = true;
   export let pSize = 2;
 
-  const getColumns = (datacolumns) => {
+  const getColumns = (datacolumns:any) => {
 	  let columns = []
 	  for (let i = 0; i < datacolumns.length; i++) {
 		  if(datacolumns[i].renderdef){
@@ -39,13 +40,23 @@
 	  return columns
   }
 
-  const getRenderer =(type:any,idtag:any,uid:any,params:any)=>{
+  
+
+  const getRenderer = (type:any,idtag:any,uid:any,params:any)=>{
 	  let ret
 	  switch(type){
 		  case 'image':
 			ret = ({row})=>{
 				params.uid = row.original['uid']
 				return createRender(ImageRender,{...params})
+			}
+			break;
+		  case 'imagedynamic':
+			ret = ({row})=>{
+				params.uid = row.original['uid']
+				params.image = row.original.profile.avatar
+				console.log("GET RENDERER",row.original.profile)
+				return createRender(ImageRenderDynamic,{...params})
 			}
 			break;
 		  case 'checkbox':

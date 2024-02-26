@@ -1,3 +1,4 @@
+import {getAvatar } from '../script/apisecurity.js'
 // @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
 const voidfunction = () => { return "" }
@@ -114,6 +115,22 @@ const onAlarmPointClickAck = (ev) => {
     const modalEdit = document.getElementById('DeleteInputDiv')
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)*/
+}
+const onUserClickEdit = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('UserInputDiv')
+    const editClicked = new CustomEvent("editclicked", { detail: uid })
+    modalEdit?.dispatchEvent(editClicked)
+}
+const onUserClickDelete = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('DeleteInputDiv')
+    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
+    modalEdit?.dispatchEvent(deleteClicked)
 }
 // ACCESSORS
 
@@ -501,6 +518,48 @@ export function getAlarmColumns(module) {
         case 'DATA':
             return (pointdataalarmcolumns)
     }
+}
+
+let usercolumns = [
+    {
+        header: 'Name',
+        accessor: 'name',
+    },
+    {
+        header: 'Surname',
+        accessor: 'surname',
+    },
+    {
+        header: 'Username',
+        accessor: 'username',
+    },
+    {
+        header: 'Role',
+        accessor: 'role',
+    },
+    {
+        header: 'Status',
+        accessor: 'status'
+    },
+    {
+        header: 'Avatar',
+        accessor: (item) => item.profile.avatar,
+        renderdef: { type: 'imagedynamic', params: { image: '/EDIT.svg', getimage: getAvatar,onClick: onUserClickEdit } }
+    },
+    {
+        header: 'Edit',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onUserClickEdit } }
+    },
+    {
+        header: 'Delete',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/DELETE.svg', onClick: onUserClickDelete } }
+    }
+]
+
+export function getUserColumns() {
+    return (usercolumns)
 }
 
 /******** TEMPLATES *******/

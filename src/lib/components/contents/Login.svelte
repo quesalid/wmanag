@@ -1,8 +1,10 @@
 ﻿<script lang="ts">
   //import Modal  from "./modal/Modal.svelte"
    import { navigate } from "svelte-routing";
-   import {token, user, role,mock,navigation,getArrayFromPath,module,avatargroups} from "../../ustore.js"
-   import {login,decodeToken} from '../../script/apisecurity.js'
+   import {onMount} from "svelte"
+
+   import {token, user, role,mock,avatar,navigation,getArrayFromPath,module,avatargroups} from "../../ustore.js"
+   import {login,decodeToken,getAvatar} from '../../script/apisecurity.js'
    import {getMenuGroups} from '../../script/utils.js'
  
    
@@ -29,7 +31,15 @@
 
   export let openModalButton:any
  
- 
+  onMount(async () => {
+      // ON LOAD CLEAN STORE
+      $role = ''
+      $user = {username:'',uid:''}
+      $token = ''
+      $avatar = ''
+
+  })
+
   const toMainPage = ()=>{
 	navigate(`/`)
   }
@@ -59,11 +69,13 @@
             $module = modulename
             // B. SET USER,ROLE AND TOKEN IN STORE
             $token = restoken
-            $user = { username: decoded.token.sub, uid: decoded.token.uid, name: decoded.token.name, surname: decoded.token.surname };
+            $user = { username: decoded.token.sub, uid: decoded.token.uuid, name: decoded.token.name, surname: decoded.token.surname };
             $role = decoded.token.auth
             // C. SET AVATAR GROUPS IN STORE
             $avatargroups = getMenuGroups($role,$module.toUpperCase())
-            console.log("AVATARGROUPS",$avatargroups,$module)
+            // D. SET AVATAR IN STORE
+            $avatar = await getAvatar($user.uid,$mock)
+            console.log("AVATAR",$avatar,$user)
             navigate(landingPage)
             // UPDATE navigation
             $navigation = getArrayFromPath(landingPage)

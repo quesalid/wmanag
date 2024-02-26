@@ -31,11 +31,31 @@ const users = [
     }
 ]
 
+const profiles = [
+    {
+        uid: '55a96422-88cd-43ab-aa56-f4d4b022a77e',
+        language: 'en',
+        avatar: '/AVATAR1.png',
+        dashboard:[]
+    },
+    {
+        uid: '447b658f-66ca-7aa3-965d-abd4bc22a893',
+        language: 'en',
+        avatar: '/LORENZO.png',
+        dashboard: []
+    }
+]
+
 const getUsers = async function (body) {
     let retUsers = JSON.parse(JSON.stringify(users))
     const filters = body.options.filters
     if (filters && filters.length) {
         retUsers = filterArray(retUsers, filters)
+    }
+    // ADD PROFILES
+    for (let i = 0; i < retUsers.length; i++) {
+        const found = profiles.find((item) => (item.uid == retUsers[i].uid))
+        retUsers[i].profile = found
     }
     body.data = retUsers
     return (body)
@@ -44,6 +64,7 @@ const getUsers = async function (body) {
 const setUser = async function (body) {
     const user = body.options.user
     let old = null
+    let oldp = null
     if (user) {
         const existing = users.findIndex((item) => { return item.uid == user.uid })
         if (existing > -1) {
@@ -52,16 +73,34 @@ const setUser = async function (body) {
         } else {
             users.push(user)
         }
+        // SET PROFILE TOO..
+        const existingprof = profiles.findIndex((item) => { return item.uid == user.profile.uid })
+        if (existingprof > -1) {
+            oldp = profiles[existingprof]
+            profiles[existingprof] = user.profile
+        } else {
+            profiles.push(user.profile)
+        }
     }
     return user
 }
 
 const deleteUser = async function (body) {
     const filters = body.options.filters
-    users = filterArray(users, filters, true)
+    // CLONE USERS
+    const clone = JSON.parse(JSON.stringify(users))
+    clone = filterArray(clone, filters, true)
+    // LOOP USERS - IF NOT IN CLONE DELETE PROFILE
+    for (let i = 0; i < users; i++) {
+        const found = clone.find((item) => item.uid == users[i].uid)
+        if (!found)
+            profiles = profiles.filterArray((item) =>item.uid != users[i].uid)
+    }
+    users = clone
     body.data = users
     return (body)
 }
+
 
 const userVerify = async function (username, password){
     if (!username || !password)
@@ -76,7 +115,22 @@ const decodeToken = async function (jwt) {
     return jwt
 }
 
+const getAvatar = async function (body) {
+    const uid = body.options.uid
+    const found = profiles.find((item) => item.uid == uid)
+    if (found)
+        return (found.avatar)
+    return(null)
+}
 
+const setAvatar = async function (body) {
+    const uid = body.options.uid
+    const avatar = body.options.avatar
+    const index = profiles.findIndex((item) => item.uid == uid)
+    if (index > -1)
+        profiles[index].avatar = avatar
+        
+}
 
 const login = async function (body) {
     console.log("MOCK LOGIN",body)
@@ -90,12 +144,16 @@ const login = async function (body) {
     
 }
 
+
+
 const USER = {
     getUsers,
     setUser,
     deleteUser,
     decodeToken,
-    login
+    login,
+    getAvatar,
+    setAvatar
 }
 
 export default USER

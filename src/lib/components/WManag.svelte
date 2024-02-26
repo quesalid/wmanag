@@ -57,7 +57,6 @@ onMount(async () => {
 
 const minimize = (event:any)=>{
 	let win = document.getElementById(id);
-	console.log("WIN ",win)
 	winHeight = win.style.height
 	if(winHeight == '')
       winHeight ="30px"

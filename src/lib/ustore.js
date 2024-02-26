@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 // MOCK FLAG FOR DEVELOPMENT
 export const mock = writable(true) // MOCK DATA IF TRUE
 export const role = writable("")  // LOGGED USER ROLE
-export const user = writable({username:''})  // LOGGED USER
+export const user = writable({username:'',uid:''})  // LOGGED USER
 export const token = writable("") // SESSION LOGIN TOKEN
 export const currentplant = writable({ name: "PLANT-001" }) // CURRENT PLANT
 export const navigation = writable([{}]) // TOKENIZED NAVIGATION ARRAY OF OBJECT
@@ -12,6 +12,8 @@ export const module = writable("") // CUERRENT MODULE
 export const currdevice = writable("") // CURRENT DEVICE
 export const avatargroups = writable([]) // TOKENIZED AVATAR MENU ARRAY OF OBJECTS
 export const avatarclass = writable("text-center text-sm italic mb-9") // AVATAR MENU ARRAY CLASS
+export const avatar = writable("") // AVATAR STREAM
+ 
 
 /**
  * getArrayFromPath

@@ -4,7 +4,7 @@
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {getPlants} from '../lib/script/apidataconfig.js'
-   import {module, mock, currentplant,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, mock, currentplant,avatar,avatargroups,avatarclass,user} from '../lib/ustore.js'
   
 
    import { GraphEditor,
@@ -45,7 +45,6 @@
 	
 	
 	const avatarsize = "w-10"
-	const avatar = '/PPULICANI.png'
 	
 
 	// GRAPH VARIABLES
@@ -187,7 +186,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<DropDownMenu groups={$avatargroups} image="{avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
 						messageclass={$avatarclass}>

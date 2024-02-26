@@ -4,7 +4,7 @@
 	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
 	import { center } from '../lib/components/topbar/notifications';
 	import {onMount} from "svelte"
-	import {module,avatargroups,user,avatarclass} from '../lib/ustore.js'
+	import {module,avatargroups,avatar,user,avatarclass} from '../lib/ustore.js'
 
 
    import { GraphEditor,
@@ -43,7 +43,6 @@
 	
 	
 	const avatarsize = "w-10"
-	const avatar = '/PPULICANI.png'
 	
 
 	// GRAPH VARIABLES
@@ -177,7 +176,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<DropDownMenu groups={$avatargroups} image="{avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
 						messageclass={$avatarclass}>

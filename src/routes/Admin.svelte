@@ -7,11 +7,12 @@
    import {AlarmManager} from '../lib/components/contents'
    import Tab from '../lib/components/tabs/Tab.svelte'
    import { center } from '../lib/components/topbar/notifications';
-
+   import WManag from '../lib/components/WManag.svelte'
+   import {UserManager} from '../lib/components/contents'
    //API
    import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
-   import {module, mock, currentplant,navigation,getArrayFromPath,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, mock, avatar,currentplant,navigation,getArrayFromPath,avatargroups,avatarclass,user} from '../lib/ustore.js'
    
  
   
@@ -35,6 +36,15 @@
 		])
 		const filters:any = []
 		$navigation = getArrayFromPath("/"+$module+"/admin")
+		// SET FOCUS ON FIRST MENU AND SHOW REALTED DIV ON MOUNT
+		if(items.length > 0){
+			const fitem = document.getElementById(items[0].id)
+			if(fitem)
+				fitem.focus()
+			const ditem = document.getElementById("div-"+items[0].id)
+			if(ditem)
+				ditem.style.display='block'
+		}
 		
 	});
 
@@ -43,30 +53,21 @@
 	export let  bgcolor = "#ddefde"
 
 	// BAR VARIABLES
-	const barheigth = "60"
+	const barheigth = "60px"
+	const barheigth1 = "55px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
 	
 	const avatarsize = "w-10"
-	const avatar = '/PPULICANI.png'
-
-
-	// DONUT
 	
-	const donut3 = {
-		id:"donut-deafult",
-		dbTitle: "",
-		donutWidth: '300px',
-		donutHeight: '300px',
-		pageId:"dashboard-container-id",
-		showTitle:true,
-		conicData: [
-					]
-	}
 
-	let donut:any = donut3
-	let title = 'ADMIN'
-	let width = '98%'
+
+	// EXPORTS
+	let items:any = [
+		{name:'users',status:'active',order:'first',id:"tab-item-admin-users",component:UserManager},
+		{name:'database',status:'active',order:'middle',id:"tab-item-admin-database",component:WManag},
+		{name:'logs',status:'active',order:'last',id:"tab-item-admin-logs",component:WManag},
+	]
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -77,7 +78,7 @@
 </script>
 <div>
 		<div>
-			<TopBar barheight='{barheigth+"px"}' bgcolor='{bgcolor}'>
+			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
@@ -87,7 +88,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<DropDownMenu groups={$avatargroups} image="{avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
 						messageclass={$avatarclass}>
@@ -97,8 +98,8 @@
 			</TopBar>
 
 		</div>
-		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
-				<Tab />
+		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
+				<Tab {items}/>
 			
 		</div>
 
@@ -109,7 +110,7 @@
 .dashboard-container{
 	display:block;
 	position:relative;
-	top: calc(var(--top) - 10px);
+	top: calc(var(--top));
 	overflow-y: auto;
 	height: calc( 100vh - 50px );
 }

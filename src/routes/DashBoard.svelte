@@ -14,7 +14,7 @@
    //API
    import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
-   import {module, mock, currentplant,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, mock, avatar,avatargroups,avatarclass,user} from '../lib/ustore.js'
    
  
   
@@ -83,7 +83,6 @@
 	
 	
 	const avatarsize = "w-10"
-	const avatar = '/PPULICANI.png'
 
 
 	// DONUT
@@ -163,7 +162,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<DropDownMenu groups={$avatargroups} image="{avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
 						messageclass={$avatarclass}>

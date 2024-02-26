@@ -20,7 +20,7 @@
 			setClonePoint,
 			deleteClonePoint} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,user,getArrayFromPath,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
+   import { mock,module,user,avatar,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
    
   
 
@@ -74,7 +74,6 @@
 	
 	
 	const avatarsize = "w-10"
-	const avatar = '/PPULICANI.png'
 	let deviceuid = ''
 
 
@@ -153,7 +152,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<DropDownMenu groups={$avatargroups} image="{avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
 						messageclass={$avatarclass}>

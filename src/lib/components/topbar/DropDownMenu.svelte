@@ -64,10 +64,10 @@
 				>
 					<div class="{messageclass}">{message}</div>
 					{#each groups as group}
-						<div class="group-class px-1 py-1">
+						<div class=" px-1 py-1">
 							{#each group as option}
 								{@const active = $menu.active === option.text}
-								<div class='inline-flex'>
+								<div class='flex'>
 									{#if option.icon}
 										<img src={option.icon} alt='' width='25' height='25' style='opacity:0.8;margin-left:2px;'/>
 									{/if}
@@ -91,7 +91,7 @@
 <style>
 .group-class{
 	display:block;
-	width: 100px;
+	width: 200px;
 }
 .group-class button{
 	color: #818181;
