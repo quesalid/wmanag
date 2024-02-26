@@ -10,7 +10,6 @@ import {PlantForm} from '../forms'
 import {getPlants,getDepartments,getLines,getMachines,getControllers} from '../../script/apidataconfig.js'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
-    import AdminDb from "../../../routes/AdminDB.svelte";
 
 onMount(async () => {
 		// GET MYSELF

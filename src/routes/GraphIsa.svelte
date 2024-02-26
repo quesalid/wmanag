@@ -1,9 +1,8 @@
 <script lang="ts">
    import { navigate } from "svelte-routing";
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,ComboList,BreadCrumb} from "../lib/components/topbar"
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
-   import {combolist} from '../lib/components/topbar/combolist'
    import {getPlants} from '../lib/script/apidataconfig.js'
    import {module, mock, currentplant,avatargroups,avatarclass,user} from '../lib/ustore.js'
   
@@ -32,7 +31,6 @@
 		])
 		const filters:any = []
 		const ret = await getPlants(filters,$mock)
-		combolist.init(ret.data)
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"

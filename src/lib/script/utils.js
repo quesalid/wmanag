@@ -775,7 +775,8 @@ export const getMenuGroups = (role,module) => {
     let clone = JSON.parse(JSON.stringify(avatargroups))
     let dashboard = null
     let settings = null
-    let admin = null
+    let admin = '/' + module.toLowerCase() + '/admin'
+    clone[0][2].link = admin
     switch (module) {
         case 'DATA':
             clone[1][0].link = "/datalogin"

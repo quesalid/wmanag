@@ -16,9 +16,6 @@ import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
 import {login} from './lib/script/apisecurity'
 
-
-import ADMINDB from "./routes/AdminDB.svelte"
-import MAPMANAGER from "./lib/components/contents/MapManager.svelte"
 // *******   ROUTES *********/
 import MAINPAGE from "./routes/MainPage.svelte"
 import {Login} from "./lib/components/contents"
@@ -29,6 +26,7 @@ import GraphIsa from "./routes/GraphIsa.svelte";
 import GraphBayes from "./routes/GraphBayes.svelte"
 import Deploy from "./routes/Deploy.svelte"
 import Monitor from "./routes/Monitor.svelte"
+import Admin from "./routes/Admin.svelte"
 
 export const url = "/deploy"
 
@@ -134,9 +132,20 @@ export const url = "/deploy"
     <Route path="/learn/monitor">
 		 <Monitor logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
     </Route>
+    <!-- A D M I N-->
+    <Route path="/data/admin">
+        <Admin logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+    </Route>
+    <Route path="/clone/admin">
+		<Admin logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+    </Route>
+    <Route path="/ai/admin">
+		 <Admin logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+    </Route>
+    <Route path="/learn/admin">
+		 <Admin logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+    </Route>
 
-    <Route path="/admindb" component={ADMINDB}/>
-    <Route path="/mapmanager" component={MAPMANAGER}/>
   </div>
 </Router>
 
