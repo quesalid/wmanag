@@ -64,16 +64,21 @@
 				>
 					<div class="{messageclass}">{message}</div>
 					{#each groups as group}
-						<div class="px-1 py-1">
+						<div class="group-class px-1 py-1">
 							{#each group as option}
 								{@const active = $menu.active === option.text}
-								<button
-									use:menu.item
-									class="group flex rounded-md items-center w-full px-2 py-2 text-lg {active ? 'bg-teal-600 text-white' : 'text-gray-900'}"
-								>
-									<svelte:component this={option.icon} class="w-5 h-5 mr-2" {active} />
-									{option.text}
-								</button>
+								<div class='inline-flex'>
+									{#if option.icon}
+										<img src={option.icon} alt='' width='25' height='25' style='opacity:0.8;margin-left:2px;'/>
+									{/if}
+									<button
+										use:menu.item
+										class="group flex rounded-md items-center w-full px-2 py-2 text-lg {active ? 'bg-teal-600 text-white' : 'text-gray-900'}"
+									>
+										<!--svelte:component this={option.icon} class="w-5 h-5 mr-2" {active} /-->
+										{option.text}
+									</button>
+								</div>
 							{/each}
 						</div>
 					{/each}
@@ -84,4 +89,12 @@
 </div>
 
 <style>
+.group-class{
+	display:block;
+	width: 100px;
+}
+.group-class button{
+	color: #818181;
+}
+
 </style>

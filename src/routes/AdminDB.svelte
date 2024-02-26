@@ -52,7 +52,7 @@
 		],
 	}
 
-    const onChangeText = (rowDataId, columnId, newValue) => {
+    const onChangeText = (rowDataId:any, columnId:any, newValue:any) => {
 	    const idx = parseInt(rowDataId);
         const currentItem = $metadatarows[idx];
         const key = columnId; // Cast as `keyof YourDataItem`
@@ -62,7 +62,7 @@
         $metadatarows = $metadatarows;
   }
 
-  const onChangeCheck = (rowDataId, columnId, newValue) => {
+  const onChangeCheck = (rowDataId:any, columnId:any, newValue:any) => {
 	const idx = parseInt(rowDataId);
     const currentItem = $metadatarows[idx];
     const key = columnId; // Cast as `keyof YourDataItem`
@@ -72,7 +72,7 @@
     $metadatarows = $metadatarows;
   }
 
-  const onChangeTextNav = (rowDataId, columnId, newValue) => {
+  const onChangeTextNav = (rowDataId:any, columnId:any, newValue:any) => {
 	    const idx = parseInt(rowDataId);
         const currentItem = $datarows[idx];
         const key = columnId; // Cast as `keyof YourDataItem`
@@ -177,7 +177,7 @@ let datacolumnscreate:any = [
 	}
   })
 
-  const handleClick = (tabValue) => async () => {
+  const handleClick = (tabValue:any) => async () => {
     activeTabValue = tabValue;
     switch(tabValue){
         case 1:
@@ -197,7 +197,7 @@ let datacolumnscreate:any = [
 		
 
   let activeToolbarValue1 = 1;
-   const handleClickToolbar1 =  (tabValue) => async() => {
+   const handleClickToolbar1 =  (tabValue:any) => async() => {
     activeToolbarValue1 = tabValue;
     switch(tabValue){
 		case 1:
@@ -235,7 +235,7 @@ let datacolumnscreate:any = [
   };
 
   let activeToolbarValue2 = 1;
-   const handleClickToolbar2 = (tabValue) => async () => {
+   const handleClickToolbar2 = (tabValue:any) => async () => {
     activeToolbarValue2 = tabValue;
     try{
     switch(tabValue){
@@ -256,12 +256,12 @@ let datacolumnscreate:any = [
   };
 
   let activeToolbarValue3 = 1;
-   const handleClickToolbar3 = (tabValue) => () => {
+   const handleClickToolbar3 = (tabValue:any) => () => {
     activeToolbarValue3 = tabValue;
   };
 
   let activeToolbarValue4 = 1;
-   const handleClickToolbar4 = (tabValue) => () => {
+   const handleClickToolbar4 = (tabValue:any) => () => {
     activeToolbarValue4 = tabValue;
   };
 
@@ -350,6 +350,7 @@ let datacolumnscreate:any = [
 </script>
 
 <TabWrapper tabStyle='underline' let:tabStyle>
+<div>
   <TabHead {tabStyle}>
     <TabHeadItem id={1} {tabStyle} on:click={handleClick(1)} activeTabValue={activeTabValue}>Struttura database</TabHeadItem>
     <TabHeadItem id={2} {tabStyle} on:click={handleClick(2)} activeTabValue={activeTabValue}>Naviga dati</TabHeadItem>
@@ -427,6 +428,7 @@ let datacolumnscreate:any = [
       <ToolbarContentItem id={2} activeToolbarValue={activeToolbarValue4}> Toolbar Content 4.2 </ToolbarContentItem>
       <ToolbarContentItem id={3} activeToolbarValue={activeToolbarValue4}> Toolbar Content 4.3 </ToolbarContentItem>
   </TabContentItem>
+  </div>
 </TabWrapper>
 
 

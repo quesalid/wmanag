@@ -29,8 +29,6 @@ import GraphIsa from "./routes/GraphIsa.svelte";
 import GraphBayes from "./routes/GraphBayes.svelte"
 import Deploy from "./routes/Deploy.svelte"
 import Monitor from "./routes/Monitor.svelte"
-    import AdminDb from "./routes/AdminDB.svelte";
-    import AgentAiForm from "./lib/components/forms/AgentAiForm.svelte";
 
 export const url = "/deploy"
 

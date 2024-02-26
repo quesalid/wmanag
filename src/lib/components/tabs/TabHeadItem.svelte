@@ -1,8 +1,8 @@
 <script lang="ts">
   // adding active class
   import classNames from 'classnames';
-  export let id;
-  export let activeTabValue
+  export let id:any;
+  export let activeTabValue:any
   export let inactiveClass = 'inline-block py-1 px-1 text-sm font-bold text-center text-gray-500 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-300'
   export let activeClass = 'inline-block py-1 px-1 text-sm font-bold text-center text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500'
   type classOptions = {

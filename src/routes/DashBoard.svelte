@@ -14,7 +14,7 @@
    //API
    import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
-   import {module, mock, currentplant,avatargroups,user} from '../lib/ustore.js'
+   import {module, mock, currentplant,avatargroups,avatarclass,user} from '../lib/ustore.js'
    
  
   
@@ -84,7 +84,7 @@
 	
 	const avatarsize = "w-10"
 	const avatar = '/PPULICANI.png'
-	const avatarclass = "font-bold text-sm italic"
+
 
 	// DONUT
 	
@@ -166,7 +166,7 @@
 				<DropDownMenu groups={$avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
-						messageclass={avatarclass}>
+						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>

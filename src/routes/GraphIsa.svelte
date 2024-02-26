@@ -5,7 +5,7 @@
    import {onMount} from "svelte"
    import {combolist} from '../lib/components/topbar/combolist'
    import {getPlants} from '../lib/script/apidataconfig.js'
-   import {module, mock, currentplant,avatargroups,user} from '../lib/ustore.js'
+   import {module, mock, currentplant,avatargroups,avatarclass,user} from '../lib/ustore.js'
   
 
    import { GraphEditor,
@@ -48,7 +48,7 @@
 	
 	const avatarsize = "w-10"
 	const avatar = '/PPULICANI.png'
-	const avatarclass = "font-bold text-sm italic"
+	
 
 	// GRAPH VARIABLES
 	
@@ -192,7 +192,7 @@
 				<DropDownMenu groups={$avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
-						messageclass={avatarclass}>
+						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>

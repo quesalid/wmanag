@@ -14,7 +14,7 @@
    // API INTERFACE
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,navigation,getArrayFromPath,currdevice,avatargroups,user} from '../lib/ustore.js'
+   import { mock,module,navigation,getArrayFromPath,currdevice,avatargroups,user,avatarclass} from '../lib/ustore.js'
    
   
 
@@ -60,7 +60,6 @@
 	
 	const avatarsize = "w-10"
 	const avatar = '/PPULICANI.png'
-	const avatarclass = "font-bold text-sm italic"
 	let deviceuid = ''
 
 
@@ -139,7 +138,7 @@
 				<DropDownMenu groups={$avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
-						messageclass={avatarclass}>
+						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>

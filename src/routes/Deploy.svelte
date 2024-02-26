@@ -16,7 +16,7 @@
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
    import {agentGetInfo} from '../lib/script/apidataagent.js'
    // STORE
-   import { mock,module,user,getArrayFromPath,currdevice,avatargroups} from '../lib/ustore.js'
+   import { mock,module,user,getArrayFromPath,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
    
   
 
@@ -117,7 +117,6 @@
 	
 	const avatarsize = "w-10"
 	const avatar = '/PPULICANI.png'
-	const avatarclass = "font-bold text-sm italic"
 	let deviceuid = ''
 
 
@@ -159,7 +158,7 @@
 				<DropDownMenu groups={$avatargroups} image="{avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
-						messageclass={avatarclass}>
+						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>
