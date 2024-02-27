@@ -14,7 +14,7 @@
    //API
    import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
-   import {module, mock, avatar,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, mock,navigation, getArrayFromPath, avatar,avatargroups,avatarclass,user} from '../lib/ustore.js'
    
  
   
@@ -105,6 +105,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
 	}
 
 	const getDonutByType = ()=>{

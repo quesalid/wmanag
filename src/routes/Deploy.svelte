@@ -10,13 +10,12 @@
    import {SimpleTable} from '../lib/components/table'
    import {getDeviceDeployColumns} from '../lib/script/utils.js'
    import {dragElement} from '../lib/components/CompUtils.js'
-   import DeployMain from '../lib/components/contents/DeployMain.svelte'
-   import DockerMain from '../lib/components/contents/DockerMain.svelte'
+   import {DeployMain,DockerMain} from '../lib/components/contents'
    // API INTERFACE
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
    import {agentGetInfo} from '../lib/script/apidataagent.js'
    // STORE
-   import { mock,module,user,avatar,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
+   import { mock,module, navigation, getArrayFromPath, user,avatar,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
    
   
 
@@ -122,6 +121,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
 	}
 
 	// TABLE VARIABLES

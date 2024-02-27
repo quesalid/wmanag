@@ -4,7 +4,7 @@
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {getPlants} from '../lib/script/apidataconfig.js'
-   import {module, mock, currentplant,avatar,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, mock, currentplant,avatar,avatargroups,avatarclass,user,navigation,getArrayFromPath} from '../lib/ustore.js'
   
 
    import { GraphEditor,
@@ -169,8 +169,8 @@
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
-		console.log("LOGO CLICKED",$currentplant)
 		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
 	}
 
 </script>

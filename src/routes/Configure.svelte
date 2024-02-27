@@ -65,6 +65,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
 	}
 
 	// TABLE VARIABLES

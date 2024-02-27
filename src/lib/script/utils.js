@@ -854,7 +854,7 @@ export const getClassFromColor = (color) => {
 
 const avatargroups = [
     [
-        { icon: '/DASHBOARD.svg', text: `Dashboard Conf` },
+        { icon: '/DASHBOARDCONF.svg', text: `Dashboard Conf` },
         { icon: '/SETTINGS.svg', text: `Settings` },
         { icon: '/ADMIN.svg', text: `Admin` },
     ],

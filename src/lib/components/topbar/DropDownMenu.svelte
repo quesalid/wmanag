@@ -32,7 +32,7 @@
 	]
 
 	export let image = "AVATAR.svg"
-	export let imagesize = "w-9"
+	export let imagesize = "w-9 h-9"
 	export let message = "Use menu to say something"
 	export let messageclass = "font-bold"
 

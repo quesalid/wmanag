@@ -20,7 +20,7 @@
 			setClonePoint,
 			deleteClonePoint} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,user,avatar,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
+   import { mock,module,user,avatar,currdevice,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
    
   
 
@@ -80,6 +80,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
 	}
 
 	// TABLE VARIABLES - CALLS PointForm edit with uid = 'NONE'

@@ -4,10 +4,13 @@ export let items:any = [
     
 ]
 
+export let tabclass = "tab-item-class"
+export let divclass = "div-item-class"
+
 const onClickItem = (ev:any) =>{
     const target = ev.target
-    const itms = document.getElementsByClassName("tab-item-class")
-    const dvs = document.getElementsByClassName("div-item-class")
+    const itms = document.getElementsByClassName(tabclass)
+    const dvs = document.getElementsByClassName(divclass)
     const cdiv = document.getElementById("div-"+target.id)
     for(const i of itms){
         i.classList.remove("bg-white")
@@ -18,9 +21,15 @@ const onClickItem = (ev:any) =>{
     }
     if(cdiv)
         cdiv.style.display = 'block'
+    // APPLY CLICK FUNCTION FROM PARENT IF PRESENT
+ 
+    const found = items.find((itm:any)=>itm.id == target.id)
+    if(found && found.clickFunction){
+        found.clickFunction()
+    }
 }
 
-const aclass = "tab-item-class bg-neutral-100 my-2 block border-x-0 border-b-2 border-t-0 border-trasparent divide-x px-7 pb-2 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-white focus:isolate focus:border-transparent focus:bg-white data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
+const aclass = tabclass +" bg-neutral-100 my-2 block border-x-0 border-b-2 border-t-0 border-trasparent divide-x px-7 pb-2 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-white focus:isolate focus:border-transparent focus:bg-white data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400"
 </script>
 <div>
 <ul class="mb-5 flex list-none flex-row flex-wrap pl-0">
@@ -37,8 +46,10 @@ const aclass = "tab-item-class bg-neutral-100 my-2 block border-x-0 border-b-2 b
     {/each}
   </ul>
   {#each items as item}
-    <div class="div-item-class" id={"div-"+item.id}>
-        <svelte:component this={item.component} top="100px" id="wManager-{item.id}"/>
+    <div class="{divclass}" id={"div-"+item.id}>
+        {#if item.component}
+            <svelte:component this={item.component} top="100px" id="wManager-{item.id}"/>
+        {/if}
     </div>
   {/each}
 </div>

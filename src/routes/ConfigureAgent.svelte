@@ -16,7 +16,7 @@
    // API INTERFACE
    import {getAgents,setAgent,deleteAgent,getDevices} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,currdevice,avatar,avatargroups,user,avatarclass} from '../lib/ustore.js'
+   import { mock,module,navigation,getArrayFromPath,avatar,avatargroups,user,avatarclass} from '../lib/ustore.js'
   
 
 
@@ -75,6 +75,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
 	}
 
 	// TABLE VARIABLES

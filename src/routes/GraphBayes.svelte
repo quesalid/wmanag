@@ -4,7 +4,7 @@
 	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
 	import { center } from '../lib/components/topbar/notifications';
 	import {onMount} from "svelte"
-	import {module,avatargroups,avatar,user,avatarclass} from '../lib/ustore.js'
+	import {module,avatargroups,avatar,user,avatarclass, navigation, getArrayFromPath} from '../lib/ustore.js'
 
 
    import { GraphEditor,
@@ -159,6 +159,7 @@
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
 	}
 
 

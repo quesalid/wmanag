@@ -1,5 +1,3 @@
-export { default as DbAddTable } from './DbAddTable.svelte';
-export { default as DbNavigate } from './DbNavigate.svelte';
 export { default as DockerManag } from './DockerManag.svelte';
 export { default as FlipDiv } from './FlipDiv.svelte';
 export { default as FlipDivList } from './FlipDivList.svelte';
@@ -9,4 +7,9 @@ export { default as DonutClicked } from './DonutClicked.svelte';
 export { default as MapManager } from './MapManager.svelte';
 export { default as AlarmManager } from './AlarmManager.svelte';
 export { default as UserManager } from './UserManager.svelte';
+export { default as DeployMain } from './DeployMain.svelte';
+export { default as DockerMain } from './DockerMain.svelte';
+export { default as DbManager } from './DbManager.svelte';
+
+
 
