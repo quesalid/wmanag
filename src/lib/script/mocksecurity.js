@@ -2,7 +2,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { filterArray } from './mock.js'
 
-const users = [
+let users = [
     {
         uid: '55a96422-88cd-43ab-aa56-f4d4b022a77e',
         username: 'root@root.com',
@@ -31,7 +31,7 @@ const users = [
     }
 ]
 
-const profiles = [
+let profiles = [
     {
         uid: '55a96422-88cd-43ab-aa56-f4d4b022a77e',
         language: 'en',
@@ -53,8 +53,9 @@ const getUsers = async function (body) {
         retUsers = filterArray(retUsers, filters)
     }
     // ADD PROFILES
+    let retProfiles = JSON.parse(JSON.stringify(profiles))
     for (let i = 0; i < retUsers.length; i++) {
-        const found = profiles.find((item) => (item.uid == retUsers[i].uid))
+        const found = retProfiles.find((item) => (item.uid == retUsers[i].uid))
         retUsers[i].profile = found
     }
     body.data = retUsers
@@ -88,7 +89,7 @@ const setUser = async function (body) {
 const deleteUser = async function (body) {
     const filters = body.options.filters
     // CLONE USERS
-    const clone = JSON.parse(JSON.stringify(users))
+    let clone = JSON.parse(JSON.stringify(users))
     clone = filterArray(clone, filters, true)
     // LOOP USERS - IF NOT IN CLONE DELETE PROFILE
     for (let i = 0; i < users; i++) {

@@ -132,6 +132,14 @@ const onUserClickDelete = (ev) => {
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)
 }
+const onUserClickAvatar = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('UserAvatarDiv')
+    const editClicked = new CustomEvent("editclicked", { detail: uid })
+    modalEdit?.dispatchEvent(editClicked)
+}
 // ACCESSORS
 
 // COLUMNS DEFINITION
@@ -544,7 +552,7 @@ let usercolumns = [
     {
         header: 'Avatar',
         accessor: (item) => item.profile.avatar,
-        renderdef: { type: 'imagedynamic', params: { image: '/EDIT.svg', getimage: getAvatar,onClick: onUserClickEdit } }
+        renderdef: { type: 'imagedynamic', params: { image: '/EDIT.svg', getimage: getAvatar,onClick: onUserClickAvatar } }
     },
     {
         header: 'Edit',
@@ -706,6 +714,27 @@ const pointCloneTemplate = {
     device: ''
 }
 
+// USER TEMPLATE
+const userTemplate = {
+    uid: '',
+    username: '',
+    password: '',
+    name: '',
+    surname: '',
+    permissions: [],
+    role: 'USER',
+    status: 'inactive',
+    confitmationCode: null,
+    createdAt: '',
+    updatedAt: '',
+    profile: {
+        uid: '',
+        language: 'en',
+        avatar: '/AVATAR.svg',
+        dashboard: []
+    }
+}
+
 export const getDeviceTemplate = (module='DATA') => {
     switch (module) {
         case 'DATA':
@@ -738,6 +767,10 @@ export const getPointTemplate = (module='DATA') => {
         case 'CLONE':
             return (pointCloneTemplate)
     }
+}
+
+export const getUserTemplate = () => {
+    return (userTemplate)
 }
 
 const models = ['BAYES', 'NEURALNETWORK', 'SYSDYN']
@@ -821,12 +854,12 @@ export const getClassFromColor = (color) => {
 
 const avatargroups = [
     [
-        { icon: '/DASHBOARD.svg', text: `Dashboard` },
-        { icon: '/DASHBOARD.svg', text: `Settings` },
-        { icon: '/DASHBOARD.svg', text: `Admin` },
+        { icon: '/DASHBOARD.svg', text: `Dashboard Conf` },
+        { icon: '/SETTINGS.svg', text: `Settings` },
+        { icon: '/ADMIN.svg', text: `Admin` },
     ],
     [
-        { icon: '/DASHBOARD.svg', text: `Logout`, link: null },
+        { icon: '/LOGOUT.svg', text: `Logout`, link: null },
     ]
 ]
 
@@ -853,4 +886,13 @@ export const getMenuGroups = (role,module) => {
     if (role == 'USER')
         clone[0] = clone[0].filter((item) => item.text != 'Admin')
     return (clone)
+}
+
+export const downloadDataUrl = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = event => resolve(event.target.result) // desired file content
+        reader.onerror = error => reject(error)
+        reader.readAsDataURL(file)
+    })
 }
