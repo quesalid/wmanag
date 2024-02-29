@@ -25,6 +25,8 @@ onMount(async () => {
 					machine = ret2.data[0]
 				if(machine.type)
 					machineImg = '/'+machine.type +'.jpg'
+				// Use specific machine image if configured
+				machineImg = machine.image?machine.image:machineImg
 				// C. GET TIME SERIES
 				let filters1 = [{tag:point.tag,_type:'eq'}]
 				let ret1 = await getDataTimeSeries(filters1,$mock)
@@ -117,19 +119,20 @@ let chartoptions = {
 			<div class="chart-div" style="margin-left:auto;">
 					<div class="filter-div" >
 						<div style='display:block;font-weight:bold;font-size:16px;'>{machine.type} - {machine.name}</div>
-							<!--div style="border:1px solid;margin:2px;">
-							<label for="input-start-date" class="text-sm font-medium text-gray-700">Data inizio</label>
-							<input type="date" name="input-start-date">
-							</!--div>
-							 <div style="border:1px solid;margin:2px;">
-							<label for="input-end-date" class="text-sm font-medium text-gray-700">Data Fine</label>
-							<input type="date" name="input-end-date">
-							</div-->
 							<img src={machineImg} alt="machImg"/>
 						</div>
 					<div class="chart-container-div" style="margin-left:auto;">
 						<SvelteEcharts bind:data={echartdata} bind:options={chartoptions}/>
-						<div style="height:40%;"></div>
+						<div class="control-container-div">
+							<div class="power-control">
+								<img src="/POWERBUTTON.png" width="70%" alt="powerbutton"/>
+								<img src="/EMBUTTON.png" width="45%" alt="embutton"/>
+							</div>
+							<div style="background-color:#fff;border: 1px solid;width:45%;height:100%">
+							</div>
+							<div style="background-color:#aaa;border: 1px solid;width:35%;height:100%">
+							</div>
+						</div>
 					</div>
 				</div>
 		  </div>
@@ -169,26 +172,21 @@ let chartoptions = {
 	display:block;
 	margin-left:auto;
 }
-.formbutton{
-	padding: 0px 3px 0px 3px;
-	margin-left:auto;
-	color: #444;
-	border: 1px solid;
-	border-radius: 20%;
-	background-color: #ccc ;
-}
-.formbutton:hover{
-	cursor:pointer;
-}
-.button-div{
+.control-container-div{
 	display:flex;
-	justify-content:space-between;
-	margin-top: 2em;
+	margin-left:auto;
+	height: 150px;
+	width:auto;
 }
-.banner{
-	margin-top: 1.5em;
-	text-align: center;
-	font-size:large;
-	font-weight: bold;
+.power-control {
+  display: block;
+  background-color:#aaa;
+  border: 1px solid;
+  width:20%;
+  height:100%
+}
+.power-control img{
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
