@@ -1,4 +1,7 @@
 <script lang="ts">
+// GOACCESS LOG MANAGER https://goaccess.io/man#custom-log
+// WEB SOCKET https://gwsocket.io/man
+// SSE https://ably.com/blog/websockets-vs-sse
 // EXTERNAL
 import {onMount} from 'svelte'
 import { writable } from "svelte/store";
@@ -8,7 +11,7 @@ import {SimpleTable} from '../table'
 import {getUserColumns} from '../../script/utils.js'
 import {UserForm,DeleteForm,AvatarForm} from '../forms'
 // STORE
-import {token, mock, currentplant,avatar,user} from '../../ustore.js'
+import {token, mock, currentplant} from '../../ustore.js'
 // API INTERFACE
 import {getUsers,setUser,deleteUser,setAvatar} from '../../script/apisecurity.js'
 
@@ -84,9 +87,6 @@ let saveav = async (ev:any)=>{
 	const cdev = JSON.parse(target.dataset.cdev)
 	// SET AVATAR
 	let ret1 = await setAvatar(cdev.uid,cdev.profile.avatar,$mock)
-	// CHECK IF CHANGED AVATATAR BELONGS TO CURRENT USER
-	if(cdev.uid == $user.uid)
-		$avatar = cdev.profile.avatar
 	// GET UPDATED DEVICE LIST
 	let filters:any = []
 	let ret = await getUsers(filters,$mock)

@@ -4,10 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\graph",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\graph\\GraphUtils.js",
+  "SelectedNode": "\\src\\lib\\script\\mocksecurity.js",
   "PreviewInSolutionExplorer": false
 }

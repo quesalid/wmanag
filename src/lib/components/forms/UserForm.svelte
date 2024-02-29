@@ -29,6 +29,7 @@ onMount(async () => {
 				else{
 					usr.uid = uuidv4()
 					usr = newusr
+					usr.profile.uid = usr.uid
 					title = "NEW USER"
 				}
 			})
