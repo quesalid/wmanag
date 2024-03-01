@@ -1,5 +1,3 @@
-// @ts-nocheck
-import { v4 as uuidv4 } from 'uuid';
 import { filterArray } from './mock.js'
 
 let users = [
@@ -46,8 +44,27 @@ let profiles = [
     }
 ]
 
+/** MORGAN CONFIGURATION FOR LOG
+ * req.socket.remoteAddress  
+ * req.socket.remotePort 
+ * req.ip 
+ * req.protocol 
+ * req.method 
+ * req.body.type
+ * req.body.version
+ * req.body.command
+ * req.body.command.options
+ * req.hostname
+ * req.path
+ * req.headers
+ * req.tls
+ * res.statusMessage
+ * res.statusCode
+ * res.getHeaders()
+ * res.getHeader("Content-Length")
+*/
 const logs = [
-    {
+       {
         level: "info",
         ts: 1646861401.5241024,
         logger: "http.log.access",
@@ -57,33 +74,40 @@ const logs = [
             remote_port: "41342",
             client_ip: "127.0.0.1",
             proto: "HTTP/2.0",
-            method: "GET",
-            body:null,
-            host: "localhost",
-            uri: "/",
-            headers: {
-                "User-Agent": ["curl/7.82.0"],
-                "Accept": ["*/*"],
-                "Accept-Encoding": ["gzip, deflate, br"],
+            method: "POST",
+            body: {
+                type: "api",
+                version: 1.0,
+                command: "dockerInfo",
+                options: {
+                    uid: '456789102345'
+                },
+                host: "localhost",
+                uri: "/",
+                headers: {
+                    "User-Agent": ["curl/7.82.0"],
+                    "Accept": ["*/*"],
+                    "Accept-Encoding": ["gzip, deflate, br"],
+                },
+                tls: {
+                    resumed: false,
+                    version: 772,
+                    cipher_suite: 4865,
+                    proto: "h2",
+                    server_name: "example.com"
+                }
             },
-            tls: {
-                resumed: false,
-                version: 772,
-                cipher_suite: 4865,
-                proto: "h2",
-                server_name: "example.com"
+            bytesRead: 0,
+            userId: "",
+            duration: 0.000929675,
+            size: 10900,
+            status: 200,
+            respHeaders: {
+                "Server": ["Caddy"],
+                "Content-Encoding": ["gzip"],
+                "Content-Type": ["text/html; charset=utf-8"],
+                "Vary": ["Accept-Encoding"]
             }
-        },
-        bytesRead: 0,
-        userId: "",
-        duration: 0.000929675,
-        size: 10900,
-        status: 200,
-        respHeaders: {
-            "Server": ["Caddy"],
-            "Content-Encoding": ["gzip"],
-            "Content-Type": ["text/html; charset=utf-8"],
-            "Vary": ["Accept-Encoding"]
         }
     }
 ]

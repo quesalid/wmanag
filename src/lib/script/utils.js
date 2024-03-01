@@ -506,11 +506,11 @@ let pointdataalarmcolumns = [
     },
     {
         header: 'Controller',
-        accessor: 'controller'
+        accessor: 'controllerName'
     },
     {
         header: 'Machine',
-        accessor: 'machine'
+        accessor: 'machineName'
     },
     {
         header: 'Acknowledge',

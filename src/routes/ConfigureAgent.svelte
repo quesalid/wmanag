@@ -16,7 +16,7 @@
    // API INTERFACE
    import {getAgents,setAgent,deleteAgent,getDevices} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,navigation,getArrayFromPath,avatar,avatargroups,user,avatarclass} from '../lib/ustore.js'
+   import { mock,module,navigation,getArrayFromPath,avatar,avatargroups,user,avatarclass,currdevice} from '../lib/ustore.js'
   
 
 

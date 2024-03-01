@@ -1,12 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\lib",
-    "\\src\\lib\\components",
-    "\\src\\lib\\components\\chart",
-    "\\src\\lib\\script"
+    ""
   ],
-  "SelectedNode": "\\src\\lib\\components\\chart\\SvelteEcharts.svelte",
   "PreviewInSolutionExplorer": false
 }

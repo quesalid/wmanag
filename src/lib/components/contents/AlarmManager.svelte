@@ -8,7 +8,7 @@
    import {getAlarmColumns} from '../../script/utils.js'
    import {dragElement} from '../../components/CompUtils.js'
    // API INTERFACE
-   import {getDataPoints} from '../../script/apidataconfig.js'
+   import {getDataPoints,getControllers,getMachines} from '../../script/apidataconfig.js'
    // STORE
    import { mock,module} from '../../ustore.js'
    
@@ -16,23 +16,28 @@
 
 
    let alarmsdata:any = writable([])
+   let machines:any = []
+   let controllers:any = []
 	onMount(async () => {
 		const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'}]
 		const ret = await getDataPoints(filters,$mock)
+		let ret1 = await getMachines([],$mock)
+		machines = ret1.data
+		let ret2 = await getControllers([],$mock)
+	    controllers = ret2.data
+		for(let i=0;i<ret.data.length;i++){
+			const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+			const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
+			if(index > -1)
+				ret.data[i].machineName = machines[index].name
+			else
+				ret.data[i].machineName = 'NOTFOUND'
+			if(index1 > -1)
+				ret.data[i].controllerName = controllers[index1].name
+			else
+				ret.data[i].controllerName = 'NOTFOUND'
+		}
 		$alarmsdata = ret.data
-		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
-		/*const confMainDiv = document.getElementById("main-configuration-page")
-		if(confMainDiv){
-			confMainDiv.addEventListener("agentclicked",async (e:any)=>{
-				// SET CURRENT DEVICE IN STORE
-				deviceuid = e.detail
-				$currdevice = deviceuid
-				// NAVIGATE TO AGENT PAGE
-				console.log("AGENT CLICKED ---> ",deviceuid)
-				navigate("/"+$module+"/configure/agent")
-				$navigation = getArrayFromPath("/"+$module+"/configure/agent")
-			})
-		}*/
 	});
 
 	
