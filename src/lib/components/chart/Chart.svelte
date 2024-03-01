@@ -5,8 +5,14 @@ import {token, mock} from '../../ustore.js'
 import {getDataPoints,getDataTimeSeries,getMachines} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
 import WManag from '../WManag.svelte'
+import {CP_Button} from '../../script/controlpanel_0.0.1.js'
 
 onMount(async () => {
+	console.log("CHART ON MOUNT")
+	    // INITIALIZE CP_Button
+		powerButton = new CP_Button("cpPowerButton","/POWERON.png","/POWEROFF.png",$mock)
+		// BIND CP_Button
+		powerButton.bind("power-button-id")
 		// GET MYSELF - SHOW UP IF DELETE IS CLICKED
 		const chartForm = document.getElementById(modalId)
 		if(chartForm){
@@ -99,7 +105,8 @@ let chartoptions = {
         },
 		"toolbar":{"enabled":false}
 }
-
+// CONTROL PANEL
+let powerButton
 
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
@@ -125,7 +132,7 @@ let chartoptions = {
 						<SvelteEcharts bind:data={echartdata} bind:options={chartoptions}/>
 						<div class="control-container-div">
 							<div class="power-control">
-								<img src="/POWERBUTTON.png" width="70%" alt="powerbutton"/>
+								<img id="power-button-id" class='cp-button-class' src="/POWEROFF.png" width="70%" alt="powerbutton"/>
 								<img src="/EMBUTTON.png" width="45%" alt="embutton"/>
 							</div>
 							<div style="background-color:#fff;border: 1px solid;width:45%;height:100%">
@@ -189,4 +196,8 @@ let chartoptions = {
   margin-left: auto;
   margin-right: auto;
 }
+.cp-button-class{
+	cursor:pointer;
+}
+
 </style>
