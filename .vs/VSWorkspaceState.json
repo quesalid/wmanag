@@ -5,8 +5,8 @@
     "\\src\\lib",
     "\\src\\lib\\components",
     "\\src\\lib\\components\\chart",
-    "\\src\\routes"
+    "\\src\\lib\\script"
   ],
-  "SelectedNode": "\\src\\lib\\components\\chart\\Chart.svelte",
+  "SelectedNode": "\\src\\lib\\components\\chart\\SvelteEcharts.svelte",
   "PreviewInSolutionExplorer": false
 }

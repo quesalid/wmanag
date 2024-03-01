@@ -18,7 +18,9 @@
 			deleteDataPoint,
 			getClonePoints,
 			setClonePoint,
-			deleteClonePoint} from '../lib/script/apidataconfig.js'
+			deleteClonePoint,
+			getMachines,
+			getControllers} from '../lib/script/apidataconfig.js'
    // STORE
    import { mock,module,user,avatar,currdevice,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
    
@@ -26,6 +28,9 @@
 
 
    let pointsdata:any = writable([])
+   let pointdatacolumns:any = getPointColumns($module.toUpperCase())
+   let machines:any = []
+   let controllers:any = []
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -39,14 +44,34 @@
 		])
 		const filters:any = []
 		let ret:any
+		let ret1:any
+		let ret2:any
 		switch($module.toUpperCase()){
 			case 'CLONE':
 				ret = await getClonePoints(filters,$mock)
 				break;
 			default:
 				ret = await getDataPoints(filters,$mock)
+				ret1 = await getMachines([],$mock)
+				machines = ret1.data
+				ret2 = await getControllers([],$mock)
+				controllers = ret2.data
+				// ADD MACHINE NAMES
+				for(let i=0;i<ret.data.length;i++){
+					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
+					if(index > -1)
+						ret.data[i].machineName = machines[index].name
+					else
+						ret.data[i].machineName = 'NOTFOUND'
+					if(index1 > -1)
+						ret.data[i].controllerName = controllers[index1].name
+					else
+						ret.data[i].controllerName = 'NOTFOUND'
+				}
 				break;
 		}
+		pointdatacolumns = await getPointColumns($module.toUpperCase())
 		$pointsdata = ret.data
 		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
 		const monitorMainDiv = document.getElementById("main-monitor-page")
@@ -98,7 +123,7 @@
     let headercolor = bgcolor
 	let pagesize = true
 	let pSize = 8
-	let pointdatacolumns = getPointColumns($module.toUpperCase())
+	
 
 	// DIALOG VARIABLES
 	let savedialog = PointForm
@@ -111,11 +136,32 @@
 	let save = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
-		// SET DEVICE
+		// SET POINT - delete added fields
 		let ret = await setDataPoint(cdev,$mock)
-		// GET UPDATED DEVICE LIST
+		// GET UPDATED POINT LIST
 		const filters:any = []
-		ret = await getDataPoints(filters,$mock)
+		switch($module.toUpperCase()){
+			case 'CLONE':
+				ret = await setClonePoint(cdev,$mock)
+				ret = await getClonePoints(filters,$mock)
+				break;
+			default:
+			    ret = await setDataPoint(cdev,$mock)
+				ret = await getDataPoints(filters,$mock)
+				for(let i=0;i<ret.data.length;i++){
+					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
+					if(index > -1)
+						ret.data[i].machineName = machines[index].name
+					else
+						ret.data[i].machineName = 'NOTFOUND'
+					if(index1 > -1)
+						ret.data[i].controllerName = controllers[index1].name
+					else
+						ret.data[i].controllerName = 'NOTFOUND'
+				}
+				break;
+		}
 		$pointsdata = ret.data
 		// CLOSE FORM DIALOG
 		const pointInputDiv = document.getElementById(modalIdSave)
@@ -165,7 +211,7 @@
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<Wmanag id="containerWManager"  title="{titlepoint}" toolbar={toolbarpoint} {disableClose} {draggable} {headercolor} {zindex}>
-				<SimpleTable slot="bodycontent" data={pointsdata} datacolumns={pointdatacolumns} {pagesize} {pSize}/>
+				<SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>
 		<div id="save-device-dialog">

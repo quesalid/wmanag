@@ -25,6 +25,7 @@ const exit = (ev:any)=>{
 // EXPORTS
 export let modalId = "DeleteInputDiv"
 export let  bgcolor = "#ddefde"
+export let padding = '20%'
 export let del = (ev:any)=>{
 	console.log("delete DEVICE: ",uid)
 }
@@ -34,14 +35,16 @@ export let title = "Clicking DELETE the device will be cancelled"
 let uid = ''
 
 </script>
-<div class="modal" id={modalId} style="--background-color:{bgcolor}">
+<div class="modal" id={modalId} style="--background-color:{bgcolor};--padding:{padding}">
 	   <div class="device-form"> 
 		<section>
 			<h3></h3>
 		</section>
 		<div class="banner">
-			<img src='/WARNING.svg' alt='WARNING' width='40' height='40' />
-			<span>{title}</span>
+			<div>
+			<input type="image" src='/WARNING.svg' alt='WARNING' width='40' height='40'  />
+			</div>
+			<div>{title}</div>
 		</div>
 		<div class="button-div">
 			<!--div><span class="req">*</span> - Required field</!--div-->
@@ -57,8 +60,9 @@ let uid = ''
   display: none;
   position: absolute; /* Stay in place */
   z-index: 999; /* Sit on top */
-  padding: 20%; /* Location of the box */
+  padding: var(--padding); /* Location of the box */
   width: 100%; /* Full width */
+  top:0%;
   min-width: 200px; /* Full width */
   height: 100%; /* Full height */
   background-color: var(--background-color);
@@ -93,11 +97,11 @@ section{
 	margin-top: 2em;
 }
 .banner{
-	display:flexbox;
+	display:block;
 	margin-top: 1.5em;
 	text-align: center;
 	font-size:large;
 	font-weight: bold;
-	justify-content:center ;
+	align-items: center;
 }
 </style>

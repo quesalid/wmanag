@@ -118,7 +118,7 @@ let saveav = async (ev:any)=>{
 	<svelte:component this={saveavdialog} bind:modalId={modalAvSave} save={saveav} {bgcolor}/>
 </div>
 <div id="delete-user-dialog">
-	<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
+	<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle} padding='10%'/>
 </div>
 
 

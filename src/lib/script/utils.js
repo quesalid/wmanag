@@ -1,4 +1,5 @@
-import {getAvatar } from '../script/apisecurity.js'
+import { getAvatar } from '../script/apisecurity.js'
+import {getMachines, getPlants } from '../script/apidataconfig.js'
 // @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
 const voidfunction = () => { return "" }
@@ -432,11 +433,11 @@ let pointdatacolumns = [
     },
     {
         header: 'Controller',
-        accessor: 'controller'
+        accessor: 'controllerName'
     },
     {
         header: 'Machine',
-        accessor: 'machine'
+        accessor:  'machineName'
     },
     {
         header: 'Graph',
@@ -883,7 +884,7 @@ export const getMenuGroups = (role,module) => {
             clone[1][0].link = "/learnlogin"
             break;
     }
-    if (role == 'USER')
+    if (role != 'SADMIN')
         clone[0] = clone[0].filter((item) => item.text != 'Admin')
     return (clone)
 }
