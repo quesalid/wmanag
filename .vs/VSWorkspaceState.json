@@ -4,9 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\script",
+    "\\src\\lib\\components\\chart",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\mocksecurity.js",
+  "SelectedNode": "\\src\\lib\\components\\chart\\Chart.svelte",
   "PreviewInSolutionExplorer": false
 }
