@@ -11,6 +11,7 @@ export { default as LogManager } from './LogManager.svelte';
 export { default as DeployMain } from './DeployMain.svelte';
 export { default as DockerMain } from './DockerMain.svelte';
 export { default as DbManager } from './DbManager.svelte';
+export { default as ComboPanel } from './ComboPanel.svelte';
 
 
 

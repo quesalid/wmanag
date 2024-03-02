@@ -9,7 +9,7 @@ import { writable } from "svelte/store";
 import Wmanag from '../WManag.svelte'
 import {SimpleTable} from '../table'
 import {getLogColumns,logToObject} from '../../script/utils.js'
-import {UserForm,DeleteForm,AvatarForm} from '../forms'
+import {LogSummaryForm} from '../forms'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 // API INTERFACE
@@ -43,17 +43,17 @@ let pagesize = true
 let pSize = 8
 let logcolumns = getLogColumns()
 
-let onClickAddUser = (ev:any)=>{
-		const modalEdit = document.getElementById(modalIdSave)
-		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
-		modalEdit?.dispatchEvent(addClicked)
+let onClickShowGraph = (ev:any)=>{
+		const modalSummasy = document.getElementById(modalIdSummary)
+		const summaryClicked = new CustomEvent("summaryclicked", { detail: 'NONE' })
+		modalSummasy?.dispatchEvent(summaryClicked)
 	}
 const titlelog = 'LOGS'
-let toolbardevice:any = []
+let toolbardevice = [{type:'image',props:{src:'/GRAPH.svg'},function:onClickShowGraph,label:"Log Summary"}]
 // DIALOG VARIABLES
-let showdialog = UserForm
+let showdialog = LogSummaryForm
 
-let modalIdSave = "UserInputDiv"
+let modalIdSummary = "LogSummaryDiv"
 let modalIdDel = "DeleteInputDiv"
 let modalAvSave = "UserAvatarDiv"
 let deleteTitle = "Clicking DELETE the user will be cancelled"
@@ -73,6 +73,9 @@ let deleteTitle = "Clicking DELETE the user will be cancelled"
 		{left}>
 	<SimpleTable slot="bodycontent" data={logs} datacolumns={logcolumns} {pagesize} {pSize}/>
 	</Wmanag>
+</div>
+<div id="save-user-dialog">
+	<svelte:component this={showdialog} bind:modalId={modalIdSummary} {bgcolor} padding='1%'/>
 </div>
 <!--div id="save-user-dialog">
 	<svelte:component this={showdialog} bind:modalId={modalIdSave} {bgcolor}/>
