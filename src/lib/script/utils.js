@@ -141,6 +141,14 @@ const onUserClickAvatar = (ev) => {
     const editClicked = new CustomEvent("editclicked", { detail: uid })
     modalEdit?.dispatchEvent(editClicked)
 }
+const onLogClickShow = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    /*const modalEdit = document.getElementById('UserAvatarDiv')
+    const editClicked = new CustomEvent("editclicked", { detail: uid })
+    modalEdit?.dispatchEvent(editClicked)*/
+}
 // ACCESSORS
 
 // COLUMNS DEFINITION
@@ -571,6 +579,55 @@ export function getUserColumns() {
     return (usercolumns)
 }
 
+
+let logcolumns = [
+    {
+        header: 'User',
+        accessor: 'userId',
+    },
+    {
+        header: 'Time',
+        accessor: 'ts',
+    },
+    {
+        header: 'Url',
+        accessor: 'uri',
+    },
+    {
+        header: 'Method',
+        accessor: 'method'
+    },
+    {
+        header: 'Command',
+        accessor: (item)=> item.body.command
+    },
+    {
+        header: 'Level',
+        accessor: 'level',
+    },
+    {
+        header: 'Status',
+        accessor: 'status',
+    },
+    {
+        header: 'Message',
+        accessor: 'msg',
+    },
+    {
+        header: 'Duration (ms)',
+        accessor: 'duration',
+    },
+    {
+        header: 'Show',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/SHOW.svg', getimage: getAvatar, onClick: onLogClickShow } }
+    },
+    
+]
+
+export function getLogColumns() {
+    return (logcolumns)
+}
 /******** TEMPLATES *******/
 // DEVICE TEMPLATE
 let deviceTemplate = {
@@ -896,4 +953,33 @@ export const downloadDataUrl = (file) => {
         reader.onerror = error => reject(error)
         reader.readAsDataURL(file)
     })
+}
+
+export const logToObject = (log) => {
+    let logobj = {}
+    // A. Tokenize log
+    const split = log.split(' ')
+    logobj.ts = split[0]
+    logobj.level = split[1]
+    logobj.logger = split[2]
+    logobj.userId = split[3]
+    logobj.msg = split[4]
+    logobj.remote_ip = split[5]
+    logobj.remote_port = split[6]
+    logobj.proto = split[7]
+    logobj.method = split[8]
+    if (split[9] != '-') {
+        console.log("UTILS LOGS ", split[9])
+        logobj.body = JSON.parse(split[9])
+    }
+    else
+        logobj.body = {}
+    logobj.headers = JSON.parse(split[10])
+    logobj.host = split[11]
+    logobj.uri = split[12]
+    logobj.status = split[14]
+    logobj.duration = split[15]
+    logobj.size = split[16]
+
+    return(logobj)
 }

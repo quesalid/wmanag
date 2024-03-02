@@ -1158,7 +1158,7 @@ function getPointLims(type) {
     }
     return [hlim, llim]
 }
-export function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
+function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
     const points = []
     for (let i = 0; i < num; i++) {
         const point = { uid: uuidv4(), tag: '', description: '', um: '', dtype: '', delta: false, bit: 0, hlim: 0.0, llim: 0.0, area: '', ack: false, numarea: 0, address: 0, amount: 1, atype: '', type: '', agent: agent, device: device, controller: controller, machine: machine, db: db }
@@ -1322,7 +1322,7 @@ function randomTD(length) {
 
     return [tag, desc]
 }
-export function makeClonePointsUid(agent, device, num = 30) {
+function makeClonePointsUid(agent, device, num = 30) {
     const points = []
     for (let i = 0; i < num; i++) {
         const point = { uid: uuidv4(), tag: '', description: '', agent: agent, device: device }

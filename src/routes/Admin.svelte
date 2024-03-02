@@ -7,7 +7,7 @@
    import Tab from '../lib/components/tabs/Tab.svelte'
    import { center } from '../lib/components/topbar/notifications';
    import WManag from '../lib/components/WManag.svelte'
-   import {UserManager,AlarmManager,DbManager} from '../lib/components/contents'
+   import {UserManager,DbManager,LogManager} from '../lib/components/contents'
    //API
    import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
@@ -65,7 +65,7 @@
 	let items:any = [
 		{name:'users',status:'active',order:'first',id:"tab-item-admin-users",component:UserManager},
 		{name:'database',status:'active',order:'middle',id:"tab-item-admin-database",component:DbManager},
-		{name:'logs',status:'active',order:'last',id:"tab-item-admin-logs",component:WManag},
+		{name:'logs',status:'active',order:'last',id:"tab-item-admin-logs",component:LogManager},
 	]
 	let tabclass = "tab-item-class"
     let divclass = "div-item-class"
