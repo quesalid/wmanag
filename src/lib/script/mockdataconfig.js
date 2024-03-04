@@ -1318,7 +1318,9 @@ function randomTD(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     const tag = 'BATCH-' + result
-    const desc = 'PRODUCT XYZ BATCH '+tag
+    const descs = ['PRODUCT CLONADIN', "PRODUCT MINOCYCLIN", "PRODUC RISPERIDONE", "PRODUCT SYNERCID"]
+    const descindex = Math.floor(Math.random() * (descs.length-1))
+    const desc = descs[descindex]+' BATCH '+tag
 
     return [tag, desc]
 }
@@ -1362,8 +1364,96 @@ const generateClonePoints = () => {
     return array
 }
 
-let clonepoints = generateClonePoints()
+const generateClonePhases = (points, type) => {
+    let array = []
+    switch (type) {
+        case 'BATCH':
+            array = generateClonePhasesBatch(points)
+            break;
+        default:
+            break;
+    }
+    return array
+}
 
+const phdescs = [
+    'Material Preparation and Sterilization',
+    'Line Preparation and Sterilization',
+    'Weighting Components',
+    'Solution Preparation',
+    'Filtration and Filling',
+    'Freeze Drying',
+    'Flooding and Washing',
+    'Inspection',
+    'Packaging'
+]
+const phtypes = [
+    'MATPREP',
+    'LINEPREP',
+    'WEIGHTING',
+    'PREPARATION',
+    'FILTRANDFILL',
+    'FREEZEDRYING',
+    'WASHING',
+    'INSPECTION',
+    'PACKAGING'
+]
+
+const phcolors = [
+    '#FF6188',
+    '#B9DCCC',
+    '#C9FD4E',
+    '#FFCB65',
+    '#FFEF4D',
+    '#49CDA8',
+    '#F780DF',
+    '#C3BC53',
+    '#D897F0'
+]
+
+const phnums = [5, 6, 7, 8, 9]
+
+const generateClonePhasesBatch = (points) => {
+    const array = []
+    for (let i = 0; i < points.length; i++) {
+        // A. get phase #
+        const phnumindex = Math.floor(Math.random() * (phnums.length + 1))
+        const phnum = phnums[phnumindex]
+        const startts = new Date(points[i].startdate).getTime()
+        const endts = new Date(points[i].enddate).getTime()
+        const totalts = endts - startts
+        const delta = Math.floor(totalts / phnum)
+        let phasestart = startts
+        let phaseend = startts
+        // B. generate phase for point
+        for (let j = 0; j < phnum; j++) {
+            phaseend = phasestart + delta
+            const phase = {
+                uid: uuidv4(),
+                tag: points[i].tag+'-PH-'+(i+1),
+                description: phdescs[j],
+                type: phtypes[j],
+                startdate: new Date(phasestart).toISOString(),
+                enddate: new Date(phaseend).toISOString(),
+                point: points[i].uid,
+                status: 'COMPLETED',
+                image: '/' + phtypes[j] + '.png',
+                color: phcolors[j],
+                outputs:[],
+                inputs: [],
+                parents: [],
+                children: []
+            }
+            phasestart = phaseend
+            array.push(phase)
+        }
+    }
+
+    return array
+}
+
+let clonepoints = generateClonePoints()
+let clonephases = generateClonePhases(clonepoints,'BATCH')
 
 // **************** CALLS ****************
 const getDevices = async function (body) {
@@ -1682,6 +1772,40 @@ const deleteClonePoint = async function (body) {
     return (body)
 }
 
+const getClonePhases = async function (body) {
+    let retPhases = JSON.parse(JSON.stringify(clonephases))
+    console.log("GET CLONE PHASES", clonephases)
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retPhases = filterArray(retPhases, filters)
+    }
+    body.data = retPhases
+    return (body)
+}
+
+const setClonePhase = async function (body) {
+    const phase = body.options.phase
+    let old = null
+    if (phase) {
+        const existing = clonephases.findIndex((item) => { return item.uid == phase.uid })
+        if (existing > -1) {
+            old = clonephases[existing]
+            clonephases[existing] = phase
+        } else {
+            clonephases.push(phase)
+        }
+    }
+    return old
+}
+
+
+const deleteClonePhase = async function (body) {
+    const filters = body.options.filters
+    clonephases = filterArray(clonephases, filters, true)
+    body.data = clonephases
+    return (body)
+}
+
 
 const CONFIG = {
     getDevices,
@@ -1712,6 +1836,9 @@ const CONFIG = {
     getClonePoints,
     setClonePoint,
     deleteClonePoint,
+    getClonePhases,
+    setClonePhase,
+    deleteClonePhase,
 }
 
 export default CONFIG

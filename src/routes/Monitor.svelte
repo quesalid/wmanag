@@ -12,6 +12,7 @@
    import {dragElement} from '../lib/components/CompUtils.js'
    import {PointForm,DeleteForm} from '../lib/components/forms'
    import {Chart} from '../lib/components/chart'
+   import {BatchDetail} from '../lib/components/contents'
    // API INTERFACE
    import {getDataPoints,
 			setDataPoint,
@@ -49,13 +50,21 @@
 		switch($module.toUpperCase()){
 			case 'CLONE':
 				ret = await getClonePoints(filters,$mock)
+				titlepoint = 'BATCH LIST'
+				chartdialog = BatchDetail
+				modalIdChart = "BatchDetailDiv"
+				toolbarpoint = []
 				break;
 			default:
+				titlepoint = 'POINT LIST'
 				ret = await getDataPoints(filters,$mock)
 				ret1 = await getMachines([],$mock)
 				machines = ret1.data
 				ret2 = await getControllers([],$mock)
 				controllers = ret2.data
+				chartdialog = Chart
+				modalIdChart = "PointChartDiv"
+				toolbarpoint = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
 				// ADD MACHINE NAMES
 				for(let i=0;i<ret.data.length;i++){
 					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
@@ -109,7 +118,7 @@
 	}
 
 	// TABLE VARIABLES - CALLS PointForm edit with uid = 'NONE'
-	const titlepoint = 'POINTS'
+	let titlepoint = 'POINTS'
 	let onClickAddPoint = (ev:any)=>{
 		console.log("ONCLICK ADD CONTAINER")
 		const modalEdit = document.getElementById(modalIdSave)
@@ -220,7 +229,7 @@
 		<div id="delete-device-dialog">
 			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
 		</div>
-		{#if $module.toUpperCase() == 'DATA'}
+		{#if $module.toUpperCase() == 'DATA' || $module.toUpperCase() == 'CLONE'}
 			<div id="delete-device-dialog">
 				<svelte:component this={chartdialog} bind:modalId={modalIdChart}  {bgcolor}/>
 			</div>

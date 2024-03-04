@@ -1,5 +1,5 @@
 import { getAvatar } from '../script/apisecurity.js'
-import {getMachines, getPlants } from '../script/apidataconfig.js'
+
 // @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
 const voidfunction = () => { return "" }
@@ -90,8 +90,8 @@ const onDataPointClickGraph = (ev) => {
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MODAL
     const modalEdit = document.getElementById('PointChartDiv')
-    const deleteClicked = new CustomEvent("chartclicked", { detail: uid })
-    modalEdit?.dispatchEvent(deleteClicked)
+    const pointClicked = new CustomEvent("chartclicked", { detail: uid })
+    modalEdit?.dispatchEvent(pointClicked)
 }
 const onDataPointClickEdit = (ev) => {
     const target = ev.target
@@ -108,6 +108,14 @@ const onDataPointClickDelete = (ev) => {
     const modalEdit = document.getElementById('DeleteInputDiv')
     const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
     modalEdit?.dispatchEvent(deleteClicked)
+}
+const onClonePointClickDetail = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('BatchDetailDiv')
+    const detailClicked = new CustomEvent("detailclicked", { detail: uid })
+    modalEdit?.dispatchEvent(detailClicked)
 }
 const onAlarmPointClickAck = (ev) => {
     /*const target = ev.target
@@ -482,14 +490,14 @@ let pointclonecolumns = [
         accessor: 'enddate'
     },
     {
-        header: 'Edit',
+        header: 'Inspect',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onDataPointClickEdit } }
+        renderdef: { type: 'image', params: { image: '/INSPECT.svg', onClick: onClonePointClickDetail } }
     },
     {
-        header: 'Delete',
+        header: 'Annotate',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/DELETE.svg', onClick: onDataPointClickDelete } }
+        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onDataPointClickEdit } }
     }
 ];
 export function getPointColumns(module) {
@@ -766,10 +774,42 @@ const pointCloneTemplate = {
     tag: '',
     description: '',
     type: '',
+    model:'',
     startdate: '',
     enddate:'',
     agent:'',
-    device: ''
+    device: '',
+    status:''
+}
+
+const phaseCloneTemplate = {
+    uid: '',
+    tag: '',
+    description: '',
+    type: '',
+    startdate: '',
+    enddate: '',
+    point: '',
+    status: '',
+    inputs: {},
+    outputs: {},
+    parents: [],
+    children:[]
+}
+
+const taskCloneTemplate = {
+    uid: '',
+    tag: '',
+    description: '',
+    type: '',
+    startdate: '',
+    enddate: '',
+    phase: '',
+    status: '',
+    inputs: {},
+    outputs: {},
+    parents: [],
+    children: []
 }
 
 // USER TEMPLATE
@@ -831,6 +871,15 @@ export const getUserTemplate = () => {
     return (userTemplate)
 }
 
+export const getPhaseCloneTemplate = () => {
+    return (phaseCloneTemplate)
+}
+
+export const getTaskCloneTemplate = () => {
+    return (taskCloneTemplate)
+}
+
+
 const models = ['BAYES', 'NEURALNETWORK', 'SYSDYN']
 
 
@@ -878,6 +927,23 @@ export const setConicData = (agents,devices,plants,type) => {
             const conicItem = { color: '#888', bgcolor: color, start: start, end: end, label: label, sectorid: plants[i].uid }
             conicData.push(conicItem)
         }
+    }
+    return conicData
+}
+
+export const setConicDataBatch = (batch, phases, type='BATCH') => {
+    const conicData = []
+    let start = 0
+    let end = 0
+    console.log("SET CONIC DATA BATCH",phases)
+    // Compute conic sectors start/end
+    for (let i = 0; i < phases.length; i++) {
+        start = end
+        const color = phases[i].color
+        const label = "<img src='" + phases[i].image + "' alt='player'/>"
+        end = start + Math.ceil((360) / (phases.length))
+        const conicItem = { color: '#888', bgcolor: color, start: start, end: end, label: label, sectorid: phases[i].uid }
+        conicData.push(conicItem)
     }
     return conicData
 }

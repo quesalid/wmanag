@@ -25,11 +25,13 @@ const redrawDonut = (donutElement:any) => {
 	if(donutElement){
 		const polar:any = computeIntDivPositions(donut);
 		// DELETE ALL CHILDS IF EXISTS
-		while (donutElement.firstChild) {
-			donutElement.removeChild(parent.donutElement);
-		}
+		/*while (donutElement.firstChild) {
+			
+				donutElement.removeChild(parent.donutElement);
+		}*/
+		donutElement.textContent = '';
+		let i=1
 		polar.forEach((el:any)=>{
-			let i=0
 			const intWidth = parseInt(donut.donutWidth, 10)*intdivWidthRation
 			let div = document.createElement("div")
 			div.style.display = "flex"
@@ -70,18 +72,20 @@ const redrawDonut = (donutElement:any) => {
 				divNum.style.position = "absolute"
 				divNum.style.width = intWidthNum +"px"
 				divNum.style.height = intWidthNum +"px"
-				divNum.style.color = "#444"
+				divNum.style.color = "#333"
 				divNum.style.backgroundColor = pSBC ( 0, el.bgcolor)
 				divNum.style.left = (el.x2-intWidthNum/2) + "px"
 				divNum.style.top = (el.y2-intWidthNum/2) + "px"
 				//divNum.style.border = "1px solid #888"
 				divNum.style.borderRadius = "50%"
-				divNum.style.fontSize = intWidthNum*2/3+"px"
-				divNum.innerText = i+""
-				i++
+				divNum.style.fontSize = intWidthNum*7/10+"px"
+				let inText = ""+(i++)
+				divNum.textContent = inText
 				donutElement.appendChild(divNum)
 			}
 		})
+		// SET CONIC GRADIENT
+	    conicGradient = getConicGradient(donut.conicData)
 	}
 }
 
@@ -152,6 +156,8 @@ const computeIntDivPositions = (donut:any) =>{
 			let label = el.label
 			let color = el.color
 			let pageId = donut.pageId
+			if(el.pageId)
+				pageId = el.pageId
 			let id = el.sectorid
 			return {x1,y1,x2,y2,bgcolor,label,color,pageId,id}
 		})

@@ -12,6 +12,8 @@ export { default as DeployMain } from './DeployMain.svelte';
 export { default as DockerMain } from './DockerMain.svelte';
 export { default as DbManager } from './DbManager.svelte';
 export { default as ComboPanel } from './ComboPanel.svelte';
+export { default as BatchDetail } from './BatchDetail.svelte';
+
 
 
 
