@@ -1430,7 +1430,7 @@ const generateClonePhasesBatch = (points) => {
             phaseend = phasestart + delta
             const phase = {
                 uid: uuidv4(),
-                tag: points[i].tag+'-PH-'+(i+1),
+                tag: points[i].tag+'-PH-'+(j+1),
                 description: phdescs[j],
                 type: phtypes[j],
                 startdate: new Date(phasestart).toISOString(),

@@ -72,7 +72,7 @@ const redrawDonut = (donutElement:any) => {
 				divNum.style.position = "absolute"
 				divNum.style.width = intWidthNum +"px"
 				divNum.style.height = intWidthNum +"px"
-				divNum.style.color = "#333"
+				divNum.style.color = "#004B7C"
 				divNum.style.backgroundColor = pSBC ( 0, el.bgcolor)
 				divNum.style.left = (el.x2-intWidthNum/2) + "px"
 				divNum.style.top = (el.y2-intWidthNum/2) + "px"
@@ -128,6 +128,8 @@ pSBC.pSBCr=(d:any)=>{
 
 export let donut:any
 export let addNumbers :boolean = false
+export let bgcolor = "#FFFFFF"
+export let content ="PIPPO"
 
 
 const getConicGradient = (data:any)=>{
@@ -184,13 +186,13 @@ const computeIntDivPositions = (donut:any) =>{
 	}
 </script>
 
-	<div class="dash-bubble border  rounded -bs-dark-border-subtle">
+	<div class="dash-bubble   rounded -bs-dark-border-subtle">
 		{#if donut.showTitle == true}
 			<h2>{donut.dbTitle}</h2>
 		{/if}
 		<div class="dash-area flex">
 			<div class="dash-content-header">
-					<div id="{donut.id}" class="donut" style="--width:{donut.donutWidth};--height:{donut.donutHeight};--conic-gradient:{conicGradient};">
+					<div id="{donut.id}" class="donut" style="--width:{donut.donutWidth};--height:{donut.donutHeight};--conic-gradient:{conicGradient};--background-color:{bgcolor};--content={content}">
 					</div>
 			</div>
 		</div>
@@ -238,11 +240,16 @@ const computeIntDivPositions = (donut:any) =>{
     position: relative;
     width: 60%;
     height: 60%;
-    background: #ffffff;
+    background: #2222bb;
     border-radius: 50%;
     top: 30%;
     left: 30%;
     transform: translate(-50%, -50%);
+	background-color: var(--background-color);
+	background-size: 180px;
+	line-height: 190px;
+    text-align: center;
+	color: #222222;
 }
 
 

@@ -15,6 +15,8 @@ export { default as DonutClickedForm } from './DonutClickedForm.svelte';
 export { default as UserForm } from './UserForm.svelte';
 export { default as AvatarForm } from './AvatarForm.svelte';
 export { default as LogSummaryForm } from './LogSummaryForm.svelte';
+export { default as PhaseForm } from './PhaseForm.svelte';
+
 
 
 

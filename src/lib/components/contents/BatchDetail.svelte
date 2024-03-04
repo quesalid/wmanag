@@ -4,6 +4,7 @@ import {onMount} from "svelte"
 // INTERNAL
 import WManag from '../WManag.svelte'
 import Donut from '../donut/Donut.svelte'
+import {PhaseForm} from '../forms'
 // USTORE
 import {mock} from '../../ustore.js'
 // API
@@ -14,7 +15,7 @@ import {setConicDataBatch} from '../../script/utils.js'
 
 let batch:any
 let phases:any = []
-
+let phase: any ={}
 
 
 onMount(async () => {
@@ -52,6 +53,10 @@ onMount(async () => {
 			detailForm.addEventListener("donutclicked",async (e:any)=>{
 				const id = e.detail
 				console.log("DONUT CLICKED",id)
+				const filters = [{uid:id,_type:'eq'}]
+				const retphase = await getClonePhases(filters,$mock)
+				phase = retphase.data[0]
+				console.log("DONUT CLICKED PHASE",phase)
 			})
 		}
 
@@ -61,6 +66,8 @@ export let modalId = "BatchDetailDiv"
 export let  bgcolor = "#ddefde"
 export let toolbar:any = []
 
+//let bgcl = '#004B7C'
+let bgcl = bgcolor
 let title = "BATCH DETAILS"
 let uid:any = ''
 let count = 0
@@ -72,7 +79,7 @@ let donut:any = {
 		pageId:modalId,
 		color:'',
 		image:'',
-		showTitle:true,
+		showTitle:false,
 		conicData: []
 	}
 
@@ -97,8 +104,13 @@ const closeModal = (ev:any) =>{
 			toolbar = {toolbar}
 			minimized="off"
 			resize='both'>
-			<div class="chart-form" slot="bodycontent"> 
-				<Donut donut={donut} addNumbers={true}/>
+			<div class="batch-detail-form" slot="bodycontent"> 
+				<div class="donut-container" style="--background-color:{bgcl}" >
+					<Donut donut={donut} addNumbers={true} bgcolor="{bgcl}"/>
+				</div>
+				<div class="phase-container">
+					<PhaseForm bind:phase={phase}/>
+				</div>
 			</div>
 	</WManag>>
 </div>
@@ -115,5 +127,17 @@ const closeModal = (ev:any) =>{
   background-color: var(--background-color);
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.batch-detail-form{
+	display:flex;
+}
+.donut-container{
+	width: 316px;
+	height: 316px;
+	background-color: var(--background-color);
+	border-radius: 50%;
+}
+.phase-container{
+	width:100%;
 }
 </style>
