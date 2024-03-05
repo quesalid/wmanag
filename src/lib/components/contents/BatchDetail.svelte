@@ -51,6 +51,9 @@ onMount(async () => {
 						}
 							
 					}
+					// ADJUST PHASE FOR PHASE FORM
+					if(phases.length > 0)
+						phase = phases[0]
 				}
 				// D. GET CONIC DATA
 				donut.conicData = setConicDataBatch(batch,phases)

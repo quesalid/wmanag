@@ -13,6 +13,15 @@ export let phase:any ={}
 			<label for="phase-type">Type:</label>
 			<input disabled type="text" size="30" id="phase-type" name="type" value={phase.type}>
 		</fieldset>
+		<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff;">
+			<legend>PHASE RUN</legend>
+			<label for="phase-start">StartDate:</label>
+			<input disabled type="text" size="20"  id="phase-start" name="tage" bind:value={phase.startdate}>
+			<label for="phase-start">EndDate:</label>
+			<input disabled type="text" size="20"  id="phase-start" name="tage" bind:value={phase.enddate}>
+			<label for="phase-start">Status:</label>
+			<input disabled type="text" size="20"  id="phase-start" name="tage" bind:value={phase.status}>
+		</fieldset>
 	</section>
 
 <style>

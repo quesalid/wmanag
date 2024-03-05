@@ -21,7 +21,8 @@
 			setClonePoint,
 			deleteClonePoint,
 			getMachines,
-			getControllers} from '../lib/script/apidataconfig.js'
+			getControllers,
+			getPlants} from '../lib/script/apidataconfig.js'
    // STORE
    import { mock,module,user,avatar,currdevice,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
    
@@ -32,6 +33,7 @@
    let pointdatacolumns:any = getPointColumns($module.toUpperCase())
    let machines:any = []
    let controllers:any = []
+   let plants:any = []
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -49,11 +51,22 @@
 		let ret2:any
 		switch($module.toUpperCase()){
 			case 'CLONE':
+			    // SWITCH FAMILY
 				ret = await getClonePoints(filters,$mock)
 				titlepoint = 'BATCH LIST'
+				ret1 = await getPlants([],$mock)
+				plants = ret1.data
 				chartdialog = BatchDetail
 				modalIdChart = "BatchDetailDiv"
 				toolbarpoint = []
+				// ADD MACHINE NAMES
+				for(let i=0;i<ret.data.length;i++){
+					const index = plants.findIndex((item:any)=>item.uid == ret.data[i].plant)
+					if(index > -1)
+						ret.data[i].plantName = plants[index].name
+					else
+						ret.data[i].plantName = 'NOTFOUND'
+				}
 				break;
 			default:
 				titlepoint = 'POINT LIST'

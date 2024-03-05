@@ -1,6 +1,7 @@
 <script lang="ts">
 // EXTERNAL
 import {onMount} from "svelte"
+import { v4 as uuidv4 } from 'uuid';
 // INTERNAL 
 import {getPointTemplate} from '../../script/utils.js'
 import {PointDataForm,PointAiForm,PointLearnForm,PointCloneForm} from './'
@@ -68,6 +69,12 @@ export let save = (ev:any)=>{
 }
 export let mod = 'DATA'
 
+const  addAnnotation =(ev:any) =>{
+	console.log("ADD ANNOTATION ")
+	const newannotation = {uid:uuidv4(),text:'',date: new Date(Date.now()).toISOString}
+	point.annotations.push(newannotation)
+	point = point
+}
 
 let newpoint = getPointTemplate($module.toUpperCase())
 let point = newpoint
@@ -85,6 +92,9 @@ let pointform:any = PointDataForm
 		<div class="button-div">
 			<div><span class="req">*</span> - Required field</div>
 			<div style="margin-left:auto;">
+				{#if $module.toUpperCase() == 'CLONE'}
+					<input class="formbutton" data-cdev={JSON.stringify(point)} type="button" value="+" on:click={addAnnotation}>
+				{/if}
 				<input class="formbutton" data-cdev={JSON.stringify(point)} type="button" value="SAVE" on:click={save}>
 				<input class="formbutton" type="button" value="EXIT" on:click={exit}>
 			</div>

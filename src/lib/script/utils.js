@@ -482,6 +482,10 @@ let pointclonecolumns = [
         accessor: 'description',
     },
     {
+        header: 'Plant',
+        accessor: 'plantName',
+    },
+    {
         header: 'Start Date',
         accessor: 'startdate'
     },

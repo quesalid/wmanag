@@ -13,7 +13,11 @@ onMount(async () => {
 	});
 
 
-
+const changeAnnotation = (ev:any)=>{
+	const target = ev.target
+	const uid = target.id.split("-")[1]
+	console.log("change Annotation id",uid)
+}
 
 // EXPORTS
 // EXPORTS
@@ -26,17 +30,24 @@ export let title:any
 		<fieldset>
 			<legend>IDENTIFICATION</legend>
 			<label for="point-tag">Tag<span class="req">*</span>:</label>
-			<input type="text" id="point-tag" name="tag" bind:value={point.tag}>
+			<input disabled type="text" id="point-tag" name="tag" bind:value={point.tag}>
 			<label for="point-description">Description:</label>
-			<input type="text" id="point-description" name="description" bind:value={point.description}>
+			<input disabled type="text" id="point-description" name="description" bind:value={point.description}>
 		</fieldset>
 		<fieldset>
 			<legend>PROCESS</legend>
 			<label for="point-startdate">Start Date:</label>
-			<input type="datetime-local" id="point-startdate" name="startdate" bind:value={point.startdate}>
+			<input disabled type="datetime-local" id="point-startdate" name="startdate" bind:value={point.startdate}>
 			<label for="point-enddate">End Date:</label>
-			<input type="datetime-local" id="point-enddate" name="enddate" bind:value={point.enddate}>
+			<input disabled type="datetime-local" id="point-enddate" name="enddate" bind:value={point.enddate}>
 		</fieldset>
+	    <fieldset>
+			<legend>ANNOTATIONS</legend>
+			{#each point.annotations as annotation}
+				<label for="point-enddate">Annotation:</label>
+				<input type="textarea" id={"annotation-"+annotation.uid} name="annotation" on:change={changeAnnotation}>
+			{/each}
+	    </fieldset>
 	</section>
 <style>
 

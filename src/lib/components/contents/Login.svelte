@@ -1,10 +1,12 @@
 ﻿<script lang="ts">
-  //import Modal  from "./modal/Modal.svelte"
+   // EXTERNAL
    import { navigate } from "svelte-routing";
    import {onMount} from "svelte"
-
-   import {token, user, role,mock,avatar,navigation,getArrayFromPath,module,avatargroups} from "../../ustore.js"
+   // STORE
+   import {token, user, role,mock,avatar,navigation,getArrayFromPath,module,avatargroups,family} from "../../ustore.js"
+   // API
    import {login,decodeToken,getAvatar} from '../../script/apisecurity.js'
+   // UTILS
    import {getMenuGroups} from '../../script/utils.js'
  
    
@@ -56,6 +58,14 @@
       errors['password'] = "Field should not be empty";
     }
 
+    const radios = document.getElementsByClassName("family-radio")
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            // get value, set checked flag or do whatever you need to
+            $family = radios[i].value;       
+        }
+    }
+    console.log("LOGIN FAMILY", $family)
     if (Object.keys(errors).length === 0) {
       isLoading = true;
       //await submit({ usrid, password })
@@ -119,7 +129,21 @@
         <label for="password" style = '--color:{fixcolor}'>Password</label>
         <input name="password" type="password" bind:value={password} style = '--color:{fixcolor}'/>
 
-        <input name="type" bind:value={type} style = 'visibility: hidden;'/>
+        {#if modulename == 'clone'}
+          <fieldset class="family-div">
+              {#if $family == 'INDUSTRY'}
+                  <input checked class="family-radio"  type="radio" id="familiy-industry" name="family" value="INDUSTRY">
+                  <label style = '--color:{fixcolor}' for="family-industry">INDUSTRY</label><br>
+                  <input class="family-radio" type="radio" id="family_utility" name="family" value="UTILITY">
+                  <label style = '--color:{fixcolor}' for="family_utility">UTILITY</label><br>
+             {:else}
+                  <input class="family-radio"  type="radio" id="familiy-industry" name="family" value="INDUSTRY">
+                  <label style = '--color:{fixcolor}' for="family-industry">INDUSTRY</label><br>
+                  <input checked class="family-radio" type="radio" id="family_utility" name="family" value="UTILITY">
+                  <label style = '--color:{fixcolor}' for="family_utility">UTILITY</label><br>
+             {/if}
+         </fieldset>
+        {/if}
 
         <button type="submit" style = '--color:{color}; --background-color:{bgcolor}'>
           {#if isLoading}Logging in...{:else}Log in 🔒{/if}
@@ -187,5 +211,13 @@ div.class-login-form{
     box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.58);
   }
 
+  .family-div {
+      display: flex;
+  }
+
+  .family-radio{
+      vertical-align: middle; 
+      margin: 0px;
+  }
   
 </style>

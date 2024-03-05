@@ -11,6 +11,9 @@
 //
 // SECURITY ANS PRIVATE CLOUD
 // https://blog.cozy.io/en/cozy-cloud-how-to-encrypt-web-application/
+//
+// BPM MODELING
+// https://bpmn.io/toolkit/bpmn-js/walkthrough/
 
 import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";
