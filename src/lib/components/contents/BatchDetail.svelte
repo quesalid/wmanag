@@ -8,7 +8,7 @@ import {PhaseForm} from '../forms'
 // USTORE
 import {mock} from '../../ustore.js'
 // API
-import {getClonePoints,getClonePhases} from '../../script/apidataconfig.js'
+import {getClonePoints,getClonePhases,getCloneMBPhases} from '../../script/apidataconfig.js'
 // UTILS
 import {setConicDataBatch} from '../../script/utils.js'
     import type { USTORE } from "../../..";
@@ -16,9 +16,11 @@ import {setConicDataBatch} from '../../script/utils.js'
 let batch:any
 let phases:any = []
 let phase: any ={}
-
+let mbphases: any = []
 
 onMount(async () => {
+	const retmbp = await getCloneMBPhases([],$mock)
+	mbphases = retmbp.data
 	const detailForm = document.getElementById(modalId)
 		if(detailForm){
 			detailForm.addEventListener("detailclicked",async (e:any)=>{
@@ -31,17 +33,27 @@ onMount(async () => {
 				const ret = await getClonePoints(batchfilters,$mock)
 				if(ret.data.length >0)
 					batch = ret.data[0]
-				console.log("BATCH DETAIL batch",batch)
 				// B. GET PHASES
 				if(batch.uid){
+					title= "BATCH N. "+batch.tag
 					const phasefilters = [{point:batch.uid,_type:'eq'}]
 					const retphases = await getClonePhases(phasefilters,$mock)
 					phases = retphases.data
-					console.log("BATCH DETAIL phases",phases,retphases)
+					// C. POPULATE phases field
+					for(let i=0;i<phases.length;i++){
+						const ph = phases[i]
+						const found = mbphases.find((item:any)=> item.uid == ph.mbphase)
+						if(found){
+							ph.description = found.description
+							ph.type = found.tag
+							ph.image = found.image
+							ph.color = found.color
+						}
+							
+					}
 				}
-				// C. GET CONIC DATA
+				// D. GET CONIC DATA
 				donut.conicData = setConicDataBatch(batch,phases)
-				console.log("BATCH DETAIL conic data",donut.conicData)
 				const donutDiv = document.getElementById(donut.id)
 				const donutRedraw = new CustomEvent("donutredraw", { detail: 'redraw' })
 				donutDiv?.dispatchEvent(donutRedraw)
@@ -52,10 +64,16 @@ onMount(async () => {
 
 			detailForm.addEventListener("donutclicked",async (e:any)=>{
 				const id = e.detail
-				console.log("DONUT CLICKED",id)
 				const filters = [{uid:id,_type:'eq'}]
 				const retphase = await getClonePhases(filters,$mock)
 				phase = retphase.data[0]
+				const found = mbphases.find((item:any)=> item.uid == phase.mbphase)
+				if(found){
+					phase.description = found.description
+					phase.type = found.tag
+					phase.image = found.image
+					phase.color = found.color
+				}
 				console.log("DONUT CLICKED PHASE",phase)
 			})
 		}
@@ -109,7 +127,7 @@ const closeModal = (ev:any) =>{
 					<Donut donut={donut} addNumbers={true} bgcolor="{bgcl}"/>
 				</div>
 				<div class="phase-container">
-					<PhaseForm bind:phase={phase}/>
+					<PhaseForm bind:phase={phase} />
 				</div>
 			</div>
 	</WManag>>

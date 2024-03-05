@@ -10,8 +10,8 @@ export let phase:any ={}
 			<input disabled type="text" size="20"  id="phase-tag" name="tage" bind:value={phase.tag}>
 			<label for="phase-description">Description:</label>
 			<input disabled type="text" size="30" id="phase-description" name="description" value={phase.description}>
-			<label for="phase-point">Batch:</label>
-			<input disabled type="text" size="20" id="phase-point" name="point" value={phase.point}>
+			<label for="phase-type">Type:</label>
+			<input disabled type="text" size="30" id="phase-type" name="type" value={phase.type}>
 		</fieldset>
 	</section>
 

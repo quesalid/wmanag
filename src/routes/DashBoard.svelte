@@ -43,7 +43,6 @@
 		devices = ret.data
 		ret = await getAgents(filters,$mock)
 		agents = ret.data
-		console.log("AGENTS FOR DONUT",agents)
 		/*const dashboardDiv = document.getElementById("dashboard-container-id")
 		// REMOVE EVENT LISTENER IF EXISTS
 		if(donutListener && dashboardDiv)

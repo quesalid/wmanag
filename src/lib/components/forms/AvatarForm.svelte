@@ -21,7 +21,6 @@ onMount(async () => {
 				const filters:any = [{uid:uid,_type:'eq'}]
 				const ret = await getUsers(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == uid)})
-				console.log(" F O U N D ---->",found.profile)
 				if(found)
 					usr=found
 				avatar = found.profile.avatar
@@ -30,7 +29,6 @@ onMount(async () => {
 	});
 
 const exit = (ev:any)=>{
-	console.log("EXIT")
 	const thisDiv = document.getElementById(modalId)
 	if(thisDiv)
 		thisDiv.style.display = 'none'

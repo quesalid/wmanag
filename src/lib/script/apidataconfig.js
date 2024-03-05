@@ -962,3 +962,96 @@ export const deleteClonePhase = async function (filters, mock = false) {
     })
 }
 
+/**
+ * Get Clone MB Phases
+ * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+ * @param {any} mock use mock flag (default false)
+ */
+export const getCloneMBPhases = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getCloneMBPhases",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getCloneMBPhases(body))
+        }
+    })
+}
+
+/**
+ * Set Clone MBPhase
+ * @param {any} agent agent to set (add or update)
+ * @param {any} mock use mock flag (default false)
+ */
+export const setCloneMBPhase = async function (phase, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "setCloneMBPhase",
+            options: {
+                phase: phase
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.setCloneMBPhase(body))
+        }
+    })
+}
+
+/**
+ * Delete Clone MBPhase
+ * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+ * @param {any} mock use mock flag (default false)
+ */
+export const deleteCloneMBPhase = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "deleteCloneMBPhase",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.deleteCloneMBPhase(body))
+        }
+    })
+}
+

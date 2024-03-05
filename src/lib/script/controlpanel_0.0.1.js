@@ -43,7 +43,6 @@ export class CP_Button {
 
     bind(id) {
         this.#element = document.getElementById(id)
-        console.log("BIND CP_Button", this.#element)
         if (this.#element) {
             const tag = this.#element.tagName
             // Could be <button> <img> <input type="button|image">
@@ -53,7 +52,6 @@ export class CP_Button {
                     // Remove event listener if present
                     if (this.#onClickListener)
                         this.#element.removeEventListener('click', this.#onClickListener)
-                    console.log("ADD LISTENER CP_Button")
                     this.#onClickListener = this.#element.addEventListener("click", async (ev) => {
                         try {
                             const target = ev.target

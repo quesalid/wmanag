@@ -935,7 +935,6 @@ export const setConicDataBatch = (batch, phases, type='BATCH') => {
     const conicData = []
     let start = 0
     let end = 0
-    console.log("SET CONIC DATA BATCH",phases)
     // Compute conic sectors start/end
     for (let i = 0; i < phases.length; i++) {
         start = end

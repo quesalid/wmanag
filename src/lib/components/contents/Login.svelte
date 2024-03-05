@@ -75,11 +75,9 @@
             $avatargroups = getMenuGroups($role,$module.toUpperCase())
             // D. SET AVATAR IN STORE
             $avatar = await getAvatar($user.uid,$mock)
-            console.log("AVATAR",$avatar,$user)
             navigate(landingPage)
             // UPDATE navigation
             $navigation = getArrayFromPath(landingPage)
-            console.log("LOGIN",$navigation)
         })
         .catch((err:any) => {
           isLoading = true;

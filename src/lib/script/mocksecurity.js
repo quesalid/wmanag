@@ -276,7 +276,6 @@ const getLogs = async function (body) {
 }
 
 const login = async function (body) {
-    console.log("MOCK LOGIN",body)
     if (!body ||!body.username || !body.password)
         throw ("MISSED_CREDENTIAL_ERROR")
     const username = body.username

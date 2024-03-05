@@ -4,12 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\chart",
-    "\\src\\lib\\components\\donut",
     "\\src\\lib\\components\\forms",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\routes\\DashBoard.svelte",
+  "SelectedNode": "\\src\\lib\\components\\forms\\PlantForm.svelte",
   "PreviewInSolutionExplorer": false
 }

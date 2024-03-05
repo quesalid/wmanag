@@ -22,7 +22,6 @@ onMount(async () => {
 
 
 const exit = (ev:any)=>{
-	console.log("EXIT")
 	const thisDiv = document.getElementById(modalId)
 	if(thisDiv)
 		thisDiv.style.display = 'none'

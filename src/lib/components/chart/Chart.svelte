@@ -8,7 +8,6 @@ import WManag from '../WManag.svelte'
 import {CP_Button} from '../../script/controlpanel_0.0.1.js'
 
 onMount(async () => {
-	console.log("CHART ON MOUNT")
 	    // INITIALIZE CP_Button
 		powerButton = new CP_Button("cpPowerButton","/POWERON.png","/POWEROFF.png",$mock)
 		// BIND CP_Button

@@ -1413,11 +1413,32 @@ const phcolors = [
 
 const phnums = [5, 6, 7, 8, 9]
 
-const generateClonePhasesBatch = (points) => {
+const generateMasterBatchPhases = () => {
     const array = []
+    for (let j = 0; j < phtypes.length; j++) {
+        const phase = {
+            uid: uuidv4(),
+            tag: phtypes[j],
+            description: phdescs[j],
+            image: '/' + phtypes[j] + '.png',
+            color: phcolors[j],
+        }
+        array.push(phase)
+    }
+
+    return array
+}
+
+let masterbatchphases = generateMasterBatchPhases()
+
+const generateClonePhasesBatch = (points) => {
+    console.log("GENERATE CLONE PHASES",points.length)
+    const array = []
+    let prevlen = 0
     for (let i = 0; i < points.length; i++) {
+        prevlen = array.length
         // A. get phase #
-        const phnumindex = Math.floor(Math.random() * (phnums.length + 1))
+        const phnumindex = Math.floor(Math.random() * (phnums.length))
         const phnum = phnums[phnumindex]
         const startts = new Date(points[i].startdate).getTime()
         const endts = new Date(points[i].enddate).getTime()
@@ -1431,14 +1452,15 @@ const generateClonePhasesBatch = (points) => {
             const phase = {
                 uid: uuidv4(),
                 tag: points[i].tag+'-PH-'+(j+1),
-                description: phdescs[j],
-                type: phtypes[j],
+                //description: masterbatchphases[j].description,
+                //type: masterbatchphases[j].tag,
                 startdate: new Date(phasestart).toISOString(),
                 enddate: new Date(phaseend).toISOString(),
                 point: points[i].uid,
                 status: 'COMPLETED',
-                image: '/' + phtypes[j] + '.png',
-                color: phcolors[j],
+                //image: masterbatchphases[j].image ,
+                //color: masterbatchphases[j].color,
+                mbphase: masterbatchphases[j].uid,
                 outputs:[],
                 inputs: [],
                 parents: [],
@@ -1447,6 +1469,7 @@ const generateClonePhasesBatch = (points) => {
             phasestart = phaseend
             array.push(phase)
         }
+        prevlen= array.length
     }
 
     return array
@@ -1774,7 +1797,6 @@ const deleteClonePoint = async function (body) {
 
 const getClonePhases = async function (body) {
     let retPhases = JSON.parse(JSON.stringify(clonephases))
-    console.log("GET CLONE PHASES", clonephases)
     const filters = body.options.filters
     if (filters && filters.length) {
         retPhases = filterArray(retPhases, filters)
@@ -1803,6 +1825,39 @@ const deleteClonePhase = async function (body) {
     const filters = body.options.filters
     clonephases = filterArray(clonephases, filters, true)
     body.data = clonephases
+    return (body)
+}
+
+const getCloneMBPhases = async function (body) {
+    let retMBPhases = JSON.parse(JSON.stringify(masterbatchphases))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retMBPhases = filterArray(retMBPhases, filters)
+    }
+    body.data = retMBPhases
+    return (body)
+}
+
+const setCloneMBPhase = async function (body) {
+    const phase = body.options.phase
+    let old = null
+    if (phase) {
+        const existing = masterbatchphases.findIndex((item) => { return item.uid == phase.uid })
+        if (existing > -1) {
+            old = masterbatchphases[existing]
+            masterbatchphases[existing] = phase
+        } else {
+            masterbatchphases.push(phase)
+        }
+    }
+    return old
+}
+
+
+const deleteCloneMBPhase = async function (body) {
+    const filters = body.options.filters
+    masterbatchphases = filterArray(masterbatchphases, filters, true)
+    body.data = masterbatchphases
     return (body)
 }
 
@@ -1839,6 +1894,9 @@ const CONFIG = {
     getClonePhases,
     setClonePhase,
     deleteClonePhase,
+    getCloneMBPhases,
+    setCloneMBPhase,
+    deleteCloneMBPhase,
 }
 
 export default CONFIG
