@@ -4,10 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\forms",
-    "\\src\\lib\\script",
-    "\\src\\routes"
+    "\\src\\lib\\components\\contents",
+    "\\src\\lib\\components\\table",
+    "\\src\\lib\\script"
   ],
-  "SelectedNode": "\\src\\lib\\components\\forms\\PlantForm.svelte",
+  "SelectedNode": "\\src\\lib\\components\\contents\\ComboPanel.svelte",
   "PreviewInSolutionExplorer": false
 }

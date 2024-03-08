@@ -275,6 +275,23 @@ const getLogs = async function (body) {
     return (body)
 }
 
+const getLogsByCommand = async function (body) {
+    let retLogs = JSON.parse(JSON.stringify(logs))
+    retLogs = retLogs.filter((item) => item.includes('POST'))
+    retLogs = retLogs.filter((item) => item.includes(body.options.command))
+    body.data = retLogs
+    return (body)
+}
+
+const getLogsByUser = async function (body) {
+    let retLogs = JSON.parse(JSON.stringify(logs))
+    retLogs = retLogs.filter((item) => item.includes('POST'))
+    retLogs = retLogs.filter((item) => item.includes(body.options.user))
+    body.data = retLogs
+    return (body)
+}
+
+
 const login = async function (body) {
     if (!body ||!body.username || !body.password)
         throw ("MISSED_CREDENTIAL_ERROR")
@@ -296,6 +313,8 @@ const USER = {
     login,
     getAvatar,
     getLogs,
+    getLogsByCommand,
+    getLogsByUser,
     setAvatar
 }
 

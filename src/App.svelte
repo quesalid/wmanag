@@ -30,6 +30,7 @@ import GraphBayes from "./routes/GraphBayes.svelte"
 import Deploy from "./routes/Deploy.svelte"
 import Monitor from "./routes/Monitor.svelte"
 import Admin from "./routes/Admin.svelte"
+import BuildClone from './routes/BuildClone.svelte'
 
 export const url = "/deploy"
 
@@ -118,6 +119,9 @@ export const url = "/deploy"
     <!-- B U I L D -->
     <Route path="/data/build">
         <GraphIsa logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+    </Route>
+    <Route path="/clone/build">
+        <BuildClone logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
     </Route>
     <Route path="/ai/build">
         <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>

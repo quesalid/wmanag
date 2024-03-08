@@ -640,6 +640,37 @@ let logcolumns = [
 export function getLogColumns() {
     return (logcolumns)
 }
+
+let logrequestedcolumns = [
+    {
+        header: 'HITS',
+        accessor: 'hits',
+    },
+    {
+        header: 'Visitors',
+        accessor: 'visitors',
+    },
+    {
+        header: 'TX.Amount',
+        accessor: 'amount',
+    },
+    {
+        header: 'AV. t.s.',
+        accessor: 'duration',
+    },
+    {
+        header: 'method',
+        accessor: 'method',
+    },
+    {
+        header: 'url',
+        accessor: 'url',
+    }
+]
+
+export function getLogRequestedColumns() {
+    return (logrequestedcolumns)
+}
 /******** TEMPLATES *******/
 // DEVICE TEMPLATE
 let deviceTemplate = {
@@ -1038,7 +1069,6 @@ export const logToObject = (log) => {
     logobj.proto = split[7]
     logobj.method = split[8]
     if (split[9] != '-') {
-        console.log("UTILS LOGS ", split[9])
         logobj.body = JSON.parse(split[9])
     }
     else
@@ -1052,3 +1082,47 @@ export const logToObject = (log) => {
 
     return(logobj)
 }
+
+export let aggregateLogs = (logs) => {
+    let userids = []
+    let visitors = 0
+    let amount = 0
+    let duration = 0
+    let url = ''
+    let method = 'POST'
+    let command = ''
+    for (let i = 0; i < logs.length; i++) {
+        const isUserPresent = userids.find((item) => item == logs[i].userId)
+        if (!isUserPresent) {
+            visitors++
+            userids.push(logs[i].userId)
+        }
+        amount += Number(logs[i].size)
+        duration += Number(logs[i].duration)
+        url = logs[i].uri
+        method = logs[i].method
+        if (method == 'POST') {
+            command = logs[i].body.command
+        }
+    }
+    const avgamount = logs.length > 0 ? amount / logs.length : amount
+    const avgduration = logs.length > 0 ? duration / logs.length : duration
+    let agLog = { hits: logs.length, visitors: visitors, url: url, command: command, amount: avgamount, duration: avgduration }
+    if (logs.length > 0)
+        return (agLog)
+    return(null)
+}
+
+export let getCommandsFromLogs = (logs) => {
+    let commands = []
+    for (let i = 0; i < logs.length; i++) {
+        if (logs[i].body && logs[i].body.command) {
+            const isCommandPresent = commands.find((item) => item == logs[i].body.command)
+            if (!isCommandPresent) {
+                commands.push(logs[i].body.command)
+            }
+        }
+    }
+    return commands
+}
+        

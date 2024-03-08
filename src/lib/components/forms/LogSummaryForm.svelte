@@ -3,18 +3,74 @@
 import {onMount} from "svelte"
 import { v4 as uuidv4 } from 'uuid';
 // INTRNAL
-import {getUserTemplate} from '../../script/utils.js'
+import {getLogRequestedColumns,getCommandsFromLogs,aggregateLogs,logToObject} from '../../script/utils.js'
+import {ComboPanel} from '../contents'
 // API
-import {getUsers} from '../../script/apisecurity.js'
+import {getLogsByCommand,getLogsByUser,getLogs,getUsers} from '../../script/apisecurity.js'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
+
+let tabdatacolumns:any=[]
+let dataLogByCommand:any = []
+let dataLogByUser:any = []
 
 onMount(async () => {
 		// GET MYSELF
 		const logSummaryForm = document.getElementById(modalId)
 		if(logSummaryForm){
 			logSummaryForm.addEventListener("summaryclicked",async (e:any)=>{
+				/*********************************** */
+				// A. GET TABLE COLUMNS
+				tabdatacolumns = getLogRequestedColumns()
+				console.log("LOG SUMMARY DATA COLUMNS",tabdatacolumns)
+				// B. GET LOGS
+				const logFilters:any = []
+				const retLogs = await getLogs(logFilters,$mock)
+				const totalLogs:any=[]
+				for(let i=0;i<retLogs.data.length;i++){
+					const lobj = logToObject(retLogs.data[i])
+					totalLogs.push(lobj)
+				}
+				console.log("LOG SUMMARY TOTAL LOGS",totalLogs)
+				// C. GET COMMANDS
+				const commands = getCommandsFromLogs(totalLogs)
+				console.log("LOG SUMMARY COMMANDS FROM LOGS",commands)
+				// D. GET USERS
+				const userFilters:any = []
+				const retUsers = await getUsers(userFilters,$mock)
+				const users = retUsers.data
+				console.log("LOG SUMMARY USERS",users)
+				// E. For each command get log set
+				for(let i=0;i< commands.length;i++){
+					const command = commands[i]
+					const commLogs:any = []
+					const retCommLogs = await getLogsByCommand(command,$mock)
+					for(let i=0;i<retCommLogs.data.length;i++){
+						const lobj = logToObject(retCommLogs.data[i])
+						commLogs.push(lobj)
+					}
+					const commLog = aggregateLogs(commLogs)
+					if(commLog)
+						dataLogByCommand.push(commLog)
+				}
+				// F. For each user get log set
+				for(let i=0;i< users.length;i++){
+					const user = users[i].username
+					const userLogs:any = []
+					const retUserLogs = await getLogsByUser(user,$mock)
+					for(let i=0;i<retUserLogs.data.length;i++){
+						const lobj = logToObject(retUserLogs.data[i])
+						userLogs.push(lobj)
+					}
+					const userLog = aggregateLogs(userLogs)
+					if(userLog)
+						dataLogByUser.push(userLog)
+				}
+				console.log("LOGS BY COMMAND",dataLogByCommand)
+				console.log("LOGS BY USER",dataLogByUser)
+				/*********************************** */
 				logSummaryForm.style.display='block'
+
 			})
 		}
 	});
@@ -40,9 +96,7 @@ export let padding = '5%'
 		<section>
 			<h3>{title}</h3>
 		</section>
-		<fieldset>
-			<legend>IDENTIFICATION</legend>
-		</fieldset>
+		<ComboPanel tabdatacolumns={tabdatacolumns} data={dataLogByCommand}/>
 		<div class="button-div">
 			<div style="margin-left:auto;">
 				<input class="formbutton" type="button" value="EXIT" on:click={exit}>

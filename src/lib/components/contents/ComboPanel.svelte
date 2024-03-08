@@ -5,9 +5,8 @@ import { writable } from "svelte/store";
 // INTERNAL
 import SimpleTable from '../table/SimpleTable.svelte'
 import SvelteEcharts from '../chart/SvelteEcharts.svelte'
-    import { v5 } from "uuid";
 
-export let data:any = []
+export let data:any =[]
 export let chartoptions = {
 		"title": "Point  Macchina: ",
         "axes": {
@@ -35,9 +34,15 @@ export let chartoptions = {
 		"toolbar":{"enabled":false}
 }
 export let tabdatacolumns:any = []
-const tabdata = writable(data) 
 export let pagesize = true
 export let pSize = 5
+
+let tabdata = writable([]) 
+
+onMount(async () => { 
+	$tabdata = data
+})
+
 
 </script>
 	
@@ -47,7 +52,7 @@ export let pSize = 5
             </div>
 		</div>
 		<div class="combo-panel-chart">
-            <SvelteEcharts bind:data={data} bind:options={chartoptions}/>
+            <!--SvelteEcharts bind:data={data} bind:options={chartoptions}/-->
 		</div>
 		<div class="combo-panel-table">
             <SimpleTable data={tabdata} bind:datacolumns={tabdatacolumns} {pagesize} {pSize}/>

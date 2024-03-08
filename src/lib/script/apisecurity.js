@@ -243,3 +243,65 @@ export const getLogs = async function (filters, mock = false) {
         }
     })
 }
+
+/**
+* Get logs by command
+* @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+* @param {any} mock use mock flag (default false)
+*/
+export const getLogsByCommand = async function (command, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getLogsByCommand",
+            options: {
+                command: command
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getLogsByCommand(body))
+        }
+    })
+}
+
+/**
+* Get logs by user
+* @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+* @param {any} mock use mock flag (default false)
+*/
+export const getLogsByUser = async function (user, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getLogsByUser",
+            options: {
+                user: user
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getLogsByUser(body))
+        }
+    })
+}

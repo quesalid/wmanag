@@ -3,7 +3,7 @@ import * as echarts from "echarts";
 import { onMount} from "svelte";
 
 
-export let data:any ={data:[],timestamp:[],title:'',legend:[],tag:''}
+export let data:any ={data:[],timestamp:[],title:'',legend:[],tag:'',um:''}
 export let options:any
 
 
@@ -81,10 +81,15 @@ const drawChart = (node:any,series:any)=>{
               option.legend.data = [newParams.series.tag]
               option.xAxis.data = labels
               option.yAxis.name = newParams.series.um
-              option.yAxis.min = newParams.series.yAxis.min
-              option.yAxis.max = newParams.series.yAxis.max
-              option.series[0].markLine.data =  newParams.series.markData
+              if(newParams.series.yAxis){
+                  option.yAxis.min = newParams.series.yAxis.min
+                  option.yAxis.max = newParams.series.yAxis.max
+              }
+              if(newParams.series.markLine)
+                  option.series[0].markLine.data =  newParams.series.markData
+              if(newParams.series.markOptions)
               option.series[0].markLine.symbol = newParams.series.markOptions.symbol
+              
               //console.log("SVELTE ECHART UPDATEA",option,newParams,newParams.tag)
               myChart.setOption(option,newParams);
          },
