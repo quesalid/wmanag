@@ -1435,7 +1435,6 @@ const generateMasterBatchPhases = () => {
 let masterbatchphases = generateMasterBatchPhases()
 
 const generateClonePhasesBatch = (points) => {
-    console.log("GENERATE CLONE PHASES",points.length)
     const array = []
     let prevlen = 0
     for (let i = 0; i < points.length; i++) {

@@ -30,7 +30,6 @@ onMount(async () => {
 		lobjs.push(lobj)
 	}
 	$logs = lobjs
-	console.log("*********** LOGS **************",$logs)
 })
 
 

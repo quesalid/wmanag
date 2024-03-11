@@ -869,54 +869,52 @@ const userTemplate = {
 }
 
 // LOG TEMPLATE
-const logTemplate = [
+const logTemplate = 
     {
         uid:'',
         ts: 0,
         level: "info",
         logger: "",
         msg: "",
-        request: {
-            remote_ip: "",
-            remote_port: "",
-            client_ip: "",
+        remote_ip: "",
+        remote_port: "",
+        client_ip: "",
+        proto: "",
+        method: "",
+        body: {
+            type: "api",
+            version: 1.0,
+            command: "",
+            options: {
+            },
+        },
+        host: "",
+        uri: "",
+        headers: {
+            "User-Agent": [],
+            "Accept": [],
+            "Accept-Encoding": [],
+        },
+        tls: {
+            resumed: false,
+            version: 772,
+            cipher_suite: 4865,
             proto: "",
-            method: "",
-            body: {
-                type: "api",
-                version: 1.0,
-                command: "",
-                options: {
-                },
-            },
-            host: "",
-            uri: "",
-            headers: {
-                "User-Agent": [],
-                "Accept": [],
-                "Accept-Encoding": [],
-            },
-            tls: {
-                resumed: false,
-                version: 772,
-                cipher_suite: 4865,
-                proto: "",
-                server_name: ""
-            },
-            bytesRead: 0,
-            userId: "",
-            duration: 0,
-            size: 0,
-            status: 200,
-            respHeaders: {
-                "Server": [],
-                "Content-Encoding": [],
-                "Content-Type": [],
-                "Vary": []
-            }
+            server_name: ""
+        },
+        bytesRead: 0,
+        userId: "",
+        duration: 0,
+        size: 0,
+        status: 200,
+        respHeaders: {
+            "Server": [],
+            "Content-Encoding": [],
+            "Content-Type": [],
+            "Vary": []
         }
     }
-]
+
 
 export const getDeviceTemplate = (module='DATA') => {
     switch (module) {
@@ -1113,7 +1111,6 @@ export const logToObject = (log) => {
     let logobj = {}
     // A. Tokenize log
     const split = log.split(' ')
-    console.log("SPLIT ===>",split)
     logobj.uid = split[0]
     logobj.ts = split[1]
     logobj.level = split[2]

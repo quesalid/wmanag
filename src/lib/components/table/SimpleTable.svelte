@@ -55,7 +55,6 @@
 			ret = ({row})=>{
 				params.uid = row.original['uid']
 				params.image = row.original.profile.avatar
-				console.log("GET RENDERER",row.original.profile)
 				return createRender(ImageRenderDynamic,{...params})
 			}
 			break;

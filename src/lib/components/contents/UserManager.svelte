@@ -21,7 +21,6 @@ onMount(async () => {
 	const filters:any = []
     const ret = await getUsers(filters,$mock)
 	$userdata = ret.data
-	console.log("USERS",$userdata)
 })
 
 

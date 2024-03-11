@@ -4,10 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\table",
+    "\\src\\lib\\components\\contents",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\App.svelte",
+  "SelectedNode": "\\src\\lib\\script\\apisecurity.js",
   "PreviewInSolutionExplorer": false
 }
