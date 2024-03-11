@@ -693,7 +693,7 @@
 	style="--width:100%;--height:{svgheight+'px'};--top:{svgtop+'px'};--left:{svgleft+'px'};position:relative;"
 	>
 
-		<Svelvet  bind:zoom={zoom} minimap controls id="GRAPH-CANVAS">
+		<Svelvet  bind:zoom={zoom} minimap controls id="GRAPH-CANVAS" editable={true}>
 			{#each defaultNodes as node , index}
 				<Node {...node}
 				drop="cursor" bind:position={node.position} on:nodeClicked={nodeClicked} on:nodeReleased={nodeReleased} style="display:flex;justify-content: left;">

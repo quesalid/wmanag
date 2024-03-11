@@ -36,17 +36,27 @@ export let chartoptions = {
 export let tabdatacolumns:any = []
 export let pagesize = true
 export let pSize = 5
+export let id = ''
 
-let tabdata = writable([]) 
+let tabdata:any = writable([])
 
-onMount(async () => { 
-	$tabdata = data
+onMount(async () => {
+    $tabdata = data
+    const comboPanel = document.getElementById(id)
+    if(comboPanel){
+        comboPanel.addEventListener("summaryclicked",async (e:any)=>{
+            console.log("COMBO PANEL",data)
+            data = data
+            $tabdata = []
+            $tabdata = data
+        })
+    }
+
 })
-
 
 </script>
 	
-	<div class="combo-panel-container">
+	<div class="combo-panel-container" id={id}>
 		<div class="combo-panel-menu">
             <div class="combo-panel-menu-title">
             </div>
@@ -55,7 +65,7 @@ onMount(async () => {
             <!--SvelteEcharts bind:data={data} bind:options={chartoptions}/-->
 		</div>
 		<div class="combo-panel-table">
-            <SimpleTable data={tabdata} bind:datacolumns={tabdatacolumns} {pagesize} {pSize}/>
+            <SimpleTable bind:data={tabdata} bind:datacolumns={tabdatacolumns} {pagesize} {pSize}/>
 		</div>
 	</div>
 <style>

@@ -9,7 +9,7 @@ import { writable } from "svelte/store";
 import Wmanag from '../WManag.svelte'
 import {SimpleTable} from '../table'
 import {getLogColumns,logToObject} from '../../script/utils.js'
-import {LogSummaryForm} from '../forms'
+import {LogSummaryForm,LogDetailForm} from '../forms'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 // API INTERFACE
@@ -30,6 +30,7 @@ onMount(async () => {
 		lobjs.push(lobj)
 	}
 	$logs = lobjs
+	console.log("*********** LOGS **************",$logs)
 })
 
 
@@ -51,12 +52,12 @@ let onClickShowGraph = (ev:any)=>{
 const titlelog = 'LOGS'
 let toolbardevice = [{type:'image',props:{src:'/GRAPH.svg'},function:onClickShowGraph,label:"Log Summary"}]
 // DIALOG VARIABLES
-let showdialog = LogSummaryForm
+let summarydialog = LogSummaryForm
+let detaildialog = LogDetailForm
 
 let modalIdSummary = "LogSummaryDiv"
-let modalIdDel = "DeleteInputDiv"
-let modalAvSave = "UserAvatarDiv"
-let deleteTitle = "Clicking DELETE the user will be cancelled"
+let modalIdDetail = "LogDetailDiv"
+
 
 
 </script>
@@ -75,11 +76,11 @@ let deleteTitle = "Clicking DELETE the user will be cancelled"
 	</Wmanag>
 </div>
 <div id="save-user-dialog">
-	<svelte:component this={showdialog} bind:modalId={modalIdSummary} {bgcolor} padding='1%'/>
+	<svelte:component this={summarydialog} bind:modalId={modalIdSummary} {bgcolor} padding='1%'/>
 </div>
-<!--div id="save-user-dialog">
-	<svelte:component this={showdialog} bind:modalId={modalIdSave} {bgcolor}/>
-</!--div-->
+<div id="save-user-dialog">
+	<svelte:component this={detaildialog} bind:modalId={modalIdDetail} {bgcolor}/>
+</div>
 
 
 

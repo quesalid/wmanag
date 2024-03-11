@@ -85,7 +85,7 @@ const drawChart = (node:any,series:any)=>{
                   option.yAxis.min = newParams.series.yAxis.min
                   option.yAxis.max = newParams.series.yAxis.max
               }
-              if(newParams.series.markLine)
+              if(newParams.series.markData)
                   option.series[0].markLine.data =  newParams.series.markData
               if(newParams.series.markOptions)
               option.series[0].markLine.symbol = newParams.series.markOptions.symbol

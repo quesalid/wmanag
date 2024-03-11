@@ -153,9 +153,9 @@ const onLogClickShow = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MODAL
-    /*const modalEdit = document.getElementById('UserAvatarDiv')
-    const editClicked = new CustomEvent("editclicked", { detail: uid })
-    modalEdit?.dispatchEvent(editClicked)*/
+    const modalEdit = document.getElementById('LogDetailDiv')
+    const logDetailClicked = new CustomEvent("logdetailclicked", { detail: uid })
+    modalEdit?.dispatchEvent(logDetailClicked)
 }
 // ACCESSORS
 
@@ -630,7 +630,7 @@ let logcolumns = [
         accessor: 'duration',
     },
     {
-        header: 'Show',
+        header: 'Detail',
         accessor: voidfunction,
         renderdef: { type: 'image', params: { image: '/SHOW.svg', getimage: getAvatar, onClick: onLogClickShow } }
     },
@@ -868,6 +868,56 @@ const userTemplate = {
     }
 }
 
+// LOG TEMPLATE
+const logTemplate = [
+    {
+        uid:'',
+        ts: 0,
+        level: "info",
+        logger: "",
+        msg: "",
+        request: {
+            remote_ip: "",
+            remote_port: "",
+            client_ip: "",
+            proto: "",
+            method: "",
+            body: {
+                type: "api",
+                version: 1.0,
+                command: "",
+                options: {
+                },
+            },
+            host: "",
+            uri: "",
+            headers: {
+                "User-Agent": [],
+                "Accept": [],
+                "Accept-Encoding": [],
+            },
+            tls: {
+                resumed: false,
+                version: 772,
+                cipher_suite: 4865,
+                proto: "",
+                server_name: ""
+            },
+            bytesRead: 0,
+            userId: "",
+            duration: 0,
+            size: 0,
+            status: 200,
+            respHeaders: {
+                "Server": [],
+                "Content-Encoding": [],
+                "Content-Type": [],
+                "Vary": []
+            }
+        }
+    }
+]
+
 export const getDeviceTemplate = (module='DATA') => {
     switch (module) {
         case 'DATA':
@@ -904,6 +954,10 @@ export const getPointTemplate = (module='DATA') => {
 
 export const getUserTemplate = () => {
     return (userTemplate)
+}
+
+export const getLogTemplate = () => {
+    return (logTemplate)
 }
 
 export const getPhaseCloneTemplate = () => {
@@ -1059,26 +1113,28 @@ export const logToObject = (log) => {
     let logobj = {}
     // A. Tokenize log
     const split = log.split(' ')
-    logobj.ts = split[0]
-    logobj.level = split[1]
-    logobj.logger = split[2]
-    logobj.userId = split[3]
-    logobj.msg = split[4]
-    logobj.remote_ip = split[5]
-    logobj.remote_port = split[6]
-    logobj.proto = split[7]
-    logobj.method = split[8]
-    if (split[9] != '-') {
-        logobj.body = JSON.parse(split[9])
+    console.log("SPLIT ===>",split)
+    logobj.uid = split[0]
+    logobj.ts = split[1]
+    logobj.level = split[2]
+    logobj.logger = split[3]
+    logobj.userId = split[4]
+    logobj.msg = split[5]
+    logobj.remote_ip = split[6]
+    logobj.remote_port = split[7]
+    logobj.proto = split[8]
+    logobj.method = split[9]
+    if (split[10] != '-') {
+        logobj.body = JSON.parse(split[10])
     }
     else
         logobj.body = {}
-    logobj.headers = JSON.parse(split[10])
-    logobj.host = split[11]
-    logobj.uri = split[12]
-    logobj.status = split[14]
-    logobj.duration = split[15]
-    logobj.size = split[16]
+    logobj.headers = JSON.parse(split[11])
+    logobj.host = split[12]
+    logobj.uri = split[13]
+    logobj.status = split[15]
+    logobj.duration = split[16]
+    logobj.size = split[17]
 
     return(logobj)
 }
@@ -1107,7 +1163,7 @@ export let aggregateLogs = (logs) => {
     }
     const avgamount = logs.length > 0 ? amount / logs.length : amount
     const avgduration = logs.length > 0 ? duration / logs.length : duration
-    let agLog = { hits: logs.length, visitors: visitors, url: url, command: command, amount: avgamount, duration: avgduration }
+    let agLog = { hits: logs.length, visitors: visitors, url: url, command: command, amount: avgamount, duration: avgduration,method:method }
     if (logs.length > 0)
         return (agLog)
     return(null)

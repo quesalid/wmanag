@@ -1,4 +1,5 @@
 import { filterArray } from './mock.js'
+import { v4 as uuidv4 } from 'uuid'; 
 
 let users = [
     {
@@ -69,54 +70,7 @@ let profiles = [
  * |------- ts ----------|-level|-----userId------|msg|--remote ip ---|-rport|-prot|-method|--------------- body --------------------------------------------------------------------------------------------------------------------------|---------------  req heder --------------------------------------------------------------------------------------------------------------------------------------------------------|-hostname-|--url---|referrer|status|totaltime|content length|
  */
 
-const logsStruct = [
-    {
-        ts: 1646861401.5241024,
-        level: "info",
-        logger: "http.log.access",
-        msg: "handled request",
-        request: {
-            remote_ip: "127.0.0.1",
-            remote_port: "41342",
-            client_ip: "127.0.0.1",
-            proto: "HTTP/2.0",
-            method: "POST",
-            body: {
-                type: "api",
-                version: 1.0,
-                command: "dockerInfo",
-                options: {
-                    uid: '456789102345'
-                },
-            },
-            host: "localhost",
-            uri: "/",
-            headers: {
-                "User-Agent": ["curl/7.82.0"],
-                "Accept": ["*/*"],
-                "Accept-Encoding": ["gzip, deflate, br"],
-            },
-            tls: {
-                resumed: false,
-                version: 772,
-                cipher_suite: 4865,
-                proto: "h2",
-                server_name: "example.com"
-            },
-            bytesRead: 0,
-            userId: "",
-            duration: 0.000929675,
-            size: 10900,
-            status: 200,
-            respHeaders: {
-                "Server": ["Caddy"],
-                "Content-Encoding": ["gzip"],
-                "Content-Type": ["text/html; charset=utf-8"],
-                "Vary": ["Accept-Encoding"]
-            }
-        }
-    }
-]
+
 
 const levels = ['info:', 'error:']
 const messages = ['OK', 'Internal.server.error']
@@ -129,7 +83,8 @@ const commands = ['createUser', 'activateUser', 'login', 'setUser', 'deleteUser'
 function generateLogs(num = 30) {
     const logs = []
     for (let i = 0; i < num; i++) {
-        let log=''
+        let log = ''
+        const uid = uuidv4()
         const now = Date.now()
         const start = new Date("2023-01-01")
         const newdate1 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
@@ -171,7 +126,7 @@ function generateLogs(num = 30) {
         let totalmms = Math.floor(Math.random() * 100)
         let totaltime = totalms + '.' + totalmms
         let contentlenght = Math.floor(Math.random() * 2400)
-        log = ts + ' ' + level + ' ' +logger+' '+ userId + ' ' + msg + ' ' + rip + ' ' + riport + ' ' + prot + ' ' + method + ' ' + body + ' ' + reqheders + ' ' + hostname + ' ' + url + ' ' + referrer + ' ' + status + ' ' + totaltime + ' ' + contentlenght
+        log = uid + ' '+ ts + ' ' + level + ' ' +logger+' '+ userId + ' ' + msg + ' ' + rip + ' ' + riport + ' ' + prot + ' ' + method + ' ' + body + ' ' + reqheders + ' ' + hostname + ' ' + url + ' ' + referrer + ' ' + status + ' ' + totaltime + ' ' + contentlenght
         logs.push(log)
     }
     return logs
@@ -291,6 +246,14 @@ const getLogsByUser = async function (body) {
     return (body)
 }
 
+const getLogsByUid = async function (body) {
+    let retLogs = JSON.parse(JSON.stringify(logs))
+    retLogs = retLogs.filter((item) => item.includes('POST'))
+    retLogs = retLogs.filter((item) => item.includes(body.options.uid))
+    body.data = retLogs
+    return (body)
+}
+
 
 const login = async function (body) {
     if (!body ||!body.username || !body.password)
@@ -315,6 +278,7 @@ const USER = {
     getLogs,
     getLogsByCommand,
     getLogsByUser,
+    getLogsByUid,
     setAvatar
 }
 

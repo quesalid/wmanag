@@ -2,6 +2,7 @@
 // EXTERNAL
 import {onMount} from "svelte"
 import { v4 as uuidv4 } from 'uuid';
+import { writable } from "svelte/store";
 // INTRNAL
 import {getLogRequestedColumns,getCommandsFromLogs,aggregateLogs,logToObject} from '../../script/utils.js'
 import {ComboPanel} from '../contents'
@@ -14,6 +15,7 @@ let tabdatacolumns:any=[]
 let dataLogByCommand:any = []
 let dataLogByUser:any = []
 
+
 onMount(async () => {
 		// GET MYSELF
 		const logSummaryForm = document.getElementById(modalId)
@@ -22,7 +24,7 @@ onMount(async () => {
 				/*********************************** */
 				// A. GET TABLE COLUMNS
 				tabdatacolumns = getLogRequestedColumns()
-				console.log("LOG SUMMARY DATA COLUMNS",tabdatacolumns)
+				//console.log("LOG SUMMARY DATA COLUMNS",tabdatacolumns)
 				// B. GET LOGS
 				const logFilters:any = []
 				const retLogs = await getLogs(logFilters,$mock)
@@ -31,15 +33,15 @@ onMount(async () => {
 					const lobj = logToObject(retLogs.data[i])
 					totalLogs.push(lobj)
 				}
-				console.log("LOG SUMMARY TOTAL LOGS",totalLogs)
+				//console.log("LOG SUMMARY TOTAL LOGS",totalLogs)
 				// C. GET COMMANDS
 				const commands = getCommandsFromLogs(totalLogs)
-				console.log("LOG SUMMARY COMMANDS FROM LOGS",commands)
+				//console.log("LOG SUMMARY COMMANDS FROM LOGS",commands)
 				// D. GET USERS
 				const userFilters:any = []
 				const retUsers = await getUsers(userFilters,$mock)
 				const users = retUsers.data
-				console.log("LOG SUMMARY USERS",users)
+				//console.log("LOG SUMMARY USERS",users)
 				// E. For each command get log set
 				for(let i=0;i< commands.length;i++){
 					const command = commands[i]
@@ -66,11 +68,17 @@ onMount(async () => {
 					if(userLog)
 						dataLogByUser.push(userLog)
 				}
+				dataLogByCommand = dataLogByCommand
+				dataLogByUser = dataLogByUser
 				console.log("LOGS BY COMMAND",dataLogByCommand)
 				console.log("LOGS BY USER",dataLogByUser)
 				/*********************************** */
+				
+				// SEND EVENT TO COMBO PANEL(S)
+				const comboLogCom = document.getElementById(uid)
+				const summaryClicked = new CustomEvent("summaryclicked", { detail: 'NONE' })
+				comboLogCom?.dispatchEvent(summaryClicked)
 				logSummaryForm.style.display='block'
-
 			})
 		}
 	});
@@ -87,7 +95,7 @@ export let modalId = "LogSummaryDiv"
 export let  bgcolor = "#ddefde"
 let title = "LOG SUMMARY"
 export let padding = '5%'
-
+let uid = uuidv4()
 
 
 </script>
@@ -96,7 +104,7 @@ export let padding = '5%'
 		<section>
 			<h3>{title}</h3>
 		</section>
-		<ComboPanel tabdatacolumns={tabdatacolumns} data={dataLogByCommand}/>
+		<ComboPanel tabdatacolumns={tabdatacolumns} bind:data={dataLogByCommand} id={uid}/>
 		<div class="button-div">
 			<div style="margin-left:auto;">
 				<input class="formbutton" type="button" value="EXIT" on:click={exit}>
