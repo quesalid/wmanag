@@ -2,11 +2,12 @@
 // EXTERNAL
 import {onMount} from 'svelte'
 import { writable } from "svelte/store";
+import { Parser }  from'node-sql-parser'
 // INTERNAL
 import Wmanag from '../WManag.svelte'
 import Tab from '../tabs/Tab.svelte'
 import TreeViewDb from '../treeview/TreeViewDb.svelte'
-import {DbInformationForm,DbQueryForm} from '../forms'
+import {DbInformationForm,DbQueryForm,DbOutputForm} from '../forms'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 // API INTERFACE
@@ -50,11 +51,20 @@ export let divclass = "div-item-class-db"
 
 // QUERY
 let query = ''
+const parser = new Parser()
 const executeQuery = ()=>{
-	console.log("EXECUTE QUERY",query)
+	try{
+		const ast = parser.astify(query)
+		console.log("EXECUTE QUERY",ast)
+		result = "Query executed"
+	}catch(error){
+		console.log("SQL SYNTAX ERROR",error)
+		result= "Syntax error"
+	}
 }
 const clearQuery = ()=>{
 	query=''
+	result=''
 	console.log("CLEAR QUERY")
 }
 let toolbarquery = [
@@ -63,6 +73,7 @@ let toolbarquery = [
 ]
 
 // OUTPUT
+let result = ''
 </script>
 
 <div class="user-manager">
@@ -121,6 +132,7 @@ let toolbarquery = [
 		{headercolor} 
 		{zindex}
 	>
+	<DbOutputForm  slot="bodycontent" bind:query={query} bind:result={result}/>
 	</Wmanag>
 </div>
 

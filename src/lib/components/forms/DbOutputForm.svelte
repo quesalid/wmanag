@@ -18,26 +18,35 @@ onMount(async () => {
 
 // EXPORTS
 export let query = ""
-export let modalId="db-query-form"
+export let result = ""
+export let modalId="db-output-form"
 export let  bgcolor = "#ddefde"
 
 
-
-
 </script>
-<div class="db-information-form" id={modalId} style="--background-color:{bgcolor}">
-	<textarea id="db-query-area" rows={7} cols={60} bind:value={query}/>
+<div class="db-output-form" id={modalId} style="--background-color:{bgcolor}">
+	<div id="db-output-area" >
+		<div id="db-output-query">Query> {query}</div>
+		<div id="db-output-response"><i>Result></i> {result}</div>
+	</div>
 </div>
+
 <style>
-.db-query-form{
+.db-output-form{
   display: block;
   overflow-y: auto;
   scroll-behavior:auto ;
 }
-#db-query-area{
-	border: 1px solid #999999;
+#db-output-area{
 	height:100% ;
 	margin:5px;
-	resize: none;
+}
+#db-output-query{
+	border:1px solid #999999;
+	font-style: italic;
+}
+#db-output-response{
+	margin-top: 5px;
+	border:1px solid #999999;
 }
 </style>
