@@ -64,8 +64,8 @@
 	// EXPORTS
 	let items:any = [
 		{name:'users',status:'active',order:'first',id:"tab-item-admin-users",component:UserManager},
-		{name:'database',status:'active',order:'middle',id:"tab-item-admin-database",component:DbManager},
 		{name:'logs',status:'active',order:'last',id:"tab-item-admin-logs",component:LogManager},
+		{name:'database',status:'active',order:'middle',id:"tab-item-admin-database",component:DbManager},
 	]
 	let tabclass = "tab-item-class"
     let divclass = "div-item-class"

@@ -5,8 +5,8 @@ import { writable } from "svelte/store";
 // INTERNAL
 import Wmanag from '../WManag.svelte'
 import Tab from '../tabs/Tab.svelte'
-import TreeView from '../treeview/TreeView.svelte'
-import {DbInformationForm} from '../forms'
+import TreeViewDb from '../treeview/TreeViewDb.svelte'
+import {DbInformationForm,DbQueryForm} from '../forms'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 // API INTERFACE
@@ -39,7 +39,7 @@ const showAdmin = () =>{
 }
 // SCHEMA
 let items:any = [
-		{name:'Schemas',component:TreeView,status:'active',order:'first',id:"tab-item-schema-database",clickFunction:showSchema},
+		{name:'Schemas',component:TreeViewDb,status:'active',order:'first',id:"tab-item-schema-database",clickFunction:showSchema},
 		{name:'Administration',status:'active',order:'last',id:"tab-item-admin-database",clickFunction:showAdmin},
 	]
 
@@ -49,6 +49,18 @@ export let divclass = "div-item-class-db"
 // INFORMATIONS
 
 // QUERY
+let query = ''
+const executeQuery = ()=>{
+	console.log("EXECUTE QUERY",query)
+}
+const clearQuery = ()=>{
+	query=''
+	console.log("CLEAR QUERY")
+}
+let toolbarquery = [
+	{type:'image',props:{src:'/START.svg'},function:executeQuery,label:"Execute"},
+	{type:'image',props:{src:'/CLEAR.svg'},function:clearQuery,label:"Clear"},
+]
 
 // OUTPUT
 </script>
@@ -88,12 +100,14 @@ export let divclass = "div-item-class-db"
 		left='402px'
 		height='250px'
 		width='600px'
+		toolbar= {toolbarquery}
 		{disableClose}
 		{disableMinimize}
 		{draggable} 
 		{headercolor} 
 		{zindex}
 	>
+	<DbQueryForm  slot="bodycontent" bind:query={query}/>
 	</Wmanag>
 	<Wmanag id="WManagerOutput"  
 		title="OUTPUT"

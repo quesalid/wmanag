@@ -62,7 +62,7 @@ const sendDbInfo:any = (ev:any,info:any) =>{
                         <ul>
                             {#if TABLE.columns}
                                  {#each TABLE.columns as COLUMN}
-                                    <li on:click={(ev)=>sendDbInfo(ev,{type:'column',name:COLUMN.name,column:COLUMN})}>{COLUMN.name}</li>
+                                    <li style="cursor:pointer;" on:click={(ev)=>sendDbInfo(ev,{type:'column',name:COLUMN.name,column:COLUMN})}>{COLUMN.name}</li>
                                 {/each}
                              {/if}
                          </ul>
