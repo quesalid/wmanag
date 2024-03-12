@@ -6,6 +6,7 @@ import { writable } from "svelte/store";
 import Wmanag from '../WManag.svelte'
 import Tab from '../tabs/Tab.svelte'
 import TreeView from '../treeview/TreeView.svelte'
+import {DbInformationForm} from '../forms'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 // API INTERFACE
@@ -79,6 +80,7 @@ export let divclass = "div-item-class-db"
 		{headercolor} 
 		{zindex}
 	>
+		<DbInformationForm  slot="bodycontent" />
 	</Wmanag>
 	<Wmanag id="WManagerSQL"  
 		title="QUERY"

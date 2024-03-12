@@ -29,6 +29,14 @@ export let tree:any = {
     ]
 }
 
+const sendDbInfo:any = (ev:any,info:any) =>{
+    ev.stopPropagation()
+    const infoDiv = document.getElementById("DbInfoDiv")
+    if(infoDiv){
+        const dbInfoClicked = new CustomEvent("dbitemclicked", { detail: info })
+        infoDiv.dispatchEvent(dbInfoClicked)
+    }
+}
 
 </script>
 
@@ -38,19 +46,23 @@ export let tree:any = {
       <summary style="font-style:italic ;">DBS</summary>
       <ul>
         {#each tree.dbs as DB}
-        <li style="font-weight:bold;">{DB.name}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+        <li style="font-weight:bold;" on:click={(ev)=>sendDbInfo(ev,{type:'db',name:DB.name})}>{DB.name}
           <details>
             <summary style="font-weight:normal;font-style:italic ;">Tables</summary>
             <ul>
               {#if DB.tables}
                 {#each DB.tables as TABLE}
-                    <li>{TABLE.name}
+                    <!-- svelte-ignore a11y-click-events-have-key-events -->
+                    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                    <li on:click={(ev)=>sendDbInfo(ev,{type:'table',name:TABLE.name,columns:TABLE.columns})}>{TABLE.name}
                         <details>
                         <summary style="font-weight:normal;font-style:italic ;">Columns</summary>
                         <ul>
                             {#if TABLE.columns}
                                  {#each TABLE.columns as COLUMN}
-                                    <li>{COLUMN.name}</li>
+                                    <li on:click={(ev)=>sendDbInfo(ev,{type:'column',name:COLUMN.name,column:COLUMN})}>{COLUMN.name}</li>
                                 {/each}
                              {/if}
                          </ul>
