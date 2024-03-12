@@ -106,15 +106,9 @@ const dbDisconnect = async function (body) {
 }
 
 const dbGetDbs = async function (body) {
-    await checkDbClient(body)
-    const tettables = []
-    const dbid = body.options.uid
-    const db = dbs.find(d => d.uid === dbid)
-    for (let i = 0; i < db.tables.length; i++) {
-        const tname = db.tables[i].name
-        tettables.push(tname)
-    }
-    body.data = tettables
+    const module = body.options.module
+    const retdbs = generateDbs(module)
+    body.data = retdbs
     body.result = true
     body.error = null
     return body
@@ -282,8 +276,7 @@ await checkDbClient(body)
 
 
 const DB = {
-    getColumnsFromTemplate,
-    generateDbs,
+    dbGetDbs,
     dbConnect,
     dbDisconnect,
     dbGetTables,

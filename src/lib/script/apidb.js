@@ -75,7 +75,7 @@ export const dbDisconnect = async (dbuid, mock = false) => {
  * @param {any} mock (dafult=false)
  * @returns array of tables names
  */
-export const dbGetDbs = async (mock = false) => {
+export const dbGetDbs = async (module,mock = false) => {
     return new Promise(async (resolve, reject) => {
         const url = baseUrl + '/db'
         const body = {
@@ -83,6 +83,7 @@ export const dbGetDbs = async (mock = false) => {
             version: 1.0,
             command: "dbGetDbs",
             options: {
+                module:module
             }
         };
         if (!mock) {

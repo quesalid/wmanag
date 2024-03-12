@@ -20,7 +20,7 @@ import { onMount} from "svelte";
 import {login} from './lib/script/apisecurity'
 
 // *******   ROUTES *********/
-import MAINPAGE from "./routes/MainPage.svelte"
+import SPLASHCREEN from "./routes/SplashScreen.svelte"
 import {Login} from "./lib/components/contents"
 import DashBoard from "./routes/DashBoard.svelte"
 import Configure from "./routes/Configure.svelte"
@@ -38,31 +38,27 @@ export const url = "/deploy"
      
  })
 
+ const extsubmit = async (data:any) =>{
+     return {authenticated:true}
+ }
+
 </script>
 
 <Router>
   <div>
-    <Route path="/" component={MAINPAGE}/>
+    <Route path="/" component={SPLASHCREEN}/>
     <!--  L O G I N -->
     <Route path="/datalogin">
-	  <Login openModalButton="Login" extsubmit={async (data) => {
-		return {authenticated:true}
-	  }} image = 'ICO_UP2_DATA.png' landingPage='/data' modulename="data"/>
+	  <Login openModalButton="Login" extsubmit={extsubmit} image = 'ICO_UP2_DATA.png' landingPage='/data' modulename="data"/>
     </Route>
     <Route path="/clonelogin">
-	  <Login openModalButton="Login" extsubmit={async (data) => {
-		return {authenticated:true}
-	  }} image = 'ICO_UP2_CLONE.png' landingPage='/clone'modulename="clone"/>
+	  <Login openModalButton="Login" extsubmit={extsubmit} image = 'ICO_UP2_CLONE.png' landingPage='/clone'modulename="clone"/>
     </Route>
     <Route path="/ailogin">
-	  <Login openModalButton="Login" extsubmit={async (data) => {
-		return {authenticated:true}
-	  }} image = 'ICO_UP2_AI.png' landingPage='/ai'modulename="ai"/>
+	  <Login openModalButton="Login" extsubmit={extsubmit} image = 'ICO_UP2_AI.png' landingPage='/ai'modulename="ai"/>
     </Route>
     <Route path="/learnlogin">
-	  <Login openModalButton="Login" extsubmit={async (data) => {
-		return {authenticated:true}
-	  }} image = 'ICO_UP2_LEARN.png' landingPage='/learn'modulename="learn"/>
+	  <Login openModalButton="Login" extsubmit={extsubmit} image = 'ICO_UP2_LEARN.png' landingPage='/learn'modulename="learn"/>
     </Route>
     <!-- D A S H B O A R D S -->
     <Route path="/data">

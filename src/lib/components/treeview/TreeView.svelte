@@ -2,13 +2,12 @@
 // EXTERNAL
 import {onMount} from "svelte"
 // INTERNAL
-import DB from '../../script/mockdb.js'
-import {module} from '../../ustore.js'
+import {dbGetDbs} from '../../script/apidb.js'
+import {module,mock} from '../../ustore.js'
 
 onMount(async () => { 
-    const dbs = DB.generateDbs($module.toUpperCase())
-    console.log(" DBS ",dbs)
-    tree.dbs = dbs
+    const ret = await dbGetDbs($module.toUpperCase(),$mock)
+    tree.dbs = ret.data
 })
 
 
