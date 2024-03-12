@@ -70,6 +70,38 @@ export const dbDisconnect = async (dbuid, mock = false) => {
 }
 
 /**
+ * Get db names
+ * @param {any} dbuid db connection id
+ * @param {any} mock (dafult=false)
+ * @returns array of tables names
+ */
+export const dbGetDbs = async (mock = false) => {
+    return new Promise(async (resolve, reject) => {
+        const url = baseUrl + '/db'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "dbGetDbs",
+            options: {
+            }
+        };
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            await sleep(1000)
+            resolve(mocks.dbGetDbs(body))
+        }
+    })
+}
+
+/**
  * Get db tables names
  * @param {any} dbuid db connection id
  * @param {any} mock (dafult=false)

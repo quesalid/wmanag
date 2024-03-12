@@ -5,9 +5,10 @@
     "\\src\\lib",
     "\\src\\lib\\components",
     "\\src\\lib\\components\\contents",
-    "\\src\\lib\\script",
+    "\\src\\lib\\components\\tabs",
+    "\\src\\lib\\components\\treeview",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\apisecurity.js",
+  "SelectedNode": "\\src\\lib\\components\\tabs\\Tab.svelte",
   "PreviewInSolutionExplorer": false
 }

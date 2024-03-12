@@ -857,7 +857,7 @@ const userTemplate = {
     permissions: [],
     role: 'USER',
     status: 'inactive',
-    confitmationCode: null,
+    confirmationCode: null,
     createdAt: '',
     updatedAt: '',
     profile: {

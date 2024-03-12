@@ -5,6 +5,7 @@ import { writable } from "svelte/store";
 // INTERNAL
 import Wmanag from '../WManag.svelte'
 import Tab from '../tabs/Tab.svelte'
+import TreeView from '../treeview/TreeView.svelte'
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 // API INTERFACE
@@ -37,7 +38,7 @@ const showAdmin = () =>{
 }
 // SCHEMA
 let items:any = [
-		{name:'Schemas',status:'active',order:'first',id:"tab-item-schema-database",clickFunction:showSchema},
+		{name:'Schemas',component:TreeView,status:'active',order:'first',id:"tab-item-schema-database",clickFunction:showSchema},
 		{name:'Administration',status:'active',order:'last',id:"tab-item-admin-database",clickFunction:showAdmin},
 	]
 
@@ -83,7 +84,7 @@ export let divclass = "div-item-class-db"
 		title="QUERY"
 		top='58px'
 		left='402px'
-		height='450px'
+		height='250px'
 		width='600px'
 		{disableClose}
 		{disableMinimize}
@@ -94,9 +95,9 @@ export let divclass = "div-item-class-db"
 	</Wmanag>
 	<Wmanag id="WManagerOutput"  
 		title="OUTPUT"
-		top='508px'
+		top='308px'
 		left='402px'
-		height='150px'
+		height='350px'
 		width='600px'
 		{disableClose}
 		{disableMinimize}

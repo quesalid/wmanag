@@ -59,5 +59,11 @@ const aclass = tabclass +" bg-neutral-100 my-2 block border-x-0 border-b-2 borde
 }
 .div-item-class{
     display:none;
+    overflow-y:visible ;
+}
+.div-item-class-db{
+    overflow-y: auto;
+    scroll-behavior:auto ;
+    height:270px;
 }
 </style>
