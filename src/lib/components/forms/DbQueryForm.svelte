@@ -17,7 +17,7 @@ onMount(async () => {
 
 
 // EXPORTS
-export let query = ""
+export let param = ""
 export let modalId="db-query-form"
 export let  bgcolor = "#ddefde"
 
@@ -26,7 +26,7 @@ export let  bgcolor = "#ddefde"
 
 </script>
 <div class="db-information-form" id={modalId} style="--background-color:{bgcolor}">
-	<textarea id="db-query-area" rows={7} cols={60} bind:value={query}/>
+	<textarea id="db-query-area" rows={7} cols={80} bind:value={param}/>
 </div>
 <style>
 .db-query-form{
