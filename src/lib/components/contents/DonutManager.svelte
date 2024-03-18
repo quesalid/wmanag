@@ -1,16 +1,14 @@
 <script lang="ts">
    // EXTERNAL
    import {onMount} from "svelte"
-   import { writable } from "svelte/store";
    // INTERNAL
    import WManag from '../../components/WManag.svelte'
    import Donut from "../../components/donut/Donut.svelte"
-   import {getAlarmColumns} from '../../script/utils.js'
    
    // API INTERFACE
    import {getDataPoints,getControllers,getMachines} from '../../script/apidataconfig.js'
    // STORE
-   import { mock,module} from '../../ustore.js'
+   import { module} from '../../ustore.js'
    
   
 

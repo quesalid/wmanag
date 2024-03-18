@@ -5,7 +5,7 @@
    // INTERN IMPORT
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import {UserManager,DbManager,LogManager} from '../lib/components/contents'
+   import {DashBoardConfigManager} from '../lib/components/contents'
    // STORE
    import {module, mock, avatar,currentplant,navigation,getArrayFromPath,avatargroups,avatarclass,user} from '../lib/ustore.js'
    
@@ -81,7 +81,7 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
-				
+				<DashBoardConfigManager />
 			
 		</div>
 

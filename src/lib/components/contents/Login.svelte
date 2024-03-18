@@ -36,7 +36,7 @@
   onMount(async () => {
       // ON LOAD CLEAN STORE
       $role = ''
-      $user = {username:'',uid:''}
+      $user = {username:'',uid:'',name:'',surname:'',profile:{dashboard:[]}}
       $token = ''
       $avatar = ''
 
@@ -58,7 +58,7 @@
       errors['password'] = "Field should not be empty";
     }
 
-    const radios = document.getElementsByClassName("family-radio")
+    const radios:any = document.getElementsByClassName("family-radio")
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             // get value, set checked flag or do whatever you need to

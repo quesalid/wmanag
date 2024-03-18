@@ -8,7 +8,7 @@
    import { center } from '../lib/components/topbar/notifications';
    import Modeler from '../lib/components/modeler/Modeler.svelte'
    // STORE
-   import { mock,module, navigation, getArrayFromPath, user,avatar,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
+   import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
    
   
 
