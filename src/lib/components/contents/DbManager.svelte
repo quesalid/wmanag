@@ -29,7 +29,7 @@ let headercolor = bgcolor
 // QUERY ALTS
 const executeQuery = ()=>{
 	try{
-		const ast = parser.astify(query)
+		const ast = parser.astify(param)
 		console.log("EXECUTE QUERY",ast)
 		result = "Query executed"
 	}catch(error){
@@ -38,7 +38,7 @@ const executeQuery = ()=>{
 	}
 }
 const clearQuery = ()=>{
-	query=''
+	param=''
 	result=''
 	console.log("CLEAR QUERY")
 }

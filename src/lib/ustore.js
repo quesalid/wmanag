@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 // MOCK FLAG FOR DEVELOPMENT
 export const mock = writable(true) // MOCK DATA IF TRUE
 export const role = writable("")  // LOGGED USER ROLE
-export const user = writable({username:'',uid:''})  // LOGGED USER
+export const user = writable({ username: '', uid: '', name:'',surname:'',profile: { dashboard:[]} })  // LOGGED USER
 export const token = writable("") // SESSION LOGIN TOKEN
 export const currentplant = writable({ name: "PLANT-001" }) // CURRENT PLANT
 export const navigation = writable([{}]) // TOKENIZED NAVIGATION ARRAY OF OBJECT

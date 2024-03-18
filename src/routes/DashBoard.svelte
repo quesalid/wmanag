@@ -4,27 +4,32 @@
    import {onMount} from "svelte"
    // INTERN IMPORT
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
-   import Donut from "../lib/components/donut/Donut.svelte"
-   import {AlarmManager,MapManager,DonutClicked} from '../lib/components/contents'
-   import WManag from '../lib/components/WManag.svelte'
+   //import Donut from "../lib/components/donut/Donut.svelte"
+   import {AlarmManager,MapManager,DonutClicked,DonutManager} from '../lib/components/contents'
+   //import WManag from '../lib/components/WManag.svelte'
    import { center } from '../lib/components/topbar/notifications';
-
    // UTILS
    import {setConicData} from '../lib/script/utils.js'
    //API
    import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
-   import {module, mock,navigation, getArrayFromPath, avatar,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, 
+			mock,
+			navigation,
+			getArrayFromPath, 
+			avatar,
+			avatargroups,
+			avatarclass,
+			user} from '../lib/ustore.js'
    
- 
-  
-
-    let donutListener:any
 	let plants:any = []
 	let devices:any = []
 	let agents:any = []
+
 	
-	let pippo = 0
+	let dashboard:any = $user.profile.dashboard.find((item:any) => item.name == 'DEFAULT')
+	
+	let key = 0
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -36,38 +41,15 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
-		const filters:any = []
-		let ret = await getPlants(filters,$mock)
-		plants = ret.data
-		ret = await getDevices(filters,$mock)
-		devices = ret.data
-		ret = await getAgents(filters,$mock)
-		agents = ret.data
-		/*const dashboardDiv = document.getElementById("dashboard-container-id")
-		// REMOVE EVENT LISTENER IF EXISTS
-		if(donutListener && dashboardDiv)
-			dashboardDiv.removeEventListener("donutclicked",donutListener)
-		// ADD EVENT LISTENER FOR DONUTS
-		if(dashboardDiv){
-			donutListener = dashboardDiv.addEventListener("donutclicked",async (e:any)=>{
-			   console.log("DONUT CLICKED",e.detail)
-			   // GET PLANT ID
-			   donutid = e.detail
-			   const plant = plants.find((item:any)=>{item.uid == donutid})
-			   const pname = plant?plant.name:''
-			   donuttitle = 'AGENT FOR PLANT '+pname
-			   // GET send Event to display donutClickedDiv
-			   const donutDiv = document.getElementById("donutClickedDiv")
-			   if(donutDiv)
-					donutDiv.style.display='block'
-
-			})
-		}*/
-		donut = getDonutByType()
+		dashboard = $user.profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
+		if(!dashboard)
+			dashboard = $user.profile.dashboard.find((item:any) => item.module == 'DEFAULT')
+		console.log("DASHBOARD",dashboard)
+		donut = await getDonutByType()
 		const donutDiv = document.getElementById(donut.id)
 		const donutRedraw = new CustomEvent("donutredraw", { detail: 'redraw' })
 		donutDiv?.dispatchEvent(donutRedraw)
-		pippo = pippo+1
+		key = key+1
 
 	});
 
@@ -94,12 +76,10 @@
 		pageId:"dashboard-container-id",
 		showTitle:true,
 		conicData: [
-					]
+		]
 	}
 
 	let donut:any = donut3
-	let donutid = ''
-	let donuttitle = 'DONUT CLICKED'
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -107,8 +87,17 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	const getDonutByType = ()=>{
-		// TEST setConicData
+	const getDonutByType = async ()=>{
+		let dbret:any
+		let filters:any =[]
+
+		dbret = await getPlants(filters,$mock)
+		plants = dbret.data
+		dbret = await getDevices(filters,$mock)
+		devices = dbret.data
+		dbret = await getAgents(filters,$mock)
+		agents = dbret.data
+		
 		let conicData:any = []
 		let ret:any = {}
 		switch($module.toUpperCase()){
@@ -173,27 +162,19 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
-				<WManag id="donutManager" 
-						title="{donut.dbTitle}" 
-						disableClose={true}
-						draggable={true} 
-						headercolor={bgcolor}
-						width={donut.donutWidth+' +10'}
-						top={$module.toUpperCase() == 'DATA'?'380px':'10px'}
-						left="1%"
-						minimized="off"
-						resize='both'>
-						<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
-						    {#key pippo}
-								<Donut donut={donut}/>
-							{/key}
-						</div>
-					</WManag>
-				{#if $module.toUpperCase() == 'DATA'}
-					<MapManager headercolor={bgcolor} left="1%" top="0%" title="PLANTS" minimized="off"/>
-					<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>
-				{/if}
-			
+			{#if dashboard}
+				{#each dashboard.windows as Window}
+					{#if Window.id == 'DONUT'}
+						<DonutManager bgcolor={bgcolor} bind:donut={donut} bind:key={key} top={Window.top} left={Window.left}/>
+					{/if}
+					{#if Window.id == 'MAP'}
+						<MapManager headercolor={bgcolor}  title="PLANTS" minimized="off" top={Window.top} left={Window.left}/>
+					{/if}
+					{#if Window.id == 'ALARM'}
+						<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>
+					{/if}
+				{/each}
+			{/if}
 		</div>
 
 </div>

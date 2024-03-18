@@ -1078,7 +1078,9 @@ export const getMenuGroups = (role,module) => {
     let dashboard = null
     let settings = null
     let admin = '/' + module.toLowerCase() + '/admin'
+    let dashboardconfig = '/' + module.toLowerCase() + '/dashboardconfig'
     clone[0][2].link = admin
+    clone[0][0].link = dashboardconfig
     switch (module) {
         case 'DATA':
             clone[1][0].link = "/datalogin"

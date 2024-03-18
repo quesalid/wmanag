@@ -31,6 +31,7 @@ import Deploy from "./routes/Deploy.svelte"
 import Monitor from "./routes/Monitor.svelte"
 import Admin from "./routes/Admin.svelte"
 import BuildClone from './routes/BuildClone.svelte'
+import DashBoardConfig from "./routes/DashBoardConfig.svelte"
 
 export const url = "/deploy"
 
@@ -148,7 +149,19 @@ export const url = "/deploy"
     <Route path="/learn/admin">
 		 <Admin logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
     </Route>
-
+    <!-- D A S H B O A R D    C O N F I G -->
+    <Route path="/data/dashboardconfig">
+        <DashBoardConfig logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+    </Route>
+    <Route path="/clone/dashboardconfig">
+		<DashBoardConfig logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+    </Route>
+    <Route path="/ai/dashboardconfig">
+		 <DashBoardConfig logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+    </Route>
+    <Route path="/learn/dashboardconfig">
+		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+    </Route>
   </div>
 </Router>
 

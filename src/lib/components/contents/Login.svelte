@@ -5,7 +5,7 @@
    // STORE
    import {token, user, role,mock,avatar,navigation,getArrayFromPath,module,avatargroups,family} from "../../ustore.js"
    // API
-   import {login,decodeToken,getAvatar} from '../../script/apisecurity.js'
+   import {login,decodeToken,getAvatar,getProfile} from '../../script/apisecurity.js'
    // UTILS
    import {getMenuGroups} from '../../script/utils.js'
  
@@ -79,11 +79,14 @@
             $module = modulename
             // B. SET USER,ROLE AND TOKEN IN STORE
             $token = restoken
-            $user = { username: decoded.token.sub, uid: decoded.token.uuid, name: decoded.token.name, surname: decoded.token.surname };
+            // C. GET USER PROFILE
+            const profile =  await getProfile(decoded.token.uuid,$mock)
+            // D. SET USER IN STORE
+            $user = { username: decoded.token.sub, uid: decoded.token.uuid, name: decoded.token.name, surname: decoded.token.surname,profile:profile };
             $role = decoded.token.auth
-            // C. SET AVATAR GROUPS IN STORE
+            // E. SET AVATAR GROUPS IN STORE
             $avatargroups = getMenuGroups($role,$module.toUpperCase())
-            // D. SET AVATAR IN STORE
+            // F. SET AVATAR IN STORE
             $avatar = await getAvatar($user.uid,$mock)
             navigate(landingPage)
             // UPDATE navigation

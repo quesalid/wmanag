@@ -1,9 +1,9 @@
 <script lang="ts">
 import Map from '../map/Map.svelte';
-import MarkerClicked from './MarkerClicked.svelte'
+import MarkerClickedPlants from './MarkerClickedPlants.svelte'
 import WManag from '../WManag.svelte'
 import {onMount} from 'svelte'
-import {token, mock, currentplant} from '../../ustore.js'
+import {mock} from '../../ustore.js'
 import {getPlants} from '../../script/apidataconfig.js'
 
 let defaultWManager = 'defaultMapper'
@@ -17,11 +17,22 @@ export let top = '20%'
 export let left = '20%'
 export let minimized = 'on'
 export let toolbar:any = []
+export let maptype:any ='factory'
+let component:any = MarkerClickedPlants
+let modalId = "markerClickedDivPlants"
 
-onMount(async () => { 
-	const filters:any = []
-    const ret = await getPlants(filters,$mock)
-	group= ret.data
+onMount(async () => {
+	let filters:any
+	let ret:any
+	switch(maptype){
+		case 'factory':
+			filters = []
+			ret = await getPlants(filters,$mock)
+			group= ret.data
+			component = MarkerClickedPlants
+			modalId = "markerClickedDivPlants"
+		break;
+	}
 })
 
 </script>
@@ -39,13 +50,13 @@ onMount(async () => {
 		minimized="{minimized}"
 		resize='both'>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
-			<Map bind:group={group} zoom=14/>
+			<Map bind:group={group} zoom=14 modalId={modalId}/>
 		</div>
 	</WManag>
 </div>
 
 <div>
-	<MarkerClicked />
+    <svelte:component this={component} modalId={modalId}/>
 </div>
 
 <style>

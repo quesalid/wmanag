@@ -11,11 +11,13 @@ import {getPlants,getDepartments,getLines,getMachines,getControllers} from '../.
 // STORE
 import {token, mock, currentplant} from '../../ustore.js'
 
+let eventListener:any
 onMount(async () => {
 		// GET MYSELF
 		const markerClicked = document.getElementById(modalId)
 		if(markerClicked){
-			markerClicked.addEventListener("markerclicked",async (e:any)=>{
+			markerClicked.removeEventListener("markerclicked",eventListener)
+			eventListener = markerClicked.addEventListener("markerclicked",async (e:any)=>{
 				markerClicked.style.display='block'
 				uid = e.detail
 				// GET DEVICES
@@ -45,7 +47,7 @@ onMount(async () => {
 
 
 // EXPORTS
-export let modalId = "markerClickedDiv"
+export let modalId = "markerClickedDivPlants"
 export let  bgcolor = "#ddefde"
 export let toolbar:any = []
 
@@ -138,6 +140,8 @@ const closeModal = (ev:any) =>{
 				<img src={image} alt={plant.name}>
 			</div>
 			<div id="camera-div" style="margin-left:auto;">
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<img src="/WEBCAM.png" alt="camera" width="40px" on:click={cameraClicked}>
 			</div>
 		</div>

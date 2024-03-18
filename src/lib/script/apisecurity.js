@@ -336,3 +336,66 @@ export const getLogsByUid = async function (uid, mock = false) {
         }
     })
 }
+
+/**
+ * Get user profile
+ * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+ * @param {any} mock use mock flag (default false)
+ */
+export const getProfile = async function (uid, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getProfile",
+            options: {
+                uid: uid
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getProfile(body))
+        }
+    })
+}
+
+/**
+ * Set User Profile
+ * @param {any} user user to set (add or update)
+ * @param {any} mock use mock flag (default false)
+ */
+export const setProfile = async function (uid, profile, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "setProfile",
+            options: {
+                uid: uid,
+                profile: profile
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.setProfile(body))
+        }
+    })
+}

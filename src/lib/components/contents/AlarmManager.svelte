@@ -6,7 +6,6 @@
    import Wmanag from '../../components/WManag.svelte'
    import {SimpleTable} from '../../components/table'
    import {getAlarmColumns} from '../../script/utils.js'
-   import {dragElement} from '../../components/CompUtils.js'
    // API INTERFACE
    import {getDataPoints,getControllers,getMachines} from '../../script/apidataconfig.js'
    // STORE

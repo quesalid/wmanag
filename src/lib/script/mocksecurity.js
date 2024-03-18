@@ -35,13 +35,42 @@ let profiles = [
         uid: '55a96422-88cd-43ab-aa56-f4d4b022a77e',
         language: 'en',
         avatar: '/AVATAR1.png',
-        dashboard:[]
+        dashboard: [
+            {
+                module: 'DEFAULT',
+                windows: [
+                    { id: 'DONUT', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'DATA',
+                windows: [
+                    { id: 'DONUT', top: '380px', left: '10px' },
+                    { id: 'MAP', top: '0px', left: '10px' },
+                    { id: 'ALARM' }
+                ]
+            },
+            {
+                module: 'CLONE',
+                windows: [
+                    { id: 'DONUT', top: '380px', left: '10px' },
+                    { id: 'MAP', top: '0px', left: '10px' }
+                ]
+            }
+        ]
     },
     {
         uid: '447b658f-66ca-7aa3-965d-abd4bc22a893',
         language: 'en',
         avatar: '/LORENZO.png',
-        dashboard: []
+        dashboard: [
+            {
+                module: 'DEFAULT',
+                windows: [
+                    { id: 'DONUT',top:'10px',left:'10px' }
+                ]
+            }
+        ]
     }
 ]
 
@@ -78,7 +107,7 @@ const states = ['200', '500']
 const rips = ['10.18.19.1', '170.92.16.101', '116.58.205.36', '107.248.107.206']
 const riports = ['47801', '89567', '63937', '46981']
 const methods = ['POST', 'GET']
-const commands = ['createUser', 'activateUser', 'login', 'setUser', 'deleteUser', 'logout', 'setAvatar', 'setDevice', 'deleteDevice', 'setAgent', 'deleteAgent']
+const commands = ['createUser', 'activateUser', 'login', 'setUser', 'deleteUser', 'logout', 'setAvatar', 'setProfile', 'setDevice', 'deleteDevice', 'setAgent', 'deleteAgent']
 
 function generateLogs(num = 30) {
     const logs = []
@@ -220,6 +249,22 @@ const setAvatar = async function (body) {
         
 }
 
+const getProfile = async function (body) {
+    const uid = body.options.uid
+    const found = profiles.find((item) => item.uid == uid)
+    if (found)
+        return (found)
+    return (null)
+}
+
+const setProfile = async function (body) {
+    const uid = body.options.uid
+    const profile = body.options.profile
+    const index = profiles.findIndex((item) => item.uid == uid)
+    if (index > -1)
+        profiles[index] = profile
+
+}
 const getLogs = async function (body) {
     let retLogs = JSON.parse(JSON.stringify(logs))
     const filters = body.options.filters
@@ -275,11 +320,13 @@ const USER = {
     decodeToken,
     login,
     getAvatar,
+    getProfile,
     getLogs,
     getLogsByCommand,
     getLogsByUser,
     getLogsByUid,
-    setAvatar
+    setAvatar,
+    setProfile,
 }
 
 export default USER

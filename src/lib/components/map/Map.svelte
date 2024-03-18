@@ -21,8 +21,9 @@ onMount(async () => {
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
 export let group:any = []
 export let zoom:any = 5;
+export let modalId = 'markerClickedDivPlants'
 export let clickedName:any = (g:any)=>{
-    const modalEdit = document.getElementById('markerClickedDiv')
+    const modalEdit = document.getElementById(modalId)
     const editClicked = new CustomEvent("markerclicked", { detail: g.uid })
     modalEdit?.dispatchEvent(editClicked)
 }
