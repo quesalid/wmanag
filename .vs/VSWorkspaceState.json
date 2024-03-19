@@ -4,10 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\treeview",
-    "\\src\\lib\\script",
-    "\\src\\routes"
+    "\\src\\lib\\components\\contents",
+    "\\src\\lib\\components\\treeview"
   ],
-  "SelectedNode": "\\src\\lib\\components\\spinner",
+  "SelectedNode": "\\src\\lib\\components\\contents\\index.js",
   "PreviewInSolutionExplorer": false
 }
