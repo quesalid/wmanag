@@ -1,6 +1,16 @@
 <script lang='ts'>
 
 
+export let widgets = [
+	{id:'Donut',top:'0px',left:'0px',included:false},
+	{id:'Map',top:'0px',left:'0px',included:true},
+	{id:'Alarms',top:'0px',left:'0px',included:false},
+]
+
+export let saveDashboard = (ev:any)=>{
+	console.log("SAVE DASHBOARD")
+}
+
 const setTargetProperties = (ev:any)=>{
 	const id = ev.target.id
 	const title:any = document.getElementById('title-'+id)
@@ -73,6 +83,14 @@ const drop = (ev:any) =>{
 	const pos:any = findPos(ev,dropzone);
 	draggableElement.style.top=pos.y+'px'
 	draggableElement.style.left=pos.x+'px'
+	// STORE STATUS AND POSITION IN WIDGETS
+	const idx = widgets.findIndex((item:any)=> item.id == draggableElement.id)
+	if(idx > -1){
+		// NEED RESCALING !!
+		widgets[idx].top = draggableElement.style.top
+		widgets[idx].left = draggableElement.style.left
+		widgets[idx].included = true
+	}
 	// append dragged element to dropzone
 	dropzone.appendChild(draggableElement);
 }
@@ -84,6 +102,12 @@ const dropCol = (ev:any) =>{
 	unsetTargetProperties(draggableElement)
 	// get dropzone element
 	const dropzone:any = document.getElementById("draggable-list")
+	// STORE STATUSIN WIDGETS
+	const idx = widgets.findIndex((item:any)=> item.id == draggableElement.id)
+	if(idx > -1){
+		// NEED RESCALING !!
+		widgets[idx].included = false
+	}
 	// append dragged element to dropzone
 	dropzone.appendChild(draggableElement);
 }
@@ -92,13 +116,7 @@ const dragEnd = (ev:any)=>{
 	console.log("ON DRAG END",ev.clientX,ev.clientY)
 }
 
-const onClick = (ev:any) =>{
-	console.log("MOUSE CLICK",ev.clientX,ev.clientY)
-}
 
-const saveDashboard = (ev:any)=>{
-	console.log("SAVE DASHBOARD")
-}
 
 </script>
 
@@ -107,19 +125,14 @@ const saveDashboard = (ev:any)=>{
 		 <input type='button' value='Save Dashboard' on:click={saveDashboard}/>
 		 <!-- svelte-ignore a11y-no-static-element-interactions -->
 		 <div class="col" id="draggable-list" on:dragover={dragOverCol} on:drop={dropCol}>
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div class="db-draggable-item" draggable="true" on:dragstart={dragStart} on:dragend={dragEnd} id="Map" >
-					<div id="title-Map">Map</div>
-				</div>
-				 
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div class="db-draggable-item" draggable="true" on:dragstart={dragStart} on:dragend={dragEnd}  id="Alarms" >
-					<div id="title-Alarms">Alarms</div>
-				</div>
-				<!-- svelte-ignore a11y-no-static-element-interactions -->
-				<div class="db-draggable-item" draggable="true" on:dragstart={dragStart} on:dragend={dragEnd}  id="Donut" >
-					<div id="title-Donut">Donut</div>
-				</div>	
+			{#each widgets as Widget}
+				{#if !Widget.included}
+					<!-- svelte-ignore a11y-no-static-element-interactions -->
+					<div class="db-draggable-item" draggable="true" on:dragstart={dragStart} on:dragend={dragEnd} id="{Widget.id}" >
+						<div id={"title-"+Widget.id}>{Widget.id}</div>
+					</div>
+				{/if}
+			{/each}	
 		 </div>
 	</div>
 		 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -129,7 +142,21 @@ const saveDashboard = (ev:any)=>{
 				on:dragover={dragOver} 
 				on:drop={drop}
 				 >
-
+				{#each widgets as Widget}
+					{#if Widget.included}
+						<div class="db-draggable-item included" 
+								draggable="true" 
+								on:dragstart={dragStart} 
+								on:dragend={dragEnd} 
+								id="{Widget.id}" 
+								style="top:{Widget.top};left:{Widget.left};">
+							<img id={"img-"+Widget.id} 
+								src={"/dashboard/"+Widget.id+".png"}
+								alt="Widget.id" 
+								draggable='false'/>
+						</div>
+					{/if}
+				{/each}	
 	     </div>
 	</div>
 <style>
@@ -173,5 +200,12 @@ const saveDashboard = (ev:any)=>{
   padding: 10px;
   font-weight: bold;
   cursor:grab;
+}
+.included{
+	position:absolute;
+	width:fit-content;
+	height:fit-content;
+	border:2px solid blue;
+	background-color: white;
 }
 </style>

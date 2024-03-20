@@ -3,10 +3,8 @@
     "",
     "\\src",
     "\\src\\lib",
-    "\\src\\lib\\components",
-    "\\src\\lib\\components\\contents",
     "\\src\\lib\\components\\treeview"
   ],
-  "SelectedNode": "\\src\\lib\\components\\contents\\index.js",
+  "SelectedNode": "\\src\\lib\\components",
   "PreviewInSolutionExplorer": false
 }

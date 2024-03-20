@@ -1180,4 +1180,39 @@ export let getCommandsFromLogs = (logs) => {
     }
     return commands
 }
+
+let widgets = [
+    {
+        module: 'DATA', wgs: [
+            { id: 'Donut', top: '0px', left: '0px', included: false },
+            { id: 'Map', top: '0px', left: '0px', included: false },
+            { id: 'Alarms', top: '0px', left: '0px', included: false }
+        ]
+    },
+    {
+        module: 'CLONE', wgs: [
+            { id: 'Donut', top: '0px', left: '0px', included: false },
+            { id: 'Map', top: '0px', left: '0px', included: false }
+        ]
+    },
+    {
+        module: 'AI', wgs: [
+            { id: 'Donut', top: '0px', left: '0px', included: false }
+        ]
+    },
+    {
+        module: 'LEARN', wgs: [
+            { id: 'Donut', top: '0px', left: '0px', included: false }
+        ]
+    }
+]
+
+export let getWidgetsByModule = (module) => {
+    let moduleWidgets = []
+    const found = widgets.find((item) => item.module == module)
+    if (found)
+        moduleWidgets = found.wgs
+    return moduleWidgets
+}
+
         

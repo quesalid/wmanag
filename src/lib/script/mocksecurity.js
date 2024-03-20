@@ -39,22 +39,22 @@ let profiles = [
             {
                 module: 'DEFAULT',
                 windows: [
-                    { id: 'DONUT', top: '10px', left: '10px' }
+                    { id: 'Donut', top: '10px', left: '10px' }
                 ]
             },
             {
                 module: 'DATA',
                 windows: [
-                    { id: 'DONUT', top: '380px', left: '10px' },
-                    { id: 'MAP', top: '0px', left: '10px' },
-                    { id: 'ALARM' }
+                    { id: 'Donut', top: '380px', left: '10px' },
+                    { id: 'Map', top: '0px', left: '10px' },
+                    { id: 'Alarms', top: '0px', left: '10px' }
                 ]
             },
             {
                 module: 'CLONE',
                 windows: [
-                    { id: 'DONUT', top: '380px', left: '10px' },
-                    { id: 'MAP', top: '0px', left: '10px' }
+                    { id: 'Donut', top: '380px', left: '10px' },
+                    { id: 'Alarm', top: '0px', left: '10px' }
                 ]
             }
         ]
@@ -67,7 +67,7 @@ let profiles = [
             {
                 module: 'DEFAULT',
                 windows: [
-                    { id: 'DONUT',top:'10px',left:'10px' }
+                    { id: 'Donut',top:'10px',left:'10px' }
                 ]
             }
         ]

@@ -7,17 +7,21 @@
    import { center } from '../lib/components/topbar/notifications';
    import {DashBoardConfigManager} from '../lib/components/contents'
    // STORE
-   import {module, mock, avatar,currentplant,navigation,getArrayFromPath,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, 
+			mock, 
+			avatar,
+			navigation,
+			getArrayFromPath,
+			avatargroups,
+			avatarclass,
+			user} from '../lib/ustore.js'
    
- 
+   import {getWidgetsByModule} from '../lib/script/utils.js'
+   // API
+   import {setProfile} from '../lib/script/apisecurity.js'
   
-
-    let donutListener:any
-	let plants:any = []
-	let devices:any = []
-	let agents:any = []
+	let widgets:any
 	
-	let pippo = 0
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -31,12 +35,25 @@
 		])
 		const filters:any = []
 		$navigation = getArrayFromPath("/"+$module+"/dashboardconfig")
-		
-		
+		widgets = JSON.parse(JSON.stringify(getWidgetsByModule($module.toUpperCase())))
+		let profileDahboard:any = $user.profile.dashboard.find((item:any)=>item.module == $module.toUpperCase())
+		if(!profileDahboard)
+			profileDahboard = $user.profile.dashboard.find((item:any)=>item.module == "DEFAULT")
+		const dashWidgets = profileDahboard.windows
+		for(let i=0;i<dashWidgets.length;i++){
+			let w = dashWidgets[i]
+			let index = widgets.findIndex((item:any)=>item.id == w.id)
+			if(index > -1){
+				widgets[index].included = true
+				widgets[index].top = dashWidgets[i].top
+				widgets[index].left = dashWidgets[i].left
+			}
+		}
+		console.log("W I D G E T S",widgets,dashWidgets,$user)
+			
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
-	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
 
 	// BAR VARIABLES
@@ -44,11 +61,7 @@
 	const barheigth1 = "55px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
-	
 	const avatarsize = "w-10"
-	
-
-
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -56,7 +69,18 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	
+	let saveDashboard = async (ev:any)=>{
+		// SET PROFILE IN STORE
+		const index = $user.profile.dashboard.findIndex((item) => item.module == $module.toUpperCase())
+		console.log(" USER PROFILE DASHBOARD INDEX", index,widgets)
+		// FILTER WIDGETS
+		let filteredWidgets = JSON.parse(JSON.stringify(widgets.filter((item:any)=>item.included)))
+		if(index > -1)
+			$user.profile.dashboard[index].windows = filteredWidgets
+		console.log(" USER PROFILE DASHBOARD", $user.profile.dashboard)
+		// SET PROFILE IN DB
+		const ret = await setProfile($user.profile,$user.uid,$mock)
+	}
 </script>
 <div>
 		<div>
@@ -81,7 +105,7 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
-				<DashBoardConfigManager />
+				<DashBoardConfigManager bind:widgets={widgets} bind:saveDashboard={saveDashboard}/>
 			
 		</div>
 

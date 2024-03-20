@@ -164,13 +164,13 @@
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
 			{#if dashboard}
 				{#each dashboard.windows as Window}
-					{#if Window.id == 'DONUT'}
+					{#if Window.id == 'Donut'}
 						<DonutManager bgcolor={bgcolor} bind:donut={donut} bind:key={key} top={Window.top} left={Window.left}/>
 					{/if}
-					{#if Window.id == 'MAP'}
+					{#if Window.id == 'Map'}
 						<MapManager headercolor={bgcolor}  title="PLANTS" minimized="off" top={Window.top} left={Window.left}/>
 					{/if}
-					{#if Window.id == 'ALARM'}
+					{#if Window.id == 'Alarms'}
 						<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>
 					{/if}
 				{/each}
