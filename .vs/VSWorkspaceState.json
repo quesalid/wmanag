@@ -3,8 +3,11 @@
     "",
     "\\src",
     "\\src\\lib",
-    "\\src\\lib\\components\\treeview"
+    "\\src\\lib\\components",
+    "\\src\\lib\\components\\contents",
+    "\\src\\lib\\components\\treeview",
+    "\\src\\lib\\script"
   ],
-  "SelectedNode": "\\src\\lib\\components",
+  "SelectedNode": "\\src\\lib\\components\\contents\\Login.svelte",
   "PreviewInSolutionExplorer": false
 }

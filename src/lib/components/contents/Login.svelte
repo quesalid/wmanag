@@ -5,7 +5,7 @@
    // STORE
    import {token, user, role,mock,avatar,navigation,getArrayFromPath,module,avatargroups,family} from "../../ustore.js"
    // API
-   import {login,decodeToken,getAvatar,getProfile} from '../../script/apisecurity.js'
+   import {login,decodeToken,getAvatar,getProfile,initMockDB} from '../../script/apisecurity.js'
    // UTILS
    import {getMenuGroups} from '../../script/utils.js'
  
@@ -39,6 +39,7 @@
       $user = {username:'',uid:'',name:'',surname:'',profile:{dashboard:[]}}
       $token = ''
       $avatar = ''
+      $family = 'INDUSTRY'
 
   })
 
@@ -74,6 +75,10 @@
             const restoken = await login(usrid,password,$mock)
             isSuccess = true;
             isLoading = false;
+            // 0. SET MOCKDB FAMILY (only for showroom)
+            if($mock){
+                initMockDB($family)
+            }
             const decoded = await  decodeToken(restoken,$mock)
             // A. SET MODULE NAME IN STORE
             $module = modulename
@@ -146,6 +151,20 @@
                   <label style = '--color:{fixcolor}' for="family_utility">UTILITY</label><br>
              {/if}
          </fieldset>
+         {:else if modulename == 'data'}
+         <fieldset class="family-div">
+                {#if $family == 'PLANT'}
+                  <input checked class="family-radio"  type="radio" id="familiy-industry" name="family" value="PLANT">
+                  <label style = '--color:{fixcolor}' for="family-industry">PLANT</label><br>
+                  <input class="family-radio" type="radio" id="family_utility" name="family" value="INFR">
+                  <label style = '--color:{fixcolor}' for="family_utility">INFR</label><br>
+             {:else}
+                  <input class="family-radio"  type="radio" id="familiy-industry" name="family" value="PLANT">
+                  <label style = '--color:{fixcolor}' for="family-industry">PLANT</label><br>
+                  <input checked class="family-radio" type="radio" id="family_utility" name="family" value="INFR">
+                  <label style = '--color:{fixcolor}' for="family_utility">INFR</label><br>
+             {/if}
+              </fieldset>
         {/if}
 
         <button type="submit" style = '--color:{color}; --background-color:{bgcolor}'>

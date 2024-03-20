@@ -21,6 +21,8 @@ onMount(async () => {
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
 export let group:any = []
 export let zoom:any = 5;
+export let initZoom:any = 1;
+export let initCenter:any= [-30,30]
 export let modalId = 'markerClickedDivPlants'
 export let clickedName:any = (g:any)=>{
     const modalEdit = document.getElementById(modalId)
@@ -43,8 +45,8 @@ const getMarkerClass = (color:string) =>{
 <MapLibre
   style="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
   class={mapClasses}
-  center={[-30, 30]}
-  zoom={1}
+  center={initCenter}
+  zoom={initZoom}
   attributionControl={false}
   let:map
 >
@@ -80,8 +82,8 @@ const getMarkerClass = (color:string) =>{
       <ControlButton class="text-lg" on:click={() => {
           if(map)
 			map.flyTo({
-				center: [-30, 30],
-				zoom: 1,
+				center: initCenter,
+				zoom: initZoom,
 			})
       }}>&#127757</ControlButton>
     </ControlGroup>

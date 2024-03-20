@@ -1,4 +1,6 @@
-const  getPropByString = (obj, propString) => {
+import { family } from '../ustore.js'
+
+const getPropByString = (obj, propString) => {
     if (!propString)
         return obj;
 
@@ -77,6 +79,12 @@ export const filterArray = (array, filters, neg = false) => {
         }
     }
     return array
+}
+
+export const getFamily = () => {
+    let variable
+    family.subscribe((value) => { variable = value })
+    return variable
 }
 
 

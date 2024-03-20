@@ -1,6 +1,11 @@
 // @ts-nocheck
 import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.js';
 import mocks from './mocksecurity.js';
+import mockconfig from './mockdataconfig.js'
+
+export const initMockDB = (family) => {
+    mockconfig.init(family)
+}
 
 /**
  * login
