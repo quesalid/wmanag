@@ -4,9 +4,12 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
+    "\\src\\lib\\components\\contents",
+    "\\src\\lib\\components\\forms",
     "\\src\\lib\\components\\map",
-    "\\src\\lib\\components\\treeview"
+    "\\src\\lib\\components\\treeview",
+    "\\src\\lib\\script"
   ],
-  "SelectedNode": "\\src\\lib\\components\\map\\Map.svelte",
+  "SelectedNode": "\\src\\lib\\components\\forms\\DonutClickedForm.svelte",
   "PreviewInSolutionExplorer": false
 }
