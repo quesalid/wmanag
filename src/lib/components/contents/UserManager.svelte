@@ -8,7 +8,7 @@ import {SimpleTable} from '../table'
 import {getUserColumns} from '../../script/utils.js'
 import {UserForm,DeleteForm,AvatarForm} from '../forms'
 // STORE
-import {token, mock, currentplant,avatar,user} from '../../ustore.js'
+import {token, mock, currentmainentity,avatar,user} from '../../ustore.js'
 // API INTERFACE
 import {getUsers,setUser,deleteUser,setAvatar} from '../../script/apisecurity.js'
 

@@ -6,7 +6,7 @@ import {getDeviceTemplate} from '../../script/utils.js'
 // API
 import {getDevices} from '../../script/apidataconfig.js'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 
 onMount(async () => {
 		

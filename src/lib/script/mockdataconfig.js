@@ -4,17 +4,17 @@ import DBINDUSTRY from './mockdb_industry.js'
 // **************** DATA ****************
 let devices = DBINDUSTRY.devices
 let agents = DBINDUSTRY.agents
-let plants = DBINDUSTRY.plants
-let departments = DBINDUSTRY.departments
-let lines = DBINDUSTRY.lines
-let machines = DBINDUSTRY.machines
+let mainentities = DBINDUSTRY.plants
+let areaentities = DBINDUSTRY.departments
+let localentities = DBINDUSTRY.lines
+let controlledentities = DBINDUSTRY.machines
 let controllers = DBINDUSTRY.controllers
 let datapoints = DBINDUSTRY.generateDataPoints()
 let clonepoints = DBINDUSTRY.generateClonePoints()
 let masterbatchphases = DBINDUSTRY.masterbatchphases
 let clonephases = DBINDUSTRY.generateClonePhases(clonepoints, 'BATCH')
 
-
+// ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
     console.log("INITIALIZE MOCK DB FOR",family)
     switch (family) {
@@ -87,131 +87,131 @@ const deleteAgent = async function (body) {
     return (body)
 }
 
-const getPlants = async function (body) {
-    let retPlants = JSON.parse(JSON.stringify(plants))
+const getEntityMain = async function (body) {
+    let retEntities = JSON.parse(JSON.stringify(mainentities))
     const filters = body.options.filters
     if (filters && filters.length) {
-        retPlants = filterArray(retPlants, filters)
+        retEntities = filterArray(retEntities, filters)
     }
-    body.data = retPlants
+    body.data = retEntities
     return (body)
 }
 
-const setPlant = async function (body) {
-    const plant = body.options.plant
+const setEntityMain = async function (body) {
+    const entity = body.options.entity
     let old = null
-    if (plant) {
-        const existing = plants.findIndex((item) => { return item.uid == plant.uid })
+    if (entity) {
+        const existing = mainentities.findIndex((item) => { return item.uid == entity.uid })
         if (existing > -1) {
-            old = plants[existing]
-            plants[existing] = plant
+            old = mainentities[existing]
+            mainentities[existing] = entity
         } else {
-            plants.push(plant)
+            mainentities.push(entity)
         }
     }
     return old
 }
 
-const deletePlant = async function (body) {
+const deleteEntityMain = async function (body) {
     const filters = body.options.filters
-    plants = filterArray(plants, filters, true)
-    body.data = plants
+    mainentities = filterArray(mainentities, filters, true)
+    body.data = mainentities
     return (body)
 }
 
-const getDepartments = async function (body) {
-    let retDepts = JSON.parse(JSON.stringify(departments))
+const getEntityArea = async function (body) {
+    let retEntities = JSON.parse(JSON.stringify(areaentities))
     const filters = body.options.filters
     if (filters && filters.length) {
-        retDepts = filterArray(retDepts, filters)
+        retEntities = filterArray(retEntities, filters)
     }
-    body.data = retDepts
+    body.data = retEntities
     return (body)
 }
 
-const setDepartment = async function (body) {
-    const department = body.options.department
+const setEntityArea = async function (body) {
+    const entity = body.options.entity
     let old = null
-    if (department) {
-        const existing = departments.findIndex((item) => { return item.uid == department.uid })
+    if (entity) {
+        const existing = areaentities.findIndex((item) => { return item.uid == entity.uid })
         if (existing > -1) {
-            old = departments[existing]
-            departments[existing] = department
+            old = areaentities[existing]
+            areaentities[existing] = entity
         } else {
-            departments.push(department)
+            areaentities.push(entity)
         }
     }
     return old
 }
 
-const deleteDepartment = async function (body) {
+const deleteEntityArea = async function (body) {
     const filters = body.options.filters
-    departments = filterArray(departments, filters, true)
-    body.data = departments
+    areaentities = filterArray(areaentities, filters, true)
+    body.data = areaentities
     return (body)
 }
 
-const getLines = async function (body) {
-    let retLines = JSON.parse(JSON.stringify(lines))
+const getEntityLocal = async function (body) {
+    let retEntities = JSON.parse(JSON.stringify(localentities))
     const filters = body.options.filters
     if (filters && filters.length) {
-        retLines = filterArray(retLines, filters)
+        retEntities = filterArray(retEntities, filters)
     }
-    body.data = retLines
+    body.data = retEntities
     return (body)
 }
 
-const setLine = async function (body) {
-    const line = body.options.line
+const setEntityLocal = async function (body) {
+    const entity = body.options.entity
     let old = null
-    if (line) {
-        const existing = lines.findIndex((item) => { return item.uid == line.uid })
+    if (entity) {
+        const existing = localentities.findIndex((item) => { return item.uid == entity.uid })
         if (existing > -1) {
-            old = lines[existing]
-            lines[existing] = line
+            old = localentities[existing]
+            localentities[existing] = entity
         } else {
-            lines.push(line)
+            localentities.push(entity)
         }
     }
     return old
 }
 
-const deleteLine = async function (body) {
+const deleteEntityLocal = async function (body) {
     const filters = body.options.filters
-    lines = filterArray(lines, filters, true)
-    body.data = lines
+    localentities = filterArray(localentities, filters, true)
+    body.data = localentities
     return (body)
 }
 
-const getMachines = async function (body) {
-    let retMachines = JSON.parse(JSON.stringify(machines))
+const getEntityControlled = async function (body) {
+    let retEntities = JSON.parse(JSON.stringify(controlledentities))
     const filters = body.options.filters
     if (filters && filters.length) {
-        retMachines = filterArray(retMachines, filters)
+        retEntities = filterArray(retEntities, filters)
     }
-    body.data = retMachines
+    body.data = retEntities
     return (body)
 }
 
-const setMachine = async function (body) {
-    const machine = body.options.machine
+const setEntityControlled = async function (body) {
+    const entity = body.options.controlledentities
     let old = null
-    if (machine) {
-        const existing = machines.findIndex((item) => { return item.uid == machine.uid })
+    if (entity) {
+        const existing = controlledentities.findIndex((item) => { return item.uid == entity.uid })
         if (existing > -1) {
-            old = machines[existing]
-            machines[existing] = machine
+            old = controlledentities[existing]
+            controlledentities[existing] = entity
         } else {
-            machines.push(machine)
+            controlledentities.push(entity)
         }
     }
     return old
 }
 
-const deleteMachine = async function (body) {
+const deleteEntityControlled = async function (body) {
     const filters = body.options.filters
-    machines = filterArray(machines, filters, true)
-    body.data = machines
+    controlledentities = filterArray(controlledentities, filters, true)
+    body.data = controlledentities
     return (body)
 }
 
@@ -414,18 +414,18 @@ const CONFIG = {
     getAgents,
     setAgent,
     deleteAgent,
-    getPlants,
-    setPlant,
-    deletePlant,
-    getDepartments,
-    setDepartment,
-    deleteDepartment,
-    getLines,
-    setLine,
-    deleteLine,
-    getMachines,
-    setMachine,
-    deleteMachine,
+    getEntityMain,
+    setEntityMain,
+    deleteEntityMain,
+    getEntityArea,
+    setEntityArea,
+    deleteEntityArea,
+    getEntityLocal,
+    setEntityLocal,
+    deleteEntityLocal,
+    getEntityControlled,
+    setEntityControlled,
+    deleteEntityControlled,
     getControllers,
     setController,
     deleteController,

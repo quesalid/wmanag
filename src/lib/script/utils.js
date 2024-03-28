@@ -1,4 +1,6 @@
 import { getAvatar } from '../script/apisecurity.js'
+import { getFamily } from './mock.js'
+import {getEntityNames } from '../ustore.js'
 
 // @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
@@ -170,7 +172,8 @@ let devicedatacolumns = [
         accessor: 'description',
     },
     {
-        header: 'Plant',
+        header: getEntityNames(getFamily()).main.singular,
+        traslated: 'mainentity',
         accessor: 'plant',
     },
     {
@@ -211,10 +214,14 @@ let devicedatacolumns = [
 ];
 // @ts-ignore
 export function getDeviceColumns(module) {
+    let index = -1
     switch (module) {
         case 'data':
         case 'clone':
         case 'ai':
+            index = devicedatacolumns.findIndex((item) => item.traslated == 'mainentity')
+            if (index > -1)
+                devicedatacolumns[index].header = getEntityNames(getFamily()).main.singular
             return(devicedatacolumns)
             break;
         case 'learn':
@@ -372,7 +379,8 @@ let devicedeploycolumns = [
         accessor: 'description',
     },
     {
-        header: 'Plant',
+        header: getEntityNames(getFamily()).main.singular,
+        traslated: 'mainentity',
         accessor: 'plant',
     },
     {
@@ -405,10 +413,14 @@ let devicedeploycolumns = [
 ];
 
 export function getDeviceDeployColumns(module) {
+    let index = -1
     switch (module) {
         case 'data':
         case 'clone':
         case 'ai':
+            index = devicedeploycolumns.findIndex((item) => item.traslated == 'mainentity')
+            if (index > -1)
+                devicedeploycolumns[index].header = getEntityNames(getFamily()).main.singular
             return (devicedeploycolumns)
             break;
         case 'learn':
@@ -452,7 +464,8 @@ let pointdatacolumns = [
         accessor: 'controllerName'
     },
     {
-        header: 'Machine',
+        header: getEntityNames(getFamily()).controlled.singular,
+        traslated: 'controlledentity',
         accessor:  'machineName'
     },
     {
@@ -482,7 +495,8 @@ let pointclonecolumns = [
         accessor: 'description',
     },
     {
-        header: 'Plant',
+        header: getEntityNames(getFamily()).main.singular,
+        traslated:'mainentity',
         accessor: 'plantName',
     },
     {
@@ -505,12 +519,20 @@ let pointclonecolumns = [
     }
 ];
 export function getPointColumns(module) {
+    let index = -1
     switch (module) {
         case 'CLONE':
         case 'AI':
         case 'LEARN':
+            index = pointclonecolumns.findIndex((item) => item.traslated == 'mainentity') 
+            if (index > -1)
+                pointclonecolumns[index].header = getEntityNames(getFamily()).main.singular
             return (pointclonecolumns)
         case 'DATA':
+            index = pointdatacolumns.findIndex((item) => item.traslated == 'controlledentity')
+            if (index > -1)
+                pointdatacolumns[index].header = getEntityNames(getFamily()).controlled.singular
+
             return (pointdatacolumns)
     }
 }
@@ -529,7 +551,8 @@ let pointdataalarmcolumns = [
         accessor: 'controllerName'
     },
     {
-        header: 'Machine',
+        header: getEntityNames(getFamily()).controlled.singular,
+        traslated: 'controlledentity',
         accessor: 'machineName'
     },
     {
@@ -540,11 +563,16 @@ let pointdataalarmcolumns = [
 ];
 
 export function getAlarmColumns(module) {
+    let index = -1
     switch (module) {
         case 'CLONE':
         case 'AI':
         case 'LEARN':
         case 'DATA':
+            index = pointdataalarmcolumns.findIndex((item) => item.traslated == 'controlledentity')
+            if (index > -1)
+                pointdataalarmcolumns[index].header = getEntityNames(getFamily()).controlled.singular
+
             return (pointdataalarmcolumns)
     }
 }

@@ -5,9 +5,21 @@ import { v4 as uuidv4 } from 'uuid';
 // INTRNAL
 import {getDeviceTemplate} from '../../script/utils.js'
 // API
-import {getDevices,getPlants,getDepartments,getLines} from '../../script/apidataconfig.js'
+import {getDevices,
+		getEntityMain,
+		getEntityArea,
+		getEntityControlled,
+		getEntityLocal} from '../../script/apidataconfig.js'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, 
+		mock, 
+		currentmainentity,
+		getEntityNames,
+		family} from '../../ustore.js'
+
+let mainEntity = getEntityNames($family).main.singular
+let areaEntity = getEntityNames($family).area.singular
+let localEntity = getEntityNames($family).local.singular
 
 onMount(async () => {
 		// GET MYSELF
@@ -23,15 +35,18 @@ onMount(async () => {
 				const filters1:any = []
 				let ret1:any
 				// GET PLANTS
-				ret1 = await getPlants(filters1,$mock)
+				ret1 = await getEntityMain(filters1,$mock)
 				plants = ret1.data
 				// GET DEPARTMENTS
-				ret1 = await getDepartments(filters1,$mock)
+				ret1 = await getEntityArea(filters1,$mock)
 				departments = ret1.data
 				// GET LINES
-				ret1 = await getLines(filters1,$mock)
+				ret1 = await getEntityLocal(filters1,$mock)
 				lines = ret1.data
-				console.log("RETURN ",found)
+				// GET ENTITY NAMES
+				mainEntity = getEntityNames($family).main.singular
+				areaEntity = getEntityNames($family).area.singular
+				localEntity = getEntityNames($family).local.singular
 				if(found){
 					device = found
 					title = "DEVICE"
@@ -73,11 +88,11 @@ const filterDepts = async (ev:any) =>{
 	const target = ev.target
 	console.log(target.value)
 	const filters = [{plant:target.value,_type:'eq'}]
-	const ret = await getDepartments(filters,$mock)
+	const ret = await getEntityArea(filters,$mock)
 	departments = ret.data
 	const itemList = departments.map(({uid}:any) => uid);
 	// RELOAD LINES
-	const ret1 =  await getLines([],$mock)
+	const ret1 =  await getEntityLocal([],$mock)
 	lines = ret1.data
 	lines = lines.filter((item:any) => itemList.includes(item.department))
 }
@@ -86,7 +101,7 @@ const filterLines = async (ev:any) =>{
 	const target = ev.target
 	console.log(target.value)
 	const filters = [{department:target.value,_type:'eq'}]
-	const ret = await getLines(filters,$mock)
+	const ret = await getEntityLocal(filters,$mock)
 	lines = ret.data
 }
 
@@ -100,19 +115,19 @@ const filterLines = async (ev:any) =>{
 			<legend>IDENTIFICATION</legend>
 			<label for="device-name">Name<span class="req">*</span>:</label>
 			<input type="text" id="device-name" name="name" bind:value={device.name}>
-			<label for="device-plant">Plant<span class="req">*</span>:</label>
+			<label for="device-plant">{mainEntity}<span class="req">*</span>:</label>
 			<select name="plant" id="device-plant" bind:value={device.plant} on:change={filterDepts}>
 				{#each plants as plant}
 					<option value="{plant.uid}">{plant.name}</option>
 				{/each}
 			</select>
-			<label for="device-department">Department:</label>
+			<label for="device-department">{areaEntity}:</label>
 			<select name="department" id="device-department" bind:value={device.localization.department} on:change={filterLines}>
 				{#each departments as dept}
 					<option value="{dept.uid}">{dept.name}</option>
 				{/each}
 			</select>
-			<label for="device-line">Line:</label>
+			<label for="device-line">{localEntity}:</label>
 			<select name="line" id="device-line" bind:value={device.localization.line}>
 				{#each lines as line}
 					<option value="{line.uid}">{line.name}</option>

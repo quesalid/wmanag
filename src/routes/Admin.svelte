@@ -8,7 +8,7 @@
    import { center } from '../lib/components/topbar/notifications';
    import {UserManager,DbManager,LogManager} from '../lib/components/contents'
    // STORE
-   import {module, mock, avatar,currentplant,navigation,getArrayFromPath,avatargroups,avatarclass,user} from '../lib/ustore.js'
+   import {module, mock, avatar,currentmainentity,navigation,getArrayFromPath,avatargroups,avatarclass,user} from '../lib/ustore.js'
    
  
   

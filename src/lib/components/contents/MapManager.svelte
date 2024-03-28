@@ -4,7 +4,7 @@ import MarkerClickedPlants from './MarkerClickedPlants.svelte'
 import WManag from '../WManag.svelte'
 import {onMount} from 'svelte'
 import {mock} from '../../ustore.js'
-import {getPlants} from '../../script/apidataconfig.js'
+import {getEntityMain} from '../../script/apidataconfig.js'
 
 let defaultWManager = 'defaultMapper'
 let group:any = []
@@ -27,7 +27,7 @@ onMount(async () => {
 	switch(maptype){
 		case 'factory':
 			filters = []
-			ret = await getPlants(filters,$mock)
+			ret = await getEntityMain(filters,$mock)
 			group= ret.data
 			component = MarkerClickedPlants
 			modalId = "markerClickedDivPlants"

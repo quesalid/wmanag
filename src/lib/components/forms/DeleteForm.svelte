@@ -1,7 +1,7 @@
 <script lang="ts">
 import {onMount} from "svelte"
 import {getDevices} from '../../script/apidataconfig.js'
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 
 onMount(async () => {
 		// GET MYSELF - SHOW UP IF DELETE IS CLICKED

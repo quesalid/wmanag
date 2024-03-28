@@ -7,9 +7,13 @@ import {onMount} from "svelte"
 import WManag from '../WManag.svelte'
 import {PlantForm} from '../forms'
 // API
-import {getPlants,getDepartments,getLines,getMachines,getControllers} from '../../script/apidataconfig.js'
+import {getEntityMain,
+		getEntityArea,
+		getEntityLocal,
+		getEntityControlled,
+		getControllers} from '../../script/apidataconfig.js'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 
 let eventListener:any
 onMount(async () => {
@@ -22,15 +26,15 @@ onMount(async () => {
 				uid = e.detail
 				// GET DEVICES
 				const filters:any = [{uid:uid,_type:'eq'}]
-				const ret = await getPlants(filters,$mock)
+				const ret = await getEntityMain(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == uid)})
 				title = "PLANT "+found.name
 				image = "/"+found.name+".jpg"
 				plant = found
 				const filtdep = [{plant:found.uid,_type:'eq'}]
-				const retdep = await getDepartments(filtdep,$mock)
+				const retdep = await getEntityArea(filtdep,$mock)
 				departments = retdep.data
-				const retlines = await getLines([],$mock)
+				const retlines = await getEntityLocal([],$mock)
 				lines = retlines.data
 				for(let i=0; i< departments.length;i++){
 					const ln = lines.filter((item:any)=>item.department == departments[i].uid)

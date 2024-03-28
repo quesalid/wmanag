@@ -4,10 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\contents",
-    "\\src\\lib\\components\\treeview",
-    "\\src\\lib\\script"
+    "\\src\\lib\\components\\map",
+    "\\src\\lib\\components\\treeview"
   ],
-  "SelectedNode": "\\src\\lib\\components\\contents\\Login.svelte",
+  "SelectedNode": "\\src\\lib\\components\\map\\Map.svelte",
   "PreviewInSolutionExplorer": false
 }

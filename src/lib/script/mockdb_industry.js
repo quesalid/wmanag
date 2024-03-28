@@ -6,7 +6,7 @@ let devices = [
         uid: 'abc-1',
         name: 'DEV1-001',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Virtual Machine Line XY Plant Z",
+        description: "Virtual Machine DESALPHA Line Pabianice Plant",
         module: "DATA",
         plant: 'plant-1',
         localization: {
@@ -30,7 +30,7 @@ let devices = [
         uid: 'bca-2',
         name: 'DEV2-001',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Edge Computer Line XY Plant Z",
+        description: "Edge Computer NOVOMIXIN Line Tulsa Plant",
         module: "DATA",
         plant: 'plant-2',
         localization: {
@@ -201,7 +201,7 @@ let agents = [
         uid: 'ag-234-abc-1',
         name: "SCANNER1",
         type: "SCANNER",
-        description: "Scanner for AUT-01 (abc-1)",
+        description: "Scanner for DESALPHA Line - 1",
         lastmodified: "2022-06-30T09:58:00",
         module: 'DATA',
         source: {
@@ -242,7 +242,7 @@ let agents = [
         uid: 'ag-234-abc-11',
         name: "SCANNER11",
         type: "SCANNER",
-        description: "Scanner for PREP-21 (abc-1)",
+        description: "Scanner for DESALPHA Line - 2",
         lastmodified: "2022-06-30T09:58:00",
         module: 'DATA',
         source: {
@@ -320,7 +320,7 @@ let agents = [
         uid: 'ag-234-abc-2',
         name: "SCANNER2",
         type: "SCANNER",
-        description: "Scanner for RMP-04 (bca-2)",
+        description: "Scanner for NOVOMIXIN Line",
         lastmodified: "2022-06-30T09:58:00",
         module: 'DATA',
         source: {
@@ -399,7 +399,7 @@ let agents = [
         uid: 'ag-234-abc-4',
         name: "SCANNER3",
         type: "SCANNER",
-        description: "Scanner for INF-07 (abc-1)",
+        description: "Scanner for DESALPHA Line - ancillary",
         lastmodified: "2022-06-30T09:58:00",
         module: 'DATA',
         source: {
@@ -539,6 +539,24 @@ let plants = [
         description: "Pabianice Plant",
         lat: 51.66446000,
         lon: 19.35473000,
+        geojson: {
+                type: "Feature",
+                properties: {
+                    name: 'Polks',
+                },
+                geometry: {
+                        "type": "Polygon",
+                        "coordinates":[
+                            [
+                                [19.354848014045043, 51.66443335292989],
+                                [19.355073319591117, 51.666170204900865],
+                                [19.35728345970976, 51.66608369660821],
+                                [19.357036696492624, 51.66433353182777],
+                                [19.354848014045043, 51.66443335292989]
+                            ]
+                        ]
+                    }
+                },
         label: 'PL1',
         address: 'Pabianice, ul G. Zapolskej, Poland',
         color: '#FF6188', // RED SOFT
@@ -550,6 +568,39 @@ let plants = [
         description: "Tulsa Plant",
         lat: 36.153798,
         lon: -95.992403,
+        geojson: {
+            type: 'Feature',
+            properties: {
+                name: 'Maine',
+            },
+            geometry: {
+                type: 'Polygon',
+                coordinates: [
+                    [
+                        [-67.13734351262877, 45.137451890638886],
+                        [-66.96466, 44.8097],
+                        [-68.03252, 44.3252],
+                        [-69.06, 43.98],
+                        [-70.11617, 43.68405],
+                        [-70.64573401557249, 43.090083319667144],
+                        [-70.75102474636725, 43.08003225358635],
+                        [-70.79761105007827, 43.21973948828747],
+                        [-70.98176001655037, 43.36789581966826],
+                        [-70.94416541205806, 43.46633942318431],
+                        [-71.08482, 45.3052400000002],
+                        [-70.6600225491012, 45.46022288673396],
+                        [-70.30495378282376, 45.914794623389355],
+                        [-70.00014034695016, 46.69317088478567],
+                        [-69.23708614772835, 47.44777598732787],
+                        [-68.90478084987546, 47.184794623394396],
+                        [-68.23430497910454, 47.35462921812177],
+                        [-67.79035274928509, 47.066248887716995],
+                        [-67.79141211614706, 45.702585354182816],
+                        [-67.13734351262877, 45.137451890638886],
+                    ],
+                ],
+            },
+        },
         label: 'PL2',
         address: 'Tulsa, OK, USA',
         color: '#B9DCCC', // BLUE SOFT

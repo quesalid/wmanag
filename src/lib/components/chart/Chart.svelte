@@ -2,7 +2,7 @@
 import {onMount} from "svelte"
 import SvelteEchart from './SvelteEcharts.svelte'
 import {token, mock} from '../../ustore.js'
-import {getDataPoints,getDataTimeSeries,getMachines} from '../../script/apidataconfig.js'
+import {getDataPoints,getDataTimeSeries,getEntityControlled} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
 import WManag from '../WManag.svelte'
 import {CP_Button} from '../../script/controlpanel_0.0.1.js'
@@ -25,7 +25,7 @@ onMount(async () => {
 					point = ret.data[0]
 				// B. GET MACHINES
 				const filters2 = [{uid:point.machine,_type:'eq'}]
-				const ret2 = await getMachines(filters2,$mock)
+				const ret2 = await getEntityControlled(filters2,$mock)
 				if(ret2.data && ret2.data.length > 0)
 					machine = ret2.data[0]
 				if(machine.type)

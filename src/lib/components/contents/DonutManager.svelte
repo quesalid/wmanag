@@ -4,9 +4,6 @@
    // INTERNAL
    import WManag from '../../components/WManag.svelte'
    import Donut from "../../components/donut/Donut.svelte"
-   
-   // API INTERFACE
-   import {getDataPoints,getControllers,getMachines} from '../../script/apidataconfig.js'
    // STORE
    import { module} from '../../ustore.js'
    

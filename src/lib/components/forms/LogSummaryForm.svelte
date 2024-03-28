@@ -9,7 +9,7 @@ import {ComboPanel} from '../contents'
 // API
 import {getLogsByCommand,getLogsByUser,getLogs,getUsers} from '../../script/apisecurity.js'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 
 let tabdatacolumns:any=[]
 let dataLogByCommand:any = []

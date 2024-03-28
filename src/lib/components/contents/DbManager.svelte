@@ -9,7 +9,7 @@ import Tab from '../tabs/Tab.svelte'
 import TreeViewDb from '../treeview/TreeViewDb.svelte'
 import {DbInformationForm,DbQueryForm,DbOutputForm} from '../forms'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 // API INTERFACE
 
 export let  bgcolor = "#ddefde"

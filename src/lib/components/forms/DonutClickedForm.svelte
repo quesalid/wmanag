@@ -6,7 +6,7 @@ import {getDeviceTemplate} from '../../script/utils.js'
 // API
 import {getAgents} from '../../script/apidataconfig.js'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 
 onMount(async () => {
 		//console.log("DATA FORM", agent)
@@ -44,7 +44,7 @@ const fieldSetClick = (ev:any) =>{
 			<label class='info-device' for="device-name">Name:</label>
 			<input disabled class='info-device' type="text" id="device-name" name="name" value={device.name}>
 			<label class='info-device' for="device-description">Description:</label>
-			<input disabled class='info-device' type="text" size="30" id="device-description" name="description" value={device.description}>
+			<input disabled class='info-device' type="text" size="38" id="device-description" name="description" value={device.description}>
 			{#if device.agents}
 				{#each device.agents as agent}
 					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->

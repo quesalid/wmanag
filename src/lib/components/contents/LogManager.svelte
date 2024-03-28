@@ -11,7 +11,7 @@ import {SimpleTable} from '../table'
 import {getLogColumns,logToObject} from '../../script/utils.js'
 import {LogSummaryForm,LogDetailForm} from '../forms'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 // API INTERFACE
 import {getLogs} from '../../script/apisecurity.js'
 

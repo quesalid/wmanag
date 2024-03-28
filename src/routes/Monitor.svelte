@@ -20,9 +20,9 @@
 			getClonePoints,
 			setClonePoint,
 			deleteClonePoint,
-			getMachines,
+			getEntityControlled,
 			getControllers,
-			getPlants} from '../lib/script/apidataconfig.js'
+			getEntityMain} from '../lib/script/apidataconfig.js'
    // STORE
    import { mock,module,user,avatar,currdevice,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
    
@@ -31,9 +31,9 @@
 
    let pointsdata:any = writable([])
    let pointdatacolumns:any = getPointColumns($module.toUpperCase())
-   let machines:any = []
+   let controlledentities:any = []
    let controllers:any = []
-   let plants:any = []
+   let mainentities:any = []
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -54,16 +54,16 @@
 			    // SWITCH FAMILY
 				ret = await getClonePoints(filters,$mock)
 				titlepoint = 'BATCH LIST'
-				ret1 = await getPlants([],$mock)
-				plants = ret1.data
+				ret1 = await getEntityMain([],$mock)
+				mainentities = ret1.data
 				chartdialog = BatchDetail
 				modalIdChart = "BatchDetailDiv"
 				toolbarpoint = []
 				// ADD MACHINE NAMES
 				for(let i=0;i<ret.data.length;i++){
-					const index = plants.findIndex((item:any)=>item.uid == ret.data[i].plant)
+					const index = mainentities.findIndex((item:any)=>item.uid == ret.data[i].plant)
 					if(index > -1)
-						ret.data[i].plantName = plants[index].name
+						ret.data[i].plantName = mainentities[index].name
 					else
 						ret.data[i].plantName = 'NOTFOUND'
 				}
@@ -71,8 +71,9 @@
 			default:
 				titlepoint = 'POINT LIST'
 				ret = await getDataPoints(filters,$mock)
-				ret1 = await getMachines([],$mock)
-				machines = ret1.data
+				ret1 = await getEntityControlled([],$mock)
+				controlledentities = ret1.data
+				console.log("MONOTOR CONTROLLED ENTITIES",controlledentities)
 				ret2 = await getControllers([],$mock)
 				controllers = ret2.data
 				chartdialog = Chart
@@ -80,10 +81,10 @@
 				toolbarpoint = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
 				// ADD MACHINE NAMES
 				for(let i=0;i<ret.data.length;i++){
-					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+					const index = controlledentities.findIndex((item:any)=>item.uid == ret.data[i].machine)
 					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
 					if(index > -1)
-						ret.data[i].machineName = machines[index].name
+						ret.data[i].machineName = controlledentities[index].name
 					else
 						ret.data[i].machineName = 'NOTFOUND'
 					if(index1 > -1)
@@ -95,19 +96,6 @@
 		}
 		pointdatacolumns = await getPointColumns($module.toUpperCase())
 		$pointsdata = ret.data
-		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
-		const monitorMainDiv = document.getElementById("main-monitor-page")
-		/*if(monitorMainDiv){
-			monitorMainDiv.addEventListener("agentclicked",async (e:any)=>{
-				// SET CURRENT DEVICE IN STORE
-				deviceuid = e.detail
-				$currdevice = deviceuid
-				// NAVIGATE TO AGENT PAGE
-				console.log("AGENT CLICKED ---> ",deviceuid)
-				navigate("/"+$module+"/configure/agent")
-				$navigation = getArrayFromPath("/"+$module+"/configure/agent")
-			})
-		}*/
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
@@ -171,10 +159,10 @@
 			    ret = await setDataPoint(cdev,$mock)
 				ret = await getDataPoints(filters,$mock)
 				for(let i=0;i<ret.data.length;i++){
-					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+					const index = controlledentities.findIndex((item:any)=>item.uid == ret.data[i].machine)
 					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
 					if(index > -1)
-						ret.data[i].machineName = machines[index].name
+						ret.data[i].machineName = controlledentities[index].name
 					else
 						ret.data[i].machineName = 'NOTFOUND'
 					if(index1 > -1)

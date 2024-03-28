@@ -5,7 +5,13 @@ import {onMount} from "svelte"
 import WManag from '../WManag.svelte'
 import {DonutClickedForm} from '../forms'
 // API
-import {getPlants,getDevices,getAgents,getDepartments,getLines,getMachines,getControllers} from '../../script/apidataconfig.js'
+import {getEntityMain,
+		getDevices,
+		getAgents,
+		getEntityArea,
+		getEntityLocal,
+		getEntityControlled,
+		getControllers} from '../../script/apidataconfig.js'
 // STORE
 import {token, mock, module} from '../../ustore.js'
 
@@ -22,13 +28,13 @@ onMount(async () => {
 			   // GET PLANT ID
 			   uid = e.detail
 			   // GET PLANTS
-			   const retplants = await getPlants([{uid:uid,_type:'eq'}],$mock)
+			   const retplants = await getEntityMain([{uid:uid,_type:'eq'}],$mock)
 			   const plants = retplants.data
 			   const plant = plants[0]
 			   const pname = plant?plant.name:''
 			   title = 'AGENTS FOR PLANT '+pname
 			   // GET MACHINES
-			   const retmachines = await getMachines([],$mock)
+			   const retmachines = await getEntityControlled([],$mock)
 			   const machines = retmachines.data
 			   // GET DEVICES
 			   const retdevices = await getDevices([{plant:uid,_type:'eq'},{module:$module.toUpperCase(),_type:'eq'}],$mock)

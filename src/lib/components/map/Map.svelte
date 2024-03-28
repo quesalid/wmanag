@@ -11,15 +11,19 @@ import { MapLibre,
         ControlGroup,
         ControlButton,
         Marker,
-        Popup} from 'svelte-maplibre';
+        Popup,
+        GeoJSON,
+        LineLayer,
+        FillExtrusionLayer} from 'svelte-maplibre';
 import {getClassFromColor} from '../../script/utils.js'
 
 
 onMount(async () => { 
+    console.log("GROUPS",group)
 })
 
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
-export let group:any = []
+export let group:any = null
 export let zoom:any = 5;
 export let initZoom:any = 1;
 export let initCenter:any= [-30,30]
@@ -28,6 +32,14 @@ export let clickedName:any = (g:any)=>{
     const modalEdit = document.getElementById(modalId)
     const editClicked = new CustomEvent("markerclicked", { detail: g.uid })
     modalEdit?.dispatchEvent(editClicked)
+}
+
+export let geolineprops:any = {
+    layout:{'line-cap': 'round', 'line-join': 'round' },
+    paint:{'line-width': 2,
+           'line-color': '#008800',
+           'line-opacity': 0.8,
+           }
 }
 
 
@@ -39,6 +51,7 @@ const getMarkerClass = (color:string) =>{
     const ret = newClass.replace('bg-indigo-400',cl)
     return(ret)
 }
+
 
 </script>
 
@@ -70,8 +83,7 @@ const getMarkerClass = (color:string) =>{
 						    center: [g.lon, g.lat],
 						    zoom: zoom,
 					    });
-				    }}
-			    >
+				    }}>
 				    {g.label}
 			    </ControlButton>
             {/if}
@@ -88,27 +100,34 @@ const getMarkerClass = (color:string) =>{
       }}>&#127757</ControlButton>
     </ControlGroup>
   </Control>
+  {#if group}
+      {#each group as g}
+        {#if g.geojson}
+            <GeoJSON id="{g.uid}" data={g.geojson}>
+                <LineLayer
+                  layout={geolineprops.layout}
+                  paint={geolineprops.paint}
+                />
+            </GeoJSON>          
+        {/if}
+        {#if (g.lon && g.lat)}
+              <Marker
+                  lngLat ={[g.lon,g.lat]}
+                  on:click={clickedName(g)}
+                  class="{getMarkerClass(g.color)}">
+                      <span>
+                        {g.label}
+                      </span>
 
-  {#each group as g}
-    {#if (g.lon && g.lat)}
-          <Marker
-              lngLat ={[g.lon,g.lat]}
-              on:click={clickedName(g)}
-              class="{getMarkerClass(g.color)}">
-                  <span>
-                    {g.label}
-                  </span>
-
-                  <Popup openOn="hover" offset={[0, -10]}>
-                    <div class="text-sm font-bold">{g.name}</div>
-                    <div class="text-sm font-bold">{g.description}</div>
-                    <div class="text-xs ">{g.address}</div>
-                  </Popup>
-          </Marker>
-    {/if}
-  {/each}
-  
-
+                      <Popup openOn="hover" offset={[0, -10]}>
+                        <div class="text-sm font-bold">{g.name}</div>
+                        <div class="text-sm font-bold">{g.description}</div>
+                        <div class="text-xs ">{g.address}</div>
+                      </Popup>
+              </Marker>
+        {/if}
+      {/each}
+  {/if}
 </MapLibre>
 
 

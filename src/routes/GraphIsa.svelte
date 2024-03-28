@@ -3,8 +3,8 @@
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
-   import {getPlants} from '../lib/script/apidataconfig.js'
-   import {module, mock, currentplant,avatar,avatargroups,avatarclass,user,navigation,getArrayFromPath} from '../lib/ustore.js'
+   import {getEntityMain} from '../lib/script/apidataconfig.js'
+   import {module, mock, currentmainentity,avatar,avatargroups,avatarclass,user,navigation,getArrayFromPath} from '../lib/ustore.js'
   
 
    import { GraphEditor,
@@ -30,7 +30,7 @@
 			  'Successful login attempt by @jack'
 		])
 		const filters:any = []
-		const ret = await getPlants(filters,$mock)
+		const ret = await getEntityMain(filters,$mock)
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"

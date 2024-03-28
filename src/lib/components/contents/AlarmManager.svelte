@@ -7,7 +7,7 @@
    import {SimpleTable} from '../../components/table'
    import {getAlarmColumns} from '../../script/utils.js'
    // API INTERFACE
-   import {getDataPoints,getControllers,getMachines} from '../../script/apidataconfig.js'
+   import {getDataPoints,getControllers,getEntityControlled} from '../../script/apidataconfig.js'
    // STORE
    import { mock,module} from '../../ustore.js'
    
@@ -20,7 +20,7 @@
 	onMount(async () => {
 		const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'}]
 		const ret = await getDataPoints(filters,$mock)
-		let ret1 = await getMachines([],$mock)
+		let ret1 = await getEntityControlled([],$mock)
 		machines = ret1.data
 		let ret2 = await getControllers([],$mock)
 	    controllers = ret2.data

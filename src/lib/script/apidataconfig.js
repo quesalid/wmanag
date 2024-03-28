@@ -2,17 +2,17 @@ import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.j
 import mocks from './mockdataconfig.js';
 
 /**
- * Get plants
+ * Get main entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getPlants = async function (filters, mock = false) {
+export const getEntityMain = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "getPlants",
+            command: "getEntityMain",
             options: {
                 filters: filters
             }
@@ -27,25 +27,25 @@ export const getPlants = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.getPlants(body))
+            resolve(mocks.getEntityMain(body))
         }
     })
 }
 
 /**
- * Set Plant
+ * Set Main Entity
  * @param {any} plant plant to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setPlant = async function (plant, mock = false) {
+export const setEntityMain = async function (entity, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "setPlant",
+            command: "setEntityMain",
             options: {
-                plant: plant
+                entity: entity
             }
         }
         if (!mock) {
@@ -58,23 +58,23 @@ export const setPlant = async function (plant, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.setPlant(body))
+            resolve(mocks.setEntityMain(body))
         }
     })
 }
 
 /**
-* Delete Plant
+* Delete Main Entity
 * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
 * @param {any} mock use mock flag (default false)
 */
-export const deletePlant = async function (filters, mock = false) {
+export const deleteEntityMain = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "deletePlant",
+            command: "deleteEntityMain",
             options: {
                 filters: filters
             }
@@ -89,7 +89,7 @@ export const deletePlant = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.deletePlant(body))
+            resolve(mocks.deleteEntityMain(body))
         }
     })
 }
@@ -281,17 +281,17 @@ export const deleteAgent = async function (filters, mock = false) {
 }
 
 /**
- * Get Departments
+ * Get Area Entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getDepartments = async function (filters, mock = false) {
+export const getEntityArea = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "getDepartments",
+            command: "getEntityArea",
             options: {
                 filters: filters
             }
@@ -306,25 +306,25 @@ export const getDepartments = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.getDepartments(body))
+            resolve(mocks.getEntityArea(body))
         }
     })
 }
 
 /**
- * Set Department
+ * Set Area Entity
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setDepartment = async function (department, mock = false) {
+export const setEntityArea = async function (entity, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "setDepartment",
+            command: "setEntityArea",
             options: {
-                department: department
+                entity: entity
             }
         }
         if (!mock) {
@@ -337,23 +337,23 @@ export const setDepartment = async function (department, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.setDepartment(body))
+            resolve(mocks.setEntityArea(body))
         }
     })
 }
 
 /**
- * Delete Department
+ * Delete Area Entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const deleteDepartment = async function (filters, mock = false) {
+export const deleteEntityArea = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "deleteDepartment",
+            command: "deleteEntityArea",
             options: {
                 filters: filters
             }
@@ -368,23 +368,23 @@ export const deleteDepartment = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.deleteDepartment(body))
+            resolve(mocks.deleteEntityArea(body))
         }
     })
 }
 
 /**
- * Get Lines
+ * Get Local Entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getLines = async function (filters, mock = false) {
+export const getEntityLocal = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "getLines",
+            command: "getEntityLocal",
             options: {
                 filters: filters
             }
@@ -399,25 +399,25 @@ export const getLines = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.getLines(body))
+            resolve(mocks.getEntityLocal(body))
         }
     })
 }
 
 /**
- * Set Line
+ * Set Local Entity
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setLine = async function (line, mock = false) {
+export const setEntityLocal = async function (entity, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "setLine",
+            command: "setEntityLocal",
             options: {
-                line: line
+                entity: entity
             }
         }
         if (!mock) {
@@ -430,23 +430,23 @@ export const setLine = async function (line, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.setLine(body))
+            resolve(mocks.setEntityLocal(body))
         }
     })
 }
 
 /**
- * Delete Line
+ * Delete Local Entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const deleteLine = async function (filters, mock = false) {
+export const deleteEntityLocal = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "deleteLine",
+            command: "deleteEntityLocal",
             options: {
                 filters: filters
             }
@@ -461,23 +461,23 @@ export const deleteLine = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.deleteLine(body))
+            resolve(mocks.deleteEntityLocal(body))
         }
     })
 }
 
 /**
- * Get Machines
+ * Get Controlled Entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getMachines = async function (filters, mock = false) {
+export const getEntityControlled = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "getMachines",
+            command: "getEntityControlled",
             options: {
                 filters: filters
             }
@@ -492,25 +492,25 @@ export const getMachines = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.getMachines(body))
+            resolve(mocks.getEntityControlled(body))
         }
     })
 }
 
 /**
- * Set Machine
+ * Set Controlled Entity
  * @param {any} agent agent to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setMachine = async function (machine, mock = false) {
+export const setEntityControlled = async function (entity, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "setLine",
+            command: "setEntityControlled",
             options: {
-                machine: machine
+                entity: entity
             }
         }
         if (!mock) {
@@ -523,23 +523,23 @@ export const setMachine = async function (machine, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.setMachine(body))
+            resolve(mocks.setEntityControlled(body))
         }
     })
 }
 
 /**
- * Delete Machine
+ * Delete Controlled Entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const deleteMachine = async function (filters, mock = false) {
+export const deleteEntityControlled = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "deleteMachine",
+            command: "deleteEntityControlled",
             options: {
                 filters: filters
             }
@@ -554,7 +554,7 @@ export const deleteMachine = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.deleteMachine(body))
+            resolve(mocks.deleteEntityControlled(body))
         }
     })
 }

@@ -4,7 +4,11 @@ import {onMount} from "svelte"
 // INTRNAL
 import {getDeviceTemplate} from '../../script/utils.js'
 // API
-import {getControllers,getMachines,getAgents,getDevices} from '../../script/apidataconfig.js'
+import {getControllers,
+		getEntityMain,
+		getAgents,
+		getEntityControlled,
+		getDevices} from '../../script/apidataconfig.js'
 // STORE
 import {token, mock,module} from '../../ustore.js'
 
@@ -16,7 +20,7 @@ onMount(async () => {
 		devices = ret.data
 		ret = await getAgents([{module:$module.toUpperCase(),_type:'eq'},{type:'SCANNER',_type:'eq'}],$mock)
 		agents = ret.data
-		ret = await getMachines(filters,$mock)
+		ret = await getEntityControlled(filters,$mock)
 		machines = ret.data
 		ret = await getControllers(filters,$mock)
 		controllers = ret.data

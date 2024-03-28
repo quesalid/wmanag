@@ -11,7 +11,7 @@
    // UTILS
    import {setConicData} from '../lib/script/utils.js'
    //API
-   import {getPlants,getDevices,getAgents} from '../lib/script/apidataconfig.js'
+   import {getEntityMain,getDevices,getAgents} from '../lib/script/apidataconfig.js'
    // STORE
    import {module, 
 			mock,
@@ -20,7 +20,9 @@
 			avatar,
 			avatargroups,
 			avatarclass,
-			user} from '../lib/ustore.js'
+			user,
+			getEntityNames,
+			family} from '../lib/ustore.js'
    
 	let plants:any = []
 	let devices:any = []
@@ -41,10 +43,14 @@
 			  'Suspicious login on your server 14 min ago',
 			  'Successful login attempt by @jack'
 		])
+		// A. GET PROFILE DASHBOARD
 		dashboard = $user.profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
 		if(!dashboard)
 			dashboard = $user.profile.dashboard.find((item:any) => item.module == 'DEFAULT')
-		console.log("DASHBOARD",dashboard)
+		// B. GET ENTITY NAMES BY APP FAMILY
+		const ret = getEntityNames($family)
+		entityName = ret.main.plural.toUpperCase()
+		// C. GET DONUT BY MODULE TYPE
 		donut = await getDonutByType()
 		const donutDiv = document.getElementById(donut.id)
 		const donutRedraw = new CustomEvent("donutredraw", { detail: 'redraw' })
@@ -61,7 +67,7 @@
 	const barheigth = "60px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
-	
+	let entityName = 'PLANTS'
 	
 	const avatarsize = "w-10"
 
@@ -91,7 +97,7 @@
 		let dbret:any
 		let filters:any =[]
 
-		dbret = await getPlants(filters,$mock)
+		dbret = await getEntityMain(filters,$mock)
 		plants = dbret.data
 		dbret = await getDevices(filters,$mock)
 		devices = dbret.data
@@ -168,7 +174,7 @@
 						<DonutManager bgcolor={bgcolor} bind:donut={donut} bind:key={key} top={Window.top} left={Window.left}/>
 					{/if}
 					{#if Window.id == 'Map'}
-						<MapManager headercolor={bgcolor}  title="PLANTS" minimized="off" top={Window.top} left={Window.left}/>
+						<MapManager headercolor={bgcolor}  title="{entityName}" minimized="off" top={Window.top} left={Window.left}/>
 					{/if}
 					{#if Window.id == 'Alarms'}
 						<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>

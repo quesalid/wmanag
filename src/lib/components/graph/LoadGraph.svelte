@@ -7,7 +7,7 @@ import { onMount} from "svelte";
 
 import {dragElement} from './GraphUtils'
 
-export let graphs = []
+export let graphs:any = []
 
 export let submitQuery = (ev:any|undefined)=>console.log("SUBMIT DATA")
 export let graphSelect = (ev:any|undefined)=>console.log("LOAD DATA")
@@ -34,13 +34,13 @@ const closeMenu = (ev:any)=>{
 	const select = document.getElementById("ggraph-select")
 	if(select)
 		select.style.visibility = "hidden";
-	let dataMenu = document.getElementById(id);
+	let dataMenu:any = document.getElementById(id);
 	 dataMenu.style.visibility = "hidden";
-	const elem = document.getElementById("ggraph-search")
+	const elem:any = document.getElementById("ggraph-search")
 	if(elem)
 		elem.value = ''
 	// DISPATCH REDRAW EVENT
-	const div = document.getElementById("drop_zone")
+	const div:any = document.getElementById("drop_zone")
 	// Force panel update
 	const event = new CustomEvent("redrawgraph", 
 		{

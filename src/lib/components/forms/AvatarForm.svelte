@@ -7,7 +7,7 @@ import {getUserTemplate,downloadDataUrl} from '../../script/utils.js'
 // API
 import {getUsers} from '../../script/apisecurity.js'
 // STORE
-import {token, mock, currentplant} from '../../ustore.js'
+import {token, mock, currentmainentity} from '../../ustore.js'
 
 let avatar = ''
 onMount(async () => {
