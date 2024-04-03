@@ -12,7 +12,7 @@
    import {dragElement} from '../lib/components/CompUtils.js'
    import {PointForm,DeleteForm} from '../lib/components/forms'
    import {Chart} from '../lib/components/chart'
-   import {BatchDetail} from '../lib/components/contents'
+   import {BatchDetail,SynBatchDetail} from '../lib/components/contents'
    // API INTERFACE
    import {getDataPoints,
 			setDataPoint,
@@ -20,6 +20,9 @@
 			getClonePoints,
 			setClonePoint,
 			deleteClonePoint,
+			getLearnPoints,
+			setLearnPoint,
+			deleteLearnPoint,
 			getEntityControlled,
 			getControllers,
 			getEntityMain} from '../lib/script/apidataconfig.js'
@@ -58,6 +61,24 @@
 				mainentities = ret1.data
 				chartdialog = BatchDetail
 				modalIdChart = "BatchDetailDiv"
+				toolbarpoint = []
+				// ADD MACHINE NAMES
+				for(let i=0;i<ret.data.length;i++){
+					const index = mainentities.findIndex((item:any)=>item.uid == ret.data[i].plant)
+					if(index > -1)
+						ret.data[i].plantName = mainentities[index].name
+					else
+						ret.data[i].plantName = 'NOTFOUND'
+				}
+				break;
+			case 'LEARN':
+			    // SWITCH FAMILY
+				ret = await getLearnPoints(filters,$mock)
+				titlepoint = 'SIMULATION LIST'
+				ret1 = await getEntityMain([],$mock)
+				mainentities = ret1.data
+				chartdialog = SynBatchDetail
+				modalIdChart = "SynBatchDetailDiv"
 				toolbarpoint = []
 				// ADD MACHINE NAMES
 				for(let i=0;i<ret.data.length;i++){
@@ -230,7 +251,7 @@
 		<div id="delete-device-dialog">
 			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
 		</div>
-		{#if $module.toUpperCase() == 'DATA' || $module.toUpperCase() == 'CLONE'}
+		{#if $module.toUpperCase() == 'DATA' || $module.toUpperCase() == 'CLONE' || $module.toUpperCase() == 'LEARN'}
 			<div id="delete-device-dialog">
 				<svelte:component this={chartdialog} bind:modalId={modalIdChart}  {bgcolor}/>
 			</div>

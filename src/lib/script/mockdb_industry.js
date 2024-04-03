@@ -193,6 +193,30 @@ let devices = [
             brand: "DELL",
             model: "PowerEdge M640",
         },
+    },
+    {
+        uid: 'lrn-100-sqox6',
+        name: 'SIMUL-01',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "VMWare VM-2012-H ",
+        module: "LEARN",
+        plant: 'plant-1',
+        localization: {
+            department: 'dept-1',
+            line: 'line-1',
+        },
+        host: "DC-SRV-11",
+        port: 5252,
+        type: "VM",
+        os: "WIN-11",
+        osver: "23H2",
+        userid: "amdin",
+        password: "",
+        hwdetails: {
+            mac: "00:0a:4f:40:03:d0",
+            brand: "DELL",
+            model: "PowerEdge M640",
+        },
     }
 ]
 
@@ -528,6 +552,20 @@ let agents = [
         },
         status: "STOP",
         devuid: 'jhm-289-pod6',
+    },
+    {
+        uid: 'play-prc-002',
+        name: "PLAY-DEC-02",
+        type: "PLAYER_FREEZE-DRYER",
+        description: "DECORTIN Pahse 2 Player",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'LEARN',
+        model: {
+            name: "DEC-PHASE2-PLAY",
+            path: "/models/recorders/DECPAHSE2.json"
+        },
+        status: "STOP",
+        devuid: 'lrn-100-sqox6',
     }
 ]
 
@@ -1281,17 +1319,17 @@ const generateDataPoints = () => {
 }
 
 // CLONE POINT GENERATION
-function randomTD(length) {
+function randomTD(length,prefix="BATCH") {
     let result = ''
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    const tag = 'BATCH-' + result
-    const descs = ['PRODUCT CLONADIN', "PRODUCT MINOCYCLIN", "PRODUC RISPERIDONE", "PRODUCT SYNERCID"]
+    const tag = prefix +'-'+ result
+    const descs = ['PRODUCT CLONADIN', "PRODUCT MINOCYCLIN", "PRODUCT RISPERIDONE", "PRODUCT SYNERCID"]
     const descindex = Math.floor(Math.random() * (descs.length - 1))
-    const desc = descs[descindex] + ' BATCH ' + tag
+    const desc = descs[descindex] + ' '+prefix+' ' + tag
 
     return [tag, desc]
 }
@@ -1335,6 +1373,48 @@ const generateClonePoints = () => {
         }
     }
 
+    return array
+}
+
+function makeLearnPointsUid(agent, device, num = 30) {
+    const points = []
+    for (let i = 0; i < num; i++) {
+        const point = { uid: uuidv4(), tag: '', description: '', agent: agent, device: device }
+        const [tag, desc] = randomTD(7,"SYNBATCH")
+        point.tag = tag
+        point.module = 'LEARN'
+        point.description = desc
+        point.type = 'BATCH' // 'BATCH'|'CONTINUOUS'|'PROCEDURAL'
+        const plantindex = Math.floor(Math.random() * plants.length)
+        point.plant = plants[plantindex].uid
+        point.annotations = []
+        const now = Date.now()
+        const start = new Date("2023-01-01")
+        const newdate1 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
+        const newdate2 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
+        if (newdate1.getTime() < newdate2.getTime()) {
+            point.startdate = newdate1.toISOString().split('Z')[0]
+            point.enddate = newdate2.toISOString().split('Z')[0]
+        } else {
+            point.startdate = newdate2.toISOString().split('Z')[0]
+            point.enddate = newdate1.toISOString().split('Z')[0]
+        }
+        points.push(point)
+    }
+    return points
+}
+
+const generateLearnPoints = () => {
+    const array = []
+    const dataAgents = agents.filter((item) => item.module == 'LEARN')
+    for (let i = 0; i < dataAgents.length; i++) {
+        if (dataAgents[i].type.includes('PLAYER')) {
+            const agentuid = dataAgents[i].uid
+            const devuid = dataAgents[i].devuid
+            const points = makeLearnPointsUid(agentuid, devuid)
+            array.push.apply(array, points)
+        }
+    }
     return array
 }
 
@@ -1392,6 +1472,7 @@ const generateMasterBatchPhases = () => {
 }
 
 let masterbatchphases = generateMasterBatchPhases()
+
 const generateClonePhasesBatch = (points) => {
     const array = []
     let prevlen = 0
@@ -1535,6 +1616,7 @@ const DBINDUSTRY = {
     masterbatchphases,
     generateDataPoints,
     generateClonePoints,
+    generateLearnPoints,
     generateClonePhases,
     generateTimeSeriesPoly,
     generateTimeSeriesRect

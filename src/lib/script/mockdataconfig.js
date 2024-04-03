@@ -11,8 +11,10 @@ let controlledentities = DBINDUSTRY.machines
 let controllers = DBINDUSTRY.controllers
 let datapoints = DBINDUSTRY.generateDataPoints()
 let clonepoints = DBINDUSTRY.generateClonePoints()
+let learnpoints = DBINDUSTRY.generateLearnPoints()
 let masterbatchphases = DBINDUSTRY.masterbatchphases
 let clonephases = DBINDUSTRY.generateClonePhases(clonepoints, 'BATCH')
+let learnphases = DBINDUSTRY.generateClonePhases(learnpoints, 'BATCH')
 
 // ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
@@ -405,6 +407,72 @@ const deleteCloneMBPhase = async function (body) {
     return (body)
 }
 
+const getLearnPoints = async function (body) {
+    let retPoints = JSON.parse(JSON.stringify(learnpoints))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retPoints = filterArray(retPoints, filters)
+    }
+    body.data = retPoints
+    return (body)
+}
+
+const setLearnPoint = async function (body) {
+    const point = body.options.point
+    let old = null
+    if (point) {
+        const existing = learnpoints.findIndex((item) => { return item.uid == point.uid })
+        if (existing > -1) {
+            old = learnpoints[existing]
+            learnpoints[existing] = point
+        } else {
+            learnpoints.push(point)
+        }
+    }
+    return old
+}
+
+
+const deleteLearnPoint = async function (body) {
+    const filters = body.options.filters
+    learnpoints = filterArray(learnpoints, filters, true)
+    body.data = learnpoints
+    return (body)
+}
+
+const getLearnPhases = async function (body) {
+    let retPhases = JSON.parse(JSON.stringify(learnphases))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retPhases = filterArray(retPhases, filters)
+    }
+    body.data = retPhases
+    return (body)
+}
+
+const setLearnPhase = async function (body) {
+    const phase = body.options.phase
+    let old = null
+    if (phase) {
+        const existing = learnphases.findIndex((item) => { return item.uid == phase.uid })
+        if (existing > -1) {
+            old = learnphases[existing]
+            learnphases[existing] = phase
+        } else {
+            learnphases.push(phase)
+        }
+    }
+    return old
+}
+
+
+const deleteLearnPhase = async function (body) {
+    const filters = body.options.filters
+    learnphases = filterArray(learnphases, filters, true)
+    body.data = learnphases
+    return (body)
+}
+
 
 const CONFIG = {
     init,
@@ -442,6 +510,13 @@ const CONFIG = {
     getCloneMBPhases,
     setCloneMBPhase,
     deleteCloneMBPhase,
+    getDataTimeSeries,
+    getLearnPoints,
+    setLearnPoint,
+    deleteLearnPoint,
+    getLearnPhases,
+    setLearnPhase,
+    deleteLearnPhase,
 }
 
 export default CONFIG

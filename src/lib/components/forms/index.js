@@ -17,6 +17,7 @@ export { default as AvatarForm } from './AvatarForm.svelte';
 export { default as LogSummaryForm } from './LogSummaryForm.svelte';
 export { default as LogDetailForm } from './LogDetailForm.svelte';
 export { default as PhaseForm } from './PhaseForm.svelte';
+export { default as LearnPhaseForm } from './LearnPhaseForm.svelte';
 export { default as DbInformationForm } from './DbInformationForm.svelte';
 export { default as DbQueryForm } from './DbQueryForm.svelte';
 export { default as DbOutputForm } from './DbOutputForm.svelte';

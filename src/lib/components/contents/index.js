@@ -13,6 +13,7 @@ export { default as DockerMain } from './DockerMain.svelte';
 export { default as DbManager } from './DbManager.svelte';
 export { default as ComboPanel } from './ComboPanel.svelte';
 export { default as BatchDetail } from './BatchDetail.svelte';
+export { default as SynBatchDetail } from './SynBatchDetail.svelte';
 export { default as DbAdminManager } from './DbAdminManager.svelte';
 export { default as DonutManager } from './DonutManager.svelte';
 export { default as DashBoardConfigManager } from './DashBoardConfigManager.svelte';

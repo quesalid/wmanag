@@ -119,6 +119,15 @@ const onClonePointClickDetail = (ev) => {
     const detailClicked = new CustomEvent("detailclicked", { detail: uid })
     modalEdit?.dispatchEvent(detailClicked)
 }
+const onLearnPointClickDetail = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND EDIT CLICKED EVENT TO MODAL
+    const modalEdit = document.getElementById('SynBatchDetailDiv')
+    const detailClicked = new CustomEvent("detailclicked", { detail: uid })
+    console.log("onLearnPointClickDetail", modalEdit)
+    modalEdit?.dispatchEvent(detailClicked)
+}
 const onAlarmPointClickAck = (ev) => {
     /*const target = ev.target
     const uid = target.getAttribute("data-uid")
@@ -219,12 +228,11 @@ export function getDeviceColumns(module) {
         case 'data':
         case 'clone':
         case 'ai':
+        case 'learn':
             index = devicedatacolumns.findIndex((item) => item.traslated == 'mainentity')
             if (index > -1)
                 devicedatacolumns[index].header = getEntityNames(getFamily()).main.singular
             return(devicedatacolumns)
-            break;
-        case 'learn':
             break;
         default:
             return([])
@@ -351,6 +359,45 @@ let agentdatacolumnsClone = [
         renderdef: { type: 'image', params: { image: '/DELETE.svg', onClick: onAgentClickDelete } }
     }
 ];
+
+let agentdatacolumnsLearn = [
+    {
+        header: 'Name',
+        accessor: 'name',
+    },
+    {
+        header: 'Description',
+        accessor: 'description',
+    },
+    {
+        header: 'Type',
+        accessor: 'type'
+    },
+    {
+        header: 'Model',
+        accessor: (item) => item.model.name
+    },
+    {
+        header: 'Device',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onAgentClickDevice } }
+    },
+    {
+        header: 'Edit',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onAgentClickEdit } }
+    },
+    {
+        header: 'Model Edit',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/MODEL.svg', onClick: onAgentClickModel } }
+    },
+    {
+        header: 'Delete',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/DELETE.svg', onClick: onAgentClickDelete } }
+    }
+];
 export function getAgentColumns(module) {
     switch (module) {
         case 'data':
@@ -363,6 +410,7 @@ export function getAgentColumns(module) {
             return (agentdatacolumnsAi)
             break;
         case 'learn':
+            return (agentdatacolumnsLearn)
             break;
         default:
             return ([])
@@ -518,13 +566,46 @@ let pointclonecolumns = [
         renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onDataPointClickEdit } }
     }
 ];
+
+let pointlearncolumns = [
+    {
+        header: 'Tag',
+        accessor: 'tag',
+    },
+    {
+        header: 'Description',
+        accessor: 'description',
+    },
+    {
+        header: getEntityNames(getFamily()).main.singular,
+        traslated: 'mainentity',
+        accessor: 'plantName',
+    },
+    {
+        header: 'Start Date',
+        accessor: 'startdate'
+    },
+    {
+        header: 'End Date',
+        accessor: 'enddate'
+    },
+    {
+        header: 'Inspect',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/INSPECT.svg', onClick: onLearnPointClickDetail } }
+    },
+    {
+        header: 'Annotate',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/EDIT.svg', onClick: onDataPointClickEdit } }
+    }
+];
 export function getPointColumns(module) {
     let index = -1
     switch (module) {
         case 'CLONE':
         case 'AI':
-        case 'LEARN':
-            index = pointclonecolumns.findIndex((item) => item.traslated == 'mainentity') 
+            index = pointclonecolumns.findIndex((item) => item.traslated == 'mainentity')
             if (index > -1)
                 pointclonecolumns[index].header = getEntityNames(getFamily()).main.singular
             return (pointclonecolumns)
@@ -532,8 +613,12 @@ export function getPointColumns(module) {
             index = pointdatacolumns.findIndex((item) => item.traslated == 'controlledentity')
             if (index > -1)
                 pointdatacolumns[index].header = getEntityNames(getFamily()).controlled.singular
-
             return (pointdatacolumns)
+        case 'LEARN':
+            index = pointlearncolumns.findIndex((item) => item.traslated == 'mainentity')
+            if (index > -1)
+                pointlearncolumns[index].header = getEntityNames(getFamily()).main.singular
+            return (pointlearncolumns)
     }
 }
 
@@ -1023,7 +1108,7 @@ export const setConicData = (agents,devices,plants,type) => {
             break
         case 'PLAYERS':
             // GET TOTAL PLAYER AGENTS
-            ag = agents.filter((item) => item.type == 'PLAYER')
+            ag = agents.filter((item) => item.type.includes('PLAYER'))
             label = "<img src='/PLAYER.svg' alt='player'/>"
             break;
         default:
