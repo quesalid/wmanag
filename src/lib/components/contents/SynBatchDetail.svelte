@@ -81,7 +81,11 @@ onMount(async () => {
 					phase.image = found.image
 					phase.color = found.color
 				}
-				console.log("DONUT CLICKED PHASE",phase)
+				console.log("DONUT CLICKED PHASE",retphase.data)
+				// route event to konva animation form
+				const donutClicked = new CustomEvent("donutclicked",{detail:phase})
+				const konvaForm:any = document.getElementById("konva-animation-id")
+				konvaForm.dispatchEvent(donutClicked)
 			})
 		}
 
@@ -134,7 +138,7 @@ const closeModal = (ev:any) =>{
 					<Donut donut={donut} addNumbers={true} bgcolor="{bgcl}"/>
 				</div>
 				<div class="phase-container">
-					<LearnPhaseForm bind:phase={phase} />
+					<LearnPhaseForm  />
 				</div>
 			</div>
 	</WManag>>

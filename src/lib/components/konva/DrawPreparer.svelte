@@ -9,7 +9,12 @@ const n = 40
 const delta = width/n
 let stage:any
 
-const shapeTank = (context,shape) =>{
+export let phase:any = {type:''}
+onMount(async () => {
+        
+    });
+
+const shapeTank = (context:any,shape:any) =>{
     shape.id = 'TANK-001'
     const width = shape.width();
     const height = shape.height();
@@ -42,7 +47,7 @@ const shapeTankContext = {
 }
 
 </script>
-<div class="freeze-dryer-container">
+<div class="preparer-container">
 <Stage config={{ width: window.innerWidth/3, height: window.innerHeight*2/3 }} bind:handle={stage}>
     <Layer>
         <Shape        
@@ -57,13 +62,16 @@ const shapeTankContext = {
         />
     </Layer>
 </Stage>
-    <div class="freeze-dryer-info">
-        <div id="id-freeze-dryer-info-title">FASE:</div>
-        <div class="freeze-dryer-measure">
+    <div class="preparer-info">
+        <div class="preparer-controls">
+            <div class="preparer-control-title">{phase.type} </div>
+        </div>
+        <div id="id-preparer-info-title">STEP:</div>
+        <div class="preparer-measure">
             <div>Chamber Temp DEGC: </div>
             <!--SevenSegment bind:val={chamberTemp} svgname={svgname} eventName={"chamberTemp"}/-->
         </div>
-         <div class="freeze-dryer-measure">
+         <div class="preparer-measure">
             <div>Chamber Press. bar: </div>
             <!--SevenSegment bind:val={chamberPress} svgname={svgname1} eventName={"chamberPress"}/-->
         </div>
@@ -71,18 +79,24 @@ const shapeTankContext = {
 </div>
 
 <style>
-.freeze-dryer-container{
+.preparer-container{
     display:flex;
 }
-.freeze-dryer-info{
+.preparer-info{
     display:block;
 }
-#id-freeze-dryer-info-title{
+#id-preparer-info-title{
     font-weight: 600 ;
 }
-.freeze-dryer-measure{
+.preparer-measure{
     display:flex;
     justify-content:space-between ;
     margin-left:auto;
+}
+.preparer-control-title{
+    display:flexbox;
+    justify-content:center ;
+    font-weight: 600 ;
+    font-size:medium ;
 }
 </style>

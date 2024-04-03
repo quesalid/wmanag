@@ -44,6 +44,8 @@ let chamberPressEvent = new CustomEvent("chamberPress",{detail:{chamberPress:0}}
 
 let svgDiv:any
 let svgDiv1:any
+
+export let phase:any = {type:''}
 onMount(async () => {
         const img = document.createElement("img");
         img.src = "/Vial.png";
@@ -386,33 +388,33 @@ const steryl = async ()=>{
 const shapeClick = async (ev:any) =>{
     console.log("SHAPE CLICKED", ev.detail.target)
     const infoDiv:any = document.getElementById("id-freeze-dryer-info-title")
-    infoDiv.innerHTML="FASE: LOAD"
+    infoDiv.innerHTML="STEP: LOAD"
     await load(0.7)
     await sleep(1000)
-    infoDiv.innerHTML="FASE: FREEZING"
+    infoDiv.innerHTML="STEP: FREEZING"
     await freezing()
     await sleep(1000)
-    infoDiv.innerHTML="FASE: PRIMARY DRYING"
+    infoDiv.innerHTML="STEP: PRIMARY DRYING"
     await primaryDrying()
     await sleep(1000)
-    infoDiv.innerHTML="FASE: SEALING"
+    infoDiv.innerHTML="STEP: SEALING"
     await sealing()
     await sleep(1000)
-    infoDiv.innerHTML="FASE: UNLOAD"
+    infoDiv.innerHTML="STEP: UNLOAD"
     await unload(0.1)
     await sleep(1000)
-    infoDiv.innerHTML="FASE: DEFROST"
+    infoDiv.innerHTML="STEP: DEFROST"
     await defrost()
     await sleep(1000)
-    infoDiv.innerHTML="FASE: CIP"
+    infoDiv.innerHTML="STEP: CIP"
     await cip()
     await sleep(1000)
-    infoDiv.innerHTML="FASE: SIP"
+    infoDiv.innerHTML="STEP: SIP"
     await sip()
     await sleep(1000)
-    infoDiv.innerHTML="FASE: H2O2"
+    infoDiv.innerHTML="STEP: H2O2"
     await steryl()
-    infoDiv.innerHTML="FASE:"
+    infoDiv.innerHTML="STEP:"
 }
 const shapeMouseEnter = (ev:any) =>{
     stage.container().style.cursor = 'pointer';
@@ -716,7 +718,10 @@ const shapeMouseLeave = (ev:any) =>{
     </Layer>
 </Stage>
     <div class="freeze-dryer-info">
-        <div id="id-freeze-dryer-info-title">FASE:</div>
+         <div class="freeze-dryer-controls">
+            <div class="freeze-dryer-control-title">{phase.type} </div>
+        </div>
+        <div id="id-freeze-dryer-info-title">STEP:</div>
         <div class="freeze-dryer-measure">
             <div>Chamber Temp DEGC: </div>
             <SevenSegment bind:val={chamberTemp} svgname={svgname} eventName={"chamberTemp"}/>
@@ -742,5 +747,11 @@ const shapeMouseLeave = (ev:any) =>{
     display:flex;
     justify-content:space-between ;
     margin-left:auto;
+}
+.freeze-dryer-control-title{
+    display:flexbox;
+    justify-content:center ;
+    font-weight: 600 ;
+    font-size:medium ;
 }
 </style>
