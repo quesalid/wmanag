@@ -4,12 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\contents",
-    "\\src\\lib\\components\\forms",
-    "\\src\\lib\\components\\map",
-    "\\src\\lib\\components\\treeview",
-    "\\src\\lib\\script"
+    "\\src\\lib\\script",
+    "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\forms\\DonutClickedForm.svelte",
+  "SelectedNode": "\\src\\lib\\script\\utils.js",
   "PreviewInSolutionExplorer": false
 }

@@ -7,12 +7,14 @@
    import {module, mock, currentmainentity,avatar,avatargroups,avatarclass,user,navigation,getArrayFromPath} from '../lib/ustore.js'
   
 
-   import { GraphEditor,
+   /*import { GraphEditor,
 			IsaNode,
 			IsaDataPanel,
 			LoadGraph,
 			SaveGraph,
-			DeleteGraph} from '../lib/components/graph'
+			DeleteGraph} from '../lib/components/graph'*/
+
+   import EDITOR from '../lib/components/drawflow/editor.svelte'
 
     import { uploadFile} from '../lib/components/graph/GraphUtils.js'
     import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
@@ -56,7 +58,7 @@
 	let editnode:any = {}
 	let graph = {nodes:[],edges:[],name:''}
 	let graphs:any = []
-	let innernode = IsaNode
+	//let innernode = IsaNode
 	
 
 	let typeOptions = [
@@ -196,13 +198,13 @@
 			</TopBar>
 		</div>
 		<div style="width:100%;display:flex;justify-content:right;align-items: right;">
-			<GraphEditor bind:graph={graph} typeOptions={typeOptions}  bind:editnode={editnode} innernode={innernode} options={options}>
+			<!--GraphEditor bind:graph={graph} typeOptions={typeOptions}  bind:editnode={editnode} innernode={innernode} options={options}>
 				<IsaDataPanel slot="data" id="defaultDataMenuContainer" bind:node={editnode} bind:graph={graph} filterKey={filterKey} exp={exportData} imp={importData} panel={panel}/>
 				<LoadGraph slot="importgraph" id="defaultLoadGraphContainer" bind:graph={graph} bind:graphs={graphs} submitQuery={submitQuery} graphSelect={graphSelect}/>"
 				<SaveGraph slot="savegraph" id="defaultSaveGraphContainer" bind:graph={graph}  saveQuery={saveQuery} />"
 				<DeleteGraph slot="deletegraph" id="defaultDeleteGraphContainer" bind:graph={graph}  deleteQuery={deleteQuery} />"
-				<!-- ADD LOAD,SAVE AND DELETE PANELS-->
-			</GraphEditor>
+			</!--GraphEditor-->
+			<EDITOR top={barheigth}/>
 	</div>
 </div>
 
