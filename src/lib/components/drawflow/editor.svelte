@@ -44,7 +44,7 @@ export const clear = (ev:any) =>{
 	editor.import(dataToImport)
 	console.log("clear")
 }
-export let top = '100px'
+export let top = '2px'
 </script>
 	<div class="wrapper" style="--top:{top}">
 		 <div class="col">

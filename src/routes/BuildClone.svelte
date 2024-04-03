@@ -6,7 +6,8 @@
    // INTERNAL
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import Modeler from '../lib/components/modeler/Modeler.svelte'
+   //import Modeler from '../lib/components/modeler/Modeler.svelte'
+   import EDITOR from '../lib/components/drawflow/editor.svelte'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
    
@@ -85,7 +86,8 @@
 
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
-			<Modeler />
+			<!--Modeler /-->
+			<EDITOR />
 		</div>
 		
 </div>
