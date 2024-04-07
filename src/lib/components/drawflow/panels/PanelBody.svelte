@@ -26,12 +26,13 @@ const capitalizeFirstLetter = (string:any) =>{
     {#each Object.keys(node.data) as Key}
         <div class="drawflow-panel-body-container-item">
             <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
-            {#if typeof(node.data[Key]) == 'string'}
-                <input  data-name="{Key}" type='text' size="25" bind:value='{node.data[Key]}' on:change={setTitle}/>
-            {:else}
-                <select data-name="{Key}" name="nodetype" id="nodetype-select" on:change={setTitle} bind:value={node.data[Key].name}>
-                    <option value='pippo' selected>pippo</option>
-                    <option value='pluto' selected>pluto</option>
+            {#if node.data[Key].type == 'text'}
+                <input  data-name="{Key}" type='text' size="25" bind:value='{node.data[Key].value}' on:change={setTitle}/>
+            {:else if node.data[Key].type == 'selection'}
+                <select data-name="{Key}" name="nodetype" id="nodetype-select" on:change={setTitle} bind:value={node.data[Key].value}>
+                    {#each node.data[Key].options as Option}
+                        <option value='{Option}' selected>{Option}</option>
+                    {/each}
                 </select>
             {/if}
         </div>

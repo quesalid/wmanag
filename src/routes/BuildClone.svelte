@@ -8,6 +8,7 @@
    import { center } from '../lib/components/topbar/notifications';
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
    import EDITOR from '../lib/components/drawflow/editor.svelte'
+   import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
    
@@ -31,8 +32,8 @@
 
 
 	export let logoImage = "/ICO_UP2_DATA.png"
-	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
+	let editor:any
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -60,7 +61,18 @@
 	let pSize = 8
 	
 
-	
+	let exp = async (ev:any)=>{
+		let expdata = editor.export()
+		console.log("EXPDATA",expdata)
+		const filestring = JSON.stringify(expdata)
+		EDITORUTILS.uploadFile(filestring,'DATA-TEST.json')
+	}
+
+	const imp = (e:any|undefined)=>{
+		const element = document.getElementById("file-data-input")
+		if(element)
+			element.click()
+	}
 
 </script>
  <div id="main-deploy-page">
@@ -87,7 +99,9 @@
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<!--Modeler /-->
-			<EDITOR />
+			<EDITOR bind:editor={editor} 
+				{exp}
+				{imp}/>
 		</div>
 		
 </div>

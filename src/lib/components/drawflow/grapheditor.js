@@ -47,10 +47,48 @@ const drag = (ev) => {
     ev.dataTransfer.setData("node", ev.target.getAttribute('data-node'));
 }
 
+/**
+ * Uploads file to local file system
+ * @param {any} filestring file stream to upload
+ * @param {any} filename default filename
+ */
+export const uploadFile = (filestring, filename) => {
+    try {
+        let textFileUrl = null;
+        let fileData = new Blob([filestring], { type: 'text/plain' });
+        if (textFileUrl !== null) {
+            window.URL.revokeObjectURL(textFileUrl);
+        }
+        textFileUrl = window.URL.createObjectURL(fileData);
+        var a = document.createElement("a");
+        a.href = textFileUrl
+        a.download = filename;
+        a.click();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+/**
+ * Download json file from local file system
+ * @param {any} file
+ * @returns
+ */
+export const downloadJSON = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = event => resolve(event.target.result) // desired file content
+        reader.onerror = error => reject(error)
+        reader.readAsText(file)
+    })
+}
+
 
 const DFEDITOR = {
     drop,
     drag,
     allowDrop,
+    uploadFile,
+    downloadJSON
 }
 export default DFEDITOR

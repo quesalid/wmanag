@@ -5,10 +5,11 @@ import DrawFlow from './DrawFlow.svelte'
 import DrawFlowMenu from './DrawFlowMenu.svelte'
 import NODETYPES from './nodetypes.js'
 import {module, family} from '../../ustore.js'
+import EDITORUTILS from './grapheditor.js'
 
 const dataToImportClear = {"drawflow":{"Home":{"data":{}}}}
 let dataToImport = dataToImportClear
-let editor:any
+export let editor:any
 let nodetypes:any = []
 
 onMount(async () => {
@@ -25,26 +26,33 @@ onMount(async () => {
 	}
 })
 
-export const imp = (ev:any) =>{
-	editor.import(dataToImport)
-	console.log("import",JSON.stringify(dataToImport))
-}
-export const exp = (ev:any) =>{
-	dataToImport = editor.export()
-	console.log("export",JSON.stringify(dataToImport))
-}
-export const save = (ev:any) =>{
+export let imp = (ev:any) =>{}
+export let exp = (ev:any) =>{}
+
+
+export let save = (ev:any) =>{
 	console.log("save")
 }
-export const load = (ev:any) =>{
+export let load = (ev:any) =>{
 	console.log("load")
 }
-export const clear = (ev:any) =>{
+export let clear = (ev:any) =>{
 	dataToImport = dataToImportClear
 	editor.import(dataToImport)
 	console.log("clear")
 }
 export let top = '2px'
+
+/**
+	 * Download data from json file clicking on hidden input
+	 * @param e hidden input event
+	 */
+	const downloadData = async (e:any|undefined)=>{
+		let file = e.target.files[0]
+		const result = await EDITORUTILS.downloadJSON(file)
+		console.log("DOWLOAD", result)
+		dataToImport = editor.import(JSON.parse(result))
+	}
 </script>
 	<div class="wrapper" style="--top:{top}">
 		 <div class="col">
@@ -54,6 +62,7 @@ export let top = '2px'
 				 <input type="button" value="save" on:click={save}/>
 				 <input type="button" value="load" on:click={load}/>
 				 <input type="button" value="clear" on:click={clear}/>
+				 <input id="file-data-input"name="file-data-input" type='file' accept=".json" style="visibility:hidden;"  on:change={downloadData}>
 			 </div>
 			 <DrawFlowMenu {nodetypes} />
 		 </div>
@@ -70,8 +79,8 @@ export let top = '2px'
 
 .col {
   --drawflow-menu-width:300px;
-  overflow: auto;
-  width: var(--drawflow-menu-width);
+  overflow-x: hidden;
+  width: calc(-10px + var(--drawflow-menu-width));
   height: 100%;
   border-right: 1px solid var(--border-color);
 }

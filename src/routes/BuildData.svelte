@@ -15,8 +15,9 @@
 			DeleteGraph} from '../lib/components/graph'*/
 
    import EDITOR from '../lib/components/drawflow/editor.svelte'
+   import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
 
-    import { uploadFile} from '../lib/components/graph/GraphUtils.js'
+    //import { uploadFile} from '../lib/components/graph/GraphUtils.js'
     import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
 
 
@@ -36,9 +37,8 @@
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
-	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
-
+	let editor:any
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -106,33 +106,20 @@
 	const filterKey = ['level','nodetype']
 	
 
-	const exportData = async ()=>{
-		let expdata = []
-		let namecomp = editnode.label
-		const array = editnode.data
-		console.log(editnode.data)
-		for(let i=0;i< array.length;i++){
-			const param = array[i]
-			if(!param.subgraph)
-				expdata.push(param)
-			if(param.key == 'nodetype')
-				namecomp = param.value
-			if(param.key == 'name')
-				namecomp += '-'+param.value
-		}
-		console.log("EXPDATA",expdata,array)
+	let exp = async (ev:any)=>{
+		let expdata = editor.export()
+		console.log("EXPDATA",expdata)
 		const filestring = JSON.stringify(expdata)
-		// default data export json name = DATA.json
-		uploadFile(filestring,'DATA-'+namecomp+'.json')
+		EDITORUTILS.uploadFile(filestring,'DATA-TEST.json')
 	}
 
-	const importData = (e:any|undefined)=>{
+	const imp = (e:any|undefined)=>{
 		const element = document.getElementById("file-data-input")
 		if(element)
 			element.click()
 	}
 
-	const graphSelect = async (ev:any)=>{
+	const load = async (ev:any)=>{
 		const graphid = ev.target.value
 		const graphtext = ev.target.options[ev.target.selectedIndex].dataset.graph
 		if(graphtext){
@@ -158,7 +145,7 @@
 		}
 	}
 
-	const saveQuery = async (ev:any|undefined)=>{
+	const save = async (ev:any|undefined)=>{
 		console.log("SAVE GRAPH",graph)
 	}
 
@@ -198,13 +185,10 @@
 			</TopBar>
 		</div>
 		<div style="width:100%;display:flex;justify-content:right;align-items: right;">
-			<!--GraphEditor bind:graph={graph} typeOptions={typeOptions}  bind:editnode={editnode} innernode={innernode} options={options}>
-				<IsaDataPanel slot="data" id="defaultDataMenuContainer" bind:node={editnode} bind:graph={graph} filterKey={filterKey} exp={exportData} imp={importData} panel={panel}/>
-				<LoadGraph slot="importgraph" id="defaultLoadGraphContainer" bind:graph={graph} bind:graphs={graphs} submitQuery={submitQuery} graphSelect={graphSelect}/>"
-				<SaveGraph slot="savegraph" id="defaultSaveGraphContainer" bind:graph={graph}  saveQuery={saveQuery} />"
-				<DeleteGraph slot="deletegraph" id="defaultDeleteGraphContainer" bind:graph={graph}  deleteQuery={deleteQuery} />"
-			</!--GraphEditor-->
-			<EDITOR top={barheigth}/>
+			<EDITOR bind:editor={editor} 
+				top={barheigth}
+				{exp}
+				{imp}/>
 	</div>
 </div>
 

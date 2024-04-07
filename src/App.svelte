@@ -25,7 +25,7 @@ import {Login} from "./lib/components/contents"
 import DashBoard from "./routes/DashBoard.svelte"
 import Configure from "./routes/Configure.svelte"
 import ConfigureAgent from "./routes/ConfigureAgent.svelte"
-import GraphIsa from "./routes/GraphIsa.svelte";
+import BuildData from "./routes/BuildData.svelte";
 import GraphBayes from "./routes/GraphBayes.svelte"
 import Deploy from "./routes/Deploy.svelte"
 import Monitor from "./routes/Monitor.svelte"
@@ -63,104 +63,104 @@ export const url = "/deploy"
     </Route>
     <!-- D A S H B O A R D S -->
     <Route path="/data">
-        <DashBoard logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <DashBoard logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone">
-        <DashBoard logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+        <DashBoard logoImage="/ICO_UP2_CLONE.png"/>
     </Route>
     <Route path="/ai">
-        <DashBoard logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+        <DashBoard logoImage="/ICO_UP2_AI.png"/>
     </Route>
     <Route path="/learn">
-        <DashBoard logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+        <DashBoard logoImage="/ICO_UP2_LEARN.png"/>
     </Route>
     <!--  C O N F I G U R E   -->
      <Route path="/data/configure">
-        <Configure logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <Configure logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone/configure">
-		    <Configure logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+		    <Configure logoImage="/ICO_UP2_CLONE.png"/>
     </Route>
     <Route path="/ai/configure">
-		    <Configure logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+		    <Configure logoImage="/ICO_UP2_AI.png"/>
     </Route>
     <Route path="/learn/configure">
-		    <Configure logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+		    <Configure logoImage="/ICO_UP2_LEARN.png"/>
     </Route>
     <!-- C O N F I G U R E     A G E N T-->
     <Route path="/data/configure/agent">
-        <ConfigureAgent logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <ConfigureAgent logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+		    <ConfigureAgent logoImage="/ICO_UP2_CLONE.png"/>
     </Route>
     <Route path="/ai/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+		    <ConfigureAgent logoImage="/ICO_UP2_AI.png"/>
     </Route>
     <Route path="/learn/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+		    <ConfigureAgent logoImage="/ICO_UP2_LEARN.png"/>
     </Route>
     <!-- D E P L O Y -->
     <Route path="/data/deploy">
-        <Deploy logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <Deploy logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone/deploy">
-		    <Deploy logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+		    <Deploy logoImage="/ICO_UP2_CLONE.png"/>
     </Route>
     <Route path="/ai/deploy">
-		    <Deploy logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+		    <Deploy logoImage="/ICO_UP2_AI.png"/>
     </Route>
     <Route path="/learn/deploy">
-		    <Deploy logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+		    <Deploy logoImage="/ICO_UP2_LEARN.png"/>
     </Route>
     <!-- B U I L D -->
     <Route path="/data/build">
-        <GraphIsa logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <BuildData logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
     </Route>
     <Route path="/clone/build">
-        <BuildClone logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+        <BuildClone logoImage="/ICO_UP2_CLONE.png"/>
     </Route>
     <Route path="/ai/build">
         <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
     </Route>
 	<!-- M O N I T O R-->
     <Route path="/data/monitor">
-        <Monitor logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <Monitor logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone/monitor">
-		<Monitor logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+		<Monitor logoImage="/ICO_UP2_CLONE.png"/>
     </Route>
     <Route path="/ai/monitor">
-		 <Monitor logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+		 <Monitor logoImage="/ICO_UP2_AI.png"/>
     </Route>
     <Route path="/learn/monitor">
-		 <Monitor logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+		 <Monitor logoImage="/ICO_UP2_LEARN.png"/>
     </Route>
     <!-- A D M I N-->
     <Route path="/data/admin">
-        <Admin logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <Admin logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone/admin">
-		<Admin logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+		<Admin logoImage="/ICO_UP2_CLONE.png" />
     </Route>
     <Route path="/ai/admin">
-		 <Admin logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+		 <Admin logoImage="/ICO_UP2_AI.png" />
     </Route>
     <Route path="/learn/admin">
-		 <Admin logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+		 <Admin logoImage="/ICO_UP2_LEARN.png" />
     </Route>
     <!-- D A S H B O A R D    C O N F I G -->
     <Route path="/data/dashboardconfig">
-        <DashBoardConfig logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <DashBoardConfig logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone/dashboardconfig">
-		<DashBoardConfig logoImage="/ICO_UP2_CLONE.png" logout="/clonelogin"/>
+		<DashBoardConfig logoImage="/ICO_UP2_CLONE.png"/>
     </Route>
     <Route path="/ai/dashboardconfig">
-		 <DashBoardConfig logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+		 <DashBoardConfig logoImage="/ICO_UP2_AI.png"/>
     </Route>
     <Route path="/learn/dashboardconfig">
-		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png" logout="/learnlogin"/>
+		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png"/>
     </Route>
   </div>
 </Router>

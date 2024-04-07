@@ -51,7 +51,7 @@ const getAllNodeType = (module) => {
 
 const buildCloneNodeTypes = () => {
         nodetypes = []
-        addNodeType(`start`, 0, 1, { name: 'startid' }, `start`,
+    addNodeType(`start`, 0, 1, { name: { value: 'startid', type: 'text' } }, `start`,
             `<div style="min-height:18px;">
             <svg id="svg-pippo" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -60,7 +60,7 @@ const buildCloneNodeTypes = () => {
             </svg>
         </div>`)
 
-        addNodeType(`stop`, 1, 0, { name: 'stopid' }, `stop`,
+    addNodeType(`stop`, 1, 0, { name: { value: 'stopid', type: 'text' } }, `stop`,
             `<div style="min-height:18px;">
             <svg id="svg-topo" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -69,7 +69,7 @@ const buildCloneNodeTypes = () => {
             </svg>
          </div>`)
 
-        addNodeType(`usertask`, 1, 1, { name: 'usertaskid' }, `usertask`,
+    addNodeType(`usertask`, 1, 1, { name: { value: 'usertaskid', type: 'text' } }, `usertask`,
             `<div style="min-height:18px;">
             <svg id="svg-minnie" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -81,7 +81,7 @@ const buildCloneNodeTypes = () => {
 	        </svg>
         </div>`)
 
-        addNodeType(`ruletask`, 1, 1, { name: 'ruletaskid' }, `ruletask`,
+    addNodeType(`ruletask`, 1, 1, { name: { value: 'ruletaskid', type: 'text' } }, `ruletask`,
             `<div style="min-height:18px;">
             <svg id="svg-scrooge" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -93,7 +93,7 @@ const buildCloneNodeTypes = () => {
 	        </svg>
      </div>`)
 
-        addNodeType(`timer`, 1, 1, { name: 'timerid' }, `timer`,
+    addNodeType(`timer`, 1, 1, { name: { value: 'timerid', type: 'text' } }, `timer`,
             `<div style="min-height:18px;">
             <svg id="svg-donald" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -102,7 +102,7 @@ const buildCloneNodeTypes = () => {
 	        </svg>
      </div>`)
 
-        addNodeType(`egate`, 1, 1, { name: 'egateid' }, `egate`,
+    addNodeType(`egate`, 1, 1, { name: { value: 'egateid', type: 'text' } }, `egate`,
             `<div style="min-height:18px;">
             <svg id="svg-henry" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -114,27 +114,27 @@ const buildCloneNodeTypes = () => {
 
 const buildDataNodeTypes = () => {
     nodetypes = []
-    addNodeType(`root`, 0, 1, { name: 'rootname' }, `company`,
+    addNodeType(`company`, 0, 1, { name: { value: 'rootname', type: 'text' } }, `company`,
         `<div style="min-height:18px;">
            <input type="image" src="/ROOT.svg" alt="Factory" />
         </div>`)
-    addNodeType(`factory`, 1, 1, { name: 'factoryname' }, `factory`,
+    addNodeType(`factory`, 1, 1, { name: { value: 'factoryname', type: 'text' } }, `factory`,
         `<div style="min-height:18px;">
            <input type="image" src="/FACTORY.svg" alt="Factory" />
         </div>`)
-    addNodeType(`department`, 1, 1, { name: 'deptname' }, `department`,
+    addNodeType(`department`, 1, 1, { name: { value: 'deptname', type: 'text' } }, `department`,
         `<div style="min-height:18px;">
            <input type="image" src="/DEPARTMENT.svg" alt="Department" />
         </div>`)
-    addNodeType(`line`, 1, 1, { name: 'linename' }, `line`,
+    addNodeType(`line`, 1, 1, { name: { value: 'linename', type: 'text' } }, `line`,
         `<div style="min-height:18px;">
            <input type="image" src="/LINE.svg" alt="Department" />
         </div>`)
-    addNodeType(`machine`, 1, 1, { name: 'machinename' }, `machine`,
+    addNodeType(`machine`, 1, 1, { name: { value: 'machinename', type: 'text' } }, `machine`,
         `<div style="min-height:18px;">
            <input type="image" src="/MACHINE.svg" alt="Machine" />
         </div>`)
-    addNodeType(`controller`, 1, 0, { name: 'contrname' }, `controller`,
+    addNodeType(`controller`, 1, 0, { name: { value: 'contrname', type: 'text' } }, `controller`,
         `<div style="min-height:18px;">
            <input type="image" src="/CONTROLLER.svg" alt="Controller" />
         </div>`)
@@ -142,27 +142,43 @@ const buildDataNodeTypes = () => {
 
 const buildDataInfrastructureNodeTypes = () => {
     nodetypes = []
-    addNodeType(`root`, 0, 1, { name: 'rootname',address:'' }, `company`,
+    addNodeType(`company`, 0, 1, {
+        name: { value: 'rootname', type: 'text' },
+        address: { value: '', type: 'text' }
+    }, `company`,
         `<div style="min-height:18px;">
            <input type="image" src="/ROOT.svg" alt="Factory" />
         </div>`)
-    addNodeType(`infrastructure`, 1, 1, { name: 'plantname',description:'' }, `plant`,
+    addNodeType(`infrastructure`, 1, 1, {
+        name: { value: 'plantname', type: 'text' },
+        description: { value: '', type: 'text' }
+    }, `plant`,
         `<div style="min-height:18px;">
            <input type="image" src="/AREA.svg" alt="Screen" />
         </div>`)
-    addNodeType(`area`, 1, 1, { name: 'areaname',description:'' }, `area`,
+    addNodeType(`area`, 1, 1, {
+        name: { value: 'areaname', type: 'text' },
+        description: { value: '', type: 'text' }
+    }, `area`,
         `<div style="min-height:18px;">
            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gU3ZnIFZlY3RvciBJY29ucyA6IGh0dHA6Ly93d3cub25saW5ld2ViZm9udHMuY29tL2ljb24gLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjU2IDI1NiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8bWV0YWRhdGE+IFN2ZyBWZWN0b3IgSWNvbnMgOiBodHRwOi8vd3d3Lm9ubGluZXdlYmZvbnRzLmNvbS9pY29uIDwvbWV0YWRhdGE+DQo8Zz48Zz48cGF0aCBmaWxsPSIjMDAwMDAwIiBkPSJNMTAzLjgsMTM5LjJoLTc1Yy0xMC40LDAtMTguOCw3LjUtMTguOCwxNi44djY3LjNjMCw5LjMsOC40LDE2LjgsMTguOCwxNi44aDc1YzEwLjQsMCwxOC44LTcuNSwxOC44LTE2Ljh2LTY3LjNDMTIyLjUsMTQ2LjgsMTE0LjEsMTM5LjIsMTAzLjgsMTM5LjJ6IE0xMDUuNSwyMTcuOGMwLDYuMi01LDExLjItMTEuMiwxMS4ySDM4LjJDMzIsMjI5LDI3LDIyNCwyNywyMTcuOHYtNTYuMWMwLTYuMiw1LTExLjIsMTEuMi0xMS4yaDU2LjFjNi4yLDAsMTEuMiw1LDExLjIsMTEuMlYyMTcuOEwxMDUuNSwyMTcuOHogTTEwMy44LDE1LjhoLTc1QzE4LjQsMTUuOCwxMCwyMy4zLDEwLDMyLjZ2NjcuM2MwLDkuMyw4LjQsMTYuOCwxOC44LDE2LjhoNzVjMTAuNCwwLDE4LjgtNy41LDE4LjgtMTYuOFYzMi42QzEyMi41LDIzLjMsMTE0LjEsMTUuOCwxMDMuOCwxNS44eiBNMTA1LjUsOTQuNGMwLDYuMi01LDExLjItMTEuMiwxMS4ySDM4LjJjLTYuMiwwLTExLjItNS0xMS4yLTExLjJWMzguMkMyNywzMi4xLDMyLDI3LDM4LjIsMjdoNTYuMWM2LjIsMCwxMS4yLDUsMTEuMiwxMS4yVjk0LjRMMTA1LjUsOTQuNHogTTIyNy4yLDE1LjhoLTc1Yy0xMC40LDAtMTguOCw3LjUtMTguOCwxNi44djY3LjNjMCw5LjMsOC40LDE2LjgsMTguOCwxNi44aDc1YzEwLjQsMCwxOC44LTcuNSwxOC44LTE2LjhWMzIuNkMyNDYsMjMuMywyMzcuNiwxNS44LDIyNy4yLDE1Ljh6IE0yMjksOTQuNGMwLDYuMi01LDExLjItMTEuMiwxMS4yaC01Ni4xYy02LjIsMC0xMS4yLTUtMTEuMi0xMS4yVjM4LjJjMC02LjIsNS0xMS4yLDExLjItMTEuMmg1Ni4xYzYuMiwwLDExLjIsNSwxMS4yLDExLjJWOTQuNHogTTIyNy4yLDEzOS4yaC03NWMtMTAuNCwwLTE4LjgsNy41LTE4LjgsMTYuOHY2Ny4zYzAsOS4zLDguNCwxNi44LDE4LjgsMTYuOGg3NWMxMC40LDAsMTguOC03LjUsMTguOC0xNi44di02Ny4zQzI0NiwxNDYuOCwyMzcuNiwxMzkuMiwyMjcuMiwxMzkuMnogTTIyOSwyMTcuOGMwLDYuMi01LDExLjItMTEuMiwxMS4yaC01Ni4xYy02LjIsMC0xMS4yLTUtMTEuMi0xMS4ydi01Ni4xYzAtNi4yLDUtMTEuMiwxMS4yLTExLjJoNTYuMWM2LjIsMCwxMS4yLDUsMTEuMiwxMS4yVjIxNy44eiIvPjwvZz48L2c+DQo8L3N2Zz4=" width="32" height="32">
         </div>`)
-    addNodeType(`section`, 1, 1, { name: 'sectionname','description':'' }, `section`,
+    addNodeType(`section`, 1, 1, {
+        name: { value: 'sectionname', type: 'text' },
+        'description': { value: '', type: 'text' }
+    }, `section`,
         `<div style="min-height:18px;">
           <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gU3ZnIFZlY3RvciBJY29ucyA6IGh0dHA6Ly93d3cub25saW5ld2ViZm9udHMuY29tL2ljb24gLS0+DQo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjU2IDI1NiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjU2IDI1NiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8bWV0YWRhdGE+IFN2ZyBWZWN0b3IgSWNvbnMgOiBodHRwOi8vd3d3Lm9ubGluZXdlYmZvbnRzLmNvbS9pY29uIDwvbWV0YWRhdGE+DQo8Zz48Zz48cGF0aCBmaWxsPSIjMDAwMDAwIiBkPSJNODAuMiwzOS40bDQ3LDI2LjNjMC4yLDAuMSwwLjUsMC4yLDAuOCwwLjJjMC4zLDAsMC42LTAuMSwwLjgtMC4ybDQ3LTI2LjNjMC41LTAuMywwLjgtMC44LDAuOC0xLjRjMC0wLjYtMC4zLTEuMi0wLjgtMS40bC00Ny0yNi4zYy0wLjUtMC4zLTEuMS0wLjMtMS42LDBsLTQ3LDI2LjNjLTAuNSwwLjMtMC44LDAuOC0wLjgsMS40Qzc5LjQsMzguNiw3OS43LDM5LjIsODAuMiwzOS40TDgwLjIsMzkuNHogTTE3NS44LDExNS4xbC00Ny0yNi4zYy0wLjUtMC4zLTEuMS0wLjMtMS42LDBsLTQ3LDI2LjNjLTAuNSwwLjMtMC44LDAuOC0wLjgsMS40YzAsMCwwLDAuMSwwLDAuMWMwLDAuMSwwLDAuMiwwLDAuNFYyMTdjMCwxLjQsMC44LDIuOCwyLDMuNWw0NC42LDI1YzAuNiwwLjMsMS4zLDAuNSwyLDAuNWMwLjcsMCwxLjMtMC4yLDItMC41bDQ0LjYtMjVjMS4zLTAuNywyLTIsMi0zLjV2LTk5LjljMC0wLjEsMC0wLjIsMC0wLjRjMCwwLDAtMC4xLDAtMC4xQzE3Ni42LDExNiwxNzYuMywxMTUuNSwxNzUuOCwxMTUuMUwxNzUuOCwxMTUuMXogTTEyNCwyMzUuMmwtMzYuNy0yMC42VjEyMmwzNi43LDIwLjZMMTI0LDIzNS4yTDEyNCwyMzUuMnogTTE2OC42LDIxNC43TDEzMiwyMzUuMnYtOTIuN2wzNi43LTIwLjZWMjE0LjdMMTY4LjYsMjE0Ljd6IE0xMDcuMiw3Ny40YzAtMC42LTAuMy0xLjItMC44LTEuNEw1OS40LDQ5LjZjLTAuNS0wLjMtMS4xLTAuMy0xLjYsMEwxMC44LDc2Yy0wLjUsMC4zLTAuOCwwLjgtMC44LDEuNGMwLDAsMCwwLDAsMC4xYzAsMCwwLDAsMCwwLjFjMCwwLDAsMC4xLDAsMC4xYzAsMC4xLDAsMC4yLDAsMC40VjE3OGMwLDEuNCwwLjgsMi44LDIsMy41bDQ0LjYsMjVjMC42LDAuMywxLjMsMC41LDIsMC41czEuMy0wLjIsMi0wLjVsMi0xLjJ2LTkuMXYtOTIuNnYtMC4ybDQzLjgtMjQuNkMxMDYuOSw3OC41LDEwNy4yLDc4LDEwNy4yLDc3LjRMMTA3LjIsNzcuNHogTTU0LjYsMTk2LjJsLTM2LjctMjAuNlY4M2wzNi43LDIwLjZWMTk2LjJMNTQuNiwxOTYuMnogTTI0Niw3Ny41QzI0Niw3Ny41LDI0Niw3Ny41LDI0Niw3Ny41YzAtMC4xLDAtMC4xLDAtMC4xbDAsMGwwLDBjMC0wLjEsMC0wLjMsMC0wLjR2MGMtMC4xLTAuNC0wLjQtMC44LTAuOC0xbC00NC4xLTI0LjdsLTIuOS0xLjZjLTAuMS0wLjEtMC4zLTAuMS0wLjQtMC4yYy0wLjEsMC0wLjMsMC0wLjQsMGMtMC4zLDAtMC42LDAuMS0wLjgsMC4ybC01LjgsMy4zTDE0OS42LDc2Yy0wLjQsMC4yLTAuNywwLjYtMC44LDFjMCwwLjEtMC4xLDAuMy0wLjEsMC40YzAsMC42LDAuMywxLjIsMC44LDEuNGw0My44LDI0LjZ2MC4ydjkyLjd2OS4xbDIsMS4yYzAuNiwwLjMsMS4zLDAuNSwyLDAuNWMwLjcsMCwxLjMtMC4yLDItMC41bDQ0LjYtMjVjMS4zLTAuNywyLTIsMi0zLjVWNzguMWMwLTAuMSwwLTAuMiwwLTAuNEMyNDYsNzcuNiwyNDYsNzcuNiwyNDYsNzcuNUwyNDYsNzcuNXogTTIzOCwxNzUuNmwtMzYuNywyMC42di05Mi43TDIzOCw4M1YxNzUuNkwyMzgsMTc1LjZ6Ii8+PC9nPjwvZz4NCjwvc3ZnPg==" width="32" height="32">
         </div>`)
-    addNodeType(`asset`, 1, 1, { name: 'assetname', type: {name:''},description:'' }, `asset`,
+    addNodeType(`asset`, 1, 1, {
+        name: { value: 'assetname', type: 'text' },
+        type: { value: 'filter', type: 'selection', options:['filter','tank','clearer']},
+        description: { value: '', type: 'text' }
+    }, `asset`,
         `<div style="min-height:18px;">
            <input type="image" src="/MACHINE.svg" alt="Machine" />
         </div>`)
-    addNodeType(`controller`, 1, 0, { name: 'contrname' }, `controller`,
+    addNodeType(`controller`, 1, 0, { name: { value: 'cintrname', type: 'text' } }, `controller`,
         `<div style="min-height:18px;">
            <input type="image" src="/CONTROLLER.svg" alt="Controller" />
         </div>`)

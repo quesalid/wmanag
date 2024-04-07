@@ -60,7 +60,6 @@
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
-	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
 
 	// BAR VARIABLES

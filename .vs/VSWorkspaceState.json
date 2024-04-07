@@ -4,9 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
+    "\\src\\lib\\components\\konva",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\utils.js",
+  "SelectedNode": "\\src\\lib\\components\\konva\\DrawPreparer.svelte",
   "PreviewInSolutionExplorer": false
 }
