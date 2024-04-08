@@ -9,6 +9,7 @@
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
    import EDITOR from '../lib/components/drawflow/editor.svelte'
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
+   import {fromGraphToFlow} from '../lib/script/flow/flowmap.js'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
    
@@ -66,6 +67,7 @@
 		console.log("EXPDATA",expdata)
 		const filestring = JSON.stringify(expdata)
 		EDITORUTILS.uploadFile(filestring,'DATA-TEST.json')
+		buildModel()
 	}
 
 	const imp = (e:any|undefined)=>{
@@ -73,6 +75,12 @@
 		if(element)
 			element.click()
 	}
+
+	const buildModel = ()=>{
+		let expdata = editor.export()
+		fromGraphToFlow(expdata)
+	}
+
 
 </script>
  <div id="main-deploy-page">
