@@ -4,10 +4,9 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\konva",
-    "\\src\\lib\\script",
+    "\\src\\lib\\components\\drawflow",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\konva\\DrawPreparer.svelte",
+  "SelectedNode": "\\src\\routes\\BuildClone.svelte",
   "PreviewInSolutionExplorer": false
 }

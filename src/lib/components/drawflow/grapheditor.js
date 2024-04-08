@@ -22,7 +22,7 @@ const addNodeToFlow = (editor,node,x,y) => {
     const uuid = uuidv4()
     // Set uuid for title-box
     const newTitleBox = '<div class="title-box" id="title-box-' + uuid + '">'
-    node.content = node.content.replace('<div class="title-box">',newTitleBox)
+    node.content = node.content.replace('<div class="title-box">', newTitleBox)
     editor.addNode(node.name, node.inputs, node.outputs, x, y, node.name, node.params, node.content,uuid);
 }
 
@@ -83,12 +83,18 @@ export const downloadJSON = (file) => {
     })
 }
 
+export const toDbData = (graph) => {
+    // parse graph
+    console.log("GRAPH",graph.drawflow.Home)
+}
+
 
 const DFEDITOR = {
     drop,
     drag,
     allowDrop,
     uploadFile,
-    downloadJSON
+    downloadJSON,
+    toDbData
 }
 export default DFEDITOR

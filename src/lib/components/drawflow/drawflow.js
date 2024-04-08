@@ -178,6 +178,8 @@ export default class Drawflow {
     }
 
     click(e) {
+        let df
+        let ev
         this.dispatch('click', e);
         if (this.editor_mode === 'fixed') {
             //return false;
@@ -231,6 +233,11 @@ export default class Drawflow {
                         this.drag = true;
                     }
                 }
+                // HIDE EDIT PANEL
+                df = document.querySelector('#' + this.editpanel)
+                ev = new CustomEvent("hideeditpanel", { detail: { node: this.node_selected } })
+                if (df)
+                    df.dispatchEvent(ev)
                 break;
             case 'output':
                 this.connection = true;
@@ -325,8 +332,8 @@ export default class Drawflow {
                 break;
             case 'drawflow-edit':
                 // SHOW EDIT PANEL
-                const df = document.querySelector('#' + this.editpanel)
-                const ev = new CustomEvent("showeditpanel", { detail: { node: this.node_selected } })
+                df = document.querySelector('#' + this.editpanel)
+                ev = new CustomEvent("showeditpanel", { detail: { node: this.node_selected } })
                 if(df)
                     df.dispatchEvent(ev)
                 break;

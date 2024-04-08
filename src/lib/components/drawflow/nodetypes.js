@@ -114,7 +114,7 @@ const buildCloneNodeTypes = () => {
 
 const buildDataNodeTypes = () => {
     nodetypes = []
-    addNodeType(`company`, 0, 1, { name: { value: 'rootname', type: 'text' } }, `company`,
+    addNodeType(`company`, 0, 1, { name: { value: 'rootname', type: 'text' } }, `firm`,
         `<div style="min-height:18px;">
            <input type="image" src="/ROOT.svg" alt="Factory" />
         </div>`)

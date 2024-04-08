@@ -4,21 +4,17 @@
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {getEntityMain} from '../lib/script/apidataconfig.js'
-   import {module, mock, currentmainentity,avatar,avatargroups,avatarclass,user,navigation,getArrayFromPath} from '../lib/ustore.js'
-  
-
-   /*import { GraphEditor,
-			IsaNode,
-			IsaDataPanel,
-			LoadGraph,
-			SaveGraph,
-			DeleteGraph} from '../lib/components/graph'*/
+   import {module, 
+			mock,
+			avatar,avatargroups,
+			avatarclass,
+			user,
+			navigation,
+			getArrayFromPath} from '../lib/ustore.js'
 
    import EDITOR from '../lib/components/drawflow/editor.svelte'
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
-
-    //import { uploadFile} from '../lib/components/graph/GraphUtils.js'
-    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
+   import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
 
 
 	onMount(async () => {
@@ -47,21 +43,15 @@
 	
 	
 	const avatarsize = "w-10"
-	
-
 	// GRAPH VARIABLES
-	
-	
     let defaultNodes: any[] = [];
 	let contextmenu = 'myContext'
 	let currentnode = {}
-	let editnode:any = {}
 	let graph = {nodes:[],edges:[],name:''}
 	let graphs:any = []
-	//let innernode = IsaNode
 	
 
-	let typeOptions = [
+	/*let typeOptions = [
 		{value:"COMPANY",options:{level:'level1',color:'#ffff80'}},
 		{value:"PLANT",options:{level:'level2',color:'#80ff80',image:'FACTORY.png'}},
 		{value:"DEPARTMENT",options:{level:'level3',color:'#ff80ff'}},
@@ -100,11 +90,8 @@
 			{name:'opcda'},
 			{name:'bacnet'}
 		]},
-	]
+	]*/
 
-	// LIST OF DATA FIELDS NOT EDITABLE
-	const filterKey = ['level','nodetype']
-	
 
 	let exp = async (ev:any)=>{
 		let expdata = editor.export()
@@ -146,7 +133,8 @@
 	}
 
 	const save = async (ev:any|undefined)=>{
-		console.log("SAVE GRAPH",graph)
+		let expdata = editor.export()
+		EDITORUTILS.toDbData(expdata)
 	}
 
 	const deleteQuery = async (ev:any|undefined)=>{
@@ -188,7 +176,8 @@
 			<EDITOR bind:editor={editor} 
 				top={barheigth}
 				{exp}
-				{imp}/>
+				{imp}
+				{save}/>
 	</div>
 </div>
 

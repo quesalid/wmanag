@@ -50,7 +50,6 @@ export let top = '2px'
 	const downloadData = async (e:any|undefined)=>{
 		let file = e.target.files[0]
 		const result = await EDITORUTILS.downloadJSON(file)
-		console.log("DOWLOAD", result)
 		dataToImport = editor.import(JSON.parse(result))
 	}
 </script>

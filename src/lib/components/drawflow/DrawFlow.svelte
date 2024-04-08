@@ -13,7 +13,8 @@ export let top = '100px'
 
 let editPanel = 'drawflow-edit-panel'
 let drawFlow = 'drawflow'
-let drawflowEventListener:any
+let drawflowShowEventListener:any
+let drawflowHideEventListener:any
 let nodeid = ''
 let node:any
 
@@ -27,12 +28,17 @@ onMount(async () => {
 	// ADD EVENT LISTENER TO EDIT PANEL
 	const df:any = document.querySelector('#'+editPanel)
 	if(df){
-		df.removeEventListener('showeditpanel',drawflowEventListener)
-		df.addEventListener('showeditpanel',(ev:any) =>{
+		df.removeEventListener('showeditpanel',drawflowShowEventListener)
+		drawflowShowEventListener = df.addEventListener('showeditpanel',(ev:any) =>{
 			nodeid = ev.detail.node.id.replace('node-','')
 			node = editor.drawflow.drawflow.Home.data[nodeid]
-			console.log("SHOW PANEL EVENT RECEIVED",nodeid,node)
 			df.style.display='block'
+		})
+		df.removeEventListener('hideeditpanel',drawflowHideEventListener)
+		drawflowHideEventListener = df.addEventListener('hideeditpanel',(ev:any) =>{
+			nodeid = ev.detail.node.id.replace('node-','')
+			node = editor.drawflow.drawflow.Home.data[nodeid]
+			df.style.display='none'
 		})
 	}
 })

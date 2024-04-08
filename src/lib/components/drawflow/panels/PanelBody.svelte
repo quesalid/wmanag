@@ -4,16 +4,19 @@
 import { javascript } from "@codemirror/lang-javascript";*/
 
 export let node:any ={name:'',callback:'',data:{}}
+
 let value='function(input,output){\n}'
 // On node name change set node html title 
 const setTitle = (ev:any)=>{
     // GET NODE
     const nodeDiv = document.getElementById('title-box-'+node.id)
     if(nodeDiv){
-        //node.data.name = ev.target.value
-        console.log("SET TITLE",ev.target.value,node,nodeDiv,ev.target.dataset)
-        if(typeof(ev.target.dataset.name) == 'string' && ev.target.dataset.name == 'name')
-        nodeDiv.innerHTML=ev.target.value
+        if(typeof(ev.target.dataset.name) == 'string' && ev.target.dataset.name == 'name'){
+            nodeDiv.innerHTML=ev.target.value
+            const split = node.html.split('</div>')
+            const add = split.length >0?split[1]:''
+            node.html = nodeDiv.outerHTML +add
+        }
     }
 }
 

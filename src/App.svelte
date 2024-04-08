@@ -115,7 +115,7 @@ export const url = "/deploy"
     </Route>
     <!-- B U I L D -->
     <Route path="/data/build">
-        <BuildData logoImage="/ICO_UP2_DATA.png" logout="/datalogin"/>
+        <BuildData logoImage="/ICO_UP2_DATA.png"/>
     </Route>
     <Route path="/clone/build">
         <BuildClone logoImage="/ICO_UP2_CLONE.png"/>
