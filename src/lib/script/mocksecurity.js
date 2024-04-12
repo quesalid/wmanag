@@ -53,7 +53,7 @@ let profiles = [
             {
                 module: 'CLONE',
                 windows: [
-                    { id: 'Donut', top: '380px', left: '10px' },
+                    { id: 'Donut', top: '10px', left: '10px' },
                     { id: 'Alarm', top: '0px', left: '10px' }
                 ]
             }

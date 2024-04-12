@@ -5,13 +5,14 @@ import FlowLookup from './flowlookup.js' // context event list
 class FlowGraph {
     nodes = []
 
-    constructor(name, nodes) {
+    constructor(options) {
         this.id = uuidv4();
-        this.name = name
-        if (nodes)
-            this.nodes = nodes // array of Flow Nodes
+        this.name = options.name
+        if (options.nodes)
+            this.nodes = options.nodes // array of Flow Nodes
         else
             this.nodes = []
+        this.guienabled = options.guienabled?options.guienabled: false
         this.lookup = new FlowLookup()
     }
 
@@ -46,15 +47,26 @@ class FlowGraph {
         const readnodes = []
         for (let i = 0; i < json.nodes.length; i++) {
             const jnode = json.nodes[i]
-            const newnode = new FLOWNODE.FlowNode(jnode.name, null, null, null)
-            newnode.id = jnode.id
+            const options = {
+                name: jnode.name,
+                id: jnode.id,
+                type: jnode.type,
+                inputs: [],
+                outputs: [],
+                lookup: this.lookup,
+                callback: Function("return (" + jnode.callback + ")")(),
+                params: null,
+                debug: jnode.debug
+            }
+            const newnode = new FLOWNODE.FlowNode(options)
+            /*newnode.id = jnode.id
             newnode.debug = jnode.debug
             newnode.type = jnode.type
             // ADD LOOKUP TO NODE
             newnode.lookup = this.lookup
             // HERE - DESERIALIZE FUNCTION
             newnode.callback = Function("return (" + jnode.callback + ")")();
-            // HERE - DESERIALIZE LOOKUPEVENTS
+            // HERE - DESERIALIZE LOOKUPEVENTS*/
             newnode.lookupEvents = []
             for (let i = 0; i < jnode.lookupEvents.length; i++) {
                 const obj = JSON.parse(jnode.lookupEvents[i], function (key, value) {
@@ -174,7 +186,8 @@ class FlowGraph {
         const startNodes = this.nodes.filter((item) => item.type == 'start')
         for (let i = 0; i < startNodes.length; i++) {
             const node = startNodes[i]
-            node.emitter.emit(FLOWNODE.FlowNode.INPUT_EVENT, "start", "INPUT-1")
+            node.emitter.emit(FLOWNODE.FlowNode.INPUT_READY)
+            console.log("EMITTED: ", FLOWNODE.FlowNode.INPUT_READY, "startmessage",startNodes[i].name)
         }
     }
 }

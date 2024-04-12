@@ -6,10 +6,12 @@ import DrawFlowMenu from './DrawFlowMenu.svelte'
 import NODETYPES from './nodetypes.js'
 import {module, family} from '../../ustore.js'
 import EDITORUTILS from './grapheditor.js'
+import {fromGraphToFlow,resetGraph} from '../../script/flow/flowmap.js'
 
 const dataToImportClear = {"drawflow":{"Home":{"data":{}}}}
 let dataToImport = dataToImportClear
 export let editor:any
+export let graph:any
 let nodetypes:any = []
 
 onMount(async () => {
@@ -51,7 +53,24 @@ export let top = '2px'
 		let file = e.target.files[0]
 		const result = await EDITORUTILS.downloadJSON(file)
 		dataToImport = editor.import(JSON.parse(result))
+		let expdata = editor.export()
+		graph = fromGraphToFlow(expdata)
 	}
+
+const clickStart = (ev:any)=>{
+	console.log("CLICK START",graph)
+	if(graph)
+		graph.start()
+}
+
+const clickStop = (ev:any)=>{
+	console.log("CLICK STOP")
+	let expdata = editor.export()
+	if(expdata){
+		console.log("CLICK STOP",expdata)
+		resetGraph(expdata,graph,"lightgrey")
+	}
+}
 </script>
 	<div class="wrapper" style="--top:{top}">
 		 <div class="col">
@@ -64,6 +83,17 @@ export let top = '2px'
 				 <input id="file-data-input"name="file-data-input" type='file' accept=".json" style="visibility:hidden;"  on:change={downloadData}>
 			 </div>
 			 <DrawFlowMenu {nodetypes} />
+			 <div class="player-control">
+				 <!-- svelte-ignore a11y-click-events-have-key-events -->
+				 <!-- svelte-ignore a11y-no-static-element-interactions -->
+				 <svg on:click={clickStart} class="player-button" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 32 32">
+					<path fill="currentColor" d="M11 23a1 1 0 0 1-1-1V10a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1.001 1.001 0 0 1 11 23m1-11.382v8.764L20.764 16Z"/><path fill="currentColor" d="M16 4A12 12 0 1 1 4 16A12 12 0 0 1 16 4m0-2a14 14 0 1 0 14 14A14 14 0 0 0 16 2"/>
+				</svg>
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				 <!-- svelte-ignore a11y-no-static-element-interactions -->
+				<svg on:click={clickStop} class="player-button"  xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 32 32">
+			<path fill="currentColor" d="M14 10h-2v12h2zm6 0h-2v12h2z"/><path fill="currentColor" d="M16 4A12 12 0 1 1 4 16A12 12 0 0 1 16 4m0-2a14 14 0 1 0 14 14A14 14 0 0 0 16 2"/></svg>
+			 </div>
 		 </div>
 		 <DrawFlow bind:editor={editor} bind:dataToImport={dataToImport} {top}/>
 	</div>
@@ -89,5 +119,12 @@ export let top = '2px'
 	border: 1px solid black;
 	cursor:pointer;
 	padding: 2px;
+}
+.player-control{
+	display:flex;
+	padding: 4px;
+}
+.player-button{
+	cursor:pointer ;
 }
 </style>

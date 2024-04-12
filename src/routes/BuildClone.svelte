@@ -9,7 +9,6 @@
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
    import EDITOR from '../lib/components/drawflow/editor.svelte'
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
-   import {fromGraphToFlow} from '../lib/script/flow/flowmap.js'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
    
@@ -35,6 +34,7 @@
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
 	let editor:any
+	let graph:any
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -52,14 +52,6 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	// TABLE VARIABLES
-	const titleagent = 'DEVICES'
-    const disableClose = true
-	const draggable = true
-	let zindex = 4
-    let headercolor = bgcolor
-	let pagesize = true
-	let pSize = 8
 	
 
 	let exp = async (ev:any)=>{
@@ -67,7 +59,7 @@
 		console.log("EXPDATA",expdata)
 		const filestring = JSON.stringify(expdata)
 		EDITORUTILS.uploadFile(filestring,'DATA-TEST.json')
-		buildModel()
+		console.log("Graph ---> ",graph)
 	}
 
 	const imp = (e:any|undefined)=>{
@@ -76,11 +68,7 @@
 			element.click()
 	}
 
-	const buildModel = ()=>{
-		let expdata = editor.export()
-		fromGraphToFlow(expdata)
-	}
-
+	
 
 </script>
  <div id="main-deploy-page">
@@ -107,7 +95,7 @@
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<!--Modeler /-->
-			<EDITOR bind:editor={editor} 
+			<EDITOR bind:editor={editor} bind:graph={graph}
 				{exp}
 				{imp}/>
 		</div>

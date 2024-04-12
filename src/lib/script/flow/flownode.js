@@ -1,16 +1,22 @@
 import { v4 as uuidv4 } from "uuid"
 import EventEmitter from 'events'
 
+const sleep = function (ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const defaultCB = async function (inputs, outputs) {
     // Chain all input messages
     let msg = ''
     for (let i = 0; i < inputs.length; i++) {
-        msg += ' ' + inputs[i].message
+        msg += ' ' + inputs[i].message.id
     }
     for (let i = 0; i < outputs.length; i++) {
-        outputs[i].message = msg
+        outputs[i].message.id = msg
     }
+    // FOR TEST ONLY
+    const tmout = Math.floor(Math.random() * 3000) + 400
+    await sleep(tmout)
     return (msg)
 }
 class FlowNodeInput {
@@ -21,7 +27,7 @@ class FlowNodeInput {
         this.name = input.name
         this.type = input.type
         this.message = input.message
-        //this.from = input.from // this is a FlowNode
+        this.from = input.from // this is an object {port:port,id:nodeid}
         this.status = false
     }
 
@@ -66,36 +72,40 @@ class FlowNode {
 
     inputs = []
     outputs = []
-    constructor(name, type,inputs,outputs,callback,lookup,id) {
-        this.name = name;
-        if (id)
-            this.id = id;
+    constructor(options) {
+        this.name = options.name;
+        if (options.id)
+            this.id = options.id;
         else
             this.id = uuidv4();
-        this.type = type
-        if (inputs) {
-            for (let i = 0; i < inputs.length; i++) {
-                this.addInput(inputs[i])
+        this.type = options.type
+        if (options.inputs) {
+            for (let i = 0; i < options.inputs.length; i++) {
+                this.addInput(options.inputs[i])
             }      
         }
-        if (outputs) {
-            for (let i = 0; i < outputs.length; i++) {
-                this.addOutput(outputs[i])
+        if (options.outputs) {
+            for (let i = 0; i < options.outputs.length; i++) {
+                this.addOutput(options.outputs[i])
             }
         }
-        this.debug = false
-        if(callback)
-            this.callback = callback
+        if (options.debug)
+            this.debug = options.debug
+        else
+            this.debug = false
+        if (options.callback)
+            this.callback = options.callback
         else
             this.callback = defaultCB
 
-        if (lookup)
-            this.lookup = lookup
+        if (options.lookup)
+            this.lookup = options.lookup
         else
             this.lookup = null
 
         this.lookupEvents = []
         this.emitter = new EventEmitter();
+        this.guienabled = options.guienabled ? options.guienabled:false
         this.addInputListener()
         this.addTaskListener()
         this.addOutputListener()
@@ -143,8 +153,8 @@ class FlowNode {
     */
     addInputListener() {
         this.emitter.on(FlowNode.INPUT_EVENT, (message, name) => {
-            if (this.debug)
-                console.log(this.name," received INPUT_EVENT to ",name, " with message ",message)
+            //if (this.debug)
+                //console.log(this.name," received INPUT_EVENT to ",name, " with message ",message)
             const input = this.inputs.find((item) => item.name == name)
             // A. Set input values
             if (input) {
@@ -163,9 +173,9 @@ class FlowNode {
                 if (this.inputs[i].type == FlowNodeInput.PULSE)
                     this.inputs[i].status = false
             }
-            if (this.debug)
-                console.log(this.name, " emitted INPUT_READY ")
-            this.emitter.emit(FlowNode.INPUT_READY)
+            //if (this.debug)
+                //console.log(this.name, " emitted INPUT_READY ")
+            this.emitter.emit(FlowNode.INPUT_READY, this.inputs)
         })
     }
 
@@ -175,23 +185,25 @@ class FlowNode {
     * C: Emit TASK_DONE event(or TASK_ERROR event)
     */ 
     addTaskListener() {
-        this.emitter.on(FlowNode.INPUT_READY, async () => {
+        this.emitter.on(FlowNode.INPUT_READY, async (inputs) => {
             if (this.debug)
-                console.log(this.name, " received INPUT_READY")
+                console.log(this.name, " received INPUT_READY", this.name,inputs)
             try {
                 // DO THE TASK - get inputs messages and sets output messages
-                const result = await this.callback(this.inputs,this.outputs)
+                const result = await this.callback(this.inputs, this.outputs)
                 // EMIT TASK_DONE FOR EACH OUTPUT
                 for (let i = 0; i < this.outputs.length; i++) {
-                    if (this.debug)
-                        console.log(this.name, " emitted TASK_DONE to ", this.outputs[i].name, " with message ", this.outputs[i].message)
+                    //if (this.debug)
+                        //console.log(this.name, " emitted TASK_DONE to ", this.outputs[i].name, " with message ", this.outputs[i].message)
                     this.emitter.emit(FlowNode.TASK_DONE, this.outputs[i].message, this.outputs[i].name)
                     
                 }
+                // COLOR TITLE
+                await this.setTitleColor('#AAFFAA',inputs)
             } catch (error) {
                 // EMIT TASK_ERROR
-                if (this.debug)
-                    console.log(this.name, " emitted TASK_ERROR  with error ", error)
+                //if (this.debug)
+                    //console.log(this.name, " emitted TASK_ERROR  with error ", error)
                 this.emitter.emit(FlowNode.TASK_ERROR, error)
             }
         })
@@ -203,8 +215,8 @@ class FlowNode {
     */
     addOutputListener() {
         this.emitter.on(FlowNode.TASK_DONE, async (result, name) => {
-            if (this.debug)
-                console.log(this.name, " received TASK_DONE",name)
+            //if (this.debug)
+                //console.log(this.name, " received TASK_DONE",name,this.type)
             const output = this.outputs.find((item) => item.name == name)
             if (output) {
                 // set message
@@ -212,8 +224,8 @@ class FlowNode {
                 // send INPUT_EVENT to output node
                 if (output.to) {
                     for (let i = 0; i < output.to.length; i++) {
-                        if (this.debug)
-                            console.log(this.name, " emitted INPUT_EVENT to   port ", output.to[i].input,"with message ", output.message)
+                        //if (this.debug)
+                            //console.log(this.name, " emitted INPUT_EVENT to   port ", output.to[i].input,"with message ", output.message)
                         output.to[i].emitter.emit(FlowNode.INPUT_EVENT, output.message, output.to[i].input)
                     }
                 }
@@ -260,6 +272,27 @@ class FlowNode {
     emitContextEvent(ev,payload) {
         if (this.lookup) {
             this.lookup.emitter.emit(ev,payload)
+        }
+    }
+
+    async setTitleColor(color,inputs) {
+        let oldc = 'lightgrey'
+        let isPulse = false
+        if (inputs) {
+            for (let i = 0; i < inputs.length; i++)
+                if (inputs[i].type == FlowNodeInput.PULSE)
+                    isPulse = true
+        } 
+        if (this.guienabled) {
+            const div = document.getElementById('title-box-' + this.id)
+            if (div) {
+                oldc = div.style.backgroundColor
+                div.style.backgroundColor = color
+                if (isPulse) {
+                    await sleep(1200)
+                    div.style.backgroundColor = oldc
+                }
+            }
         }
     }
 
