@@ -8,6 +8,7 @@ export let node:any ={name:'',callback:'',data:{}}
 let value='function(input,output){\n}'
 // On node name change set node html title 
 const setTitle = (ev:any)=>{
+    console.log("PANEL BODY", node)
     // GET NODE
     const nodeDiv = document.getElementById('title-box-'+node.id)
     if(nodeDiv){

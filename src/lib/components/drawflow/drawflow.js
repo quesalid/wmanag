@@ -141,7 +141,6 @@ export default class Drawflow {
     /* End Mobile Zoom */
     load() {
         for (var key in this.drawflow.drawflow[this.module].data) {
-            console.log("NODE LOAD")
             this.addNodeImport(this.drawflow.drawflow[this.module].data[key], this.precanvas);
         }
 
@@ -1247,7 +1246,7 @@ export default class Drawflow {
             const input = document.createElement('div');
             input.classList.add("input");
             input.classList.add("input_" + (x + 1));
-            json_inputs["input_" + (x + 1)] = { "connections": [] };
+            json_inputs["input_" + (x + 1)] = { "connections": []};
             inputs.appendChild(input);
         }
 

@@ -3,6 +3,7 @@ import { onMount, onDestroy } from 'svelte';
 import DrawFlow from './drawflow.js'
 import DFEDITOR from './grapheditor.js'
 import PanelBody from './panels/PanelBody.svelte'
+import PanelMessage from './panels/PanelMessage.svelte'
 
 export const drop = (ev:any) =>{}
 export const allowDrop = (ev:any) =>{}
@@ -17,6 +18,7 @@ let drawflowShowEventListener:any
 let drawflowHideEventListener:any
 let nodeid = ''
 let node:any
+let nodes:any = {}
 
 onMount(async () => {
 	var id = document.getElementById("drawflow");
@@ -32,12 +34,15 @@ onMount(async () => {
 		drawflowShowEventListener = df.addEventListener('showeditpanel',(ev:any) =>{
 			nodeid = ev.detail.node.id.replace('node-','')
 			node = editor.drawflow.drawflow.Home.data[nodeid]
+			nodes = editor.drawflow.drawflow.Home.data
 			df.style.display='block'
+			console.log("NODE ---->",node)
 		})
 		df.removeEventListener('hideeditpanel',drawflowHideEventListener)
 		drawflowHideEventListener = df.addEventListener('hideeditpanel',(ev:any) =>{
 			nodeid = ev.detail.node.id.replace('node-','')
 			node = editor.drawflow.drawflow.Home.data[nodeid]
+			nodes = editor.drawflow.drawflow.Home.data
 			df.style.display='none'
 		})
 	}
@@ -76,6 +81,10 @@ const panelEditExit = (ev:any)=>{
 		</div>
 		<div class="drawflow-edit-panel-body">
 			<PanelBody bind:node={node} />
+		</div>
+		<div class="drawflow-edit-panel-message">
+			<span>Messages</span>
+			<PanelMessage bind:node={node} bind:nodes={nodes} />
 		</div>
 	</div>
 <style>
@@ -121,6 +130,11 @@ const panelEditExit = (ev:any)=>{
 :global(.drawflow-edit-panel-body) {
 	display:flexbox;
 	padding: 5px;
+}
+
+:global(.drawflow-edit-panel-message) {
+	--background-edut-panel-header: #e9e9e9;
+	background-color: var(--background-edut-panel-header);
 }
 
 :global(.drawflow) {

@@ -75,7 +75,6 @@ export const fromGraphToFlow = (graph, name = 'currentflow') => {
                     const inputName = conn.output
                     // Check if destination node has multiple inputs
                     const toNodeInput = toNode.inputs.find((item)=> item.from.id == key)
-                    console.log("toNode", toNode.inputs, toNodeInput, key)
                     if (toNode) {
                         const out = { emitter: toNode.emitter, input: toNodeInput.name, id: toNode.id }
                         outs.push(out)
@@ -88,7 +87,6 @@ export const fromGraphToFlow = (graph, name = 'currentflow') => {
             }
         }
     }
-    console.log("fromGraphToFlow flow", flow,graph)
     return(flow)
 }
 

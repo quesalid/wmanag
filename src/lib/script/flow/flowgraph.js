@@ -59,14 +59,7 @@ class FlowGraph {
                 debug: jnode.debug
             }
             const newnode = new FLOWNODE.FlowNode(options)
-            /*newnode.id = jnode.id
-            newnode.debug = jnode.debug
-            newnode.type = jnode.type
-            // ADD LOOKUP TO NODE
-            newnode.lookup = this.lookup
-            // HERE - DESERIALIZE FUNCTION
-            newnode.callback = Function("return (" + jnode.callback + ")")();
-            // HERE - DESERIALIZE LOOKUPEVENTS*/
+            // HERE - DESERIALIZE LOOKUPEVENTS
             newnode.lookupEvents = []
             for (let i = 0; i < jnode.lookupEvents.length; i++) {
                 const obj = JSON.parse(jnode.lookupEvents[i], function (key, value) {

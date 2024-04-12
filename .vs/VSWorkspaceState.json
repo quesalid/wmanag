@@ -4,10 +4,12 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
+    "\\src\\lib\\components\\drawflow",
+    "\\src\\lib\\components\\drawflow\\panels",
     "\\src\\lib\\script",
     "\\src\\lib\\script\\flow",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\script\\flow\\flownode.js",
+  "SelectedNode": "\\src\\lib\\script\\flow\\flowmap.js",
   "PreviewInSolutionExplorer": false
 }
