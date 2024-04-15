@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { filterArray, getFamily } from './mock.js'
 import DBINDUSTRY from './mockdb_industry.js'
+import  DBINFASTRUCTURE  from './mockdb_infr.js'
+
 // **************** DATA ****************
 let devices = DBINDUSTRY.devices
 let agents = DBINDUSTRY.agents
@@ -18,8 +20,23 @@ let learnphases = DBINDUSTRY.generateClonePhases(learnpoints, 'BATCH')
 
 // ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
-    console.log("INITIALIZE MOCK DB FOR",family)
+    console.log("INITIALIZE MOCK DB FOR", family)
     switch (family) {
+        case 'INFR':
+            devices = DBINFASTRUCTURE.devices
+            agents = DBINFASTRUCTURE.agents
+            mainentities = DBINFASTRUCTURE.mainentities
+            areaentities = DBINFASTRUCTURE.areaentities
+            localentities = DBINFASTRUCTURE.localentities
+            controlledentities = DBINFASTRUCTURE.controlledentities
+            controllers = DBINFASTRUCTURE.controllers
+            datapoints = DBINFASTRUCTURE.generateDataPoints()
+            clonepoints = []
+            learnpoints = []
+            masterbatchphases = []
+            clonephases = []
+            learnphases = []
+            break;
         default:
             devices = DBINDUSTRY.devices
             agents = DBINDUSTRY.agents

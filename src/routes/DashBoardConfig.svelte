@@ -36,7 +36,7 @@
 		const filters:any = []
 		$navigation = getArrayFromPath("/"+$module+"/dashboardconfig")
 		widgets = JSON.parse(JSON.stringify(getWidgetsByModule($module.toUpperCase())))
-		console.log("DASHBOARD CONFIG USER",$user)
+		//console.log("DASHBOARD CONFIG USER",$user)
 		let profileDahboard:any = $user.profile.dashboard.find((item:any)=>item.module == $module.toUpperCase())
 		if(!profileDahboard)
 			profileDahboard = $user.profile.dashboard.find((item:any)=>item.module == "DEFAULT")
@@ -50,7 +50,7 @@
 				widgets[index].left = dashWidgets[i].left
 			}
 		}
-		console.log("W I D G E T S",widgets,dashWidgets,$user)
+		//console.log("W I D G E T S",widgets,dashWidgets,$user)
 			
 	});
 

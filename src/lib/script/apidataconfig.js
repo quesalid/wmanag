@@ -1,6 +1,13 @@
 import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.js';
 import mocks from './mockdataconfig.js';
 
+
+export const init = function (family,mock = false) {
+    if (mock) {
+        console.log("INIT DATA MOCK",family)
+        mocks.init(family)
+    }
+}
 /**
  * Get main entity
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 

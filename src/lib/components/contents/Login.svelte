@@ -6,6 +6,7 @@
    import {token, user, role,mock,avatar,navigation,getArrayFromPath,module,avatargroups,family} from "../../ustore.js"
    // API
    import {login,decodeToken,getAvatar,getProfile,initMockDB} from '../../script/apisecurity.js'
+   import {init} from '../../script/apidataconfig.js'
    // UTILS
    import {getMenuGroups} from '../../script/utils.js'
    // COMPONRNTS
@@ -79,6 +80,7 @@
             // 0. SET MOCKDB FAMILY (only for showroom)
             if($mock){
                 initMockDB($family)
+                init($family,$mock)
             }
             const decoded = await  decodeToken(restoken,$mock)
             // A. SET MODULE NAME IN STORE
