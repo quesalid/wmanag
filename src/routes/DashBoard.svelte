@@ -3,7 +3,7 @@
    import { navigate } from "svelte-routing";
    import {onMount} from "svelte"
    // INTERN IMPORT
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
    //import Donut from "../lib/components/donut/Donut.svelte"
    import {AlarmManager,MapManager,DonutClicked,DonutManager} from '../lib/components/contents'
    //import WManag from '../lib/components/WManag.svelte'
@@ -156,6 +156,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
+				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}

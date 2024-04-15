@@ -1,4 +1,5 @@
 <script lang="ts">
+import {module} from '../../../ustore.js'
 
 export let node:any ={name:'',callback:'',data:{}}
 export let nodes:any = {}
@@ -94,7 +95,7 @@ const setOutputMessage = (ev:any) =>{
     </div>
     {/if}
     -->
-    {#if node.outputs}
+    {#if node.outputs && $module.toUpperCase() == 'CLONE'}
      <div class='message-input-title'>Output Messages
         {#each Object.keys(node.outputs) as Key}
             {#if node.outputs[Key] && node.outputs[Key].connections}

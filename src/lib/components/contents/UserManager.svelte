@@ -58,6 +58,7 @@ let save = async (ev:any)=>{
 	const filters:any = []
 	ret = await getUsers(filters,$mock)
 	$userdata = ret.data
+	console.log("USERDATA SAVED",$userdata)
 	// CLOSE FORM DIALOG
 	const usrInputDiv = document.getElementById(modalIdSave)
 	if(usrInputDiv)

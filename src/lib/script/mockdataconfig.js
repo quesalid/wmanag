@@ -21,6 +21,19 @@ const init = (family) => {
     console.log("INITIALIZE MOCK DB FOR",family)
     switch (family) {
         default:
+            devices = DBINDUSTRY.devices
+            agents = DBINDUSTRY.agents
+            mainentities = DBINDUSTRY.plants
+            areaentities = DBINDUSTRY.departments
+            localentities = DBINDUSTRY.lines
+            controlledentities = DBINDUSTRY.machines
+            controllers = DBINDUSTRY.controllers
+            datapoints = DBINDUSTRY.generateDataPoints()
+            clonepoints = DBINDUSTRY.generateClonePoints()
+            learnpoints = DBINDUSTRY.generateLearnPoints()
+            masterbatchphases = DBINDUSTRY.masterbatchphases
+            clonephases = DBINDUSTRY.generateClonePhases(clonepoints, 'BATCH')
+            learnphases = DBINDUSTRY.generateClonePhases(learnpoints, 'BATCH')
             break;
     }
 }

@@ -577,6 +577,7 @@ let plants = [
         description: "Pabianice Plant",
         lat: 51.66446000,
         lon: 19.35473000,
+        image: 'PLANT-001.jpg',
         geojson: {
                 type: "Feature",
                 properties: {
@@ -606,6 +607,7 @@ let plants = [
         description: "Tulsa Plant",
         lat: 36.153798,
         lon: -95.992403,
+        image: 'PLANT-002.jpg',
         geojson: {
             type: 'Feature',
             properties: {
@@ -635,6 +637,7 @@ let plants = [
         description: "Latina Plant",
         lat: 41.46614000,
         lon: 12.90430000,
+        image: 'PLANT-003.jpg',
         geojson: {
             type: 'Feature',
             properties: {

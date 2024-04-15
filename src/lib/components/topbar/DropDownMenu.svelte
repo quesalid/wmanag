@@ -40,8 +40,8 @@
 </script>
 
 <div class="flex w-full flex-col items-center justify-center">
-	<div class="relative top-0 w-16 text-right">
-		<div class="relative inline-block text-left">
+	<div class="relative top-0 w-16 text-center">
+		<div class="relative inline-block text-center">
 			<div class="badge-count-top" data-count='0' style="margin-right:6px;">
 			<img alt='Options' src="{image}" on:select={onSelect}  use:menu.button
 			class="{imgclass}"

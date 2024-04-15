@@ -4,11 +4,11 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\drawflow",
+    "\\src\\lib\\components\\drawflow\\panels",
+    "\\src\\lib\\components\\topbar",
     "\\src\\lib\\script",
-    "\\src\\lib\\script\\flow",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\drawflow\\DrawFlow.svelte",
+  "SelectedNode": "\\src\\lib\\components\\topbar\\AlertMessages.svelte",
   "PreviewInSolutionExplorer": false
 }

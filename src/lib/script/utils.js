@@ -977,7 +977,14 @@ const userTemplate = {
         uid: '',
         language: 'en',
         avatar: '/AVATAR.svg',
-        dashboard: []
+        dashboard: [
+            {
+                module: 'DEFAULT',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            }
+        ]
     }
 }
 

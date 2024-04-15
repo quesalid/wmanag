@@ -36,6 +36,7 @@
 		const filters:any = []
 		$navigation = getArrayFromPath("/"+$module+"/dashboardconfig")
 		widgets = JSON.parse(JSON.stringify(getWidgetsByModule($module.toUpperCase())))
+		console.log("DASHBOARD CONFIG USER",$user)
 		let profileDahboard:any = $user.profile.dashboard.find((item:any)=>item.module == $module.toUpperCase())
 		if(!profileDahboard)
 			profileDahboard = $user.profile.dashboard.find((item:any)=>item.module == "DEFAULT")
@@ -72,12 +73,19 @@
 	let saveDashboard = async (ev:any)=>{
 		// SET PROFILE IN STORE
 		const index = $user.profile.dashboard.findIndex((item) => item.module == $module.toUpperCase())
-		console.log(" USER PROFILE DASHBOARD INDEX", index,widgets)
+		//console.log(" USER PROFILE DASHBOARD INDEX", index,widgets)
 		// FILTER WIDGETS
 		let filteredWidgets = JSON.parse(JSON.stringify(widgets.filter((item:any)=>item.included)))
 		if(index > -1)
 			$user.profile.dashboard[index].windows = filteredWidgets
-		console.log(" USER PROFILE DASHBOARD", $user.profile.dashboard)
+		else{
+			let dash = {
+                module: $module.toUpperCase(),
+                windows: filteredWidgets
+            }
+			$user.profile.dashboard.push(dash)
+		}
+		//console.log(" USER PROFILE DASHBOARD", $user.profile.dashboard)
 		// SET PROFILE IN DB
 		const ret = await setProfile($user.profile,$user.uid,$mock)
 	}

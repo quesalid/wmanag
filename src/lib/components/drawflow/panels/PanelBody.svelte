@@ -42,6 +42,12 @@ const capitalizeFirstLetter = (string:any) =>{
             {:else if node.data[Key].type == 'number'}
                 <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
                 <input  data-name="{Key}" type='number' size="23" bind:value='{node.data[Key].value}'/>
+            {:else if node.data[Key].type == 'color'}
+                <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
+                <input  data-name="{Key}" type='color' size="23" bind:value='{node.data[Key].value}'/>
+            {:else if node.data[Key].type == 'file'}
+                <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
+                <input  data-name="{Key}" type='file' size="23" bind:value='{node.data[Key].value}' accept="image/*"/>
             {/if}
         </div>
     {/each}

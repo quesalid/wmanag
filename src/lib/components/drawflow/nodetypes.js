@@ -128,6 +128,12 @@ const buildDataNodeTypes = () => {
     addNodeType(`factory`, 1, 1, {
         name: { value: 'factoryname', type: 'text' },
         address: { value: 'address', type: 'text' },
+        description: { value: 'description', type: 'text' },
+        lat: { value: 0.0, type: 'number' },
+        lon: { value: 0.0, type: 'number' },
+        label: { value: 'LBL', type: 'text' },
+        color: { value: 'LBL', type: 'color' },
+        image: { value: 'image.jpg', type: 'file' },
     }, `factory`,
         `<div style="min-height:18px;">
            <input type="image" src="/FACTORY.svg" alt="Factory" />

@@ -8,6 +8,8 @@
    import {login,decodeToken,getAvatar,getProfile,initMockDB} from '../../script/apisecurity.js'
    // UTILS
    import {getMenuGroups} from '../../script/utils.js'
+   // COMPONRNTS
+   import WManag from '../WManag.svelte'
  
    
   let usrid = "";
@@ -27,11 +29,12 @@
   export let landingPage = '/data'
   export let modulename = 'data'
   export let scale = "100%"
-
   export let errors:any = {};
 
 
   export let openModalButton:any
+
+  let array_of_errors:any = []
  
   onMount(async () => {
       // ON LOAD CLEAN STORE
@@ -48,15 +51,13 @@
   }
 
   const handleSubmit = async () => {
+    const modal = document.getElementById("login-dialog-id")
     errors = {}
-
-    //console.log(errors)
-
     if (usrid.length === 0) {
-      errors['usrid'] = "Field should not be empty";
+      errors['usrid'] = "Userid must not be empty";
     }
     if (password.length === 0) {
-      errors['password'] = "Field should not be empty";
+      errors['password'] = "Password must not be empty";
     }
 
     const radios:any = document.getElementsByClassName("family-radio")
@@ -98,32 +99,49 @@
             $navigation = getArrayFromPath(landingPage)
         })
         .catch((err:any) => {
+           array_of_errors= []
           isLoading = true;
           switch(err){
               case "ERR_PASSWD_EXPIRED":
-                //$cpreason = "password expired"
-                //$userid = usrid
-                navigate(`/data/admin/changepasswd`)
-                break;
-            case "ERR_PASSWD_BLOCKED":
-                errors['1'] = err.code
-                errors['2'] = "contact system admin"
-                errors['link'] = "mailto:amdin@google.com?subject:Blocked%20Password"
-                // TBD - ADD ERROR MANAGEMENT
-                console.log(err)
-                break;
-              default:
-                 errors['server'] = err.code;
-                 console.log(err)
-                break;
+                    //$cpreason = "password expired"
+                    //$userid = usrid
+                    navigate(`/data/admin/changepasswd`)
+                    break;
+                case "ERR_PASSWD_BLOCKED":
+                    array_of_errors.push(err)
+                    array_of_errors.push("contact system admin")
+                    array_of_errors.push("mailto:amdin@google.com?subject:Blocked%20Password")
+                    // TBD - ADD ERROR MANAGEMENT
+                    break;
+                case 'BAD_CREDENTIAL_ERROR':
+                    array_of_errors.push(err)
+                    break;
+                default:
+                    array_of_errors.push(err);
+                    break;
           }
+           console.log(err)
+           modal.style.display = 'block'
         });
     }else{
-         console.log("END OF THE QUEUE")
+          array_of_errors= []
+         const keys = Object.keys(errors)
+         for(let i=0;i<keys.length;i++)
+            array_of_errors.push(errors[keys[i]])
+         modal.style.display = 'block'
     }
   };
 
-  
+  const closeModal = (ev:any) =>{
+	 const divCont = document.getElementById("login-dialog-id")
+	 if(divCont)
+		divCont.style.display = 'none'
+ }
+
+ const title = 'Login Error'
+ let  wbgcolor = "#ddefde"
+ let toolbar:any = []
+
 </script>
 
 
@@ -172,6 +190,27 @@
         </button>
 
     </form>
+</div>
+
+<div class="modal" id="login-dialog-id" style="--background-color:{bgcolor}">
+    <WManag id="DonutClickedWindow"
+		closeMenu={closeModal}
+		title="{title}" 
+		disableClose={false} 
+		draggable={false} 
+		headercolor={wbgcolor}
+		width="800px"
+		top="10%"
+		left="20%"
+		toolbar = {toolbar}
+		minimized="off"
+		resize='both'>
+		<div class="logerr-content-div" slot="bodycontent">
+			{#each array_of_errors as Err}
+                <div>{Err}</div>
+            {/each}
+        </div>
+	</WManag>
 </div>
 
 <style>
@@ -241,5 +280,27 @@ div.class-login-form{
       vertical-align: middle; 
       margin: 0px;
   }
+
+  .modal{
+  display: none;
+  position: absolute; /* Stay in place */
+  top:0px;
+  z-index: 999; /* Sit on top */
+  padding: 4%; /* Location of the box */
+  width: 100%; /* Full width */
+  min-width: 200px; /* Full width */
+  height: 100%; /* Full height */
+  background-color: var(--background-color);
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.logerr-content-div{
+    display:flexbox;
+    justify-content:center ;
+    text-align: center;
+    height: 200px;
+    margin-top: 20px;
+    font-size:large;
+}
   
 </style>

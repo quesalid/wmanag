@@ -4,7 +4,7 @@ import { onMount, onDestroy } from 'svelte';
 import DrawFlow from './DrawFlow.svelte'
 import DrawFlowMenu from './DrawFlowMenu.svelte'
 import NODETYPES from './nodetypes.js'
-import {module, family} from '../../ustore.js'
+import {module, family,role} from '../../ustore.js'
 import EDITORUTILS from './grapheditor.js'
 import {fromGraphToFlow,resetGraph} from '../../script/flow/flowmap.js'
 
@@ -79,8 +79,10 @@ const clickStop = (ev:any)=>{
 			 <div>
 				 <input type="button" value="import" on:click={imp}/>
 				 <input type="button" value="export" on:click={exp}/>
-				 <input type="button" value="save" on:click={save}/>
-				 <input type="button" value="load" on:click={load}/>
+				 {#if $role != 'USER'}
+					 <input type="button" value="save" on:click={save}/>
+					 <input type="button" value="load" on:click={load}/>
+				 {/if}
 				 <input type="button" value="clear" on:click={clear}/>
 				 <input id="file-data-input"name="file-data-input" type='file' accept=".json" style="visibility:hidden;"  on:change={downloadData}>
 			 </div>

@@ -10,7 +10,7 @@ export const navigation = writable([{}]) // TOKENIZED NAVIGATION ARRAY OF OBJECT
 export const module = writable("") // CUERRENT MODULE
 export const currdevice = writable("") // CURRENT DEVICE
 export const avatargroups = writable([]) // TOKENIZED AVATAR MENU ARRAY OF OBJECTS
-export const avatarclass = writable("text-center text-sm italic mb-9") // AVATAR MENU ARRAY CLASS
+export const avatarclass = writable("text-left text-sm italic mb-9") // AVATAR MENU ARRAY CLASS
 export const avatar = writable("") // AVATAR STREAM
 export const family = writable("INDUSTRY") // PROCESS FAMILY (INDUSTRY|UTILITY|PLANT|INFR)
 

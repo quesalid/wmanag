@@ -29,7 +29,7 @@ onMount(async () => {
 				const ret = await getEntityMain(filters,$mock)
 				const found = ret.data.find((item:any)=> {return(item.uid == uid)})
 				title = "PLANT "+found.name
-				image = "/"+found.name+".jpg"
+				image = "/"+found.image
 				plant = found
 				const filtdep = [{plant:found.uid,_type:'eq'}]
 				const retdep = await getEntityArea(filtdep,$mock)
