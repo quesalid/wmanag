@@ -54,7 +54,9 @@ export let top = '2px'
 		const result = await EDITORUTILS.downloadJSON(file)
 		dataToImport = editor.import(JSON.parse(result))
 		let expdata = editor.export()
+		console.log("DOWLOAD DATA", expdata)
 		graph = fromGraphToFlow(expdata)
+		console.log("IMPORTED FLOW", graph)
 	}
 
 const clickStart = (ev:any)=>{
@@ -83,7 +85,7 @@ const clickStop = (ev:any)=>{
 				 <input id="file-data-input"name="file-data-input" type='file' accept=".json" style="visibility:hidden;"  on:change={downloadData}>
 			 </div>
 			 <DrawFlowMenu {nodetypes} />
-			 <div class="player-control">
+			 <div class="player-control" style="visibility:{$module.toUpperCase()=='CLONE'?'visible':'hidden'}">
 				 <!-- svelte-ignore a11y-click-events-have-key-events -->
 				 <!-- svelte-ignore a11y-no-static-element-interactions -->
 				 <svg on:click={clickStart} class="player-button" xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 32 32">
@@ -123,6 +125,9 @@ const clickStop = (ev:any)=>{
 .player-control{
 	display:flex;
 	padding: 4px;
+	border: 1px solid;
+	border-radius: 8px;
+	background-color: #EEEEEE;
 }
 .player-button{
 	cursor:pointer ;

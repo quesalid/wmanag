@@ -2,6 +2,7 @@
 import { onMount, onDestroy } from 'svelte';
 import DrawFlow from './drawflow.js'
 import DFEDITOR from './grapheditor.js'
+import NODETYPES from './nodetypes.js'
 import PanelBody from './panels/PanelBody.svelte'
 import PanelMessage from './panels/PanelMessage.svelte'
 
@@ -36,7 +37,6 @@ onMount(async () => {
 			node = editor.drawflow.drawflow.Home.data[nodeid]
 			nodes = editor.drawflow.drawflow.Home.data
 			df.style.display='block'
-			console.log("NODE ---->",node)
 		})
 		df.removeEventListener('hideeditpanel',drawflowHideEventListener)
 		drawflowHideEventListener = df.addEventListener('hideeditpanel',(ev:any) =>{
@@ -46,6 +46,25 @@ onMount(async () => {
 			df.style.display='none'
 		})
 	}
+	editor.on("connectionCreated", (ev:any) => {
+		// find output node
+		const output = editor.drawflow.drawflow.Home.data[ev.output_id]
+		console.log("EDITOR Connection created --> output", ev.output_class,output)
+		const connection = output.outputs[ev.output_class].connections.find((item:any)=> item.node == ev.input_id)
+		console.log("EDITOR Connection created --> connection",connection)
+		connection.message = {id:output.data.name.value,value:'defaultmsg'}
+	})
+	editor.on("nodeCreated", (ev:any) => {
+		const func = NODETYPES.getCallback(editor.drawflow.drawflow.Home.data[ev].class)
+		editor.drawflow.drawflow.Home.data[ev].data.callback = {value:func,type:'objfunction'}
+		console.log("EDITOR Node created", ev,func)
+	})
+	editor.on("nodeRemoved", (ev:any) => {
+		console.log("EDITOR Node removed", ev,editor.drawflow.drawflow.Home)
+	})
+	editor.on("connectionRemoved", (ev:any) => {
+		console.log("EDITOR Connection removed", ev,editor.drawflow.drawflow.Home)
+	})
 })
 
 const panelEditSave = (ev:any)=>{
@@ -83,7 +102,6 @@ const panelEditExit = (ev:any)=>{
 			<PanelBody bind:node={node} />
 		</div>
 		<div class="drawflow-edit-panel-message">
-			<span>Messages</span>
 			<PanelMessage bind:node={node} bind:nodes={nodes} />
 		</div>
 	</div>
@@ -105,7 +123,7 @@ const panelEditExit = (ev:any)=>{
 	position:absolute;
 	top:calc(2px + var(--top));
 	right: 3px;
-	width: 300px;
+	width: 350px;
 	/*height:200px;*/
 	border: 1px solid black;
 	border-radius: 3px;

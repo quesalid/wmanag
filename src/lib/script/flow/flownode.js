@@ -7,13 +7,13 @@ const sleep = function (ms) {
 
 const defaultCB = async function (inputs, outputs) {
     // Chain all input messages
-    let msg = ''
-    for (let i = 0; i < inputs.length; i++) {
+    let msg = 'PASS'
+    /*for (let i = 0; i < inputs.length; i++) {
         msg += ' ' + inputs[i].message.id
     }
     for (let i = 0; i < outputs.length; i++) {
         outputs[i].message.id = msg
-    }
+    }*/
     // FOR TEST ONLY
     const tmout = Math.floor(Math.random() * 3000) + 400
     await sleep(tmout)
@@ -73,6 +73,7 @@ class FlowNode {
     inputs = []
     outputs = []
     constructor(options) {
+        this.options = options
         this.name = options.name;
         if (options.id)
             this.id = options.id;
@@ -190,12 +191,12 @@ class FlowNode {
                 console.log(this.name, " received INPUT_READY", this.name,inputs)
             try {
                 // DO THE TASK - get inputs messages and sets output messages
-                const result = await this.callback(this.inputs, this.outputs)
+                const result = await this.callback.value(this)
                 // EMIT TASK_DONE FOR EACH OUTPUT
                 for (let i = 0; i < this.outputs.length; i++) {
                     //if (this.debug)
                         //console.log(this.name, " emitted TASK_DONE to ", this.outputs[i].name, " with message ", this.outputs[i].message)
-                    this.emitter.emit(FlowNode.TASK_DONE, this.outputs[i].message, this.outputs[i].name)
+                    this.emitter.emit(FlowNode.TASK_DONE, result, this.outputs[i].name)
                     
                 }
                 // COLOR TITLE
@@ -220,13 +221,14 @@ class FlowNode {
             const output = this.outputs.find((item) => item.name == name)
             if (output) {
                 // set message
-                output.message = result
+                //output.message = result
                 // send INPUT_EVENT to output node
                 if (output.to) {
                     for (let i = 0; i < output.to.length; i++) {
                         //if (this.debug)
                             //console.log(this.name, " emitted INPUT_EVENT to   port ", output.to[i].input,"with message ", output.message)
-                        output.to[i].emitter.emit(FlowNode.INPUT_EVENT, output.message, output.to[i].input)
+                        output.to[i].message.result = result
+                        output.to[i].emitter.emit(FlowNode.INPUT_EVENT, output.to[i].message, output.to[i].input)
                     }
                 }
             }

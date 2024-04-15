@@ -1917,14 +1917,40 @@ export default class Drawflow {
         this.drawflow = { "drawflow": { "Home": { "data": {} } } };
     }
     export() {
-        const dataExport = JSON.parse(JSON.stringify(this.drawflow));
+        //const dataExport = JSON.parse(JSON.stringify(this.drawflow));
+        const dataExport = JSON.parse(JSON.stringify(this.drawflow, function (key, value) {
+            // if the value is a function, return its source code as a string
+            if (typeof value === "function") {
+                return value.toString();
+            }
+            // if the value is a date, return its ISO string
+            if (value instanceof Date) {
+                return value.toISOString();
+            }
+            // otherwise, return the value as it is
+            return value;
+        }))
         this.dispatch('export', dataExport);
         return dataExport;
     }
 
     import(data, notifi = true) {
         this.clear();
-        this.drawflow = JSON.parse(JSON.stringify(data));
+        this.drawflow = JSON.parse(JSON.stringify(data), function (key, value) {
+            // if the value is a string that starts with "function", return it as a function
+            if (typeof value === "string" && value.startsWith("function")) {
+                const funct = new Function("return (" + value + ")")()
+                return Function("return (" + value + ")")();
+            }
+            // if the value is a string that matches the date format, return it as a date
+            if (typeof value === "string" &&
+                /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/.test(value)) {
+                return new Date(value);
+            }
+            // otherwise, return the value as it is
+            return value;
+        });
+        //console.log("IMPORT DRAWFLOW", this.drawflow)
         this.load();
         if (notifi) {
             this.dispatch('import', 'import');

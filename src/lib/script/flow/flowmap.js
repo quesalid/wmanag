@@ -1,5 +1,7 @@
 import FlowGraph from './flowgraph.js'
 import FLOWNODE from './flownode.js'
+
+
 /**
  * Get flow from graph
  * @param {any} graph
@@ -16,19 +18,31 @@ export const fromGraphToFlow = (graph, name = 'currentflow') => {
         const div = document.getElementById('title-box-' + keys[i])
         if (div)
             name = div.innerHTML
-        const options = {
+        const callback = Function("return (" + graph.drawflow.Home.data[key].data.callback.value + ")")();
+        let options = {
             name: name,
             id: key,
             type: graph.drawflow.Home.data[key].name,
             inputs: [],
             outputs: [],
             lookup: flow.lookup,
-            callback: null,
-            params: null,
+            callback: { value: callback, type: 'objfunction' },
             debug: true,
             guienabled:flow.guienabled
         }
+        // ----------- ADD DYNAMIC  KEYS TO options ---------------------
+        const datakeys = Object.keys(graph.drawflow.Home.data[key].data)
+        for (let k = 0; k < datakeys.length; k++) {
+            const datakey = datakeys[k]
+            if (!options[datakey]) {
+                console.log("DATA KEYS ---> ", datakey, graph.drawflow.Home.data[key].data[datakey])
+                options[datakey] = graph.drawflow.Home.data[key].data[datakey]
+            }
+        }
+        // ---------------------------------------------------------------
         const node = new FLOWNODE.FlowNode(options)
+        // SUBCRIBE STOP EVENT
+        node.subscribe("STOP", () => {})
         const inputskeys = Object.keys(graph.drawflow.Home.data[key].inputs)
         for (let j = 0; j < inputskeys.length; j++) {
             const inputkey = inputskeys[j]
@@ -76,8 +90,8 @@ export const fromGraphToFlow = (graph, name = 'currentflow') => {
                     // Check if destination node has multiple inputs
                     const toNodeInput = toNode.inputs.find((item)=> item.from.id == key)
                     if (toNode) {
-                        const out = { emitter: toNode.emitter, input: toNodeInput.name, id: toNode.id }
-                        outs.push(out)
+                        const outin = { emitter: toNode.emitter, input: toNodeInput.name, id: toNode.id, message: out.connections[k].message }
+                        outs.push(outin)
                     }
                 }
                 // Add outs array to output
@@ -87,6 +101,7 @@ export const fromGraphToFlow = (graph, name = 'currentflow') => {
             }
         }
     }
+    console.log("FLOWMAP",flow)
     return(flow)
 }
 

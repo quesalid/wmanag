@@ -45,10 +45,7 @@
 	const avatarsize = "w-10"
 	// GRAPH VARIABLES
     let defaultNodes: any[] = [];
-	let contextmenu = 'myContext'
-	let currentnode = {}
-	let graph = {nodes:[],edges:[],name:''}
-	let graphs:any = []
+	let graph:any
 	
 
 	/*let typeOptions = [
@@ -115,34 +112,11 @@
 		console.log("GRAPH SELECT",graphid,graph)
 	}
 
-	const submitQuery = async (ev:any|undefined)=>{
-		const elem:any = document.getElementById("ggraph-search") 
-		const query = elem?elem.value:''
-	
-		graphs = [
-			{id:'s3547dslfh6dfhcxtuw3797jhas',name:'GRAPH1',graph:{nodes:[],edges:[]}},
-			{id:'fr57945taiqd6gvxt67rtu9rt0p',name:'GRAPH2',graph:{nodes:[],edges:[]}},
-		]
-	
-		console.log("SUBMIT QUERY",query)
-
-		const select = document.getElementById("ggraph-select")
-		if(select){
-			select.style.visibility = "visible";
-		}
-	}
-
 	const save = async (ev:any|undefined)=>{
 		let expdata = editor.export()
 		EDITORUTILS.toDbData(expdata)
 	}
 
-	const deleteQuery = async (ev:any|undefined)=>{
-		console.log("DELETE GRAPH",graph)
-	}
-
-	//const options = {datacomp:'ISA'}
-	const options = {datacomp:'ISA',svgtop:50,svgleft:0,svgwidth:1200,svgheight:550}
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -177,7 +151,8 @@
 				top={barheigth}
 				{exp}
 				{imp}
-				{save}/>
+				{save}
+				bind:graph={graph}/>
 	</div>
 </div>
 

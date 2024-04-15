@@ -175,11 +175,12 @@ class FlowGraph {
         return(json)
     }
 
-    start(){
+    start() {
+        console.log("GRAPH START", this.nodes)
         const startNodes = this.nodes.filter((item) => item.type == 'start')
         for (let i = 0; i < startNodes.length; i++) {
             const node = startNodes[i]
-            node.emitter.emit(FLOWNODE.FlowNode.INPUT_READY)
+            node.emitter.emit(FLOWNODE.FlowNode.INPUT_READY,[])
             console.log("EMITTED: ", FLOWNODE.FlowNode.INPUT_READY, "startmessage",startNodes[i].name)
         }
     }

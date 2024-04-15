@@ -29,15 +29,19 @@ const capitalizeFirstLetter = (string:any) =>{
     <!--div class="drawflow-panel-body-container-class"-->
     {#each Object.keys(node.data) as Key}
         <div class="drawflow-panel-body-container-item">
-            <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
             {#if node.data[Key].type == 'text'}
-                <input  data-name="{Key}" type='text' size="25" bind:value='{node.data[Key].value}' on:change={setTitle}/>
+            <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
+                <input  data-name="{Key}" type='text' size="23" bind:value='{node.data[Key].value}' on:change={setTitle}/>
             {:else if node.data[Key].type == 'selection'}
+                <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
                 <select data-name="{Key}" name="nodetype" id="nodetype-select" on:change={setTitle} bind:value={node.data[Key].value}>
                     {#each node.data[Key].options as Option}
                         <option value='{Option}' selected>{Option}</option>
                     {/each}
                 </select>
+            {:else if node.data[Key].type == 'number'}
+                <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
+                <input  data-name="{Key}" type='number' size="23" bind:value='{node.data[Key].value}'/>
             {/if}
         </div>
     {/each}
@@ -53,10 +57,15 @@ const capitalizeFirstLetter = (string:any) =>{
     margin-right: auto;
     margin-top: 2px;
 }
-:global(.drawflow-panel-body-container-item input[type="text"]){
+:global(.drawflow-panel-body-container-item input){
     border:1px solid;
     padding-left: 2px;
-    font-size:small;
+    font-size:medium;
+}
+:global(.drawflow-panel-body-container-item input[type="number"]){
+    border:1px solid;
+    padding-left: 2px;
+    font-size:medium;
 }
 :global(.drawflow-panel-body-container-item select){
     width: 189px;

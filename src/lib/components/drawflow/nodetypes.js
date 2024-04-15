@@ -1,5 +1,7 @@
 // https://www.edrawsoft.com/pid-wastewater-treatment-symbols.html
 
+import { defaultCB, timerCB,stopCB } from '../../script/flow/corenodes.js'
+
 const getTitle = (title, titleclass ="title-box") => {
     const ret = '<div class="'+titleclass+'">' + title + '</div>'
     return (ret)
@@ -51,7 +53,7 @@ const getAllNodeType = (module) => {
 
 const buildCloneNodeTypes = () => {
         nodetypes = []
-    addNodeType(`start`, 0, 1, { name: { value: 'startid', type: 'text' } }, `start`,
+    addNodeType(`start`, 0, 1, { name: { value: 'startid', type: 'text' }}, `start`,
             `<div style="min-height:18px;">
             <svg id="svg-pippo" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -60,7 +62,7 @@ const buildCloneNodeTypes = () => {
             </svg>
         </div>`)
 
-    addNodeType(`stop`, 1, 0, { name: { value: 'stopid', type: 'text' } }, `stop`,
+    addNodeType(`stop`, 1, 0, { name: { value: 'stopid', type: 'text' }}, `stop`,
             `<div style="min-height:18px;">
             <svg id="svg-topo" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -69,7 +71,7 @@ const buildCloneNodeTypes = () => {
             </svg>
          </div>`)
 
-    addNodeType(`usertask`, 1, 1, { name: { value: 'usertaskid', type: 'text' } }, `usertask`,
+    addNodeType(`usertask`, 1, 1, { name: { value: 'usertaskid', type: 'text' }}, `usertask`,
             `<div style="min-height:18px;">
             <svg id="svg-minnie" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -81,7 +83,7 @@ const buildCloneNodeTypes = () => {
 	        </svg>
         </div>`)
 
-    addNodeType(`ruletask`, 1, 1, { name: { value: 'ruletaskid', type: 'text' } }, `ruletask`,
+    addNodeType(`ruletask`, 1, 1, { name: { value: 'ruletaskid', type: 'text' }}, `ruletask`,
             `<div style="min-height:18px;">
             <svg id="svg-scrooge" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -93,7 +95,10 @@ const buildCloneNodeTypes = () => {
 	        </svg>
      </div>`)
 
-    addNodeType(`timer`, 1, 1, { name: { value: 'timerid', type: 'text' } }, `timer`,
+    addNodeType(`timer`, 1, 1, {
+        name: { value: 'timerid', type: 'text' },
+        timeout: {value: 2000, type:'number'}
+    }, `timer`,
             `<div style="min-height:18px;">
             <svg id="svg-donald" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
@@ -102,39 +107,94 @@ const buildCloneNodeTypes = () => {
 	        </svg>
      </div>`)
 
-    addNodeType(`egate`, 1, 1, { name: { value: 'egateid', type: 'text' } }, `egate`,
+    addNodeType(`egate`, 1, 1, { name: { value: 'egateid', type: 'text' }}, `egate`,
             `<div style="min-height:18px;">
             <svg id="svg-henry" xmlns="http://www.w3.org/2000/svg" 
 	            viewBox="0 -960 960 960" 
                 class="svg-box-fill">
                <path id="path-henry" d="M1024.022 99.36c-19.324-.017-38.646 7.15-52.98 21.55L120.937 971.023c-28.67 28.668-28.537 77.295.132 105.963l849.971 849.965c28.67 28.678 77.294 28.804 105.963 0l850.106-850.1c28.669-28.667 28.536-77.296-.135-105.964L1077.002 120.91c-14.334-14.334-33.657-21.534-52.98-21.55m-.065 126.045l798.66 798.666l-798.66 798.657l-798.66-798.657zm.045 339.555l-14.703 10.672l-426.28 309.453l168.44 517.967h545.082l168.44-517.967zm-.004 61.775l382.178 277.44l-145.977 448.904H787.801L641.824 904.175z" />
 	        </svg>
-     </div>`)
+            </div>`
+            )
 }
+
 
 const buildDataNodeTypes = () => {
     nodetypes = []
-    addNodeType(`company`, 0, 1, { name: { value: 'rootname', type: 'text' } }, `firm`,
+    addNodeType(`company`, 0, 1, { name: { value: 'rootname', type: 'text' }}, `firm`,
         `<div style="min-height:18px;">
            <input type="image" src="/ROOT.svg" alt="Factory" />
         </div>`)
-    addNodeType(`factory`, 1, 1, { name: { value: 'factoryname', type: 'text' } }, `factory`,
+    addNodeType(`factory`, 1, 1, {
+        name: { value: 'factoryname', type: 'text' },
+        address: { value: 'address', type: 'text' },
+    }, `factory`,
         `<div style="min-height:18px;">
            <input type="image" src="/FACTORY.svg" alt="Factory" />
         </div>`)
-    addNodeType(`department`, 1, 1, { name: { value: 'deptname', type: 'text' } }, `department`,
+    addNodeType(`department`, 1, 1, {
+        name: { value: 'deptname', type: 'text' },
+        description: { value: 'description', type: 'text' },
+    }, `department`,
         `<div style="min-height:18px;">
            <input type="image" src="/DEPARTMENT.svg" alt="Department" />
         </div>`)
-    addNodeType(`line`, 1, 1, { name: { value: 'linename', type: 'text' } }, `line`,
+    addNodeType(`line`, 1, 1, {
+        name: { value: 'linename', type: 'text' },
+        description: { value: 'description', type: 'text' },
+    }, `line`,
         `<div style="min-height:18px;">
            <input type="image" src="/LINE.svg" alt="Department" />
         </div>`)
-    addNodeType(`machine`, 1, 1, { name: { value: 'machinename', type: 'text' } }, `machine`,
+    addNodeType(`machine`, 1, 1, {
+        name: { value: 'machinename', type: 'text' },
+        description: { value: 'description', type: 'text' },
+        type: {
+            value: 'autoclave', type: 'selection', options: [
+                'autoclave',
+                'oven',
+                'preparer',
+                'freeze-drier',
+                'filler',
+                'filtertest',
+                'granulator',
+                'bed-dryer',
+                'tablet-press',
+                'mill'
+            ]
+        },
+        model: { value: 'model', type: 'text' },
+        manufacturer: { value: 'manufacturer', type: 'text' },
+        factoryid: { value: 'factoryid', type: 'text' },
+    }, `machine`,
         `<div style="min-height:18px;">
            <input type="image" src="/MACHINE.svg" alt="Machine" />
         </div>`)
-    addNodeType(`controller`, 1, 0, { name: { value: 'contrname', type: 'text' } }, `controller`,
+    addNodeType(`controller`, 1, 0, {
+        name: { value: 'contrname', type: 'text' },
+        description: { value: 'description', type: 'text' },
+        type: {
+            value: 'plc', type: 'selection', options: [
+                'plc',
+                'pc-industrial',
+                'micro',
+                'embedded',
+            ]
+        },
+        driver: {
+            value: 'modbus', type: 'selection', options: [
+                'modbus',
+                's7',
+                'ethip',
+                'sql',
+                'mqtt',
+                'restpi',
+                'opcua'
+            ]
+        },
+        ipname: { value: 'ip/servername', type: 'text' },
+        serialno: { value: 'serialno', type: 'text' },
+    }, `controller`,
         `<div style="min-height:18px;">
            <input type="image" src="/CONTROLLER.svg" alt="Controller" />
         </div>`)
@@ -143,14 +203,14 @@ const buildDataNodeTypes = () => {
 const buildDataInfrastructureNodeTypes = () => {
     nodetypes = []
     addNodeType(`company`, 0, 1, {
-        name: { value: 'rootname', type: 'text' },
+        name: { value: 'rootname', type: 'text'},
         address: { value: '', type: 'text' }
     }, `company`,
         `<div style="min-height:18px;">
            <input type="image" src="/ROOT.svg" alt="Factory" />
         </div>`)
     addNodeType(`infrastructure`, 1, 1, {
-        name: { value: 'plantname', type: 'text' },
+        name: { value: 'plantname', type: 'text'},
         description: { value: '', type: 'text' }
     }, `plant`,
         `<div style="min-height:18px;">
@@ -178,10 +238,45 @@ const buildDataInfrastructureNodeTypes = () => {
         `<div style="min-height:18px;">
            <input type="image" src="/MACHINE.svg" alt="Machine" />
         </div>`)
-    addNodeType(`controller`, 1, 0, { name: { value: 'cintrname', type: 'text' } }, `controller`,
+    addNodeType(`controller`, 1, 0, {
+        name: { value: 'contrname', type: 'text' },
+        description: { value: 'description', type: 'text' },
+        type: {
+            value: 'plc', type: 'selection', options: [
+                'plc',
+                'pc-industrial',
+                'micro',
+                'embedded',
+            ]
+        },
+        driver: {
+            value: 'modbus', type: 'selection', options: [
+                'modbus',
+                's7',
+                'ethip',
+                'sql',
+                'mqtt',
+                'restpi',
+                'opcua'
+            ]
+        },
+        ipname: { value: 'ip/servername', type: 'text' },
+        serialno: { value: 'serialno', type: 'text' },
+    }, `controller`,
         `<div style="min-height:18px;">
            <input type="image" src="/CONTROLLER.svg" alt="Controller" />
         </div>`)
+}
+
+const getCallback = (type) => {
+    switch (type) {
+        case 'timer':
+            return timerCB
+        case 'stop':
+            return stopCB
+        default:
+            return defaultCB
+    }
 }
 
 
@@ -189,7 +284,8 @@ const NODETYPES = {
     addNodeType,
     removeNodeType,
     getNodeType,
-    getAllNodeType
+    getAllNodeType,
+    getCallback
 }
 
 export default NODETYPES
