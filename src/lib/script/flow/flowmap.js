@@ -164,7 +164,12 @@ export const fromFlowToDb = async (flow) => {
                 obj.lon = item['lon'] ? item['lon'].value : 0.0
                 obj.label = item['label'] ? item['label'].value : 'LBL'
                 obj.color = item['color'] ? item['color'].value : '#DDDDDD'
-                obj.image = item['image'] ? item['image'].value : ''
+                // Filter image
+                obj.image = ''
+                if (item['image']) {
+                    const str = item['image'].value.replace("C:\\fakepath\\", "")
+                    obj.image = str
+                }
                 // GET FIRST PARENT AS COMPANY
                 obj.company = getFirstParent(nodes[i])
                 break;
