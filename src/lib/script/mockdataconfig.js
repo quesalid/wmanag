@@ -17,6 +17,7 @@ let learnpoints = DBINDUSTRY.generateLearnPoints()
 let masterbatchphases = DBINDUSTRY.masterbatchphases
 let clonephases = DBINDUSTRY.generateClonePhases(clonepoints, 'BATCH')
 let learnphases = DBINDUSTRY.generateClonePhases(learnpoints, 'BATCH')
+let companies = DBINDUSTRY.companies
 
 // ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
@@ -36,6 +37,7 @@ const init = (family) => {
             masterbatchphases = []
             clonephases = []
             learnphases = []
+            companies = DBINFASTRUCTURE.companies
             break;
         default:
             devices = DBINDUSTRY.devices
@@ -51,6 +53,7 @@ const init = (family) => {
             masterbatchphases = DBINDUSTRY.masterbatchphases
             clonephases = DBINDUSTRY.generateClonePhases(clonepoints, 'BATCH')
             learnphases = DBINDUSTRY.generateClonePhases(learnpoints, 'BATCH')
+            companies = DBINDUSTRY.companies
             break;
     }
 }
@@ -119,6 +122,38 @@ const deleteAgent = async function (body) {
     return (body)
 }
 
+
+const getCompanies = async function (body) {
+    let retCompanies = JSON.parse(JSON.stringify(companies))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retCompanies = filterArray(retCompanies, filters)
+    }
+    body.data = retCompanies
+    return (body)
+}
+
+const setCompany = async function (body) {
+    const company = body.options.company
+    let old = null
+    if (company) {
+        const existing = companies.findIndex((item) => { return item.uid == company.uid })
+        if (existing > -1) {
+            old = companies[existing]
+            companies[existing] = company
+        } else {
+            companies.push(company)
+        }
+    }
+    return old
+}
+
+const deleteCompany = async function (body) {
+    const filters = body.options.filters
+    companies = filterArray(companies, filters, true)
+    body.data = companies
+    return (body)
+}
 const getEntityMain = async function (body) {
     let retEntities = JSON.parse(JSON.stringify(mainentities))
     const filters = body.options.filters
@@ -547,6 +582,9 @@ const CONFIG = {
     getLearnPhases,
     setLearnPhase,
     deleteLearnPhase,
+    getCompanies,
+    setCompany,
+    deleteCompany,
 }
 
 export default CONFIG

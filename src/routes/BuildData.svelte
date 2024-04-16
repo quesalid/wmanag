@@ -15,6 +15,7 @@
    import EDITOR from '../lib/components/drawflow/editor.svelte'
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
+   import {fromFlowToDb,fromGraphToFlow} from '../lib/script/flow/flowmap.js'
 
 
 	onMount(async () => {
@@ -112,9 +113,11 @@
 		console.log("GRAPH SELECT",graphid,graph)
 	}
 
-	const save = async (ev:any|undefined)=>{
-		let expdata = editor.export()
-		EDITORUTILS.toDbData(expdata)
+	const save = async (ev:any)=>{
+		console.log("SAVEDATAFLOW")
+		let expdata = await editor.export()
+		const flow = fromGraphToFlow(expdata)
+		await fromFlowToDb(flow)
 	}
 
 

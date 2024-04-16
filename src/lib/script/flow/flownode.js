@@ -242,7 +242,7 @@ class FlowNode {
     }
 
     subscribe(ev, handler) {
-        console.log("NODE SUBSCRIBE", ev, this.lookup)
+        //console.log("NODE SUBSCRIBE", ev, this.lookup)
         if (this.lookup) {
             const regitem = { id: this.id, ev: ev, emitter: this.emitter }
             this.lookup.subscribe(regitem)

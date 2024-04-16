@@ -83,10 +83,7 @@ export const downloadJSON = (file) => {
     })
 }
 
-export const toDbData = (graph) => {
-    // parse graph
-    console.log("GRAPH",graph.drawflow.Home)
-}
+
 
 
 const DFEDITOR = {
@@ -94,7 +91,6 @@ const DFEDITOR = {
     drag,
     allowDrop,
     uploadFile,
-    downloadJSON,
-    toDbData
+    downloadJSON
 }
 export default DFEDITOR

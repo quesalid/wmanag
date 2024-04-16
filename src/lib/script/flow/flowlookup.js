@@ -15,7 +15,7 @@ class FlowLookup {
     }
 
     subscribe(r) {
-        console.log("SUBCRIBED",r)
+        //console.log("SUBCRIBED",r)
         const listener = (payload) => {
             console.log("RECEIVED",r.id,r.ev,payload)
             // For each registered node --> propagate event
@@ -32,7 +32,7 @@ class FlowLookup {
         this.emitter.on(r.ev, listener)
     }
     usubscribe(id, ev) {
-        console.log("UNSUBSCRBED", id,r)
+        //console.log("UNSUBSCRBED", id,r)
         const r = this.lookup.find((item) => (item.id == id && item.ev == ev))
         if (r)
             this.emitter.off(r.ev, r.listener)

@@ -24,6 +24,11 @@ const setTitle = (ev:any)=>{
 const capitalizeFirstLetter = (string:any) =>{
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+const changeColor = (ev:any)=>{
+    const key = ev.target.dataset.name
+    node.data[key].value = ev.target.value
+}
 </script>
     
     <!--div class="drawflow-panel-body-container-class"-->
@@ -44,7 +49,7 @@ const capitalizeFirstLetter = (string:any) =>{
                 <input  data-name="{Key}" type='number' size="23" bind:value='{node.data[Key].value}'/>
             {:else if node.data[Key].type == 'color'}
                 <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
-                <input  data-name="{Key}" type='color' size="23" bind:value='{node.data[Key].value}'/>
+                <input  data-name="{Key}" type='color' size="23" value='{node.data[Key].value}' on:change={changeColor}/>
             {:else if node.data[Key].type == 'file'}
                 <span style="margin-right:10px;">{capitalizeFirstLetter(Key)}:</span>
                 <input  data-name="{Key}" type='file' size="23" bind:value='{node.data[Key].value}' accept="image/*"/>

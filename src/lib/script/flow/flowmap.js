@@ -35,7 +35,7 @@ export const fromGraphToFlow = (graph, name = 'currentflow') => {
         for (let k = 0; k < datakeys.length; k++) {
             const datakey = datakeys[k]
             if (!options[datakey]) {
-                console.log("DATA KEYS ---> ", datakey, graph.drawflow.Home.data[key].data[datakey])
+                //console.log("DATA KEYS ---> ", datakey, graph.drawflow.Home.data[key].data[datakey])
                 options[datakey] = graph.drawflow.Home.data[key].data[datakey]
             }
         }
@@ -105,6 +105,12 @@ export const fromGraphToFlow = (graph, name = 'currentflow') => {
     return(flow)
 }
 
+/**
+ * Reset graph node title box color
+ * @param {any} graph
+ * @param {any} flow
+ * @param {any} color
+ */
 export const resetGraph = (graph,flow,color) => {
     const keys = Object.keys(graph.drawflow.Home.data)
     // Reset graph title color
@@ -123,5 +129,92 @@ export const resetGraph = (graph,flow,color) => {
             for (let j = 0; j < node.outputs.length; j++)
                 node.outputs[j].status = false
         }
+    }
+}
+
+
+const getFirstParent = (node) => {
+    let parent
+    const inputs = node.inputs
+    if (inputs && inputs.length && inputs.length > 0) {
+        parent = inputs[0].from.id
+    }
+    return parent
+}
+export const fromFlowToDb = async (flow) => {
+    let nodes = flow.nodes
+    for (let i = 0; i < nodes.length; i++) {
+        const item = nodes[i].options
+        const keys = Object.keys(item)
+        const type = nodes[i].type
+        let obj = {}
+        obj.uid = item['id'] ? item['id'] : ''
+        obj.lastmodified = new Date(Date.now()).toISOString()
+        switch (type) {
+            case 'company':
+                obj.name = item['name'] ? item['name'] : ''
+                obj.address = item['address'] ? item['address'].value : ''
+                break;
+            case 'infrastructure':
+            case 'factory':
+                obj.name = item['name'] ? item['name'] : ''
+                obj.address = item['address'] ? item['address'].value : ''
+                obj.description = item['description'] ? item['description'].value : ''
+                obj.lat = item['lat'] ? item['lat'].value : 0.0
+                obj.lon = item['lon'] ? item['lon'].value : 0.0
+                obj.label = item['label'] ? item['label'].value : 'LBL'
+                obj.color = item['color'] ? item['color'].value : '#DDDDDD'
+                obj.image = item['image'] ? item['image'].value : ''
+                // GET FIRST PARENT AS COMPANY
+                obj.company = getFirstParent(nodes[i])
+                break;
+            case 'department':
+            case 'area':
+                obj.name = item['name'] ? item['name'] : ''
+                // GET FIRST PARENT AS PLANT
+                obj.plant = getFirstParent(nodes[i])
+                break;
+            case 'section':
+            case 'line':
+                obj.name = item['name'] ? item['name'] : ''
+                // GET FIRST PARENT AS DEPARTMENT
+                obj.department = getFirstParent(nodes[i])
+                break;
+            case 'machine':
+                obj.name = item['name'] ? item['name'] : ''
+                obj.description = item['description'] ? item['description'].value : ''
+                obj.type = item['type'] ? item['type'].value : ''
+                obj.manufacturer = item['manufacturer'] ? item['manufacturer'].value : ''
+                obj.model = item['model'] ? item['model'].value : ''
+                obj.room = item['room'] ? item['room'].value : ''
+                // GET FIRST PARENT AS LINE
+                obj.line = getFirstParent(nodes[i])
+                break;
+            case 'asset':
+                obj.name = item['name'] ? item['name'] : ''
+                obj.description = item['description'] ? item['description'].value : ''
+                obj.type = item['type'] ? item['type'].value : ''
+                obj.buildyear = item['buildyear'] ? item['buildyear'].value : ''
+                // GET FIRST PARENT AS LINE
+                obj.line = getFirstParent(nodes[i])
+                break;
+            case 'controller':
+                obj.name = item['name'] ? item['name'] : ''
+                obj.description = item['description'] ? item['description'].value : ''
+                obj.ctype = item['ctype'] ? item['ctype'].value : ''
+                obj.driver = item['driver'] ? item['driver'].value : ''
+                obj.manufacturer = item['manufacturer'] ? item['manufacturer'].value : ''
+                obj.model = item['model'] ? item['model'].value : ''
+                obj.ip = item['ip'] ? item['ip'].value : ''
+                obj.port = item['port'] ? item['port'].value : 80
+                obj.mac = item['mac'] ? item['mac'].value : ''
+                obj.intf = item['intf'] ? item['intf'].value : ''
+                // GET FIRST PARENT AS MACHINE
+                obj.machine = getFirstParent(nodes[i])
+                break;
+            default:
+                break;
+        }
+        console.log("From Flow To Db", type,obj,keys)
     }
 }

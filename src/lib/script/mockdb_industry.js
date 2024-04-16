@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import polycurve from './polycurve.js'
 
+const companyid = uuidv4()
+
 let devices = [
     {
         uid: 'abc-1',
@@ -569,9 +571,19 @@ let agents = [
     }
 ]
 
+let companies = [
+    {
+        uid: companyid,
+        name: 'COMP s.p.a.',
+        address:'via Roma 45, MI'
+    }
+
+]
+
 let plants = [
     {
         uid: 'plant-1',
+        company: companyid,
         name: 'PLANT-001',
         lastmodified: "2022-06-30T10:00:00",
         description: "Pabianice Plant",
@@ -603,6 +615,7 @@ let plants = [
     {
         uid: 'plant-2',
         name: 'PLANT-002',
+        company: companyid,
         lastmodified: "2022-06-30T10:00:00",
         description: "Tulsa Plant",
         lat: 36.153798,
@@ -633,6 +646,7 @@ let plants = [
     {
         uid: 'plant-3',
         name: 'PLANT-003',
+        company: companyid,
         lastmodified: "2022-06-30T10:00:00",
         description: "Latina Plant",
         lat: 41.46614000,
@@ -1609,6 +1623,7 @@ const generateTimeSeriesRect = (point, num, DEGREE = 5) => {
 }
 
 const DBINDUSTRY = {
+    companies,
     devices,
     agents,
     plants,

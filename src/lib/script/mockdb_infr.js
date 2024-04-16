@@ -28,6 +28,7 @@ const uidmach1 = uuidv4()
 const uidmach2 = uuidv4()
 const uidcontr1 = uuidv4()
 const uidcontr2 = uuidv4()
+const companyid = uuidv4()
 
 
 let devices = [
@@ -240,10 +241,21 @@ let agents = [
     }
 ]
 
+let companies = [
+    {
+        uid: companyid,
+        name: 'COMP s.p.a.',
+        address: 'via Roma 45, MI',
+        lastmodified: "2022-06-30T10:00:00",
+    }
+
+]
+
 let mainentities = [
     {
         uid: uidstr1,
         name: 'RFI-002',
+        company: companyid,
         lastmodified: "2022-06-30T10:00:00",
         description: "Ferrovia Roma Pescara",
         lat: 45.102365,
@@ -259,6 +271,7 @@ let mainentities = [
     {
         uid: uidstr2,
         name: 'TUNNEL-001',
+        company: companyid,
         lastmodified: "2022-06-30T10:00:00",
         description: "Tunnel tratta Piacenza Milano",
         lat: 45.227513,
@@ -313,6 +326,7 @@ let controlledentities = [
         type: "BRIDGE",
         buildyear: "1952",
         agent: uidscan1,
+        lastmodified: "2022-06-30T10:00:00",
     },
     {
         uid: uidmach2,
@@ -321,7 +335,8 @@ let controlledentities = [
         line: uidline2,
         type: "TUNNEL",
         buildyear: "1921",
-        agent: uidscan2
+        agent: uidscan2,
+        lastmodified: "2022-06-30T10:00:00",
     },
 ]
 
@@ -338,6 +353,7 @@ let controllers = [
         mac: "E1:F7:2D:23:C7:3F",
         intf: "LORAWAN",
         driver: "modbus",
+        lastmodified: "2022-06-30T10:00:00",
     },
     {
         uid: uidcontr2,
@@ -351,6 +367,7 @@ let controllers = [
         mac: "E1:F7:2D:23:C7:3F",
         intf: "LORAWAN",
         driver: "modbus",
+        lastmodified: "2022-06-30T10:00:00",
 
     },
 ]
@@ -611,6 +628,7 @@ const generateTimeSeriesRect = (point, num, DEGREE = 5) => {
 }
 
 const DBINFASTRUCTURE = {
+    companies,
     devices,
     agents,
     mainentities,

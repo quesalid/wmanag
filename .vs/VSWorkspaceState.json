@@ -4,11 +4,10 @@
     "\\src",
     "\\src\\lib",
     "\\src\\lib\\components",
-    "\\src\\lib\\components\\drawflow\\panels",
     "\\src\\lib\\components\\topbar",
     "\\src\\lib\\script",
     "\\src\\routes"
   ],
-  "SelectedNode": "\\src\\lib\\components\\topbar\\AlertMessages.svelte",
+  "SelectedNode": "\\src\\lib\\script\\apidataconfig.js",
   "PreviewInSolutionExplorer": false
 }

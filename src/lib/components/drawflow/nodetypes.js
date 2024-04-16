@@ -179,7 +179,9 @@ const buildDataNodeTypes = () => {
     addNodeType(`controller`, 1, 0, {
         name: { value: 'contrname', type: 'text' },
         description: { value: 'description', type: 'text' },
-        type: {
+        model: { value: 'model', type: 'text' },
+        manufacturer: { value: 'manufacturer', type: 'text' },
+        ctype: {
             value: 'plc', type: 'selection', options: [
                 'plc',
                 'pc-industrial',
@@ -198,8 +200,19 @@ const buildDataNodeTypes = () => {
                 'opcua'
             ]
         },
-        ipname: { value: 'ip/servername', type: 'text' },
-        serialno: { value: 'serialno', type: 'text' },
+        intf: {
+            value: 'Ethernet', type: 'selection', options: [
+                'Ethernet',
+                'WiFi',
+                'RS232',
+                'RS485',
+                'LoraWan',
+                'Bluethooth',
+            ]
+        },
+        ip: { value: '127.0.0.1', type: 'text' },
+        port: { value: 80, type: 'number' },
+        mac: { value: '00:00:00:00:00:00', type: 'text' },
     }, `controller`,
         `<div style="min-height:18px;">
            <input type="image" src="/CONTROLLER.svg" alt="Controller" />
@@ -216,9 +229,15 @@ const buildDataInfrastructureNodeTypes = () => {
            <input type="image" src="/ROOT.svg" alt="Factory" />
         </div>`)
     addNodeType(`infrastructure`, 1, 1, {
-        name: { value: 'plantname', type: 'text'},
-        description: { value: '', type: 'text' }
-    }, `plant`,
+        name: { value: 'infrname', type: 'text' },
+        address: { value: 'address', type: 'text' },
+        description: { value: 'description', type: 'text' },
+        lat: { value: 0.0, type: 'number' },
+        lon: { value: 0.0, type: 'number' },
+        label: { value: 'LBL', type: 'text' },
+        color: { value: 'LBL', type: 'color' },
+        image: { value: 'image.jpg', type: 'file' },
+    }, `infr`,
         `<div style="min-height:18px;">
            <input type="image" src="/AREA.svg" alt="Screen" />
         </div>`)
@@ -247,7 +266,9 @@ const buildDataInfrastructureNodeTypes = () => {
     addNodeType(`controller`, 1, 0, {
         name: { value: 'contrname', type: 'text' },
         description: { value: 'description', type: 'text' },
-        type: {
+        model: { value: 'model', type: 'text' },
+        manufacturer: { value: 'manufacturer', type: 'text' },
+        ctype: {
             value: 'plc', type: 'selection', options: [
                 'plc',
                 'pc-industrial',
@@ -266,8 +287,19 @@ const buildDataInfrastructureNodeTypes = () => {
                 'opcua'
             ]
         },
-        ipname: { value: 'ip/servername', type: 'text' },
-        serialno: { value: 'serialno', type: 'text' },
+        intf: {
+            value: 'Ethernet', type: 'selection', options: [
+                'Ethernet',
+                'WiFi',
+                'RS232',
+                'RS485',
+                'LoraWan',
+                'Bluethooth',
+            ]
+        },
+        ip: { value: '127.0.0.1', type: 'text' },
+        port: { value: 80, type: 'number' },
+        mac: { value: '00:00:00:00:00:00', type: 'text' },
     }, `controller`,
         `<div style="min-height:18px;">
            <input type="image" src="/CONTROLLER.svg" alt="Controller" />
