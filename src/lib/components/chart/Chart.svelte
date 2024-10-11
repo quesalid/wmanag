@@ -5,13 +5,56 @@ import {token, mock} from '../../ustore.js'
 import {getDataPoints,getDataTimeSeries,getEntityControlled} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
 import WManag from '../WManag.svelte'
-import {CP_Button} from '../../script/controlpanel_0.0.1.js'
+//import {CP_Button} from '../../script/controlpanel_0.0.1.js'
+import Gauge from '../gaugejs/Gauge.svelte'
+
+let opts = {
+          angle: -0.2, // The span of the gauge arc
+          lineWidth: 0.2, // The line thickness
+          radiusScale: 0.8, // Relative radius
+          pointer: {
+            length: 0.6, // // Relative to gauge radius
+            strokeWidth: 0.035, // The thickness
+            color: '#000000' // Fill color
+          },
+          limitMax: false,     // If false, max value increases automatically if value > maxValue
+          limitMin: false,     // If true, the min value of the gauge will be fixed
+          //colorStart: '#6FADCF',   // Colors
+          colorStart: '#6FADCF',   // Colors
+          colorStop: '#8FC0FA',    // just experiment with them
+          strokeColor: '#E0E0E0',  // to see which ones work best for you
+          generateGradient: true,
+          highDpiSupport: true,     // High resolution support
+          staticLabels: {
+              font: "8px sans-serif",  // Specifies font
+              labels: [0, 50, 100, 150, 200, 250,300],  // Print labels at these values
+              color: "#000000",  // Optional: Label text color
+              fractionDigits: 0  // Optional: Numerical precision. 0=round off.
+            },
+        staticZones: [
+           {strokeStyle: "#F03E3E", min: 0, max: 60}, // Red from 100 to 130
+           {strokeStyle: "#FFDD00", min: 60, max: 120}, // Yellow
+           {strokeStyle: "#30B32D", min: 120, max: 180}, // Green
+           {strokeStyle: "#FFDD00", min: 180, max: 240}, // Yellow
+           {strokeStyle: "#F03E3E", min: 240, max: 300}  // Red
+        ],
+        renderTicks: {
+          divisions: 5,
+          divWidth: 1.1,
+          divLength: 0.7,
+          divColor: '#333333',
+          subDivisions: 3,
+          subLength: 0.5,
+          subWidth: 0.6,
+          subColor: '#666666'
+        }
+    };
 
 onMount(async () => {
 	    // INITIALIZE CP_Button
-		powerButton = new CP_Button("cpPowerButton","/POWERON.png","/POWEROFF.png",$mock)
+		//powerButton = new CP_Button("cpPowerButton","/POWERON.png","/POWEROFF.png",$mock)
 		// BIND CP_Button
-		powerButton.bind("power-button-id")
+		//powerButton.bind("power-button-id")
 		// GET MYSELF - SHOW UP IF DELETE IS CLICKED
 		const chartForm = document.getElementById(modalId)
 		if(chartForm){
@@ -55,8 +98,10 @@ onMount(async () => {
 				]
 				echartdata.markOptions={symbol:['circle','circle']}
 				title = "POINT CHART - "+point.description
+
 			})
 		}
+		 
 	});
 
 const closeModal = (ev:any) =>{
@@ -105,7 +150,21 @@ let chartoptions = {
 		"toolbar":{"enabled":false}
 }
 // CONTROL PANEL
-let powerButton
+//let powerButton
+
+let gauge:any = {}
+let myCanvasName = 'myCanvasName'
+let onDataClick = (ev:any)=>{
+	console.log("ECHART EVENT",ev)
+	if(ev.seriesName){
+		console.log("ECHART EVENT",ev.seriesName,ev.data)
+		const gaugeEvent = new CustomEvent("showgauge",{detail:ev.data})
+		const div = document.getElementById(myCanvasName)
+		myCanvasName = myCanvasName
+		if(div)
+			div.dispatchEvent(gaugeEvent)
+	}
+}
 
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
@@ -128,16 +187,11 @@ let powerButton
 							<img src={machineImg} alt="machImg"/>
 						</div>
 					<div class="chart-container-div" style="margin-left:auto;">
-						<SvelteEcharts bind:data={echartdata} bind:options={chartoptions}/>
+						<SvelteEcharts bind:data={echartdata} 
+									bind:options={chartoptions}
+									onDataClick={onDataClick}/>
 						<div class="control-container-div">
-							<div class="power-control">
-								<img id="power-button-id" class='cp-button-class' src="/POWEROFF.png" width="70%" alt="powerbutton"/>
-								<img src="/EMBUTTON.png" width="45%" alt="embutton"/>
-							</div>
-							<div style="background-color:#fff;border: 1px solid;width:45%;height:100%">
-							</div>
-							<div style="background-color:#aaa;border: 1px solid;width:35%;height:100%">
-							</div>
+							<Gauge  bind:myCanvasName={myCanvasName}/>
 						</div>
 					</div>
 				</div>

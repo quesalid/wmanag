@@ -418,17 +418,20 @@ function randomTDUABD(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     const index = Math.floor(Math.random() * pre.length)
-    let bit = String(Math.floor(Math.random() * 16))
     let atype = 'ANALOG'
-    let dtype = 'bool'
-    if (index > 7) {
-        atype = 'DIGITAL'
-    } else {
-        bit = "0"
-        dtype = 'real'
-    }
+    let dtype = 'real'
+    let bit = "0"
     const tag = pre[index] + result
-
+    if (pre[index].includes('AL-')) {
+        bit = String(Math.floor(Math.random() * 16))
+        atype = 'ALARM'
+        dtype = 'bool'
+    }
+    if (pre[index].includes('EV-')) {
+        bit = String(Math.floor(Math.random() * 16))
+        atype = 'EVENT'
+        dtype = 'bool'
+    }
     return [tag, desc[index], um[index], atype, bit, dtype]
 
 }
@@ -483,7 +486,31 @@ function getPointLims(type) {
 function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
     const points = []
     for (let i = 0; i < num; i++) {
-        const point = { uid: uuidv4(), tag: '', description: '', um: '', dtype: '', delta: false, bit: 0, hlim: 0.0, llim: 0.0, area: '', ack: false, numarea: 0, address: 0, amount: 1, atype: '', type: '', agent: agent, device: device, controller: controller, machine: machine, db: db }
+        const point = {
+            uid: uuidv4(),
+            tag: '',
+            description: '',
+            um: '',
+            dtype: '',
+            delta: false,
+            bit: 0,
+            hlim: 0.0,
+            llim: 0.0,
+            area: '',
+            ack: false,
+            numarea: 0,
+            address: 0,
+            amount: 1,
+            atype: '',
+            type: '',
+            agent: agent,
+            device: device,
+            controller: controller,
+            machine: machine,
+            db: db,
+            lastvalue: "",
+            lasttime: "",
+        }
         const [tag, desc, um, atype, bit, dtype] = randomTDUABD(5)
         point.tag = tag
         point.module = 'DATA'
@@ -503,7 +530,7 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
                 point.address = Math.floor(Math.random() * 40000)
                 break;
             case 'modbus':
-                if (point.atype == 'DIGITAL')
+                if (point.atype == 'DIGITAL' || point.atype == 'ALARM' || point.atype == 'EVENT')
                     point.area = 'COIL'
                 else
                     point.area = 'INPUT'
@@ -513,9 +540,35 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
             default:
                 point.area = 'NA'
                 point.numarea = 0
-                point.address = tag
+                point.address = 0
                 break
         }
+        // generate last value
+        if (point.atype == 'DIGITAL' || point.atype == 'ALARM' || point.atype == 'EVENT') {
+            point.lastvalue = Math.floor(Math.random() * 2) == 0 ? 'OFF' : 'ON'
+        } else {
+            switch (point.type) {
+                case 'TEMPERATURE':
+                case 'MECHTENS':
+                case 'HUMIDITY':
+                case 'SPEED':
+                case 'CURRENT':
+                case 'VOLTAGE':
+                case 'FLOW':
+                    point.lastvalue = (Math.random() * (hlim - llim) + llim).toFixed(2)
+                    break;
+                case 'NUMBER':
+                    point.lastvalue = Math.floor(Math.random() * 10)
+                    break;
+                default:
+                    point.lastvalue = 'N.A.'
+                    break;
+            }
+        }
+        const now = Date.now()
+        const start = new Date("2023-01-01")
+        const newdate1 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
+        point.lasttime = newdate1.toISOString().split('Z')[0]
         points.push(point)
     }
     return points
@@ -555,6 +608,8 @@ const getTSValue = (type, min, max) => {
     let val = 0
     switch (type) {
         case 'DIGITAL':
+        case 'ALARM':
+        case 'EVENT':
             val = Math.random() < 0.8 ? 0 : 1
             break;
         case 'ANALOG':

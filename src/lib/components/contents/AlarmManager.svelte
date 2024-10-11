@@ -18,8 +18,10 @@
    let machines:any = []
    let controllers:any = []
 	onMount(async () => {
-		const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'}]
-		const ret = await getDataPoints(filters,$mock)
+		const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'},{lastvalue:'ON',_type:'eq'}]
+		const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:5}
+		// Here we get the data from the API
+		const ret = await getDataPoints(filters,$mock,pagination)
 		let ret1 = await getEntityControlled([],$mock)
 		machines = ret1.data
 		let ret2 = await getControllers([],$mock)
@@ -42,7 +44,7 @@
 	
 
 	// WINDOW VARIABLES
-	export let width = "600px"
+	export let width = "750px"
 	export let headercolor = '#fff2e8'
 	export let disableClose = true
 	export let title = "ALARMS"

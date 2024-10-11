@@ -3,7 +3,13 @@
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
-   import {getEntityMain} from '../lib/script/apidataconfig.js'
+   import {getEntityMain,
+		   setEntityArea,
+		   setCompany,
+		   setEntityMain,
+		   setEntityLocal,
+		   setEntityControlled,
+		   setController} from '../lib/script/apidataconfig.js'
    import {module, 
 			mock,
 			avatar,avatargroups,
@@ -117,7 +123,38 @@
 		console.log("SAVEDATAFLOW")
 		let expdata = await editor.export()
 		const flow = fromGraphToFlow(expdata)
-		await fromFlowToDb(flow)
+		const objs = await fromFlowToDb(flow)
+		console.log("SAVED OBJS",objs)
+		// Save objs to db
+		for(let i=0;i<objs.length;i++){
+			const obj = objs[i]
+			switch (obj.type) {
+				case 'company':
+					await setCompany(obj.obj,$mock)
+					break;
+				case 'infrastructure':
+				case 'factory':
+					await setEntityMain(obj.obj,$mock)
+					break;
+				case 'department':
+				case 'area':
+					await setEntityArea(obj.obj,$mock)
+					break;
+				case 'section':
+				case 'line':
+					await setEntityLocal(obj.obj,$mock)
+					break;
+				case 'machine':
+				case 'asset':
+					await setEntityControlled(obj.obj,$mock)
+					break;
+				case 'controller':
+					await setController(obj.obj,$mock)
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 

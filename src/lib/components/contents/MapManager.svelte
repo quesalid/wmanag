@@ -24,15 +24,16 @@ let modalId = "markerClickedDivPlants"
 onMount(async () => {
 	let filters:any
 	let ret:any
-	switch(maptype){
-		case 'factory':
+	/*switch(maptype){
+		case 'factory':*/
 			filters = []
 			ret = await getEntityMain(filters,$mock)
 			group= ret.data
+			console.log("MAP MANAGER MAIN ENTITIES",group)
 			component = MarkerClickedPlants
 			modalId = "markerClickedDivPlants"
-		break;
-	}
+	/*	break;
+	}*/
 })
 
 </script>

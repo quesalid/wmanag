@@ -8,6 +8,7 @@
   import TextRender from './TextRender.svelte'
   import EditTextRender from './EditTextRender.svelte'
   import EditCheckRender from './EditCheckRender.svelte'
+  import TextStyleRender from './TextStyleRender.svelte';
 
   export let data:any = [
 		{ name: 'Ada Lovelace', age: 21 },
@@ -46,20 +47,20 @@
 	  let ret
 	  switch(type){
 		  case 'image':
-			ret = ({row})=>{
+			ret = ({row}:any)=>{
 				params.uid = row.original['uid']
 				return createRender(ImageRender,{...params})
 			}
 			break;
 		  case 'imagedynamic':
-			ret = ({row})=>{
+			ret = ({row}:any)=>{
 				params.uid = row.original['uid']
 				params.image = row.original.profile.avatar
 				return createRender(ImageRenderDynamic,{...params})
 			}
 			break;
 		  case 'checkbox':
-			ret = ({row})=>{
+			ret = ({row}:any)=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
 				params.uid = row.original['uid']
@@ -69,7 +70,7 @@
 			}
 			break;
 		  case 'select':
-			ret = ({row})=>{
+			ret = ({row}:any)=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
 				params.uid = row.original['uid']
@@ -79,7 +80,7 @@
 			}
 			break;
 		  case 'text':
-			ret = (({row})=>{
+			ret = (({row}:any)=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
 				params.uid = row.original['uid']
@@ -88,8 +89,15 @@
 				return createRender(TextRender,{...params})
 			})
 			break;
+		case 'textstyle':
+			ret = (({row}:any)=>{
+				params.uid = row.original['uid']
+			    params.value = row.original.lastvalue
+				return createRender(TextStyleRender,{...params})
+			})
+			break;
 			case 'editext':
-			ret = (({row,column})=>{
+			ret = (({row,column}:any)=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
 				params.uid = row.original['uid']
@@ -102,7 +110,7 @@
 			})
 			break;
 			case 'editcheckbox':
-			ret = ({row,column})=>{
+			ret = ({row,column}:any)=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
 				params.uid = row.original['uid']

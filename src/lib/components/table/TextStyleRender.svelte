@@ -11,7 +11,7 @@ export let classname = "image-tool-component"
 
 </script>
 	<div class="text-tool-component-div">
-		<input type="text" id="{name+'-'+uid}" data-uid={uid} style="{style}" class="text-tool-component {classname}" value="{value}" on:change={onClick?onClick:null}/>
+		<span style="{style}" class="text-tool-component {classname} " on:click={onClick}>{value}</span>
 	</div>
 <style>
 

@@ -5,6 +5,7 @@ import { onMount} from "svelte";
 
 export let data:any ={data:[],timestamp:[],title:'',legend:[],tag:'',um:''}
 export let options:any
+export let onDataClick = (ev:any)=>{console.log("ECHART EVENT",ev)}
 
 
 let myChart:any 
@@ -92,6 +93,7 @@ const drawChart = (node:any,series:any)=>{
               
               //console.log("SVELTE ECHART UPDATEA",option,newParams,newParams.tag)
               myChart.setOption(option,newParams);
+              myChart.on('click', onDataClick)
          },
     }
 

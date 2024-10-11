@@ -1,8 +1,8 @@
 <script lang="ts">
 import { onMount} from "svelte";
 
-export let style  = "enabled;"
-export let onClick = null
+export let style:any  = "enabled;"
+export let onClick:any = null
 export let name = 'img-generic'
 export let options:any = []
 export let classname = "check-tool-component"

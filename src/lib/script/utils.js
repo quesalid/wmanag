@@ -129,6 +129,10 @@ const onLearnPointClickDetail = (ev) => {
     modalEdit?.dispatchEvent(detailClicked)
 }
 const onAlarmPointClickAck = (ev) => {
+    const target = ev.target
+    console.log("onAlarmPointClickAck", target)
+    // change text style color to orange
+    ev.target.style.color = 'orange'
     /*const target = ev.target
     const uid = target.getAttribute("data-uid")
     // SEND EDIT CLICKED EVENT TO MODAL
@@ -628,6 +632,15 @@ let pointdataalarmcolumns = [
         accessor: 'tag',
     },
     {
+        header: 'Value',
+        accessor: (item) => item.lastvalue,
+        renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;', onClick: onAlarmPointClickAck } }
+    },
+    {
+        header: 'Time',
+        accessor: 'lasttime',
+    },
+    {
         header: 'Description',
         accessor: 'description',
     },
@@ -640,11 +653,11 @@ let pointdataalarmcolumns = [
         traslated: 'controlledentity',
         accessor: 'machineName'
     },
-    {
+    /*{
         header: 'Acknowledge',
         accessor: voidfunction,
         renderdef: { type: 'image', params: { image: '/CHECK.svg', onClick: onAlarmPointClickAck } }
-    }
+    }*/
 ];
 
 export function getAlarmColumns(module) {
@@ -914,7 +927,9 @@ const pointDataTemplate = {
     device: '',
     controller: '',
     machine: '',
-    db: ''
+    db: '',
+    lastvalue: '',
+    lasttime: ''
 }
 
 const pointCloneTemplate = {
@@ -1155,7 +1170,7 @@ export const setConicDataBatch = (batch, phases, type='BATCH') => {
 }
 
 export const getClassFromColor = (color) => {
-    let ret = ''
+    let ret = 'bg-yellow-200'
     switch (color) {
         case '#FF6188': // RED SOFT
             ret = 'bg-red-300'
@@ -1178,6 +1193,7 @@ export const getClassFromColor = (color) => {
         case '#49CDA8': // TEAL SOFT
             ret = 'bg-teal-400'
             break
+
     }
     return(ret)
 }

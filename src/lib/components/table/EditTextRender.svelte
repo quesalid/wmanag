@@ -2,7 +2,7 @@
 
 export let image = "/BUDDY.png"
 export let style  = "enabled;"
-export let onClick = null
+export let onClick:any = null
 export let name = 'text-generic'
 export let uid:any = ''
 export let key = ''

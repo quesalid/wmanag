@@ -81,6 +81,22 @@ export const filterArray = (array, filters, neg = false) => {
     return array
 }
 
+// order array by field (ASC or DESC)
+export const orderBy = (array, field, order = 'ASC') => {
+    return array.sort((a, b) => {
+        if (order === 'ASC') {
+            return a[field] > b[field] ? 1 : -1
+        } else {
+            return a[field] < b[field] ? 1 : -1
+        }
+    })
+}
+
+// paginate array by offset and limit
+export const paginate = (array, offset, limit) => {
+    return array.slice(offset, offset + limit)
+}
+
 export const getFamily = () => {
     let variable
     family.subscribe((value) => { variable = value })

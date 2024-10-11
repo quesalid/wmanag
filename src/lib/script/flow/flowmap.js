@@ -141,85 +141,91 @@ const getFirstParent = (node) => {
     }
     return parent
 }
+
+const getObjFromNode = (node) => {
+    const item = node.options
+    const type = node.type
+    let obj = {}
+    obj.uid = item['id'] ? item['id'] : ''
+    obj.lastmodified = new Date(Date.now()).toISOString()
+    switch (type) {
+        case 'company':
+            obj.name = item['name'] ? item['name'] : ''
+            obj.address = item['address'] ? item['address'].value : ''
+            break;
+        case 'infrastructure':
+        case 'factory':
+            obj.name = item['name'] ? item['name'] : ''
+            obj.address = item['address'] ? item['address'].value : ''
+            obj.description = item['description'] ? item['description'].value : ''
+            obj.lat = item['lat'] ? item['lat'].value : 0.0
+            obj.lon = item['lon'] ? item['lon'].value : 0.0
+            obj.label = item['label'] ? item['label'].value : 'LBL'
+            obj.color = item['color'] ? item['color'].value : '#DDDDDD'
+            // Filter image
+            obj.image = ''
+            if (item['image']) {
+                const str = item['image'].value.replace("C:\\fakepath\\", "")
+                obj.image = str
+            }
+            // GET FIRST PARENT AS COMPANY
+            obj.company = getFirstParent(node)
+            break;
+        case 'department':
+        case 'area':
+            obj.name = item['name'] ? item['name'] : ''
+            // GET FIRST PARENT AS PLANT
+            obj.plant = getFirstParent(node)
+            break;
+        case 'section':
+        case 'line':
+            obj.name = item['name'] ? item['name'] : ''
+            // GET FIRST PARENT AS DEPARTMENT
+            obj.department = getFirstParent(node)
+            break;
+        case 'machine':
+            obj.name = item['name'] ? item['name'] : ''
+            obj.description = item['description'] ? item['description'].value : ''
+            obj.type = item['type'] ? item['type'].value : ''
+            obj.manufacturer = item['manufacturer'] ? item['manufacturer'].value : ''
+            obj.model = item['model'] ? item['model'].value : ''
+            obj.room = item['room'] ? item['room'].value : ''
+            // GET FIRST PARENT AS LINE
+            obj.line = getFirstParent(node)
+            break;
+        case 'asset':
+            obj.name = item['name'] ? item['name'] : ''
+            obj.description = item['description'] ? item['description'].value : ''
+            obj.type = item['type'] ? item['type'].value : ''
+            obj.buildyear = item['buildyear'] ? item['buildyear'].value : ''
+            // GET FIRST PARENT AS LINE
+            obj.line = getFirstParent(node)
+            break;
+        case 'controller':
+            obj.name = item['name'] ? item['name'] : ''
+            obj.description = item['description'] ? item['description'].value : ''
+            obj.ctype = item['ctype'] ? item['ctype'].value : ''
+            obj.driver = item['driver'] ? item['driver'].value : ''
+            obj.manufacturer = item['manufacturer'] ? item['manufacturer'].value : ''
+            obj.model = item['model'] ? item['model'].value : ''
+            obj.ip = item['ip'] ? item['ip'].value : ''
+            obj.port = item['port'] ? item['port'].value : 80
+            obj.mac = item['mac'] ? item['mac'].value : ''
+            obj.intf = item['intf'] ? item['intf'].value : ''
+            // GET FIRST PARENT AS MACHINE
+            obj.machine = getFirstParent(node)
+            break;
+        default:
+            break;
+    }
+    return ({ type: type, obj: obj })
+}
 export const fromFlowToDb = async (flow) => {
     let nodes = flow.nodes
+    const dbObjs = []
     for (let i = 0; i < nodes.length; i++) {
-        const item = nodes[i].options
-        const keys = Object.keys(item)
-        const type = nodes[i].type
-        let obj = {}
-        obj.uid = item['id'] ? item['id'] : ''
-        obj.lastmodified = new Date(Date.now()).toISOString()
-        switch (type) {
-            case 'company':
-                obj.name = item['name'] ? item['name'] : ''
-                obj.address = item['address'] ? item['address'].value : ''
-                break;
-            case 'infrastructure':
-            case 'factory':
-                obj.name = item['name'] ? item['name'] : ''
-                obj.address = item['address'] ? item['address'].value : ''
-                obj.description = item['description'] ? item['description'].value : ''
-                obj.lat = item['lat'] ? item['lat'].value : 0.0
-                obj.lon = item['lon'] ? item['lon'].value : 0.0
-                obj.label = item['label'] ? item['label'].value : 'LBL'
-                obj.color = item['color'] ? item['color'].value : '#DDDDDD'
-                // Filter image
-                obj.image = ''
-                if (item['image']) {
-                    const str = item['image'].value.replace("C:\\fakepath\\", "")
-                    obj.image = str
-                }
-                // GET FIRST PARENT AS COMPANY
-                obj.company = getFirstParent(nodes[i])
-                break;
-            case 'department':
-            case 'area':
-                obj.name = item['name'] ? item['name'] : ''
-                // GET FIRST PARENT AS PLANT
-                obj.plant = getFirstParent(nodes[i])
-                break;
-            case 'section':
-            case 'line':
-                obj.name = item['name'] ? item['name'] : ''
-                // GET FIRST PARENT AS DEPARTMENT
-                obj.department = getFirstParent(nodes[i])
-                break;
-            case 'machine':
-                obj.name = item['name'] ? item['name'] : ''
-                obj.description = item['description'] ? item['description'].value : ''
-                obj.type = item['type'] ? item['type'].value : ''
-                obj.manufacturer = item['manufacturer'] ? item['manufacturer'].value : ''
-                obj.model = item['model'] ? item['model'].value : ''
-                obj.room = item['room'] ? item['room'].value : ''
-                // GET FIRST PARENT AS LINE
-                obj.line = getFirstParent(nodes[i])
-                break;
-            case 'asset':
-                obj.name = item['name'] ? item['name'] : ''
-                obj.description = item['description'] ? item['description'].value : ''
-                obj.type = item['type'] ? item['type'].value : ''
-                obj.buildyear = item['buildyear'] ? item['buildyear'].value : ''
-                // GET FIRST PARENT AS LINE
-                obj.line = getFirstParent(nodes[i])
-                break;
-            case 'controller':
-                obj.name = item['name'] ? item['name'] : ''
-                obj.description = item['description'] ? item['description'].value : ''
-                obj.ctype = item['ctype'] ? item['ctype'].value : ''
-                obj.driver = item['driver'] ? item['driver'].value : ''
-                obj.manufacturer = item['manufacturer'] ? item['manufacturer'].value : ''
-                obj.model = item['model'] ? item['model'].value : ''
-                obj.ip = item['ip'] ? item['ip'].value : ''
-                obj.port = item['port'] ? item['port'].value : 80
-                obj.mac = item['mac'] ? item['mac'].value : ''
-                obj.intf = item['intf'] ? item['intf'].value : ''
-                // GET FIRST PARENT AS MACHINE
-                obj.machine = getFirstParent(nodes[i])
-                break;
-            default:
-                break;
-        }
-        console.log("From Flow To Db", type,obj,keys)
+        const obj = getObjFromNode(nodes[i])
+        dbObjs.push(obj)
     }
+    return dbObjs
 }

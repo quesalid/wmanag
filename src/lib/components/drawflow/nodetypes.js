@@ -1,4 +1,7 @@
 // https://www.edrawsoft.com/pid-wastewater-treatment-symbols.html
+// MASK INPUTS
+// https://www.npmjs.com/package/inputmask
+// https://www.npmjs.com/package/maska
 
 import { defaultCB, timerCB,stopCB } from '../../script/flow/corenodes.js'
 
@@ -257,8 +260,9 @@ const buildDataInfrastructureNodeTypes = () => {
         </div>`)
     addNodeType(`asset`, 1, 1, {
         name: { value: 'assetname', type: 'text' },
-        type: { value: 'filter', type: 'selection', options:['filter','tank','clearer']},
-        description: { value: '', type: 'text' }
+        type: { value: 'filter', type: 'selection', options:['tunnel','bridge','road']},
+        description: { value: '', type: 'text' },
+        buildyear: { value: '', type: 'text' }
     }, `asset`,
         `<div style="min-height:18px;">
            <input type="image" src="/MACHINE.svg" alt="Machine" />

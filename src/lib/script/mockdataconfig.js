@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { filterArray, getFamily } from './mock.js'
+import { filterArray, orderBy, paginate } from './mock.js'
 import DBINDUSTRY from './mockdb_industry.js'
 import  DBINFASTRUCTURE  from './mockdb_infr.js'
 
@@ -315,10 +315,22 @@ const deleteController = async function (body) {
 }
 
 const getDataPoints = async function (body) {
+    console.log("GET DATA POINTS",body)
     let retPoints = JSON.parse(JSON.stringify(datapoints))
-    const filters = body.options.filters
+    const filters = body.options && body.options.filters?body.options.filters:null
+    const pagination = body.options && body.options.pagination?body.options.pagination:null
     if (filters && filters.length) {
         retPoints = filterArray(retPoints, filters)
+    }
+    const offset = pagination && pagination._offset ? pagination._offset : 0
+    const limit = pagination && pagination._limit ? pagination._limit : retPoints.length
+    
+    retPoints = paginate(retPoints, offset, limit)
+  
+    if (pagination && pagination._order) {
+        const key = Object.keys(pagination._order)[0]
+        const order = pagination._order[key]
+        retPoints = orderBy(retPoints, key, order)
     }
     body.data = retPoints
     return (body)
