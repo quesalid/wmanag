@@ -89,8 +89,14 @@
             $token = restoken
             // C. GET USER PROFILE
             const profile =  await getProfile(decoded.token.uuid,$mock)
+            console.log("PROFILE",profile)
             // D. SET USER IN STORE
-            $user = { username: decoded.token.sub, uid: decoded.token.uuid, name: decoded.token.name, surname: decoded.token.surname,profile:profile };
+            $user = { username: 
+                decoded.token.sub, 
+                uid: decoded.token.uuid,
+                name: decoded.token.name, 
+                surname: decoded.token.surname,
+                profile:profile };
             $role = decoded.token.auth
             // E. SET AVATAR GROUPS IN STORE
             $avatargroups = getMenuGroups($role,$module.toUpperCase())

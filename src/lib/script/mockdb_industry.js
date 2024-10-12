@@ -1228,30 +1228,44 @@ function getPointType(tag) {
 function getPointLims(type) {
     let hlim = 0.0
     let llim = 0.0
+    let hhlim = 0.0
+    let lllim = 0.0
     switch (type) {
         case 'TEMPERATURE':
             llim = Math.floor(Math.random() * 1) - 10.0
             hlim = Math.floor(Math.random() * 10) + 200.0
+            hhlim = hlim + 20.0
+            lllim = llim - 10.0
             break;
         case 'PRESSURE':
             llim = Math.floor(Math.random() * 1) - 1
             hlim = Math.floor(Math.random() * 1) + 3.0
+            hhlim = hlim + 1.0
+            lllim = llim - 1.0
             break;
         case 'HUMIDITY':
             llim = Math.floor(Math.random() * 10) + 40.0
             hlim = Math.floor(Math.random() * 10) + 100.0
+            hhlim = hlim + 10.0
+            lllim = llim - 10.0
             break;
         case 'SPEED':
             llim = Math.floor(Math.random() * 500) + 1000.0
             hlim = Math.floor(Math.random() * 500) + 4000.0
+            hhlim = hlim + 500.0
+            lllim = llim - 500.0
             break;
         case 'CURRENT':
             llim = Math.floor(Math.random() * 4) + 10.0
             hlim = Math.floor(Math.random() * 4) + 50.0
+            hhlim = hlim + 5.0
+            lllim = llim - 5.0
             break;
         case 'VOLTAGE':
             llim = Math.floor(Math.random() * 10) + 295.0
             hlim = Math.floor(Math.random() * 30) + 320.0
+            hhlim = hlim + 10.0
+            lllim = llim - 10.0
             break;
         case 'NUMBER':
             llim = 0
@@ -1260,13 +1274,17 @@ function getPointLims(type) {
         case 'FLOW':
             llim = Math.floor(Math.random() * 0.5)
             hlim = Math.floor(Math.random() * 1) + 2.0
+            hhlim = hlim + 0.5
+            lllim = llim - 0.5
             break;
         default:
             llim = 'N.A.'
             hlim = 'N.A.'
+            lllim = 'N.A.'
+            hhlim = 'N.A.'
             break;
     }
-    return [hlim, llim]
+    return [hhlim,hlim, llim,lllim]
 }
 function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
     const points = []
@@ -1280,6 +1298,8 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
             bit: 0,
             hlim: 0.0,
             llim: 0.0,
+            hhlim: 0.0,
+            lllim: 0.0,
             area: '',
             ack: false,
             numarea: 0,
@@ -1304,9 +1324,11 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
         point.dtype = dtype
         point.bit = Number(bit)
         point.type = getPointType(tag)
-        const [hlim, llim] = getPointLims(point.type)
+        const [hhlim,hlim, llim,lllim] = getPointLims(point.type)
         point.hlim = hlim
+        point.hhlim = hhlim
         point.llim = llim
+        point.lllim = lllim
         switch (driver) {
             case 's7':
                 point.area = 'DB'
@@ -1624,7 +1646,7 @@ const generateTimeSeriesPoly = (point, num, DEGREE = 5) => {
     const yCoords = []
     // A. GENERATE INTERPOLATION POINT
     for (let i = 0; i < DEGREE; i++) {
-        const y = getTSValue(point.atype, point.llim, point.hlim)
+        const y = getTSValue(point.atype, point.lllim, point.hhlim)
         const x = num * (i / DEGREE)
         xCoords.push(x)
         yCoords.push(y)
@@ -1652,7 +1674,7 @@ const generateTimeSeriesRect = (point, num, DEGREE = 5) => {
     const yCoords = []
     // A. GENERATE INTERPOLATION POINT
     for (let i = 0; i < DEGREE; i++) {
-        const y = getTSValue(point.atype, point.llim, point.hlim)
+        const y = getTSValue(point.atype, point.lllim, point.hhlim)
         const x = num * (i / DEGREE)
         xCoords.push(x)
         yCoords.push(y)

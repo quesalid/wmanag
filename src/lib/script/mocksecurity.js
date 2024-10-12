@@ -27,6 +27,45 @@ let users = [
         confitmationCode: null,
         createdAt: '2024-02-25T17:23:06.705859',
         updatedAt: '2024-02-25T17:23:06.705859'
+    },
+    {
+        uid: '667b658f-66ca-7aa3-965d-abd4bc22a59a',
+        username: 'g.paesani@sicheo.eu',
+        password: 'pino',
+        name: 'Giuseppe',
+        surname: 'Paesani',
+        permissions: [],
+        role: 'ADMIN',
+        status: 'active',
+        confitmationCode: null,
+        createdAt: '2024-02-25T17:23:06.705859',
+        updatedAt: '2024-02-25T17:23:06.705859'
+    },
+    {
+        uid: 'dd7b658f-66ca-7aa3-965d-abd4bc48a59a',
+        username: 'f.lutrario@sicheo.eu',
+        password: 'francesco',
+        name: 'Francesco',
+        surname: 'Lutrario',
+        permissions: [],
+        role: 'SADMIN',
+        status: 'active',
+        confitmationCode: null,
+        createdAt: '2024-02-25T17:23:06.705859',
+        updatedAt: '2024-02-25T17:23:06.705859'
+    },
+    {
+        uid: 'dd7b65da-66b8-7aa3-965d-abd4bc48a59a',
+        username: 'r.panchetti@sicheo.eu',
+        password: 'ranieri',
+        name: 'Ranieri',
+        surname: 'Panchetti',
+        permissions: [],
+        role: 'SADMIN',
+        status: 'active',
+        confitmationCode: null,
+        createdAt: '2024-02-25T17:23:06.705859',
+        updatedAt: '2024-02-25T17:23:06.705859'
     }
 ]
 
@@ -34,7 +73,95 @@ let profiles = [
     {
         uid: '55a96422-88cd-43ab-aa56-f4d4b022a77e',
         language: 'en',
+        locale: 'en-US',
         avatar: '/AVATAR1.png',
+        dashboard: [
+            {
+                module: 'DEFAULT',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'DATA',
+                windows: [
+                    { id: 'Donut', top: '380px', left: '10px' },
+                    { id: 'Map', top: '0px', left: '10px' },
+                    { id: 'Alarms', top: '0px', left: '10px' }
+                ]
+            },
+            {
+                module: 'CLONE',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' },
+                    { id: 'Alarm', top: '0px', left: '10px' }
+                ]
+            }
+        ]
+    },
+    {
+        uid: '667b658f-66ca-7aa3-965d-abd4bc22a59a',
+        language: 'it',
+        locale: 'it-IT',
+        avatar: '/gpaesani.png',
+        dashboard: [
+            {
+                module: 'DEFAULT',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'DATA',
+                windows: [
+                    { id: 'Donut', top: '380px', left: '10px' },
+                    { id: 'Map', top: '0px', left: '10px' },
+                    { id: 'Alarms', top: '0px', left: '10px' }
+                ]
+            },
+            {
+                module: 'CLONE',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' },
+                    { id: 'Alarm', top: '0px', left: '10px' }
+                ]
+            }
+        ]
+    },
+    {
+        uid: 'dd7b658f-66ca-7aa3-965d-abd4bc48a59a',
+        language: 'it',
+        locale: 'it-IT',
+        avatar: '/flutrario.png',
+        dashboard: [
+            {
+                module: 'DEFAULT',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'DATA',
+                windows: [
+                    { id: 'Donut', top: '380px', left: '10px' },
+                    { id: 'Map', top: '0px', left: '10px' },
+                    { id: 'Alarms', top: '0px', left: '10px' }
+                ]
+            },
+            {
+                module: 'CLONE',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' },
+                    { id: 'Alarm', top: '0px', left: '10px' }
+                ]
+            }
+        ]
+    },
+    {
+        uid: 'dd7b65da-66b8-7aa3-965d-abd4bc48a59a',
+        language: 'it',
+        locale: 'it-IT',
+        avatar: '/rpanchetti.png',
         dashboard: [
             {
                 module: 'DEFAULT',
@@ -62,6 +189,7 @@ let profiles = [
     {
         uid: '447b658f-66ca-7aa3-965d-abd4bc22a893',
         language: 'en',
+        locale: 'en-US',
         avatar: '/LORENZO.png',
         dashboard: [
             {

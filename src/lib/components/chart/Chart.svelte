@@ -1,6 +1,6 @@
 <script lang='ts'>
 import {onMount} from "svelte"
-import {token, mock} from '../../ustore.js'
+import {token, mock, user} from '../../ustore.js'
 import {getDataPoints,getDataTimeSeries,getEntityControlled} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
 import WManag from '../WManag.svelte'
@@ -91,20 +91,39 @@ onMount(async () => {
 					echartdata.data.push(p.value)
 					echartdata.timestamp.push(date)
 				}
-				echartdata.title = "Point "+point.tag
+				// get locale date for first and last point
+				let titledate:any
+				const locale = $user.profile.locale?$user.profile.locale:'it-IT'
+				if(ret1.data.length > 0){
+					const firstdate = new Date(ret1.data[0].timestamp).toLocaleDateString("it-IT")
+					const lastdate = new Date(ret1.data[ret1.data.length-1].timestamp).toLocaleDateString("it-IT")
+					//console.log("FIRST DATE",firstdate)
+					// check if the same day
+					if(firstdate.split(' ')[0] === lastdate.split(' ')[0])
+						titledate = " - "+firstdate.split(' ')[0]
+					else
+						titledate = " - "+firstdate+" - "+lastdate
+				}
+				//console.log("TITLEDATE **************",titledate)
+				echartdata.title = "Point "+point.tag + (titledate? titledate:'')
 				echartdata.legend.push(point.tag)
 				echartdata.tag = point.tag
 				echartdata.um = point.um
 				echartdata.type = point.type
-				echartdata.yAxis = {min:point.llim >0?Math.floor(point.llim*0.8):Math.floor(point.llim*1.1),max:point.hlim >0?Math.ceil(point.hlim*1.2):Math.ceil(point.hlim*0.8)}
-				echartdata.markData=[
-					{name:'LLIM',yAxis:point.llim,lineStyle: {type:'dashed',color:'#f00'}},
-					{name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'#f00'}},
-				]
+				echartdata.yAxis = {min:point.lllim >0?Math.floor(point.lllim*0.8):Math.floor(point.lllim*1.1),max:point.hhlim >0?Math.ceil(point.hhlim*1.2):Math.ceil(point.hhlim*0.8)}
+				echartdata.markData = []
+				if(point.llim)
+					echartdata.markData.push({name:'LLIM',yAxis:point.llim,lineStyle: {type:'dashed',color:'orange'}})
+				if(point.hlim)
+					echartdata.markData.push({name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'orange'}})
+				if(point.hhlim)
+					echartdata.markData.push({name:'HHIM',yAxis:point.hhlim,lineStyle: {type:'dashed',color:'#f00'}})
+				if(point.lllim)
+					echartdata.markData.push({name:'LLIM',yAxis:point.lllim,lineStyle: {type:'dashed',color:'#f00'}})
 				echartdata.markOptions={
 					symbol:['circle','circle'],
 					label:{
-						color:'#f00',
+						color:'yellow',
 						fontWeight:'bold',
 						padding: [0, 0, 0, 6],
 						fontSize: 14,

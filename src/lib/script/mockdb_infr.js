@@ -391,7 +391,7 @@ function randomTDUABD(length) {
         "Mechanical tension measure",
         "Humidity measure",
         "Temperature alarm",
-        "Mechanical tension alarm",
+        "Mechanical stress alarm",
         "Humidity alarm",
         "Temperature set event",
         "Mechanical tension set event",
@@ -400,7 +400,7 @@ function randomTDUABD(length) {
 
     const um = [
         'DEGC',
-        'NEWTM',
+        'Pa',
         "%",
         'ON/OFF',
         'ON/OFF',
@@ -444,7 +444,7 @@ function getPointType(tag) {
             ret = 'TEMPERATURE'
             break;
         case 'TS-':
-            ret = 'MECHTENS'
+            ret = 'STRESS'
             break;
         case 'HH-':
             ret = 'HUMIDITY'
@@ -462,25 +462,35 @@ function getPointType(tag) {
 function getPointLims(type) {
     let hlim = 0.0
     let llim = 0.0
+    let hhlim = 0.0
+    let lllim = 0.0
     switch (type) {
         case 'TEMPERATURE':
             llim = Math.floor(Math.random() * 1) - 10.0
             hlim = Math.floor(Math.random() * 10) + 200.0
+            hhlim = hlim + 10
+            lllim = llim - 10
             break;
-        case 'MECHTENS':
+        case 'STRESS':
             llim = Math.floor(Math.random()) 
             hlim = Math.floor(Math.random() * 100) + 30.0
+            hhlim = hlim + 10
+            lllim = llim
             break;
         case 'HUMIDITY':
             llim = Math.floor(Math.random() * 10) + 40.0
             hlim = Math.floor(Math.random() * 10) + 100.0
+            hhlim = hlim + 10
+            lllim = llim - 10
             break;
         default:
             llim = 'N.A.'
             hlim = 'N.A.'
+            hhlim = 'N.A.'
+            lllim = 'N.A.'
             break;
     }
-    return [hlim, llim]
+    return [hhlim,hlim, llim,lllim]
 }
 
 function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
@@ -496,6 +506,8 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
             bit: 0,
             hlim: 0.0,
             llim: 0.0,
+            hhlim: 0.0,
+            lllim: 0.0,
             area: '',
             ack: false,
             numarea: 0,
@@ -520,9 +532,11 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
         point.dtype = dtype
         point.bit = Number(bit)
         point.type = getPointType(tag)
-        const [hlim, llim] = getPointLims(point.type)
+        const [hhlim,hlim, llim,lllim] = getPointLims(point.type)
         point.hlim = hlim
         point.llim = llim
+        point.hhlim = hhlim
+        point.lllim = lllim
         switch (driver) {
             case 's7':
                 point.area = 'DB'
@@ -549,7 +563,7 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
         } else {
             switch (point.type) {
                 case 'TEMPERATURE':
-                case 'MECHTENS':
+                case 'STRESS':
                 case 'HUMIDITY':
                 case 'SPEED':
                 case 'CURRENT':
@@ -630,7 +644,7 @@ const generateTimeSeriesPoly = (point, num, DEGREE = 5) => {
     const yCoords = []
     // A. GENERATE INTERPOLATION POINT
     for (let i = 0; i < DEGREE; i++) {
-        const y = getTSValue(point.atype, point.llim, point.hlim)
+        const y = getTSValue(point.atype, point.lllim, point.hhlim)
         const x = num * (i / DEGREE)
         xCoords.push(x)
         yCoords.push(y)

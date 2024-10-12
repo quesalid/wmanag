@@ -504,12 +504,20 @@ let pointdatacolumns = [
         accessor: 'atype'
     },
     {
-        header: 'Hlim',
+        header: 'HH-lim',
+        accessor: 'hhlim'
+    },
+    {
+        header: 'H-lim',
         accessor: 'hlim'
     },
     {
-        header: 'LLim',
+        header: 'L-lim',
         accessor: 'llim'
+    },
+    {
+        header: 'LL-Lim',
+        accessor: 'lllim'
     },
     {
         header: 'Controller',
@@ -916,6 +924,8 @@ const pointDataTemplate = {
     bit: 0,
     hlim: 0.0,
     llim: 0.0,
+    hhlim: 0.0,
+    lllim: 0.0,
     area: '',
     ack: false,
     numarea: 0,

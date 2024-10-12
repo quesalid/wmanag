@@ -102,10 +102,14 @@ const setClass = (ev:any) =>{
 				<option value="ON/OFF">ON/OFF</option>
 			</select>
 			{#if point.atype == 'ANALOG'}
-				<label for="point-hlim">Hlim:</label>
+				<label for="point-hlim">H-lim:</label>
 				<input type="number" id="point-hlim" name="hlim" bind:value={point.hlim}>
-				<label for="point-llim">Llim:</label>
+				<label for="point-hhlim">HH-lim:</label>
+				<input type="number" id="point-hhlim" name="hhlim" bind:value={point.hhlim}>
+				<label for="point-llim">L-lim:</label>
 				<input type="number" id="point-llim" name="llim" bind:value={point.llim}>
+				<label for="point-lllim">LL-lim:</label>
+				<input type="number" id="point-lllim" name="lllim" bind:value={point.lllim}>
 			{/if}
 		</fieldset>
 		<fieldset>
