@@ -1635,7 +1635,7 @@ const generateTimeSeriesPoly = (point, num, DEGREE = 5) => {
     const end = Date.now()
     const start = end - TICK * 1000 * num
     for (let i = 0; i < curve.length; i++) {
-        const step = start + curve[i][1] * TICK * 1000
+        const step = start + curve[i][0] * TICK * 1000
         const item = { tag: point.tag, value: curve[i][1], timestamp: step }
         if (item.value >= (point.llim * 0.9) && item.value <= (point.hlim * 1.1))
             timeSeries.push(item)

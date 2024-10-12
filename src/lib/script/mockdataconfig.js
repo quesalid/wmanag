@@ -381,6 +381,20 @@ const getDataTimeSeries = async function (body) {
         const deg = 10
         timeSeries = point.atype == 'ANALOG' ? DBINDUSTRY.generateTimeSeriesPoly(point, 1000, deg) :DBINDUSTRY.generateTimeSeriesRect(point,1000,deg)
     }
+
+    const pagination = body.options && body.options.pagination ? body.options.pagination : null
+    
+    const offset = pagination && pagination._offset ? pagination._offset : 0
+    const limit = pagination && pagination._limit ? pagination._limit : timeSeries.length
+
+    timeSeries = paginate(timeSeries, offset, limit)
+
+    if (pagination && pagination._order) {
+        const key = Object.keys(pagination._order)[0]
+        const order = pagination._order[key]
+        timeSeries = orderBy(timeSeries, key, order)
+    }
+
     body.data = timeSeries
     return (body)
 }

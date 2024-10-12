@@ -1,6 +1,5 @@
 <script lang='ts'>
 import {onMount} from "svelte"
-import SvelteEchart from './SvelteEcharts.svelte'
 import {token, mock} from '../../ustore.js'
 import {getDataPoints,getDataTimeSeries,getEntityControlled} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
@@ -77,26 +76,40 @@ onMount(async () => {
 				machineImg = machine.image?machine.image:machineImg
 				// C. GET TIME SERIES
 				let filters1 = [{tag:point.tag,_type:'eq'}]
+				let pagination = {_order:{timestamp:'DESC'}}
 				let ret1 = await getDataTimeSeries(filters1,$mock)
 				echartdata.data = []
 				echartdata.timestamp = []
 				for (let i = 0; i < ret1.data.length; i++) {
 					const p:any = ret1.data[i]
-					var date:any = new Date(p.timestamp);
-					const pnt = { group: p.tag, value: p.value, date: date.toISOString() }
+					var date:any = new Date(p.timestamp).toISOString();
+					// get only time
+					date = date.split('T')[1].split('.')[0]
+					const pnt = { group: p.tag, value: p.value, date: date }
+					// get only three decimals
+					p.value = Math.round(p.value * 1000) / 1000
 					echartdata.data.push(p.value)
-					echartdata.timestamp.push(date.toISOString())
+					echartdata.timestamp.push(date)
 				}
 				echartdata.title = "Point "+point.tag
 				echartdata.legend.push(point.tag)
 				echartdata.tag = point.tag
 				echartdata.um = point.um
+				echartdata.type = point.type
 				echartdata.yAxis = {min:point.llim >0?Math.floor(point.llim*0.8):Math.floor(point.llim*1.1),max:point.hlim >0?Math.ceil(point.hlim*1.2):Math.ceil(point.hlim*0.8)}
 				echartdata.markData=[
 					{name:'LLIM',yAxis:point.llim,lineStyle: {type:'dashed',color:'#f00'}},
 					{name:'HLIM',yAxis:point.hlim,lineStyle: {type:'dashed',color:'#f00'}},
 				]
-				echartdata.markOptions={symbol:['circle','circle']}
+				echartdata.markOptions={
+					symbol:['circle','circle'],
+					label:{
+						color:'#f00',
+						fontWeight:'bold',
+						padding: [0, 0, 0, 6],
+						fontSize: 14,
+					}
+				}
 				title = "POINT CHART - "+point.description
 
 			})
@@ -122,7 +135,7 @@ let uid = ''
 let point:any = {}
 let machine:any = {}
 let machineImg='/LIOFILIZZATORE.jpg'
-let echartdata:any = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',markData:[],yAxis:{},markOptions:{}}
+let echartdata:any = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',type:'',markData:[],yAxis:{},markOptions:{}}
 let chartoptions = {
 		"title": "Point  Macchina: ",
         "axes": {
@@ -138,7 +151,7 @@ let chartoptions = {
             }
         },
         "curve": "curveMonotoneX",
-        "height": "400px",
+        "height": "450px",
 		"legend":{"data":""},
         "width": "800px",
         "experimental": true,
@@ -190,9 +203,9 @@ let onDataClick = (ev:any)=>{
 						<SvelteEcharts bind:data={echartdata} 
 									bind:options={chartoptions}
 									onDataClick={onDataClick}/>
-						<div class="control-container-div">
+						<!--div class="control-container-div">
 							<Gauge  bind:myCanvasName={myCanvasName}/>
-						</div>
+						</!--div-->
 					</div>
 				</div>
 		  </div>

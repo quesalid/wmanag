@@ -14,6 +14,7 @@ let labels:any = []
 let title = ""
 let tag = ""
 let um = ""
+let type = ""
 let markLine:any={}
 
 onMount(async ()=>{
@@ -23,38 +24,58 @@ onMount(async ()=>{
       title = data.title
       tag = data.tag
       um = data.um
+      type = data.type
       markLine = data.markMin
     });
 
 const drawChart = (node:any,series:any)=>{
-	  myChart = echarts.init(node);
+      const initoptions:any = {
+          renderer: 'canvas',
+      }
+      const theme = 'dark'
+	  myChart = echarts.init(node,theme,initoptions);
       // Specify the configuration items and data for the chart
       var option = {
         title: {
-          text: title
+          text: title,
+          left: 'center',
         },
-        tooltip: {},
+        tooltip: {
+		  trigger: 'axis',
+		  axisPointer: {
+			type: 'line'
+		  }
+		},
         toolbox: {
-            left: 'center',
+            rigth: '50px',
             itemSize: 25,
             top: 20,
             feature: {
                 dataZoom: {
                 yAxisIndex: 'none'
                 },
-                restore: {}
+                saveAsImage: {
+                    type:"png",
+                    backgroundColor: 'black',
+                    pixelRatio: 2
+                },
+                dataView:{
+                    show:true
+                }
             }
          },
         legend: {
+          bottom: 10,
           data: [tag]
         },
         //legend: data[options.legend,data],
         xAxis: {
           type: 'category',
-          data: labels,
+          data: labels
         },
         yAxis: {
-            name: um
+            name: type +" " +um,
+            nameTextStyle:{color:'yellow',fontWeight:'bold'}
         },
         series: [
           {
@@ -63,7 +84,7 @@ const drawChart = (node:any,series:any)=>{
             data: ldata,
             showAllSymbol: true,
             smooth: true,
-            markLine:markLine
+            markLine:markLine,
           }
         ]
       };
@@ -81,15 +102,18 @@ const drawChart = (node:any,series:any)=>{
               option.series[0].name = newParams.series.tag
               option.legend.data = [newParams.series.tag]
               option.xAxis.data = labels
-              option.yAxis.name = newParams.series.um
+              option.yAxis.name = newParams.series.type + " "+ newParams.series.um
               if(newParams.series.yAxis){
                   option.yAxis.min = newParams.series.yAxis.min
                   option.yAxis.max = newParams.series.yAxis.max
               }
               if(newParams.series.markData)
                   option.series[0].markLine.data =  newParams.series.markData
-              if(newParams.series.markOptions)
-              option.series[0].markLine.symbol = newParams.series.markOptions.symbol
+              if(newParams.series.markOptions){
+                option.series[0].markLine.symbol = newParams.series.markOptions.symbol
+                console.log("MARKOPTIONS",option.series[0].markLine)
+                option.series[0].markLine.label = newParams.series.markOptions.label
+              }
               
               //console.log("SVELTE ECHART UPDATEA",option,newParams,newParams.tag)
               myChart.setOption(option,newParams);
@@ -100,11 +124,11 @@ const drawChart = (node:any,series:any)=>{
 }
 </script>
 
-    <div id="svelte-chart-viewer" use:drawChart={{series:data}} />
+    <div id="svelte-chart-viewer"  style="--width:{options.width}; --height:{options.height}" use:drawChart={{series:data}} />
 
 <style>
 #svelte-chart-viewer{
-    width: 800px;
-    height: 300px;
+    width: var(--width);
+    height: var(--height);
 }
 </style>
