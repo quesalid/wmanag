@@ -1244,8 +1244,8 @@ function getPointLims(type) {
             lllim = llim - 1.0
             break;
         case 'HUMIDITY':
-            llim = Math.floor(Math.random() * 10) + 40.0
-            hlim = Math.floor(Math.random() * 10) + 100.0
+            llim = Math.floor(Math.random() * 10) + 25.0
+            hlim = Math.floor(Math.random() * 10) + 85.0
             hhlim = hlim + 10.0
             lllim = llim - 10.0
             break;
@@ -1269,7 +1269,9 @@ function getPointLims(type) {
             break;
         case 'NUMBER':
             llim = 0
-            hlim = Math.floor(Math.random() * 2) + 10
+            hlim = Math.floor(Math.random() * 2) + 5
+            hhlim = hlim + 5
+            lllim = llim
             break;
         case 'FLOW':
             llim = Math.floor(Math.random() * 0.5)

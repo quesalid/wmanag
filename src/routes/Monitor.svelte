@@ -94,7 +94,7 @@
 				ret = await getDataPoints(filters,$mock)
 				ret1 = await getEntityControlled([],$mock)
 				controlledentities = ret1.data
-				console.log("MONOTOR CONTROLLED ENTITIES",controlledentities)
+				//console.log("MONITOR CONTROLLED ENTITIES",controlledentities)
 				ret2 = await getControllers([],$mock)
 				controllers = ret2.data
 				chartdialog = Chart

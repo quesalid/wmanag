@@ -1,7 +1,7 @@
 <script lang='ts'>
 import {onMount} from "svelte"
 import {token, mock, user} from '../../ustore.js'
-import {getDataPoints,getDataTimeSeries,getEntityControlled} from '../../script/apidataconfig.js'
+import {getDataPoints,getDataTimeSeries,getEntityControlled,getControllers, getDevices,getAgents} from '../../script/apidataconfig.js'
 import SvelteEcharts from "./SvelteEcharts.svelte";
 import WManag from '../WManag.svelte'
 //import {CP_Button} from '../../script/controlpanel_0.0.1.js'
@@ -49,6 +49,9 @@ let opts = {
         }
     };
 
+let firsttime:any
+let lasttime:any
+
 onMount(async () => {
 	    // INITIALIZE CP_Button
 		//powerButton = new CP_Button("cpPowerButton","/POWERON.png","/POWEROFF.png",$mock)
@@ -65,7 +68,7 @@ onMount(async () => {
 				const ret = await getDataPoints(filters,$mock)
 				if(ret.data && ret.data.length > 0)
 					point = ret.data[0]
-				// B. GET MACHINES
+				// B1. GET MACHINES
 				const filters2 = [{uid:point.machine,_type:'eq'}]
 				const ret2 = await getEntityControlled(filters2,$mock)
 				if(ret2.data && ret2.data.length > 0)
@@ -74,6 +77,27 @@ onMount(async () => {
 					machineImg = '/'+machine.type +'.jpg'
 				// Use specific machine image if configured
 				machineImg = machine.image?machine.image:machineImg
+				// B2. GET CONTROLLERS
+				const filters3 = [{uid:point.controller,_type:'eq'}]
+				const ret3 = await getControllers(filters3,$mock)
+				if(ret3.data && ret3.data.length > 0)
+					controller = ret3.data[0]
+				console.log("CONTROLLER",controller)
+				// B3. GET DEVICES
+				const filters4 = [{uid:point.device,_type:'eq'}]
+				const ret4 = await getDevices(filters4,$mock)
+				if(ret4.data && ret4.data.length > 0){
+					device = ret4.data[0]
+					device.userid= "************"
+					device.password = "************"
+				}
+				console.log("DEVICE",device)
+				// B4. GET AGENTS
+				const filters5 = [{uid:point.agent,_type:'eq'}]
+				const ret5 = await getAgents(filters5,$mock)
+				if(ret5.data && ret5.data.length > 0)
+					agent = ret5.data[0]
+				console.log("AGENT",agent)
 				// C. GET TIME SERIES
 				let filters1 = [{tag:point.tag,_type:'eq'}]
 				let pagination = {_order:{timestamp:'DESC'}}
@@ -97,6 +121,8 @@ onMount(async () => {
 				if(ret1.data.length > 0){
 					const firstdate = new Date(ret1.data[0].timestamp).toLocaleDateString("it-IT")
 					const lastdate = new Date(ret1.data[ret1.data.length-1].timestamp).toLocaleDateString("it-IT")
+					firsttime = new Date(ret1.data[0].timestamp).toLocaleTimeString("it-IT")
+					lasttime = new Date(ret1.data[ret1.data.length-1].timestamp).toLocaleTimeString("it-IT")
 					//console.log("FIRST DATE",firstdate)
 					// check if the same day
 					if(firstdate.split(' ')[0] === lastdate.split(' ')[0])
@@ -147,39 +173,45 @@ const closeModal = (ev:any) =>{
 export let modalId = "PointChartDiv"
 export let  bgcolor = "#ddefde"
 export let toolbar:any = []
+export let width = "1300px"
+export let top = "10%"
+export let left = "10%"
 
 // INTERNAL
 let title = "CHART"
 let uid = ''
 let point:any = {}
 let machine:any = {}
+let controller:any = {}
+let device:any = {}
+let agent:any = {}
 let machineImg='/LIOFILIZZATORE.jpg'
 let echartdata:any = {data:[],timestamp:[],title:'',tag:'',legend:[],um:'',type:'',markData:[],yAxis:{},markOptions:{}}
 let chartoptions = {
-		"title": "Point  Macchina: ",
-        "axes": {
-            "bottom": {
-                "title": "Sampling time ",
-                "mapsTo": "date",
-                "scaleType": "time"
+		title: "Point  Macchina: ",
+        axes: {
+            bottom: {
+                title: "Sampling time ",
+                mapsTo: "date",
+                scaleType: "time"
             },
-            "left": {
-                "mapsTo": "value",
-                "title": "UM ",
-                "scaleType": "linear"
+            left: {
+                mapsTo: "value",
+                title: "UM ",
+                scaleType: "linear"
             }
         },
-        "curve": "curveMonotoneX",
-        "height": "450px",
-		"legend":{"data":""},
-        "width": "800px",
-        "experimental": true,
-        "zoomBar": {
-            "top": {
-                "enabled": true
+        curve: "curveMonotoneX",
+        height: "500px",
+		legend:{"data":""},
+        width: "900px",
+        experimental: true,
+        zoomBar: {
+            top: {
+                enabled: true
             }
         },
-		"toolbar":{"enabled":false}
+		toolbar:{"enabled":false}
 }
 // CONTROL PANEL
 //let powerButton
@@ -206,17 +238,100 @@ let onDataClick = (ev:any)=>{
 		disableClose={false} 
 		draggable={true} 
 		headercolor={bgcolor}
-		width="1100px"
-		top="10%"
-		left="15%"
+		width={width}
+		top={top}
+		left={left}
 		toolbar = {toolbar}
 		minimized="off"
 		resize='both'>
 		   <div class="chart-form" slot="bodycontent"> 
 			<div class="chart-div" style="margin-left:auto;">
 					<div class="filter-div" >
-						<div style='display:block;font-weight:bold;font-size:16px;'>{machine.type} - {machine.name}</div>
-							<img src={machineImg} alt="machImg"/>
+							<!--img src={machineImg} alt="machImg"/-->
+							<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff;">
+								<legend style="font-weight:bold"> Point Details </legend>
+								<div>
+									<label class='info-agent' for="point-tag">Tag:</label>
+									<input class='input-point' disabled type="text" id="point-tag" name="tag" value={point.tag}>
+								</div>
+								<div>
+									<label class='info-agent' for="point-type">Type:</label>
+									<input class='input-point' disabled type="text" id="point-type" name="type" value={point.type}>
+								</div>
+								<div>
+									<label class='info-agent' for="point-description">Description:</label>
+									<input size="30" class='input-point' disabled type="text" id="point-description" name="description" value={point.description}>
+								</div>
+								<div>
+									<label class='info-agent' for="point-machine">Sensor of:</label>
+									<input size="30" class='input-point' disabled type="text" id="point-machine" name="description" value={machine.name}>
+								</div>
+								<div>
+									<label class='info-agent' for="point-interval">Interval:</label>
+									<input size="30" class='input-point' disabled type="text" id="point-interval" name="description" value={firsttime + " - " + lasttime}>
+								</div>
+								<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff;">
+									<legend style="font-weight:bold"> Device Details </legend>
+									<div>
+										<label class='info-agent' for="device-name">Name:</label>
+										<input size="30" class='input-point' disabled type="text" id="device-name" name="description" value={device.name}>
+									</div>
+									<div>
+										<label class='info-agent' for="device-description">Description:</label>
+										<input size="28" class='input-point' disabled type="text" id="device-description" name="description" value={device.description}>
+									</div>
+									<div>
+										<label class='info-agent' for="device-host">Host:</label>
+										<input size="28" class='input-point' disabled type="text" id="device-host" name="host" value={device.host}>
+									</div>
+									<div>
+										<label class='info-agent' for="device-port">Port:</label>
+										<input size="28" class='input-point' disabled type="text" id="device-port" name="port" value={device.port}>
+									</div>
+								</fieldset>
+								<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff;">
+									<legend style="font-weight:bold"> Agent Details </legend>
+									<div>
+										<label class='info-agent' for="agent-name">Name:</label>
+										<input size="30" class='input-point' disabled type="text" id="agent-name" name="name" value={agent.name}>
+									</div>
+									<div>
+										<label class='info-agent' for="agent-description">Description:</label>
+										<input size="28" class='input-point' disabled type="text" id="agent-description" name="description" value={agent.description}>
+									</div>
+									<div>
+										<label class='info-agent' for="agent-source-name">Source name:</label>
+										<input size="25" class='input-point' disabled type="text" id="agent-source-name" name="source-name" value={agent.source?agent.source.name:''}>
+									</div>
+									<div>
+										<label class='info-agent' for="agent-source-server">Source server:</label>
+										<input size="25" class='input-point' disabled type="text" id="agent-source-server" name="source-server" value={agent.source?agent.source.server:''}>
+									</div>
+									<div>
+										<label class='info-agent' for="agent-source-port">Source port:</label>
+										<input size="25" class='input-point' disabled type="text" id="agent-source-port" name="source-port" value={agent.source?agent.source.port:''}>
+									</div>
+								</fieldset>
+								<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff;">
+									<legend style="font-weight:bold"> Controller Details </legend>
+									<div>
+										<label class='info-agent' for="controller-name">Name:</label>
+										<input size="25" class='input-point' disabled type="text" id="controller-name" name="controller-name" value={controller.name?controller.name:''}>
+									</div>
+									<div>
+										<label class='info-agent' for="controller-model">Model:</label>
+										<input size="25" class='input-point' disabled type="text" id="controller-model" name="controller-model" value={controller.model?controller.model:''}>
+									</div>
+									<div>
+										<label class='info-agent' for="controller-manufacturer">Manufacturer:</label>
+										<input size="25" class='input-point' disabled type="text" id="controller-manufacturer" name="controller-manufacturer" value={controller.manufacturer?controller.manufacturer:''}>
+									</div>
+									<div>
+										<label class='info-agent' for="controller-model">Interface:</label>
+										<input size="25" class='input-point' disabled type="text" id="controller-interface" name="controller-interface" value={controller.intf?controller.intf:''}>
+									</div>
+								</fieldset>
+							</fieldset>
 						</div>
 					<div class="chart-container-div" style="margin-left:auto;">
 						<SvelteEcharts bind:data={echartdata} 
@@ -259,7 +374,9 @@ let onDataClick = (ev:any)=>{
 .filter-div{
 	display:block;
 	margin-right:4px;
+	width: 100%;
 }
+
 .chart-container-div{
 	display:block;
 	margin-left:auto;
