@@ -97,7 +97,8 @@ let profiles = [
                     { id: 'Alarm', top: '0px', left: '10px' }
                 ]
             }
-        ]
+        ],
+        map: { center: { lat: 30, lng: -30 }, zoom: 1 }
     },
     {
         uid: '667b658f-66ca-7aa3-965d-abd4bc22a59a',
@@ -126,7 +127,8 @@ let profiles = [
                     { id: 'Alarm', top: '0px', left: '10px' }
                 ]
             }
-        ]
+        ],
+        map: { center: { lat: 42.40, lng: 12.05 }, zoom: 8 }
     },
     {
         uid: 'dd7b658f-66ca-7aa3-965d-abd4bc48a59a',
@@ -155,7 +157,8 @@ let profiles = [
                     { id: 'Alarm', top: '0px', left: '10px' }
                 ]
             }
-        ]
+        ],
+        map: { center: { lat: 42.01, lng: 12.30 }, zoom: 8 }
     },
     {
         uid: 'dd7b65da-66b8-7aa3-965d-abd4bc48a59a',
@@ -184,7 +187,8 @@ let profiles = [
                     { id: 'Alarm', top: '0px', left: '10px' }
                 ]
             }
-        ]
+        ],
+        map: { center: { lat: 42.01, lng: 12.30 }, zoom: 8 }
     },
     {
         uid: '447b658f-66ca-7aa3-965d-abd4bc22a893',
@@ -198,7 +202,8 @@ let profiles = [
                     { id: 'Donut',top:'10px',left:'10px' }
                 ]
             }
-        ]
+        ],
+        map: { center: { lat: 30, lng: -30 }, zoom: 1 }
     }
 ]
 

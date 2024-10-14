@@ -3,7 +3,7 @@ import Map from '../map/Map.svelte';
 import MarkerClickedPlants from './MarkerClickedPlants.svelte'
 import WManag from '../WManag.svelte'
 import {onMount} from 'svelte'
-import {mock} from '../../ustore.js'
+import {mock,user} from '../../ustore.js'
 import {getEntityMain} from '../../script/apidataconfig.js'
 
 let defaultWManager = 'defaultMapper'
@@ -21,6 +21,10 @@ export let maptype:any ='factory'
 let component:any = MarkerClickedPlants
 let modalId = "markerClickedDivPlants"
 
+
+let initZoom:any = 1;
+let initCenter:any= [-30,30]
+
 onMount(async () => {
 	let filters:any
 	let ret:any
@@ -32,6 +36,14 @@ onMount(async () => {
 			console.log("MAP MANAGER MAIN ENTITIES",group)
 			component = MarkerClickedPlants
 			modalId = "markerClickedDivPlants"
+			if($user.profile.map){
+				initZoom = $user.profile.map.zoom
+				initCenter = [$user.profile.map.center.lng, $user.profile.map.center.lat]
+			}
+			// dispacth event to listen for profile base coords
+			const modalEdit = document.getElementById(modalId)
+			const profileCoords = new CustomEvent("profilecoords", { detail: {zoom: initZoom,center:initCenter} })
+			modalEdit?.dispatchEvent(profileCoords)
 	/*	break;
 	}*/
 })
@@ -51,7 +63,7 @@ onMount(async () => {
 		minimized="{minimized}"
 		resize='both'>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
-			<Map bind:group={group} zoom=14 modalId={modalId}/>
+			<Map bind:group={group} zoom=14 modalId={modalId} bind:initZoom={initZoom} bind:initCenter={initCenter}/>
 		</div>
 	</WManag>
 </div>

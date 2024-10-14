@@ -4,7 +4,7 @@
    import { writable } from "svelte/store";
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
-   import {SimpleTable} from '../../components/table'
+   import {SimpleTableNoPage} from '../../components/table'
    import {getAlarmColumns} from '../../script/utils.js'
    // API INTERFACE
    import {getDataPoints,getControllers,getEntityControlled} from '../../script/apidataconfig.js'
@@ -19,7 +19,7 @@
    let controllers:any = []
 	onMount(async () => {
 		const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'},{lastvalue:'ON',_type:'eq'}]
-		const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:5}
+		const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:null}
 		// Here we get the data from the API
 		const ret = await getDataPoints(filters,$mock,pagination)
 		let ret1 = await getEntityControlled([],$mock)
@@ -39,6 +39,7 @@
 				ret.data[i].controllerName = 'NOTFOUND'
 		}
 		$alarmsdata = ret.data
+		console.log('ALARMS DATA',ret.data)
 	});
 
 	
@@ -58,6 +59,7 @@
 	export let  pagesize = true
 	export let  pSize = 3
 	let alarmdatacolumns = getAlarmColumns($module.toUpperCase())
+	let pagination = false
 
 	
 
@@ -76,7 +78,8 @@
 			{left}
 			{minimized}
 			{width}>
-				<SimpleTable slot="bodycontent" data={alarmsdata} datacolumns={alarmdatacolumns} {pagesize} {pSize}/>
+			scrollable={false}
+				<SimpleTableNoPage slot="bodycontent" data={alarmsdata} datacolumns={alarmdatacolumns} />
 			</Wmanag>
 		</div>
 

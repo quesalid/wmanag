@@ -21,6 +21,7 @@ export let height = "max-content"
 export let visibility = "visible"
 export let resize = 'none'
 export let minimized = 'off'
+export let scrollable = false
 
 
 export let toolbar:any = [
@@ -41,7 +42,7 @@ onMount(async () => {
 		dragElement(dragable, dragzone)
 		dragE = id+"dragelement"
 	}
-	let win = document.getElementById(id);
+	let win:any = document.getElementById(id);
 	switch(minimized){
 		case 'on':
 			 win.style.height ="30px"
@@ -56,7 +57,7 @@ onMount(async () => {
 
 
 const minimize = (event:any)=>{
-	let win = document.getElementById(id);
+	let win:any = document.getElementById(id);
 	winHeight = win.style.height
 	if(winHeight == '')
       winHeight ="30px"
@@ -104,7 +105,7 @@ const minimize = (event:any)=>{
 				{/if}
 			{/each}
 		</div>
-		<div class="window-menu-body">
+		<div class="window-menu-body" style="overflow-x: hidden ; overflow-y: {scrollable?'auto':'hidden'} ">
 			{#if $$slots.bodycontent}
 				<slot name="bodycontent" data={data} options={dragE}></slot>
 			{/if}

@@ -1,6 +1,7 @@
 <script lang="ts">
 // BOOTSRAP BG COLORS https://toruskit.com/docs/utilities/background-color/
 import {onMount} from 'svelte'
+
 import { MapLibre,
         NavigationControl,
         GeolocateControl,
@@ -18,8 +19,17 @@ import { MapLibre,
 import {getClassFromColor} from '../../script/utils.js'
 
 
+
 onMount(async () => { 
     console.log("GROUPS",group)
+    console.log("ZOOM",zoom,initZoom)
+    console.log("CENTER",initCenter)
+    // add eventlistner to listen for profile base coords
+    const modalEdit = document.getElementById(modalId)
+    modalEdit?.addEventListener('profilecoords', (e:any) => {
+		console.log("PROFILE COORDINATES EVENT RECEIVED",e.detail)
+        // click on fly button to move to profile base coords
+	})
 })
 
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
@@ -52,6 +62,18 @@ const getMarkerClass = (color:string) =>{
     return(ret)
 }
 
+const flyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
+    const lz = zoom || initZoom
+    const llon = lon || initCenter[0]
+    const llat = lat || initCenter[1]
+    if(map)
+	    map.flyTo({
+		    //center: initCenter,
+		    //zoom: initZoom,
+            center: [llon, llat],
+	        zoom: lz,
+	    })
+}
 
 </script>
 
@@ -78,11 +100,7 @@ const getMarkerClass = (color:string) =>{
             {#if (g.lon && g.lat)}
 			    <ControlButton class="text-left w-fit text-xs"
 				    on:click={() => {
-					    if(map)
-					    map.flyTo({
-						    center: [g.lon, g.lat],
-						    zoom: zoom,
-					    });
+						flyTo(map,g.lon,g.lat,zoom)
 				    }}>
 				    {g.label}
 			    </ControlButton>
@@ -91,12 +109,8 @@ const getMarkerClass = (color:string) =>{
     </ControlGroup>
 
     <ControlGroup>
-      <ControlButton class="text-lg" on:click={() => {
-          if(map)
-			map.flyTo({
-				center: initCenter,
-				zoom: initZoom,
-			})
+      <ControlButton class="text-lg flybutton"  on:click={() => {
+           flyTo(map)
       }}>&#127757</ControlButton>
     </ControlGroup>
   </Control>
@@ -132,13 +146,7 @@ const getMarkerClass = (color:string) =>{
 
 
 <style>
-.plant-lightred{
-    background-color: #FF6188;
-}
-.plant-lightblue{
-    background-color: #B9DCCC;
-}
-.plant-lightgreen{
-    background-color: #A9DC62;
+.flybutton{
+    cursor:pointer;
 }
 </style>

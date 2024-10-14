@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy,addPagination,addTableFilter } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
@@ -28,9 +28,8 @@
 	  }
   ];
 
-  export let pagesize = true;
-  export let showpag = true;
-  export let pSize = 2;
+  export let height = '450px';
+  
   
 
   const getColumns = (datacolumns:any) => {
@@ -136,8 +135,6 @@
   const tableOptions:any = {}
   
 	  tableOptions.sort = addSortBy()
- 
-	  tableOptions.page = addPagination()
   
 	  tableOptions.tableFilter = addTableFilter()
 
@@ -151,9 +148,6 @@
   
   const { filterValue } = pluginStates.tableFilter;
   
- 
-	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
-	$pageSize = pSize
  
 
   
@@ -174,7 +168,7 @@
  
 
 </script>
-
+<div  class='table-fix-head' style="--height:{height};">
     <table {...$tableAttrs}>
 	  <thead>
 			{#each $headerRows as headerRow (headerRow.id)}
@@ -217,37 +211,28 @@
 			{/each}
 		</tbody>
 </table>
+</div>
 
-
-{#if showpag}
-	<div class="pagination-div">
-		<div>
-		  <button
-			on:click={() => $pageIndex--}
-			disabled={!$hasPreviousPage} style="font-weight:bold;font-size:15px;margin-left:2px;">🞀</button
-		  >
-		  {$pageIndex + 1} out of {$pageCount}
-		  <button
-			on:click={() => $pageIndex++}
-			disabled={!$hasNextPage} style="font-weight:bold;font-size:15px;">🞂</button
-		  >
-		</div>
-		{#if pagesize}
-		   <div>
-			<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
-			<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
-		   </div>
-		{/if}
-	</div>
-{/if}
 
 
 <style>
+    .table-fix-head {
+        overflow-y: auto; /* make the table scrollable if height is more than 200 px  */
+        height: var(--height); /* gives an initial height of 200px to the table */
+      }
+      .table-fix-head thead  {
+        position: sticky; /* make the table heads sticky */
+        top: 0px; /* table head will be placed from the top of the table and sticks to it */
+      }
 	table {
 			border-spacing: 0;
 			border-top: 1px solid black;
 			border-left: 1px solid black;
 			margin: 0.5rem;
+			border-collapse: collapse;
+		}
+		thead {
+			opacity: 100% ;
 		}
 		th, td {
 			border-bottom: 1px solid black;

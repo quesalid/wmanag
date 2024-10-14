@@ -642,7 +642,7 @@ let pointdataalarmcolumns = [
     {
         header: 'Value',
         accessor: (item) => item.lastvalue,
-        renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;', onClick: onAlarmPointClickAck } }
+        renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;z-index:0;', onClick: onAlarmPointClickAck } }
     },
     {
         header: 'Time',

@@ -5,4 +5,5 @@ export { default as ImageRender } from './ImageRender.svelte';
 export { default as ImageRenderDynamic } from './ImageRenderDynamic.svelte';
 export { default as SelectRender } from './SelectRender.svelte';
 export { default as SimpleTable } from './SimpleTable.svelte';
+export { default as SimpleTableNoPage } from './SimpleTableNoPage.svelte';
 export { default as TextRender } from './TextRender.svelte';
