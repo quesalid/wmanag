@@ -1,26 +1,21 @@
 <script lang="ts">
-   // EXTERN IMPORT
    import { navigate } from "svelte-routing";
-   import {onMount} from "svelte"
-   // INTERN IMPORT
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
-   import Tab from '../lib/components/tabs/Tab.svelte'
    import { center } from '../lib/components/topbar/notifications';
-   import {UserManager,DbManager,LogManager} from '../lib/components/contents'
-   // STORE
-   import {module, mock, avatar,currentmainentity,navigation,getArrayFromPath,avatargroups,avatarclass,user,role} from '../lib/ustore.js'
-   // UTILITY
-   import { isUserAdmin} from '../lib/script/utils.js'
-   
- 
-  
+   import {onMount} from "svelte"
+   import {getEntityMain} from '../lib/script/apidataconfig.js'
+   import {module, 
+			mock,
+			avatar,avatargroups,
+			avatarclass,
+			user,
+			navigation,
+			getArrayFromPath} from '../lib/ustore.js'
+   import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
+   // MANAGER
+   import {AssistantManager, AlarmManager} from '../lib/components/contents'
 
-    let donutListener:any
-	let plants:any = []
-	let devices:any = []
-	let agents:any = []
-	
-	let pippo = 0
+
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -33,40 +28,28 @@
 			  'Successful login attempt by @jack'
 		])
 		const filters:any = []
-		$navigation = getArrayFromPath("/"+$module+"/admin")
-		// SET FOCUS ON FIRST MENU AND SHOW REALTED DIV ON MOUNT
-		if(items.length > 0){
-			const fitem = document.getElementById(items[0].id)
-			if(fitem)
-				fitem.focus()
-			const ditem = document.getElementById("div-"+items[0].id)
-			if(ditem)
-				ditem.style.display='block'
-		}
-		
+		const ret = await getEntityMain(filters,$mock)
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
+	
 
 	// BAR VARIABLES
 	const barheigth = "60px"
-	const barheigth1 = "55px"
 	const imgheight = "60px"
 	const topbarheight = "90%"
 	
+	
 	const avatarsize = "w-10"
+	// GRAPH VARIABLES
+    let defaultNodes: any[] = [];
+	let graph:any
 	
 
+	
 
-	// EXPORTS
-	let items:any = [
-		{name:'users',status:'active',order:'first',id:"tab-item-admin-users",component:UserManager},
-		{name:'logs',status:'active',order:'last',id:"tab-item-admin-logs",component:LogManager},
-		{name:'database',status:'active',order:'middle',id:"tab-item-admin-database",component:DbManager},
-	]
-	let tabclass = "tab-item-class"
-    let divclass = "div-item-class"
+	
 
 	// click Logo
 	const onClickLogo = (ev:any)=>{
@@ -74,9 +57,7 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	
 </script>
-{#if isUserAdmin($role)}
 <div>
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
@@ -85,12 +66,12 @@
 					</Logo>
 				</div>
 				<div slot="centertop">
-					<BreadCrumb/>
+					<Breadcrumb/>
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
 				<ChatBot/>
-				<DropDownMenu groups={$avatargroups} bind:image="{$avatar}" 
+				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}
 						messageclass={$avatarclass}>
@@ -98,30 +79,19 @@
 				<SideMenu  topbarheight='{topbarheight}'/>
 				</div>
 			</TopBar>
-
 		</div>
-		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
-				<Tab {items} {tabclass} {divclass}/>
-			
+		<div class="assistant-container" style="--top:{barheigth}" id="dashboard-container-id">
+			<AssistantManager  headercolor={bgcolor} />
 		</div>
-
 </div>
-{/if}
-
-
 
 <style>
-.dashboard-container{
+.assistant-container{
 	display:block;
 	position:relative;
-	top: calc(var(--top));
+	top: var(--top);
 	overflow-y: auto;
 	height: calc( 100vh - 50px );
-}
-
-.dashboard-container-modal{
-	position:absolute;
-	top:0px;
 }
 
 </style>

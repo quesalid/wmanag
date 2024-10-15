@@ -4,7 +4,7 @@
    import {onMount,afterUpdate} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
    import EDITOR from '../lib/components/drawflow/editor.svelte'
@@ -83,6 +83,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
+				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}

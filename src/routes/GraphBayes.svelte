@@ -1,7 +1,7 @@
 <script lang="ts">
    // ADD TOP BAR
 	import { navigate } from "svelte-routing";
-	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
+	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
 	import { center } from '../lib/components/topbar/notifications';
 	import {onMount} from "svelte"
 	import {module,avatargroups,avatar,user,avatarclass, navigation, getArrayFromPath} from '../lib/ustore.js'
@@ -177,6 +177,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
+				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}

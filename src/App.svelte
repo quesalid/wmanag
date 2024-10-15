@@ -32,6 +32,7 @@ import Monitor from "./routes/Monitor.svelte"
 import Admin from "./routes/Admin.svelte"
 import BuildClone from './routes/BuildClone.svelte'
 import DashBoardConfig from "./routes/DashBoardConfig.svelte"
+import Assistant from "./routes/Assistant.svelte"
 
 export const url = "/deploy"
 
@@ -161,6 +162,19 @@ export const url = "/deploy"
     </Route>
     <Route path="/learn/dashboardconfig">
 		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png"/>
+    </Route>
+    <!-- A S S I S T A N T  -->
+    <Route path="/data/assistant">
+        <Assistant logoImage="/ICO_UP2_DATA.png"/>
+    </Route>
+    <Route path="/clone/assistant">
+		<Assistant logoImage="/ICO_UP2_CLONE.png"/>
+    </Route>
+    <Route path="/ai/assistant">
+		 <Assistant logoImage="/ICO_UP2_AI.png"/>
+    </Route>
+    <Route path="/learn/assistant">
+		 <Assistant logoImage="/ICO_UP2_LEARN.png"/>
     </Route>
   </div>
 </Router>

@@ -3,7 +3,7 @@
    import { navigate } from "svelte-routing";
    import {onMount} from "svelte"
    // INTERN IMPORT
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb} from "../lib/components/topbar"
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {DashBoardConfigManager} from '../lib/components/contents'
    // STORE
@@ -72,14 +72,14 @@
 
 	let saveDashboard = async (ev:any)=>{
 		// SET PROFILE IN STORE
-		const index = $user.profile.dashboard.findIndex((item) => item.module == $module.toUpperCase())
+		const index = $user.profile.dashboard.findIndex((item:any) => item.module == $module.toUpperCase())
 		//console.log(" USER PROFILE DASHBOARD INDEX", index,widgets)
 		// FILTER WIDGETS
 		let filteredWidgets = JSON.parse(JSON.stringify(widgets.filter((item:any)=>item.included)))
 		if(index > -1)
 			$user.profile.dashboard[index].windows = filteredWidgets
 		else{
-			let dash = {
+			let dash:any = {
                 module: $module.toUpperCase(),
                 windows: filteredWidgets
             }
@@ -102,6 +102,7 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
+				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} bind:image="{$avatar}" 
 						imagesize='{avatarsize}'
 						message={$user.username}

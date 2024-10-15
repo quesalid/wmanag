@@ -17,6 +17,7 @@ export { default as SynBatchDetail } from './SynBatchDetail.svelte';
 export { default as DbAdminManager } from './DbAdminManager.svelte';
 export { default as DonutManager } from './DonutManager.svelte';
 export { default as DashBoardConfigManager } from './DashBoardConfigManager.svelte';
+export { default as AssistantManager } from './AssistantManager.svelte';
 
 
 

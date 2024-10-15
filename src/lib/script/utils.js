@@ -642,7 +642,7 @@ let pointdataalarmcolumns = [
     {
         header: 'Value',
         accessor: (item) => item.lastvalue,
-        renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;z-index:0;', onClick: onAlarmPointClickAck } }
+        renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;z-index:-1; position:relative;', onClick: onAlarmPointClickAck } }
     },
     {
         header: 'Time',
@@ -1009,7 +1009,11 @@ const userTemplate = {
                     { id: 'Donut', top: '10px', left: '10px' }
                 ]
             }
-        ]
+        ],
+        map: {
+            center: { lat: 30, lng: -30 },
+            zoom: 1
+        }
     }
 }
 
@@ -1097,6 +1101,10 @@ export const getPointTemplate = (module='DATA') => {
 
 export const getUserTemplate = () => {
     return (userTemplate)
+}
+
+export const isUserAdmin = (role) => {
+    return ((role == 'ADMIN' || role == 'SADMIN'))
 }
 
 export const getLogTemplate = () => {

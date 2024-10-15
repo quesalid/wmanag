@@ -51,7 +51,7 @@
 	export let title = "ALARMS"
 	export let top = '20%'
 	export let left = '20%'
-	export let minimized = 'ff'
+	export let minimized = 'off'
 	export let toolbardevice:any = []
 	export let  draggable = true
 	export let  zindex = 4

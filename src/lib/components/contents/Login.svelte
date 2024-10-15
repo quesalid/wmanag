@@ -40,7 +40,7 @@
   onMount(async () => {
       // ON LOAD CLEAN STORE
       $role = ''
-      $user = {username:'',uid:'',name:'',surname:'',profile:{dashboard:[]}}
+      $user = {username:'',uid:'',name:'',surname:'',profile:{language:'',locale:'',dashboard:[],map:{center:{lat:0,lng:0},zoom:1}}}
       $token = ''
       $avatar = ''
       $family = 'INDUSTRY'
@@ -52,7 +52,7 @@
   }
 
   const handleSubmit = async () => {
-    const modal = document.getElementById("login-dialog-id")
+    const modal:any = document.getElementById("login-dialog-id")
     errors = {}
     if (usrid.length === 0) {
       errors['usrid'] = "Userid must not be empty";

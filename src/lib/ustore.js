@@ -3,7 +3,8 @@ import { writable } from 'svelte/store';
 
 export const mock = writable(true) // MOCK DATA IF TRUE
 export const role = writable("")  // LOGGED USER ROLE
-export const user = writable({ username: '', uid: '', name: '', surname: '', profile: { dashboard: [], locale: 'en-US', language: 'en', map: { center: { lat: 30, lng: -30 }, zoom: 1 } } })  // LOGGED USER
+//export const user = writable({ username: '', uid: '', name: '', surname: '', profile: { dashboard: [], locale: 'en-US', language: 'en', map: { center: { lat: 30, lng: -30 }, zoom: 1 } } })  // LOGGED USER
+export const user = writable({})  // LOGGED USER
 export const token = writable("") // SESSION LOGIN TOKEN
 export const currentmainentity = writable({ name: "PLANT-001" }) // CURRENT PLANT
 export const navigation = writable([{}]) // TOKENIZED NAVIGATION ARRAY OF OBJECT
