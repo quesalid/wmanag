@@ -8,8 +8,9 @@
    import {getAlarmColumns} from '../../script/utils.js'
    // API INTERFACE
    import {getDataPoints,getControllers,getEntityControlled} from '../../script/apidataconfig.js'
+   import {query} from '../../script/apiassistant.js'
    // STORE
-   import { mock,module} from '../../ustore.js'
+   import { mock,module, assistant} from '../../ustore.js'
    
   
 
@@ -17,6 +18,17 @@
    let alarmsdata:any = writable([])
    let machines:any = []
    let controllers:any = []
+
+   const updateToolbar = (toolbar:any) => {
+	   const found = toolbar.find((item:any) => item.label == 'Ask')
+	   if($assistant && !found)
+	   toolbar.push({type:'image',props:{src:'/LLM.png'},function:onClickAskModel,label:"Ask"})
+	   if(!$assistant && found)
+	   toolbar = toolbar.filter((item:any) => item.label !== 'Ask')
+	   console.log('TOOLBAR',toolbar)
+	   return toolbar
+	}
+
 	onMount(async () => {
 		const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'},{lastvalue:'ON',_type:'eq'}]
 		const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:null}
@@ -40,10 +52,19 @@
 		}
 		$alarmsdata = ret.data
 		console.log('ALARMS DATA',ret.data)
+
+		toolbar = updateToolbar(toolbar)
 	});
 
-	
-
+	// ASSISTANT SUPPORT
+	let onClickAskModel = async (ev:any)=>{
+		// SEND QUERY TO ASSISTANT
+		console.log('ASK MODEL')
+		const query1 = {"inputs": "I have an alarm on the panel. What I should do? "}
+		const ret = await query(query1)
+		console.log('QUERY',ret)
+	}
+	  
 	// WINDOW VARIABLES
 	export let width = "750px"
 	export let headercolor = '#fff2e8'
@@ -52,7 +73,7 @@
 	export let top = '20%'
 	export let left = '20%'
 	export let minimized = 'off'
-	export let toolbardevice:any = []
+	export let toolbar:any = []
 	export let  draggable = true
 	export let  zindex = 4
     // TABLE
@@ -65,22 +86,22 @@
 
 </script>
  
-
+        
 		<div class="alarm-container">
-			<Wmanag id="containerWManager"  
-			{title}
-			toolbar={toolbardevice} 
-			{disableClose} 
-			{draggable} 
-			{headercolor} 
-			{zindex}
-			{top}
-			{left}
-			{minimized}
-			{width}>
-			scrollable={false}
-				<SimpleTableNoPage slot="bodycontent" data={alarmsdata} datacolumns={alarmdatacolumns} />
-			</Wmanag>
+				<Wmanag id="containerWManager"  
+				{title}
+				toolbar = {toolbar} 
+				{disableClose} 
+				{draggable} 
+				{headercolor} 
+				{zindex}
+				{top}
+				{left}
+				{minimized}
+				{width}>
+				scrollable={false}
+					<SimpleTableNoPage slot="bodycontent" data={alarmsdata} datacolumns={alarmdatacolumns} />
+				</Wmanag>
 		</div>
 
 

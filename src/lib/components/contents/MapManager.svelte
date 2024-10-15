@@ -22,8 +22,8 @@ let component:any = MarkerClickedPlants
 let modalId = "markerClickedDivPlants"
 
 
-let initZoom:any = 1;
-let initCenter:any= [-30,30]
+let initZoom:any = $user.profile.map.zoom;
+let initCenter:any= [$user.profile.map.center.lng, $user.profile.map.center.lat]
 
 onMount(async () => {
 	let filters:any

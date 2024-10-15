@@ -10,10 +10,13 @@
 			avatarclass,
 			user,
 			navigation,
-			getArrayFromPath} from '../lib/ustore.js'
+			getArrayFromPath,
+			assistant} from '../lib/ustore.js'
    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
    // MANAGER
    import {AssistantManager, AlarmManager} from '../lib/components/contents'
+   import Switch from "../lib/components/switch/Switch.svelte"
+   
 
 
 	onMount(async () => {
@@ -57,6 +60,13 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
+	const onCheck = async (ev:any)=>{
+		// send custom event toggleassistant to ChatBot
+		const event = new CustomEvent('toggleassistant', {detail: {status: ev.target.checked}});
+		document.dispatchEvent(event)
+		$assistant = ev.target.checked
+	}
+
 </script>
 <div>
 		<div>
@@ -81,7 +91,14 @@
 			</TopBar>
 		</div>
 		<div class="assistant-container" style="--top:{barheigth}" id="dashboard-container-id">
-			<AssistantManager  headercolor={bgcolor} />
+			<!--AssistantManager  headercolor={bgcolor} /-->
+			<div class="assistant-configure">
+				<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff; width:70%">
+					<legend style="font-weight:bold"> Assistant Configuration </legend>
+					<div class="div-label">Assistant ON/OFF</div>
+					<Switch height='20px' width="45px" {onCheck} checked={$assistant}/>
+				</fieldset>
+			</div>
 		</div>
 </div>
 
@@ -94,6 +111,14 @@
 	height: calc( 100vh - 50px );
 }
 
+.assistant-configure{
+	display:flex;
+	margin: 10px;
+}
+.div-label{
+	margin-left: 5px;
+	margin-right: 5px;
+}
 </style>
 
 

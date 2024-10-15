@@ -14,6 +14,13 @@
 //
 // BPM MODELING
 // https://bpmn.io/toolkit/bpmn-js/walkthrough/
+//
+// AI MODEL HUGGINGFACE
+// https://huggingface.co/docs/api-inference/index
+// curl "https://api-inference.huggingface.co/models/google/gemma-2-2b-it" -H "Authorization: Bearer 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" -H "Content-Type: application/json"" -d @testhf.json
+
+// WHATS App
+// https://github.com/WhiskeySockets/Baileys
 
 import { Router, Route, navigate } from "svelte-routing";
 import { onMount} from "svelte";

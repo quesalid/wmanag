@@ -1,4 +1,4 @@
-import { token } from "../ustore.js"
+import { token, hfkey } from "../ustore.js"
 
 export const baseUrl = 'https://' + window.location.hostname + ':9001'
 
@@ -27,6 +27,23 @@ export const getCHeader = () => {
     const cHeaders = {
         "Content-Type": "application/json",
         "Authorization": "bearer " + tkn,
+    }
+    unsubscribe()
+    return cHeaders
+}
+
+/**
+ * Return authorization header for huggingface
+ * @returns
+ */
+export const getCHeaderHF = () => {
+    let hfk
+    const unsubscribe = hfkey.subscribe(value => {
+        hfk = value;
+    });
+    const cHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + hfk,
     }
     unsubscribe()
     return cHeaders
@@ -110,5 +127,34 @@ export const callFetchGet = async function (url, cheaders = null) {
             .catch((error) => {
                 reject(error)
             })
+    })
+}
+
+export const callFetchPostAwait = async function (url, data, cheaders = null) {
+    let headers = {}
+    if (cheaders == null)
+        headers = customHeaders
+    else
+        headers = cheaders
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(data),
+                insecure: true,
+            })
+            if (response.status < 400) {
+                const result = await response.json()
+                resolve(result)
+            } else {
+                const result = await response.text()
+                reject(result)
+            }
+        } catch (error) {
+            console.log("FETCH ERROR1 URL", url)
+            console.log("FETCH ERROR1", error)
+            reject(error)
+        }
     })
 }

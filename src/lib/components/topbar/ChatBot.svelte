@@ -1,14 +1,15 @@
 <script lang='ts'>
   // import the custom store
   import { navigate } from "svelte-routing";
-  import {navigation,getArrayFromPath,module} from '../../ustore.js'
+  import {navigation,getArrayFromPath,module, assistant} from '../../ustore.js'
   import {onMount} from "svelte"
 
   // Add custom event listener on load to change icon fill color
   onMount(()=>{
+    fill = $assistant?fillon:filloff
 	document.addEventListener('toggleassistant',(e:any)=>{
 	  const status = e.detail.status
-      if(status == 'ON'){
+      if(status){
 		fill = fillon
 	  }else{
           fill = filloff
@@ -27,7 +28,7 @@
   export let width = '30px'
   export let height = '30px'
   export let fillon = '#00AA00'
-  export let filloff = '#777777'
+  export let filloff = '#999999'
 
   let fill = filloff
 

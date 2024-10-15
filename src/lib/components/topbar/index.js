@@ -6,3 +6,4 @@ export { default as AlertMessages } from './AlertMessages.svelte';
 export { default as SideMenu } from './SideMenu.svelte';
 export { default as BreadCrumb } from './BreadCrumb.svelte';
 export { default as ChatBot } from './ChatBot.svelte';
+export { default as DigitalClock } from './DigitalClock.svelte';

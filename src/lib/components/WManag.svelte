@@ -77,7 +77,9 @@ const minimize = (event:any)=>{
 				<input class="wmanag-button cursor-pointer text-lg" type="button" disabled={disableClose} value="&bigotimes;" on:click={closeMenu} />
 			</div>
 		</div>
+		
 		 <div class="window-menu-toolbar">
+		  {#key toolbar}
 			{#each toolbar as Tool}
 			   {#if Tool.label}
 					<label id={Tool.props.id?"label-"+Tool.props.id:null} style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}">{Tool.label}</label>
@@ -104,6 +106,7 @@ const minimize = (event:any)=>{
 			
 				{/if}
 			{/each}
+			{/key}
 		</div>
 		<div class="window-menu-body" style="overflow-x: hidden ; overflow-y: {scrollable?'auto':'hidden'} ">
 			{#if $$slots.bodycontent}

@@ -14,6 +14,8 @@ export const avatargroups = writable([]) // TOKENIZED AVATAR MENU ARRAY OF OBJEC
 export const avatarclass = writable("text-left text-sm italic mb-9") // AVATAR MENU ARRAY CLASS
 export const avatar = writable("") // AVATAR STREAM
 export const family = writable("INDUSTRY") // PROCESS FAMILY (INDUSTRY|UTILITY|PLANT|INFR)
+export const assistant = writable(false) // ASSISTANT STATUS
+export const hfkey = writable("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") // HUGGINGFACE KEY
 
 /**
  * getArrayFromPath

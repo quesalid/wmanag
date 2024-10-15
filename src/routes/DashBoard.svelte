@@ -3,7 +3,7 @@
    import { navigate } from "svelte-routing";
    import {onMount} from "svelte"
    // INTERN IMPORT
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot,DigitalClock} from "../lib/components/topbar"
    //import Donut from "../lib/components/donut/Donut.svelte"
    import {AlarmManager,MapManager,DonutClicked,DonutManager} from '../lib/components/contents'
    //import WManag from '../lib/components/WManag.svelte'
@@ -148,8 +148,11 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
+					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
+					<DigitalClock/>
+					</div>
 				</div>
 				<div slot="centertop">
 					<BreadCrumb/>
