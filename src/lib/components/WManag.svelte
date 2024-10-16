@@ -227,7 +227,7 @@ const minimize = (event:any)=>{
 		overflow-y: auto;
 		overflow-x:hidden;
 		width: 100%;
-		height:fit-content;
+		/*height:fit-content;*/
 	}
 	.list-item{
 		width:300px;

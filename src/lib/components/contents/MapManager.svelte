@@ -10,12 +10,14 @@ let defaultWManager = 'defaultMapper'
 let group:any = []
 
 export let width = "600px"
+export let height = "3800px"
 export let headercolor = '#fff2e8'
 export let disableClose = true
 export let title = "MAP MANAGER"
 export let top = '20%'
 export let left = '20%'
 export let minimized = 'on'
+export let resize = 'both'
 export let toolbar:any = []
 export let maptype:any ='factory'
 let component:any = MarkerClickedPlants
@@ -56,11 +58,12 @@ onMount(async () => {
 		draggable={true} 
 		headercolor={headercolor}
 		width={width}
+		height={height}
 		top={top}
 		left={left}
 		toolbar = {toolbar}
 		minimized="{minimized}"
-		resize='both'>
+		resize={resize}>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 			<Map bind:group={group} zoom=14 modalId={modalId} bind:initZoom={initZoom} bind:initCenter={initCenter}/>
 		</div>

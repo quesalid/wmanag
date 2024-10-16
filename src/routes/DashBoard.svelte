@@ -76,7 +76,7 @@
 	let machines:any = []
 	let controllers:any = []
 
-	let psize = 2
+	let psize = 3
 
 	const getAlarmData = async ()=>{
 		 return new Promise(async (resolve, reject) => {
@@ -291,6 +291,7 @@
 							minimized="off" 
 							top={Window.top} 
 							left={Window.left}
+							height={mapheight}
 						/>
 					{/if}
 					{#if Window.id == 'Alarms'}
@@ -301,6 +302,7 @@
 							bind:height={alarmheight}
 							width={alarmwidth}
 							bind:alarmsdata={alarmsdata}
+							resize="both"
 						/>
 					{/if}
 					{#if Window.id == 'Monitor'}

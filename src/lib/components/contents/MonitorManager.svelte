@@ -33,6 +33,7 @@
 	export let headercolor = bgcolor
 	export let top = "10px"
 	export let left = "10px"
+	export let resize = 'none'
 	// TABLE VARIABLES
 	export let pagesize = true
 	export let  pSize = 8
@@ -64,7 +65,8 @@
 				{width}
 				{height}
 				{top}
-				{left}>
+				{left}
+				{resize}>
 				<SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

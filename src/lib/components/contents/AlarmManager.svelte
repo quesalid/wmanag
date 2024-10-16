@@ -76,6 +76,7 @@
 	export let toolbar:any = []
 	export let  draggable = true
 	export let  zindex = 4
+	export let resize = 'none'
     // TABLE VARIABLES
 	export let  pagesize = true
 	export let  pSize = 3
@@ -88,7 +89,7 @@
  
         
 		<div class="alarm-container">
-				<Wmanag id="containerWManager"  
+				<Wmanag id="alarmWManager"  
 				{title}
 				toolbar = {toolbar} 
 				{disableClose} 
@@ -101,6 +102,7 @@
 				{width}>
 				{height}
 				scrollable={false}
+				{resize}
 					<SimpleTableNoPage slot="bodycontent" bind:data={alarmsdata} datacolumns={alarmdatacolumns} {height}/>
 				</Wmanag>
 		</div>

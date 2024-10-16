@@ -12,5 +12,9 @@
 <style>
   input {
     width: 8rem;
+    font-size: small;
+  }
+  label{
+      font-size: x-small;
   }
 </style>

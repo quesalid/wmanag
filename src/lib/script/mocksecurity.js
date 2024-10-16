@@ -96,6 +96,18 @@ let profiles = [
                     { id: 'Donut', top: '10px', left: '10px' },
                     { id: 'Alarm', top: '0px', left: '10px' }
                 ]
+            },
+            {
+                module: 'AI',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'LEARN',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
             }
         ],
         map: { center: { lat: 30, lng: -30 }, zoom: 1 }
@@ -115,8 +127,8 @@ let profiles = [
             {
                 module: 'DATA',
                 windows: [
-                    { id: 'Monitor', top: '320px', left: '10px',height:'260px' },
-                    { id: 'Map', top: '0px', left: '10px' },
+                    { id: 'Monitor', top: '290px', left: '10px',height:'320px' },
+                    { id: 'Map', top: '0px', left: '10px',height:'340px' },
                     { id: 'Alarms', top: '0px', left: '10px', height: '300px' }
                 ]
             },
@@ -125,6 +137,18 @@ let profiles = [
                 windows: [
                     { id: 'Donut', top: '10px', left: '10px' },
                     { id: 'Alarm', top: '0px', left: '10px' }
+                ]
+            },
+            {
+                module: 'AI',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'LEARN',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
                 ]
             }
         ],
@@ -156,6 +180,18 @@ let profiles = [
                     { id: 'Donut', top: '10px', left: '10px' },
                     { id: 'Alarm', top: '0px', left: '10px' }
                 ]
+            },
+            {
+                module: 'AI',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'LEARN',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
             }
         ],
         map: { center: { lat: 42.01, lng: 12.30 }, zoom: 8 }
@@ -185,6 +221,18 @@ let profiles = [
                 windows: [
                     { id: 'Donut', top: '10px', left: '10px' },
                     { id: 'Alarm', top: '0px', left: '10px' }
+                ]
+            },
+            {
+                module: 'AI',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
+                ]
+            },
+            {
+                module: 'LEARN',
+                windows: [
+                    { id: 'Donut', top: '10px', left: '10px' }
                 ]
             }
         ],

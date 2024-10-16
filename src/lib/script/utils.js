@@ -644,7 +644,8 @@ export function getDataPointColumnReduced() {
         item.header != 'HH-lim' &&
         item.header != 'H-lim' &&
         item.header != 'L-lim' &&
-        item.header != 'LL-Lim'
+        item.header != 'LL-Lim' &&
+        item.header != 'Class'
     ))
     return (reduced)    
 }
@@ -676,11 +677,11 @@ let pointdataalarmcolumns = [
         traslated: 'controlledentity',
         accessor: 'machineName'
     },
-    /*{
-        header: 'Acknowledge',
+    {
+        header: 'Graph',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/CHECK.svg', onClick: onAlarmPointClickAck } }
-    }*/
+        renderdef: { type: 'image', params: { image: '/GRAPH.svg', onClick: onDataPointClickGraph } }
+    }
 ];
 
 export function getAlarmColumns(module) {
