@@ -1,6 +1,7 @@
 ﻿<script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
-  import { addSortBy,addPagination,addTableFilter } from 'svelte-headless-table/plugins';
+  import { addSortBy,addPagination,addTableFilter, addColumnFilters } from 'svelte-headless-table/plugins';
+  // CELL RENDERERS
   import ImageRender from './ImageRender.svelte'
   import ImageRenderDynamic from './ImageRenderDynamic.svelte'
   import CheckRender from './CheckRender.svelte'
@@ -9,6 +10,13 @@
   import EditTextRender from './EditTextRender.svelte'
   import EditCheckRender from './EditCheckRender.svelte'
   import TextStyleRender from './TextStyleRender.svelte';
+  // FILTER RENDERERS
+  import TextFilter from './filters/TextFilter.svelte'
+  import NumberRangeFilter from './filters/NumberRangeFilter.svelte'
+  import SelectFilter from './filters/SelectFilter.svelte'
+  import SliderFilter from './filters/SliderFilter.svelte'
+  // IMPORT FILTER FUNCTIONS
+  import { textPrefixFilter, minFilter, numberRangeFilter, matchFilter } from '../../script/filters/filters.js';
 
   
 
@@ -31,6 +39,56 @@
   export let pagesize = true;
   export let showpag = true;
   export let pSize = 2;
+
+  const getFilterRenderer = (type:any,fn:any,iv:any) => {
+	  let plugin:any = {}
+	  switch(type){
+		  case 'text':
+		  plugin = {
+			  filter: {
+			  fn: fn,
+			  initialFilterValue: iv,
+			  render: ({ filterValue, values, preFilteredValues }) =>
+				createRender(TextFilter, { filterValue, values, preFilteredValues }),
+			}
+		  }
+		  break;
+		  case 'number':
+			  plugin = {
+				  filter: {
+				  fn: fn,
+				  initialFilterValue: iv,
+				  render: ({ filterValue, values, preFilteredValues }) =>
+				  createRender(NumberRangeFilter, { filterValue, values, preFilteredValues }),
+				  }
+			  }
+			  break;
+		  case 'select':
+			  plugin = {
+				  filter: {
+				  fn: fn,
+				  initialFilterValue: iv,
+				  render: ({ filterValue, values, preFilteredValues }) =>
+				  createRender(SelectFilter, { filterValue, values, preFilteredValues }),
+				  }
+			  }
+			  break;
+		  case 'slider':
+			  plugin = {
+				  filter: {
+				  fn: fn,
+				  initialFilterValue: iv,
+				  render: ({ filterValue, values, preFilteredValues }) =>
+				  createRender(SliderFilter, { filterValue, values, preFilteredValues }),
+				  }
+			  }
+			  break;
+		  default:
+			break;
+	  }
+	  return plugin
+  }
+  
   
 
   const getColumns = (datacolumns:any) => {
@@ -38,6 +96,10 @@
 	  for (let i = 0; i < datacolumns.length; i++) {
 		  if(datacolumns[i].renderdef){
 			  datacolumns[i].cell = getRenderer(datacolumns[i].renderdef.type,datacolumns[i].renderdef.idtag,datacolumns[i].renderdef.uid,datacolumns[i].renderdef.params)
+		  }
+		  if(datacolumns[i].filterdef){
+			  // INSERT TEXT FILTER
+			  datacolumns[i].plugins = getFilterRenderer(datacolumns[i].filterdef.type,datacolumns[i].filterdef.fn,datacolumns[i].filterdef.iv)
 		  }
 		  columns.push(table.column(datacolumns[i]))
 	  }
@@ -131,16 +193,15 @@
 	  return ret
   }
 
+  
+
   //const datarows = readable(data);
 
   const tableOptions:any = {}
-  
-	  tableOptions.sort = addSortBy()
- 
-	  tableOptions.page = addPagination()
-  
-	  tableOptions.tableFilter = addTableFilter()
-
+  tableOptions.sort = addSortBy()
+  tableOptions.page = addPagination()
+  tableOptions.tableFilter = addTableFilter()
+  tableOptions.filter = addColumnFilters()
   const table = createTable(data, tableOptions);
 
   const columns = table.createColumns(getColumns(datacolumns))
@@ -150,28 +211,13 @@
   const { sortKeys } = pluginStates.sort;
   
   const { filterValue } = pluginStates.tableFilter;
+  const { filterValues } = pluginStates.filter;
   
  
-	const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
-	$pageSize = pSize
+  const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
+  $pageSize = pSize
  
 
-  
-
- /*const table = createTable(data, {
-    sort: addSortBy(),
-	page: addPagination(),
-	tableFilter: addTableFilter(),
-  });
-
-  const columns = table.createColumns(getColumns(datacolumns))
-
-  const { visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
-  const { sortKeys } = pluginStates.sort;
-  const { filterValue } = pluginStates.tableFilter;
-  const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;*/
-
- 
 
 </script>
 
@@ -188,6 +234,11 @@
 									⬇️
 									{:else if props.sort.order === 'desc'}
 									⬆️
+									{/if}
+									{#if props.filter?.render}
+									<div>
+										<Render of={props.filter.render} />
+									</div>
 									{/if}
 								</th>
 							</Subscribe>

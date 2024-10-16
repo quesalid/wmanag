@@ -1,6 +1,7 @@
 import { getAvatar } from '../script/apisecurity.js'
 import { getFamily } from './mock.js'
-import {getEntityNames } from '../ustore.js'
+import { getEntityNames } from '../ustore.js'
+import { textPrefixFilter, minFilter, numberRangeFilter, matchFilter } from './filters/filters.js'
 
 // @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
@@ -485,7 +486,7 @@ export function getDeviceDeployColumns(module) {
 let pointdatacolumns = [
     {
         header: 'Tag',
-        accessor: 'tag',
+        accessor: 'tag'
     },
     {
         header: 'Description',
@@ -521,12 +522,14 @@ let pointdatacolumns = [
     },
     {
         header: 'Controller',
-        accessor: 'controllerName'
+        accessor: 'controllerName',
+        filterdef: { type: 'text', fn: textPrefixFilter, iv: '' }
     },
     {
         header: getEntityNames(getFamily()).controlled.singular,
         traslated: 'controlledentity',
-        accessor:  'machineName'
+        accessor: 'machineName',
+        filterdef: { type: 'text', fn: textPrefixFilter, iv: '' }
     },
     {
         header: 'Graph',
@@ -635,7 +638,13 @@ export function getPointColumns(module) {
 }
 
 export function getDataPointColumnReduced() {
-    const reduced = pointdatacolumns.filter((item) => (item.header != 'Edit' && item.header != 'Delete'))
+    const reduced = pointdatacolumns.filter((item) => (item.header != 'Edit' &&
+        item.header != 'Delete' &&
+        item.header != 'HH-lim' &&
+        item.header != 'H-lim' &&
+        item.header != 'L-lim' &&
+        item.header != 'LL-Lim'
+    ))
     return (reduced)    
 }
 

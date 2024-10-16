@@ -176,6 +176,7 @@
 					<tr {...rowAttrs}>
 						{#each headerRow.cells as cell (cell.id)}
 							<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
+								
 								<th {...attrs} on:click={props.sort.toggle}>
 									<Render of={cell.render()} />
 									{#if props.sort.order === 'asc'}
