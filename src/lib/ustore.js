@@ -44,33 +44,49 @@ export const getArrayFromPath = (path) => {
  */
  export const getEntityNames = (family) => {
      let retName = {
-         main: { singular: 'plant', plural: 'plants' },
-         area: { singular: 'department', plural: 'departments' },
-         local: { singular: 'line', plural: 'lines' },
-         controlled: { singular: 'machine', plural: 'machines' }
+         main: { singular: 'plant', plural: 'plants',Singular:'Plant',Plural:'Plants' },
+         area: { singular: 'department', plural: 'departments',Singular:'Department',Plural:'Departments' },
+         local: { singular: 'line', plural: 'lines', Singular:'Line', Plural:'Lines' },
+         controlled: { singular: 'machine', plural: 'machines', Singular:'machine',Plural:'Machines' }
      }
      switch (family) {
          case 'INDUSTRY':
          case 'PLANT':
              retName.main.singular = 'plant'
              retName.main.plural = 'plants'
+             retName.main.Singular = 'Plant'
+             retName.main.Plural = 'Plants'
              retName.area.singular = 'department'
              retName.area.plural = 'departments'
+             retName.area.Singular = 'Department'
+             retName.area.Plural = 'Departments'
              retName.local.singular = 'line'
              retName.local.plural = 'lines'
+             retName.local.Singular = 'Line'
+             retName.local.Plural = 'Lines'
              retName.controlled.singular = 'machine'
              retName.controlled.plural = 'machines'
+             retName.controlled.Singular = 'Machine'
+             retName.controlled.Plural = 'Machines'
              break;
          case 'UTILITY':
          case 'INFR':
              retName.main.singular = 'infrastructure'
              retName.main.plural = 'infrastructures'
+             retName.main.Singular = 'Infrastructure'
+             retName.main.Plural = 'Infrastructures'
              retName.area.singular = 'area'
              retName.area.plural = 'areas'
+             retName.area.Singular = 'Area'
+             retName.area.Plural = 'Areas'
              retName.local.singular = 'section'
              retName.local.plural = 'sections'
+             retName.local.Singular = 'Section'
+             retName.local.Plural = 'Sections'
              retName.controlled.singular = 'element'
              retName.controlled.plural = 'elements'
+             retName.controlled.Singular = 'Element'
+             retName.controlled.Plural = 'Elements'
              break;         
      }
      return retName

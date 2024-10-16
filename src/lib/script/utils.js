@@ -2,6 +2,7 @@ import { getAvatar } from '../script/apisecurity.js'
 import { getFamily } from './mock.js'
 import { getEntityNames } from '../ustore.js'
 import { textPrefixFilter, minFilter, numberRangeFilter, matchFilter } from './filters/filters.js'
+import { family } from "../ustore.js"
 
 // @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
@@ -526,7 +527,7 @@ let pointdatacolumns = [
         filterdef: { type: 'text', fn: textPrefixFilter, iv: '' }
     },
     {
-        header: getEntityNames(getFamily()).controlled.singular,
+        header: getEntityNames(getFamily()).controlled.Singular,
         traslated: 'controlledentity',
         accessor: 'machineName',
         filterdef: { type: 'text', fn: textPrefixFilter, iv: '' }
@@ -558,7 +559,7 @@ let pointclonecolumns = [
         accessor: 'description',
     },
     {
-        header: getEntityNames(getFamily()).main.singular,
+        header: getEntityNames(getFamily()).main.Singular,
         traslated:'mainentity',
         accessor: 'plantName',
     },
@@ -592,7 +593,7 @@ let pointlearncolumns = [
         accessor: 'description',
     },
     {
-        header: getEntityNames(getFamily()).main.singular,
+        header: getEntityNames(getFamily()).main.Singular,
         traslated: 'mainentity',
         accessor: 'plantName',
     },
@@ -671,7 +672,7 @@ let pointdataalarmcolumns = [
         accessor: 'controllerName'
     },
     {
-        header: getEntityNames(getFamily()).controlled.singular,
+        header: getEntityNames(getFamily()).controlled.Singular,
         traslated: 'controlledentity',
         accessor: 'machineName'
     },
@@ -691,7 +692,7 @@ export function getAlarmColumns(module) {
         case 'DATA':
             index = pointdataalarmcolumns.findIndex((item) => item.traslated == 'controlledentity')
             if (index > -1)
-                pointdataalarmcolumns[index].header = getEntityNames(getFamily()).controlled.singular
+                pointdataalarmcolumns[index].header = getEntityNames(getFamily()).controlled.Singular
 
             return (pointdataalarmcolumns)
     }
