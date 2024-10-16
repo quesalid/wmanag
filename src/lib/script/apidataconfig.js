@@ -761,7 +761,7 @@ export const deleteController = async function (filters, mock = false) {
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getDataPoints = async function (filters, mock = false,pagination=null) {
+export const getDataPoints = async function (filters, mock = false,pagination=null,olddata=null) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -770,7 +770,8 @@ export const getDataPoints = async function (filters, mock = false,pagination=nu
             command: "getDataPoints",
             options: {
                 filters: filters,
-                pagination: pagination
+                pagination: pagination,
+                olddata:olddata
             }
         }
         if (!mock) {

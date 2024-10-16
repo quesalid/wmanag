@@ -68,7 +68,7 @@
             $family = radios[i].value;       
         }
     }
-    console.log("LOGIN FAMILY", $family)
+   
     if (Object.keys(errors).length === 0) {
       isLoading = true;
       //await submit({ usrid, password })
@@ -89,7 +89,7 @@
             $token = restoken
             // C. GET USER PROFILE
             const profile =  await getProfile(decoded.token.uuid,$mock)
-            console.log("PROFILE",profile)
+           
             // D. SET USER IN STORE
             $user = { username: 
                 decoded.token.sub, 

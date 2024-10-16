@@ -86,8 +86,8 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
-                    { id: 'Map', top: '0px', left: '10px' },
-                    { id: 'Alarms', top: '0px', left: '10px' }
+                    { id: 'Map', top: '0px', left: '10px',width:'600px' },
+                    { id: 'Alarms', top: '0px', left: '10px',height:'350px', width:'750px' }
                 ]
             },
             {
@@ -115,9 +115,9 @@ let profiles = [
             {
                 module: 'DATA',
                 windows: [
-                    { id: 'Donut', top: '380px', left: '10px' },
+                    { id: 'Monitor', top: '320px', left: '10px',height:'260px' },
                     { id: 'Map', top: '0px', left: '10px' },
-                    { id: 'Alarms', top: '0px', left: '10px' }
+                    { id: 'Alarms', top: '0px', left: '10px', height: '300px' }
                 ]
             },
             {
@@ -147,7 +147,7 @@ let profiles = [
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
                     { id: 'Map', top: '0px', left: '10px' },
-                    { id: 'Alarms', top: '0px', left: '10px' }
+                    { id: 'Alarms', top: '0px', left: '10px', height: '300px' }
                 ]
             },
             {
@@ -177,7 +177,7 @@ let profiles = [
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
                     { id: 'Map', top: '0px', left: '10px' },
-                    { id: 'Alarms', top: '0px', left: '10px' }
+                    { id: 'Alarms', top: '0px', left: '10px', height: '450px' }
                 ]
             },
             {

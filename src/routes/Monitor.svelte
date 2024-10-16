@@ -6,13 +6,10 @@
    // INTERNAL
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb, ChatBot, DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import Wmanag from '../lib/components/WManag.svelte'
-   import {SimpleTable} from '../lib/components/table'
    import {getPointColumns} from '../lib/script/utils.js'
-   import {dragElement} from '../lib/components/CompUtils.js'
    import {PointForm,DeleteForm} from '../lib/components/forms'
    import {Chart} from '../lib/components/chart'
-   import {BatchDetail,SynBatchDetail} from '../lib/components/contents'
+   import {BatchDetail,SynBatchDetail,MonitorManager} from '../lib/components/contents'
    // API INTERFACE
    import {getDataPoints,
 			setDataPoint,
@@ -27,13 +24,49 @@
 			getControllers,
 			getEntityMain} from '../lib/script/apidataconfig.js'
    // STORE
-   import { mock,module,user,avatar,currdevice,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
+   import { mock,module,user,avatar,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
    
+   // EXPORT VARIABLES
+   export let logoImage = "/ICO_UP2_DATA.png"
+   export let  bgcolor = "#ddefde"
   
+    // BAR VARIABLES
+	const barheigth = "60px"
+	const imgheight = "60px"
+	const topbarheight = "90%"
+	const avatarsize = "w-10"
+	const onClickLogo = (ev:any)=>{
+		navigate(`/`+$module)
+		$navigation = getArrayFromPath(`/`+$module)
+	}
 
-
+   // WINDOW MANAGER VARIABLES
+	let titlepoint = 'POINTS'
+	let onClickAddPoint = (ev:any)=>{
+		console.log("ONCLICK ADD CONTAINER")
+		const modalEdit = document.getElementById(modalIdEdit)
+		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
+		modalEdit?.dispatchEvent(addClicked)
+	}
+	let toolbarpoint = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
+	const disableClose = true
+	const draggable = true
+	let zindex = 4
+    let headercolor = bgcolor
+   // TABLE VARIABLES
    let pointsdata:any = writable([])
    let pointdatacolumns:any = getPointColumns($module.toUpperCase())
+   let pagesize = true
+   let pSize = 8
+   // DIALOG VARIABLES
+	let savedialog = PointForm
+	let deletedialog = DeleteForm
+	let chartdialog = Chart
+	let modalIdEdit = "PointInputDiv"
+	let modalIdDel = "DeleteInputDiv"
+	let modalIdChart = "PointChartDiv"
+	let deleteTitle = "Clicking DELETE the point will be cancelled"
+
    let controlledentities:any = []
    let controllers:any = []
    let mainentities:any = []
@@ -119,51 +152,9 @@
 		$pointsdata = ret.data
 	});
 
-	export let logoImage = "/ICO_UP2_DATA.png"
-	export let  bgcolor = "#ddefde"
-
-	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
 	
 	
-	const avatarsize = "w-10"
-	let deviceuid = ''
-
-
-	// click Logo
-	const onClickLogo = (ev:any)=>{
-		navigate(`/`+$module)
-		$navigation = getArrayFromPath(`/`+$module)
-	}
-
-	// TABLE VARIABLES - CALLS PointForm edit with uid = 'NONE'
-	let titlepoint = 'POINTS'
-	let onClickAddPoint = (ev:any)=>{
-		console.log("ONCLICK ADD CONTAINER")
-		const modalEdit = document.getElementById(modalIdSave)
-		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
-		modalEdit?.dispatchEvent(addClicked)
-	}
-	let toolbarpoint = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
-	const disableClose = true
-	const draggable = true
-	let zindex = 4
-    let headercolor = bgcolor
-	let pagesize = true
-	let pSize = 8
-	
-
-	// DIALOG VARIABLES
-	let savedialog = PointForm
-	let deletedialog = DeleteForm
-	let chartdialog = Chart
-	let modalIdSave = "PointInputDiv"
-	let modalIdDel = "DeleteInputDiv"
-	let modalIdChart = "PointChartDiv"
-	let deleteTitle = "Clicking DELETE the point will be cancelled"
-	let save = async (ev:any)=>{
+	let edit = async (ev:any)=>{
 		const target = ev.target
 		const cdev = JSON.parse(target.dataset.cdev)
 		// SET POINT - delete added fields
@@ -194,7 +185,7 @@
 		}
 		$pointsdata = ret.data
 		// CLOSE FORM DIALOG
-		const pointInputDiv = document.getElementById(modalIdSave)
+		const pointInputDiv = document.getElementById(modalIdEdit)
 		if(pointInputDiv)
 			pointInputDiv.style.display= 'none'
 	}
@@ -243,30 +234,32 @@
 			</TopBar>
 
 		</div>
-		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  title="{titlepoint}" toolbar={toolbarpoint} {disableClose} {draggable} {headercolor} {zindex}>
-				<SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/>
-			</Wmanag>
-		</div>
-		<div id="save-device-dialog">
-			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
-		</div>
-		<div id="delete-device-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
-		</div>
-		{#if $module.toUpperCase() == 'DATA' || $module.toUpperCase() == 'CLONE' || $module.toUpperCase() == 'LEARN'}
-			<div id="delete-device-dialog">
-				<svelte:component this={chartdialog} bind:modalId={modalIdChart}  {bgcolor}/>
-			</div>
-		{/if}
+		<MonitorManager
+			pointsdata={pointsdata}
+			pointdatacolumns={pointdatacolumns}
+			titlepoint={titlepoint}
+			toolbarpoint={toolbarpoint}
+			disableClose={disableClose}
+			draggable={draggable}
+			headercolor={headercolor}
+			zindex={zindex}
+			pagesize={pagesize}
+			pSize={pSize}
+			savedialog={savedialog}
+			deletedialog={deletedialog}
+			chartdialog={chartdialog}
+			modalIdEdit={modalIdEdit}
+			modalIdDel={modalIdDel}
+			modalIdChart={modalIdChart}
+			deleteTitle={deleteTitle}
+			edit={edit}
+			del={del}
+			bgcolor={bgcolor}
+
+		/>
 </div>
 
 <style>
-.configurator-container{
-		display:flex;
-		position:relative;
-		top: var(--top);
-	}
 
 </style>
 

@@ -2,16 +2,17 @@
    // EXTERN IMPORT
    import { navigate } from "svelte-routing";
    import {onMount} from "svelte"
+   import { writable } from "svelte/store";
    // INTERN IMPORT
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot,DigitalClock} from "../lib/components/topbar"
    //import Donut from "../lib/components/donut/Donut.svelte"
-   import {AlarmManager,MapManager,DonutClicked,DonutManager} from '../lib/components/contents'
+   import {AlarmManager,MapManager,DonutClicked,DonutManager,MonitorManager} from '../lib/components/contents'
    //import WManag from '../lib/components/WManag.svelte'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
-   import {setConicData} from '../lib/script/utils.js'
+   import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
    //API
-   import {getEntityMain,getDevices,getAgents} from '../lib/script/apidataconfig.js'
+   import {getEntityMain,getDevices,getAgents,getDataPoints,getEntityControlled,getControllers} from '../lib/script/apidataconfig.js'
    // STORE
    import {module, 
 			mock,
@@ -27,11 +28,101 @@
 	let plants:any = []
 	let devices:any = []
 	let agents:any = []
-
+	let dashboard:any = {windows:[]}
 	
-	let dashboard:any = $user.profile.dashboard.find((item:any) => item.name == 'DEFAULT')
+	const findWindow = (id:any)=>{
+		let profile = $user.profile
+		let dashboards = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
+		if(!dashboards)
+			dashboards = profile.find((item:any) => item.module == 'DEFAULT')
+		let win = dashboards.windows.find((item:any) => item.id == id)
+		return win
+	}
+
+	// Get configured app windows
+	let alarmapp = findWindow('Alarms')
+	const donutapp = findWindow('Donut')
+	const mapapp = findWindow('Map')
+	const monitorapp = findWindow('Monitor')
+
+	let alarmheight = alarmapp && alarmapp.height? alarmapp.height:'450px'
+	let alarmwidth  = alarmapp && alarmapp.width? alarmapp.width: '750px'
+	let alarmtop = alarmapp && alarmapp.top? alarmapp.top:'10px'
+	let alarmleft = alarmapp && alarmapp.left? alarmapp.left:'10px'
+
+	let donutheight = donutapp && donutapp.height? donutapp.height:'300px'
+	let donutwidth  = donutapp && donutapp.width? donutapp.width: '300px'
+	let donuttop = donutapp && donutapp.top? donutapp.top:'10px'
+	let donutleft = donutapp && donutapp.left? donutapp.left:'10px'
+
+	let mapheight = mapapp && mapapp.height? mapapp.height:'max-content'
+	let mapwidth  = mapapp && mapapp.width? mapapp.width: '600px'
+	let maptop = mapapp && mapapp.top? mapapp.top:'10px'
+	let mapleft = mapapp && mapapp.left? mapapp.left:'10px'
+
+	let monitorheight = monitorapp && monitorapp.height? monitorapp.height:'max-content'
+	let monitorwidth  = monitorapp && monitorapp.width? monitorapp.width: 'max-content'
+	let monitortop = monitorapp && monitorapp.top? monitorapp.top:'10px'
+	let monitorleft = monitorapp && monitorapp.left? monitorapp.left:'10px'
+
+	let pointsdata:any = writable([])
+    let pointdatacolumns:any = getDataPointColumnReduced()
+	
+	
+	let alarmsdata:any = writable([])
 	
 	let key = 0
+
+	let machines:any = []
+	let controllers:any = []
+
+	let psize = 2
+
+	const getAlarmData = async ()=>{
+		 return new Promise(async (resolve, reject) => {
+				const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'},{lastvalue:'ON',_type:'eq'}]
+				const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:null}
+				// Here we get the data from the API
+				const ret = await getDataPoints(filters,$mock,pagination,$pointsdata)
+				for(let i=0;i<ret.data.length;i++){
+					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
+					if(index > -1)
+						ret.data[i].machineName = machines[index].name
+					else
+						ret.data[i].machineName = 'NOTFOUND'
+					if(index1 > -1)
+						ret.data[i].controllerName = controllers[index1].name
+					else
+						ret.data[i].controllerName = 'NOTFOUND'
+				}
+				resolve(ret.data)
+		})
+	}
+
+	const getPoints = async ()=>{
+		return new Promise(async (resolve, reject) => {
+			const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
+			const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:null}
+			// Here we get the data from the API
+			const ret = await getDataPoints(filters,$mock,pagination,$pointsdata)
+			for(let i=0;i<ret.data.length;i++){
+				const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+				const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
+				if(index > -1)
+					ret.data[i].machineName = machines[index].name
+				else
+					ret.data[i].machineName = 'NOTFOUND'
+				if(index1 > -1)
+					ret.data[i].controllerName = controllers[index1].name
+				else
+					ret.data[i].controllerName = 'NOTFOUND'
+			}
+			resolve(ret.data)
+		})
+	
+	}
+
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -50,12 +141,25 @@
 		// B. GET ENTITY NAMES BY APP FAMILY
 		const ret = getEntityNames($family)
 		entityName = ret.main.plural.toUpperCase()
+		
 		// C. GET DONUT BY MODULE TYPE
 		donut = await getDonutByType()
 		const donutDiv = document.getElementById(donut.id)
 		const donutRedraw = new CustomEvent("donutredraw", { detail: 'redraw' })
 		donutDiv?.dispatchEvent(donutRedraw)
 		key = key+1
+
+		// C1. GET MACHINES
+		const retmachines = await getEntityControlled([],$mock)
+		machines = retmachines.data
+		// C2. GET CONTROLLERS
+		const retcontrollers = await getControllers([],$mock)
+		controllers = retcontrollers.data
+		// D. GET POINTS DATA
+		$pointsdata = await getPoints()
+		// D. GET ALARMS DATA
+		$alarmsdata = await getAlarmData()
+		console.log('ALARMS DATA',$alarmsdata)
 
 	});
 
@@ -72,7 +176,6 @@
 
 
 	// DONUT
-	
 	const donut3 = {
 		id:"donut-deafult",
 		dbTitle: "",
@@ -83,7 +186,6 @@
 		conicData: [
 		]
 	}
-
 	let donut:any = donut3
 
 	// click Logo
@@ -109,7 +211,7 @@
 			case 'DATA':
 				ret.dbTitle = "AGENTS"
 				ret.donutWidth = '280px'
-				ret.donutHeight = '280'
+				ret.donutHeight = '280px'
 				conicData = setConicData(agents,devices,plants,'AGENTS')
 				ret.conicData = conicData
 				break;
@@ -174,13 +276,44 @@
 			{#if dashboard}
 				{#each dashboard.windows as Window}
 					{#if Window.id == 'Donut'}
-						<DonutManager bgcolor={bgcolor} bind:donut={donut} bind:key={key} top={Window.top} left={Window.left}/>
+						<DonutManager 
+							bgcolor={bgcolor} 
+							bind:donut={donut} 
+							bind:key={key} 
+							top={Window.top} 
+							left={Window.left}
+						/>
 					{/if}
 					{#if Window.id == 'Map'}
-						<MapManager headercolor={bgcolor}  title="{entityName}" minimized="off" top={Window.top} left={Window.left}/>
+						<MapManager 
+							headercolor={bgcolor}  
+							title="{entityName}" 
+							minimized="off" 
+							top={Window.top} 
+							left={Window.left}
+						/>
 					{/if}
 					{#if Window.id == 'Alarms'}
-						<AlarmManager left="620px" headercolor={bgcolor} pSize={9}/>
+						<AlarmManager 
+							left="620px" 
+							headercolor={bgcolor} 
+							pSize={9} 
+							bind:height={alarmheight}
+							width={alarmwidth}
+							bind:alarmsdata={alarmsdata}
+						/>
+					{/if}
+					{#if Window.id == 'Monitor'}
+						<MonitorManager 
+							left={monitorleft} 
+							top={monitortop}
+							width={monitorwidth}
+							headercolor={bgcolor} 
+							pSize={psize} 
+							height={monitorheight}
+							pointsdata={pointsdata}
+							pointdatacolumns={pointdatacolumns}
+						/>
 					{/if}
 				{/each}
 			{/if}

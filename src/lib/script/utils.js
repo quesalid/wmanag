@@ -634,6 +634,11 @@ export function getPointColumns(module) {
     }
 }
 
+export function getDataPointColumnReduced() {
+    const reduced = pointdatacolumns.filter((item) => (item.header != 'Edit' && item.header != 'Delete'))
+    return (reduced)    
+}
+
 let pointdataalarmcolumns = [
     {
         header: 'Tag',

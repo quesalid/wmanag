@@ -315,8 +315,9 @@ const deleteController = async function (body) {
 }
 
 const getDataPoints = async function (body) {
-    console.log("GET DATA POINTS",body)
     let retPoints = JSON.parse(JSON.stringify(datapoints))
+    if (body.options.oldset)
+        retPoints = JSON.parse(JSON.stringify(body.options.oldset))
     const filters = body.options && body.options.filters?body.options.filters:null
     const pagination = body.options && body.options.pagination?body.options.pagination:null
     if (filters && filters.length) {

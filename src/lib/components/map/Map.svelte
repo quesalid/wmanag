@@ -21,9 +21,6 @@ import {getClassFromColor} from '../../script/utils.js'
 
 
 onMount(async () => { 
-    console.log("GROUPS",group)
-    console.log("ZOOM",zoom,initZoom)
-    console.log("CENTER",initCenter)
     // add eventlistner to listen for profile base coords
     const modalEdit = document.getElementById(modalId)
     modalEdit?.addEventListener('profilecoords', (e:any) => {

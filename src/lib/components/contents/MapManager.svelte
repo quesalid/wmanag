@@ -33,7 +33,6 @@ onMount(async () => {
 			filters = []
 			ret = await getEntityMain(filters,$mock)
 			group= ret.data
-			console.log("MAP MANAGER MAIN ENTITIES",group)
 			component = MarkerClickedPlants
 			modalId = "markerClickedDivPlants"
 			if($user.profile.map){

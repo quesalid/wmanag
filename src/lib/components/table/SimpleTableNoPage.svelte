@@ -217,8 +217,8 @@
 
 <style>
     .table-fix-head {
-        overflow-y: auto; /* make the table scrollable if height is more than 200 px  */
-        height: var(--height); /* gives an initial height of 200px to the table */
+        overflow-y: auto; /* make the table scrollable if height is more than height  */
+        height: var(--height); 
       }
       .table-fix-head thead  {
         position: sticky; /* make the table heads sticky */

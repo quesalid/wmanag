@@ -111,7 +111,6 @@ const drawChart = (node:any,series:any)=>{
                   option.series[0].markLine.data =  newParams.series.markData
               if(newParams.series.markOptions){
                 option.series[0].markLine.symbol = newParams.series.markOptions.symbol
-                console.log("MARKOPTIONS",option.series[0].markLine)
                 option.series[0].markLine.label = newParams.series.markOptions.label
               }
               

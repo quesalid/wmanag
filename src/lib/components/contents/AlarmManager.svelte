@@ -15,7 +15,7 @@
   
 
 
-   let alarmsdata:any = writable([])
+   //let alarmsdata:any = writable([])
    let machines:any = []
    let controllers:any = []
 
@@ -25,12 +25,11 @@
 	   toolbar.push({type:'image',props:{src:'/LLM.png'},function:onClickAskModel,label:"Ask"})
 	   if(!$assistant && found)
 	   toolbar = toolbar.filter((item:any) => item.label !== 'Ask')
-	   console.log('TOOLBAR',toolbar)
 	   return toolbar
 	}
 
 	onMount(async () => {
-		const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'},{lastvalue:'ON',_type:'eq'}]
+		/*const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'},{lastvalue:'ON',_type:'eq'}]
 		const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:null}
 		// Here we get the data from the API
 		const ret = await getDataPoints(filters,$mock,pagination)
@@ -51,8 +50,8 @@
 				ret.data[i].controllerName = 'NOTFOUND'
 		}
 		$alarmsdata = ret.data
-		console.log('ALARMS DATA',ret.data)
-
+		console.log('ALARMS DATA',ret.data)*/
+		alarmsdata = alarmsdata
 		toolbar = updateToolbar(toolbar)
 	});
 
@@ -67,6 +66,7 @@
 	  
 	// WINDOW VARIABLES
 	export let width = "750px"
+	export let height = "450px"
 	export let headercolor = '#fff2e8'
 	export let disableClose = true
 	export let title = "ALARMS"
@@ -76,11 +76,11 @@
 	export let toolbar:any = []
 	export let  draggable = true
 	export let  zindex = 4
-    // TABLE
+    // TABLE VARIABLES
 	export let  pagesize = true
 	export let  pSize = 3
-	let alarmdatacolumns = getAlarmColumns($module.toUpperCase())
-	let pagination = false
+	export let alarmdatacolumns = getAlarmColumns($module.toUpperCase())
+	export let alarmsdata:any
 
 	
 
@@ -99,8 +99,9 @@
 				{left}
 				{minimized}
 				{width}>
+				{height}
 				scrollable={false}
-					<SimpleTableNoPage slot="bodycontent" data={alarmsdata} datacolumns={alarmdatacolumns} />
+					<SimpleTableNoPage slot="bodycontent" bind:data={alarmsdata} datacolumns={alarmdatacolumns} {height}/>
 				</Wmanag>
 		</div>
 
