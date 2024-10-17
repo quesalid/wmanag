@@ -22,6 +22,7 @@ export let toolbar:any = []
 export let maptype:any ='factory'
 let component:any = MarkerClickedPlants
 let modalId = "markerClickedDivPlants"
+let mapManagerId = 'mapManagerId'
 
 
 let initZoom:any = $user.profile.map.zoom;
@@ -30,8 +31,7 @@ let initCenter:any= [$user.profile.map.center.lng, $user.profile.map.center.lat]
 onMount(async () => {
 	let filters:any
 	let ret:any
-	/*switch(maptype){
-		case 'factory':*/
+	
 			filters = []
 			ret = await getEntityMain(filters,$mock)
 			group= ret.data
@@ -45,13 +45,25 @@ onMount(async () => {
 			const modalEdit = document.getElementById(modalId)
 			const profileCoords = new CustomEvent("profilecoords", { detail: {zoom: initZoom,center:initCenter} })
 			modalEdit?.dispatchEvent(profileCoords)
-	/*	break;
-	}*/
+			const mapManager = document.getElementById(mapManagerId)
+			if(mapManager){
+				mapManager.addEventListener("alarmlocation",async (e:any)=>{
+					const uid = e.detail
+					// FLY MAP TO RANDOM LOCATION IN EUROPE
+					// Generate random real number between 8.00 and 16.00
+					const lon = Math.random() * (16.00 - 8.00) + 8.00
+					// Generate random real number between 36.00 and 48.00
+					const lat = Math.random() * (48.00 - 36.00) + 36.00
+					initCenter = [lon,lat]
+					initZoom = 7
+				})
+			}
+	
 })
 
 </script>
 
-<div class="map-manager">
+<div class="map-manager" id="{mapManagerId}">
 	<WManag id="{defaultWManager}" 
 		title="{title}" 
 		disableClose={disableClose} 

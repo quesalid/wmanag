@@ -1,6 +1,8 @@
 <script lang="ts">
 // BOOTSRAP BG COLORS https://toruskit.com/docs/utilities/background-color/
 import {onMount} from 'svelte'
+import {sleep} from '../../script/api.js'
+
 
 import { MapLibre,
         NavigationControl,
@@ -19,6 +21,8 @@ import { MapLibre,
 import {getClassFromColor} from '../../script/utils.js'
 
 
+let mapContainer:any
+let map:any 
 
 onMount(async () => { 
     // add eventlistner to listen for profile base coords
@@ -27,6 +31,7 @@ onMount(async () => {
 		console.log("PROFILE COORDINATES EVENT RECEIVED",e.detail)
         // click on fly button to move to profile base coords
 	})
+    
 })
 
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
@@ -59,7 +64,7 @@ const getMarkerClass = (color:string) =>{
     return(ret)
 }
 
-const flyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
+const MyFlyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
     const lz = zoom || initZoom
     const llon = lon || initCenter[0]
     const llat = lat || initCenter[1]
@@ -79,8 +84,9 @@ const flyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
   class={mapClasses}
   center={initCenter}
   zoom={initZoom}
-  attributionControl={false}
-  let:map
+  attributionControl={true}
+  bind:map={map}
+  bind:mapContainer={mapContainer}
 >
   <!-- You can also set the Map's `standardControls` attribute to create these. -->
   <NavigationControl position="top-left" />
@@ -97,7 +103,7 @@ const flyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
             {#if (g.lon && g.lat)}
 			    <ControlButton class="text-left w-fit text-xs"
 				    on:click={() => {
-						flyTo(map,g.lon,g.lat,zoom)
+						MyFlyTo(map,g.lon,g.lat,zoom)
 				    }}>
 				    {g.label}
 			    </ControlButton>
@@ -107,7 +113,7 @@ const flyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
 
     <ControlGroup>
       <ControlButton class="text-lg flybutton"  on:click={() => {
-           flyTo(map)
+           MyFlyTo(map)
       }}>&#127757</ControlButton>
     </ControlGroup>
   </Control>

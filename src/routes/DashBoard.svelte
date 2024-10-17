@@ -188,8 +188,10 @@
 		controllers = retcontrollers.data
 		// D. GET POINTS DATA
 		$pointsdata = await getPoints()
-		// D. GET ALARMS DATA
+		// E. GET ALARMS DATA
 		$alarmsdata = await getAlarmData()
+		// E1. FILTER OUT ALARMS FROM pointdata
+		$pointsdata = $pointsdata.filter((item:any)=>item.type != 'ALARM')
 		console.log('ALARMS DATA',$alarmsdata)
 
 	});

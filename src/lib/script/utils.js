@@ -2,7 +2,6 @@ import { getAvatar } from '../script/apisecurity.js'
 import { getFamily } from './mock.js'
 import { getEntityNames } from '../ustore.js'
 import { textPrefixFilter, minFilter, numberRangeFilter, matchFilter } from './filters/filters.js'
-import { family } from "../ustore.js"
 
 // @ts-nocheck
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
@@ -173,6 +172,14 @@ const onLogClickShow = (ev) => {
     const modalEdit = document.getElementById('LogDetailDiv')
     const logDetailClicked = new CustomEvent("logdetailclicked", { detail: uid })
     modalEdit?.dispatchEvent(logDetailClicked)
+}
+const onAlarmClickLocation = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    // SEND ALARM CLICKED EVENT TO MAP MANAGER
+    const mapManager = document.getElementById('mapManagerId')
+    const alarmLocationClicked = new CustomEvent("alarmlocation", { detail: uid })
+    mapManager?.dispatchEvent(alarmLocationClicked)
 }
 // ACCESSORS
 
@@ -681,6 +688,11 @@ let pointdataalarmcolumns = [
         header: 'Graph',
         accessor: voidfunction,
         renderdef: { type: 'image', params: { image: '/GRAPH.svg', onClick: onDataPointClickGraph } }
+    },
+    {
+        header: 'Location',
+        accessor: voidfunction,
+        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onAlarmClickLocation } }
     }
 ];
 
