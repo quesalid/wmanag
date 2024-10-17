@@ -6,8 +6,9 @@
    // INTERNAL
    import Wmanag from '../WManag.svelte'
    import PlaceHolder from '../PlaceHolder.svelte'
+   import {ChatSimple} from '../communication'
    // STORE
-   import { mock,module, assistant} from '../../ustore.js'
+   import { mock,module, assistant,avatar} from '../../ustore.js'
    // API INTERFACE
    import {query} from '../../script/apiassistant.js'
 
@@ -48,6 +49,9 @@
 	export let top = "10px"
 	export let left = "10px"
 	export let resize = 'both'
+	// COMPONENTS
+	export let chat = ChatSimple
+	export let image = $avatar
 	// TABLE VARIABLES
 	/*export let pagesize = true
 	export let  pSize = 8
@@ -81,22 +85,9 @@
 				{top}
 				{left}
 				{resize}>
-				<PlaceHolder slot="bodycontent"/>
+				<svelte:component this={chat} slot="bodycontent" img={image}/>
 			</Wmanag>
 		</div>
-		<!-- DIALOGS >
-		<div id="save-point-dialog">
-			<svelte:component this={savedialog} bind:modalId={modalIdEdit} save={edit} {bgcolor}/>
-		</div>
-		<div id="delete-point-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
-		</div>
-		{#if $module.toUpperCase() == 'DATA' || $module.toUpperCase() == 'CLONE' || $module.toUpperCase() == 'LEARN'}
-			<div id="show-chart-dialog">
-				<svelte:component this={chartdialog} bind:modalId={modalIdChart}  {bgcolor}/>
-			</div>
-		{/if}
-		<-->
 
 <style>
 .configurator-container{

@@ -50,6 +50,17 @@
 		return win
 	}
 
+	const getColorScheme = (type:any)=>{
+		let colorScheme = {wincolor:"#ddefde"}
+		let profile = $user.profile
+		let dashboards = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
+		console.log('COLOR DASH',dashboards)
+		if(dashboards && dashboards.colorScheme)
+			colorScheme = dashboards.colorScheme
+		console.log('COLOR SCHEME',colorScheme)
+		return colorScheme
+	}
+
 	// Get configured app windows
 	let alarmapp = findWindow('Alarms')
 	const donutapp = findWindow('Donut')
@@ -82,6 +93,9 @@
 	let commtop = commapp && commapp.top? commapp.top:'10px'
 	let commleft = commapp && commapp.left? commapp.left:'10px'
 
+	// get color scheme
+	let colorScheme:any = getColorScheme($module.toUpperCase())
+	
 	let pointsdata:any = writable([])
     let pointdatacolumns:any = getDataPointColumnReduced()
 	
@@ -294,7 +308,7 @@
 				{#each dashboard.windows as Window}
 					{#if Window.id == 'Donut'}
 						<DonutManager 
-							bgcolor={bgcolor} 
+							bgcolor={colorScheme.wincolor} 
 							bind:donut={donut} 
 							bind:key={key} 
 							top={Window.top} 
@@ -303,7 +317,7 @@
 					{/if}
 					{#if Window.id == 'Map'}
 						<MapManager 
-							headercolor={bgcolor}  
+							headercolor={colorScheme.wincolor}  
 							title="{entityName}" 
 							minimized="off" 
 							top={Window.top} 
@@ -314,7 +328,7 @@
 					{#if Window.id == 'Alarms'}
 						<AlarmManager 
 							left="620px" 
-							headercolor={bgcolor} 
+							headercolor={colorScheme.wincolor} 
 							pSize={9} 
 							bind:height={alarmheight}
 							width={alarmwidth}
@@ -327,7 +341,7 @@
 							left={monitorleft} 
 							top={monitortop}
 							width={monitorwidth}
-							headercolor={bgcolor} 
+							headercolor={colorScheme.wincolor} 
 							pSize={psize} 
 							height={monitorheight}
 							pointsdata={pointsdata}
@@ -339,7 +353,7 @@
 							left={commleft} 
 							top={commtop}
 							width={commwidth}
-							headercolor={bgcolor}  
+							headercolor={colorScheme.wincolor}  
 							height={commheight}
 						/>
 					{/if}

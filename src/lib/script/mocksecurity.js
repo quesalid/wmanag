@@ -130,7 +130,7 @@ let profiles = [
                     { id: 'Monitor', top: '290px', left: '10px',height:'320px' },
                     { id: 'Map', top: '0px', left: '10px',height:'340px' },
                     { id: 'Alarms', top: '0px', left: '10px', height: '300px' },
-                    { id: 'Communication', top: '298px', left: '1020px', height: '300px' }
+                    { id: 'Communication', top: '298px', left: '1020px', height: '300px', width:'450px' }
                 ]
             },
             {
@@ -172,7 +172,8 @@ let profiles = [
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
                     { id: 'Map', top: '0px', left: '10px' },
-                    { id: 'Alarms', top: '0px', left: '10px', height: '300px' }
+                    { id: 'Alarms', top: '0px', left: '10px', height: '300px' },
+                    { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
                 ]
             },
             {
@@ -211,10 +212,12 @@ let profiles = [
             },
             {
                 module: 'DATA',
+                colorScheme: { wincolor:'#eaf5eb'},
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
                     { id: 'Map', top: '0px', left: '10px' },
-                    { id: 'Alarms', top: '0px', left: '10px', height: '450px' }
+                    { id: 'Alarms', top: '0px', left: '10px', height: '300px' },
+                    { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
                 ]
             },
             {
