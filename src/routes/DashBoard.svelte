@@ -4,10 +4,21 @@
    import {onMount} from "svelte"
    import { writable } from "svelte/store";
    // INTERN IMPORT
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot,DigitalClock} from "../lib/components/topbar"
-   //import Donut from "../lib/components/donut/Donut.svelte"
-   import {AlarmManager,MapManager,DonutClicked,DonutManager,MonitorManager} from '../lib/components/contents'
-   //import WManag from '../lib/components/WManag.svelte'
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
+   //Managers
+   import {AlarmManager,
+			MapManager,
+			DonutClicked,
+			DonutManager,
+			MonitorManager,
+			CommManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -44,6 +55,7 @@
 	const donutapp = findWindow('Donut')
 	const mapapp = findWindow('Map')
 	const monitorapp = findWindow('Monitor')
+	const commapp = findWindow('Communication')
 
 	let alarmheight = alarmapp && alarmapp.height? alarmapp.height:'450px'
 	let alarmwidth  = alarmapp && alarmapp.width? alarmapp.width: '750px'
@@ -64,6 +76,11 @@
 	let monitorwidth  = monitorapp && monitorapp.width? monitorapp.width: 'max-content'
 	let monitortop = monitorapp && monitorapp.top? monitorapp.top:'10px'
 	let monitorleft = monitorapp && monitorapp.left? monitorapp.left:'10px'
+
+	let commheight = commapp && commapp.height? commapp.height:'max-content'
+	let commwidth  = commapp && commapp.width? commapp.width: 'max-content'
+	let commtop = commapp && commapp.top? commapp.top:'10px'
+	let commleft = commapp && commapp.left? commapp.left:'10px'
 
 	let pointsdata:any = writable([])
     let pointdatacolumns:any = getDataPointColumnReduced()
@@ -315,6 +332,15 @@
 							height={monitorheight}
 							pointsdata={pointsdata}
 							pointdatacolumns={pointdatacolumns}
+						/>
+					{/if}
+					{#if Window.id == 'Communication'}
+						<CommManager 
+							left={commleft} 
+							top={commtop}
+							width={commwidth}
+							headercolor={bgcolor}  
+							height={commheight}
 						/>
 					{/if}
 				{/each}

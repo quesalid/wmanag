@@ -129,7 +129,8 @@ let profiles = [
                 windows: [
                     { id: 'Monitor', top: '290px', left: '10px',height:'320px' },
                     { id: 'Map', top: '0px', left: '10px',height:'340px' },
-                    { id: 'Alarms', top: '0px', left: '10px', height: '300px' }
+                    { id: 'Alarms', top: '0px', left: '10px', height: '300px' },
+                    { id: 'Communication', top: '298px', left: '1020px', height: '300px' }
                 ]
             },
             {
