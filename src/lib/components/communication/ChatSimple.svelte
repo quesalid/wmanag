@@ -179,8 +179,9 @@ export let callback = (msg:any) =>{
 }
 .message-input{
 	height: 50px;
-	width: 260px;
+	width: 300px;
 	resize: none;
+	border: 1px solid #ccc;
 }
 .message-submit{
 	margin-left: 5px;

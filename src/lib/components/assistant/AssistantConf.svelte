@@ -76,7 +76,7 @@ const downloadData = async (e:any|undefined)=>{
 	padding: 5px;
 	font-style:italic ;
 	font-weight: 500;
-	border: 1px solid black;
+	border: 1px solid #aaa;
 }
 .assistant-conf-row{
 	display:flex;
