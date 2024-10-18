@@ -1291,6 +1291,15 @@ export const downloadDataUrl = (file) => {
     })
 }
 
+export const downloadDataText = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = event => resolve(event.target.result) // desired file content
+        reader.onerror = error => reject(error)
+        reader.readAsText(file)
+    })
+}
+
 export const logToObject = (log) => {
     let logobj = {}
     // A. Tokenize log

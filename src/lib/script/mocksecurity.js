@@ -253,6 +253,14 @@ let profiles = [
                 windows: [
                     { id: 'Donut',top:'10px',left:'10px' }
                 ]
+            },
+            {
+                module: 'DATA',
+                colorScheme: { wincolor: '#eaf5eb' },
+                windows: [
+                    { id: 'Donut', top: '20px', left: '10px' },
+                    { id: 'Communication', top: '0px', left: '300px', height: '300px', width: '350px' }
+                ]
             }
         ],
         map: { center: { lat: 30, lng: -30 }, zoom: 1 }
