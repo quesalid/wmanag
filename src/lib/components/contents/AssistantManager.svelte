@@ -1,9 +1,9 @@
 <script lang="ts">
    // EXTERNAL
    import {onMount} from "svelte"
-   import { writable } from "svelte/store";
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
+   import {AssistantConf} from '../assistant'
  
    // API INTERFACE
    
@@ -11,18 +11,16 @@
    import { mock,module} from '../../ustore.js'
    
   
-
-
-  
 	onMount(async () => {
 		console.log('ASSISTANT MANAGER')
 	});
 
 	
-
+	export let  bgcolor = "#ddefde"
+	export let barheigth = "60px"
 	// WINDOW VARIABLES
 	export let width = "900px"
-	export let headercolor = '#fff2e8'
+	export let headercolor = bgcolor
 	export let disableClose = true
 	export let title = "ASSISTANT"
 	export let top = '20%'
@@ -31,14 +29,21 @@
 	export let toolbardevice:any = []
 	export let  draggable = true
 	export let  zindex = 4
-   
+    // COMPONENT VARIABLES
+	export let options = ['','GPT-2','GPT-3','BERT','XLNet','RoBERTa','T5','DialoGPT']
+	export let type = ''
+	export let model = ''
+	export let onClick = (ev:any)=>{
+		model = ev.target.value
+	}
+	export let initialcontext = ''
 	
 
 </script>
  
 
-		<div class="assistant-container">
-			<Wmanag id="containerWManager"  
+		<div class="assistant-container" style="--top:{barheigth}">
+			<Wmanag id="assistantWManager"  
 			{title}
 			toolbar={toolbardevice} 
 			{disableClose} 
@@ -50,7 +55,12 @@
 			{minimized}
 			{width}>
 			scrollable={false}
-				
+			<AssistantConf slot="bodycontent" 
+				{options}
+				{type}
+				{model}
+				{onClick}
+				{initialcontext}/>
 			</Wmanag>
 		</div>
 

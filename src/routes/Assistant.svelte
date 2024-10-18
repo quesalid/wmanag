@@ -14,7 +14,7 @@
 			assistant} from '../lib/ustore.js'
    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
    // MANAGER
-   import {AssistantManager, AlarmManager} from '../lib/components/contents'
+   import {AssistantManager} from '../lib/components/contents'
    import Switch from "../lib/components/switch/Switch.svelte"
    
 
@@ -45,9 +45,15 @@
 	
 	
 	const avatarsize = "w-10"
-	// GRAPH VARIABLES
-    let defaultNodes: any[] = [];
-	let graph:any
+	// ASSISTANT VARIABLES
+	let options = ['','GPT-2','GPT-3','BERT','XLNet','RoBERTa','T5','DialoGPT']
+	let type = ''
+	let model = ''
+	let onClick = (ev:any)=>{
+		model = ev.target.value
+	}
+    let initialcontext = ''
+	const placeholder = "Insert or upload initial context..."
 	
 
 	
@@ -92,13 +98,8 @@
 		</div>
 		<div class="assistant-container" style="--top:{barheigth}" id="dashboard-container-id">
 			<!--AssistantManager  headercolor={bgcolor} /-->
-			<div class="assistant-configure">
-				<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff; width:70%">
-					<legend style="font-weight:bold"> Assistant Configuration </legend>
-					<div class="div-label">Assistant ON/OFF</div>
-					<Switch height='20px' width="45px" {onCheck} checked={$assistant}/>
-				</fieldset>
-			</div>
+			<AssistantManager
+			{bgcolor}/>
 		</div>
 </div>
 
@@ -111,14 +112,6 @@
 	height: calc( 100vh - 50px );
 }
 
-.assistant-configure{
-	display:flex;
-	margin: 10px;
-}
-.div-label{
-	margin-left: 5px;
-	margin-right: 5px;
-}
 </style>
 
 
