@@ -83,11 +83,11 @@ onMount(async () => {
 					// FIND THE UID IN MARKERS
 					const found = markers.find((m:any)=>m.uid == uid)
 					if(found){
+						console.log("MARKER ACKNOWLEDGED",found.marker)
 						// delete blink class from marker
 						found.marker._element.classList.remove('animate-blink-5')
 						// add orange color to marker
 						found.marker._element.classList.add('bg-orange-400')
-						console.log("MARKER ACKNOWLEDGED",found.marker._element)
 					}
 				})
 			}
