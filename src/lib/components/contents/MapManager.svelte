@@ -5,10 +5,12 @@ import WManag from '../WManag.svelte'
 import {onMount} from 'svelte'
 import {mock,user} from '../../ustore.js'
 import {getEntityMain} from '../../script/apidataconfig.js'
+    import { Toggle } from 'svelvet';
 
 let defaultWManager = 'defaultMapper'
 let group:any = []
-
+let PUBLIC_MAPTILER_KEY = "WtDpLYuY39XKDh4g0h1z"
+// WINDOW EXPORTS
 export let width = "600px"
 export let height = "3800px"
 export let disableClose = true
@@ -18,20 +20,29 @@ export let left = '20%'
 export let minimized = 'on'
 export let resize = 'both'
 export let toolbar:any = []
-export let maptype:any ='factory'
 export let bgcolor = '#ddefde'
 export let headercolor = bgcolor
 export let titlefontsize = "15px"
 export let titlecolor = "#666"
 export let titleweight = "bold"
 export let bodycolor = "#ffffff"
+export let showheader = true
+// MAP EXPORTS
+//export let mapStyle:any ='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
+export let mapStyle:any =`https://api.maptiler.com/maps/streets-v2/style.json?key=${PUBLIC_MAPTILER_KEY}`
+export let initZoom:any = $user.profile.map.zoom;
+export let initCenter:any= [$user.profile.map.center.lng, $user.profile.map.center.lat]
+// DATA EXPORTS
+export let mapdata:any = []
+export let markers:any = []
+
 let component:any = MarkerClickedPlants
 let modalId = "markerClickedDivPlants"
 let mapManagerId = 'mapManagerId'
+let map:any
 
 
-let initZoom:any = $user.profile.map.zoom;
-let initCenter:any= [$user.profile.map.center.lng, $user.profile.map.center.lat]
+
 
 onMount(async () => {
 	let filters:any
@@ -51,16 +62,21 @@ onMount(async () => {
 			const profileCoords = new CustomEvent("profilecoords", { detail: {zoom: initZoom,center:initCenter} })
 			modalEdit?.dispatchEvent(profileCoords)
 			const mapManager = document.getElementById(mapManagerId)
+
+			const toggleBlink = (marker:any) => {
+				marker.classList.toggle('blink')
+			}
+
 			if(mapManager){
 				mapManager.addEventListener("alarmlocation",async (e:any)=>{
 					const uid = e.detail
-					// FLY MAP TO RANDOM LOCATION IN EUROPE
-					// Generate random real number between 8.00 and 16.00
-					const lon = Math.random() * (16.00 - 8.00) + 8.00
-					// Generate random real number between 36.00 and 48.00
-					const lat = Math.random() * (48.00 - 36.00) + 36.00
-					initCenter = [lon,lat]
-					initZoom = 7
+					// FIND THE UID IN THE MAPDATA
+					const found = mapdata.find((m:any)=>m.uid == uid)
+					if(found){
+						const lon = found.lon?found.lon:initCenter[0]
+						const lat = found.lat?found.lat:initCenter[1]
+						map.flyTo({center: [lon, lat],zoom: initZoom+3,})
+					}
 				})
 			}
 	
@@ -84,9 +100,17 @@ onMount(async () => {
 		{titlefontsize}
 		{titlecolor}
 		{titleweight}
-		{bodycolor}>
+		{bodycolor}
+		{showheader}>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
-			<Map bind:group={group} zoom=14 modalId={modalId} bind:initZoom={initZoom} bind:initCenter={initCenter}/>
+			<Map bind:group={group} 
+				zoom=14 
+				modalId={modalId} 
+				bind:initZoom={initZoom}
+				bind:initCenter={initCenter}
+				bind:mapStyle={mapStyle}
+				bind:map={map}
+				bind:markers={markers}/>
 		</div>
 	</WManag>
 </div>

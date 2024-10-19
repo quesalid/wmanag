@@ -44,9 +44,9 @@ import Assistant from "./routes/Assistant.svelte"
 export const url = "/deploy"
 
 // APPWIDE VARIABLES
-let bgcolor = "#efddde"
+let bgcolor = "#ddefde"
 export let titlefontsize = "13px"
-export let titlecolor = "#666"
+export let titlecolor = "#444"
 export let titleweight = "bold"
 export let bodycolor = "#ffffff"
 //let bgcolor = "#ddefde"

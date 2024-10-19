@@ -75,6 +75,9 @@ let profiles = [
         language: 'en',
         locale: 'en-US',
         avatar: '/AVATAR1.png',
+        data: {
+            family: 'INDUSTRY'
+        },
         dashboard: [
             {
                 module: 'DEFAULT',
@@ -117,6 +120,9 @@ let profiles = [
         language: 'it',
         locale: 'it-IT',
         avatar: '/gpaesani.png',
+        data: {
+            family: 'WWATER'
+        },
         dashboard: [
             {
                 module: 'DEFAULT',
@@ -153,13 +159,16 @@ let profiles = [
                 ]
             }
         ],
-        map: { center: { lat: 42.40, lng: 12.05 }, zoom: 8 }
+        map: { center: { lat: 41.9636, lng: 12.4975 }, zoom: 14.5 }
     },
     {
         uid: 'dd7b658f-66ca-7aa3-965d-abd4bc48a59a',
         language: 'it',
         locale: 'it-IT',
         avatar: '/flutrario.png',
+        data: {
+            family: 'INDUSTRY'
+        },
         dashboard: [
             {
                 module: 'DEFAULT',
@@ -203,6 +212,9 @@ let profiles = [
         language: 'it',
         locale: 'it-IT',
         avatar: '/rpanchetti.png',
+        data: {
+            family: 'WWATER'
+        },
         dashboard: [
             {
                 module: 'DEFAULT',
@@ -247,6 +259,9 @@ let profiles = [
         language: 'en',
         locale: 'en-US',
         avatar: '/LORENZO.png',
+        data: {
+            family: 'INDUSTRY'
+        },
         dashboard: [
             {
                 module: 'DEFAULT',

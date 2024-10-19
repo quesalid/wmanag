@@ -101,6 +101,7 @@
 	
 	
 	let alarmsdata:any = writable([])
+	let markers:any = []
 	
 	let key = 0
 
@@ -193,6 +194,24 @@
 		// E1. FILTER OUT ALARMS FROM pointdata
 		$pointsdata = $pointsdata.filter((item:any)=>item.type != 'ALARM')
 		console.log('ALARMS DATA',$alarmsdata)
+
+		// SET UP MARKERS
+			for(let i=0; i<$alarmsdata.length;i++){
+				const m = $alarmsdata[i]
+				let lon = m.lon?m.lon:initCenter[0]
+				let lat = m.lat?m.lat:initCenter[1]
+				// if lon lat overlap then add a small offset
+				if(markers.find((item:any)=>item.lngLat[0] == lon && item.lngLat[1] == lat)){
+					lon = lon + 0.00003
+					lat = lat + 0.00003
+				}
+				markers.push({
+					lngLat:[lon,lat],
+					name:m.tag,
+					description:m.description,
+				})
+			}
+			console.log("MARKERS",markers)
 
 	});
 
@@ -339,6 +358,8 @@
 							{titlecolor}
 							{titleweight}
 							{bodycolor}
+							mapdata={$alarmsdata}
+							bind:markers={markers}
 						/>
 					{/if}
 					{#if Window.id == 'Alarms'}

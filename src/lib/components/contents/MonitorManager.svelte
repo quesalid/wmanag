@@ -33,6 +33,7 @@
 	export let titlecolor = "#666"
 	export let titleweight = "bold"
 	export let bodycolor = "#ffffff"
+	export let showheader = true
 	export let top = "10px"
 	export let left = "10px"
 	export let resize = 'none'
@@ -73,7 +74,8 @@
 				{titlefontsize}
 				{titlecolor}
 				{titleweight}
-				{bodycolor}>
+				{bodycolor}
+				{showheader}>
 				<SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

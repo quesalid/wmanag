@@ -11,39 +11,56 @@
  */
 import { v4 as uuidv4 } from 'uuid';
 import polycurve from './polycurve.js'
-
+// uids for devices
 const uid1 = uuidv4()
 const uid2 = uuidv4()
+const uid3 = uuidv4()
+const uid4 = uuidv4()
+// uids for entities
 const uidstr1 = uuidv4()
-const uidstr2 = uuidv4()
+// uid for sub entities
 const uiddept1 = uuidv4()
 const uiddept2 = uuidv4()
+// uids for lines
 const uidline1 = uuidv4()
 const uidline2 = uuidv4()
+const uidline3 = uuidv4()
+const uidline4 = uuidv4()
+// uids for agents
 const uidscan1 = uuidv4()
 const uidhist1 = uuidv4()
 const uidscan2 = uuidv4()
 const uidhist2 = uuidv4()
+const uidscan3 = uuidv4()
+const uidhist3 = uuidv4()
+const uidscan4 = uuidv4()
+const uidhist4 = uuidv4()
+// uids for machines
 const uidmach1 = uuidv4()
 const uidmach2 = uuidv4()
+const uidmach3 = uuidv4()
+const uidmach4 = uuidv4()
+// uids for controllers
 const uidcontr1 = uuidv4()
 const uidcontr2 = uuidv4()
+const uidcontr3 = uuidv4()
+const uidcontr4 = uuidv4()
 const companyid = uuidv4()
 
 
 let devices = [
     {
         uid: uid1,
-        name: 'LORA-EDGE1',
+        name: 'RASPI-EDGE1',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Bridge Monitoring Edge",
+        description: "Primary treatment 1",
         module: "DATA",
         plant: uidstr1,
         localization: {
             department: uiddept1,
             line: uidline1,
         },
-        host: "SRV01-01",
+        host: "192.164.0.24",
         port: 3001,
         type: "HW",
         os: "RASPI",
@@ -58,16 +75,64 @@ let devices = [
     },
     {
         uid: uid2,
-        name: 'LORA-EDGE1',
+        name: 'RASPI-EDGE1',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Tunnel monitoring Edge",
+        description: "Secondary treatment 1",
         module: "DATA",
-        plant: uidstr2,
+        plant: uidstr1,
         localization: {
-            department: uiddept2,
+            department: uiddept1,
             line: uidline2,
         },
         host: "192.164.0.23",
+        port: 3000,
+        type: "HW",
+        os: "RASPI",
+        osver: "DEBIAN12",
+        userid: "",
+        password: "admin",
+        hwdetails: {
+            mac: "00:0a:4f:40:03:d0",
+            brand: "Kunbus",
+            model: "Revpi connect",
+        },
+    },
+    {
+        uid: uid3,
+        name: 'LORA-EDGE1',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Primary treatment 1",
+        module: "DATA",
+        plant: uidstr1,
+        localization: {
+            department: uiddept2,
+            line: uidline3,
+        },
+        host: "192.164.0.25",
+        port: 3001,
+        type: "HW",
+        os: "RASPI",
+        osver: "DEBIAN12",
+        userid: "admin",
+        password: "admin",
+        hwdetails: {
+            mac: "00:0a:4f:40:03:d0",
+            brand: "Kunbus",
+            model: "Revpi connect",
+        },
+    },
+    {
+        uid: uid4,
+        name: 'LORA-EDGE1',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Secondary treatment 1",
+        module: "DATA",
+        plant: uidstr1,
+        localization: {
+            department: uiddept2,
+            line: uidline4,
+        },
+        host: "192.164.0.26",
         port: 3000,
         type: "HW",
         os: "RASPI",
@@ -87,7 +152,7 @@ let agents = [
         uid: uidscan1,
         name: "SCANNER1",
         type: "SCANNER",
-        description: "FBG Ponte",
+        description: "Primary 1 Line 1",
         lastmodified: "2022-06-30T09:58:00",
         module: 'DATA',
         source: {
@@ -165,7 +230,7 @@ let agents = [
         uid: uidscan2,
         name: "SCANNER2",
         type: "SCANNER",
-        description: "FBG Tunnel",
+        description: "Secondary 1 Line 2",
         lastmodified: "2022-06-30T09:58:00",
         module: 'DATA',
         source: {
@@ -238,6 +303,162 @@ let agents = [
         },
         devuid: uid2,
         status: "STOP",
+    },
+    {
+        uid: uidscan3,
+        name: "SCANNER3",
+        type: "SCANNER",
+        description: "Primary 2 Line 3",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
+        source: {
+            name: "GS4R-002",
+            timeout: 10,
+            driver: "gs4r",
+            server: "192.168.10.67",
+            port: 102,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+
+            }
+        },
+        destination: {
+            name: "MQTT CODA SCANNER3",
+            driver: "mqtt",
+            timeout: 10,
+            server: "192.168.1.33",
+            port: 8883,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+                channel: "SCANNER3",
+                mqtts: true,
+                clean: false,
+                qos: 1
+            }
+        },
+        dbs: [{
+            uid: 0,
+            name: "gs4r-2.csv",
+        }],
+        devuid: uid3,
+        status: "STOP",
+    },
+    {
+        uid: uidhist3,
+        name: "HIST3",
+        type: "HIST",
+        description: "Historian from queue SCANNER3",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
+        source: {
+            name: "MQTT SCANNER3.",
+            driver: "mqtt",
+            timeout: 10,
+            server: "192.168.1.33",
+            port: 8883,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+                channel: "SCANNER3",
+                mqtts: true,
+                clean: false,
+                qos: 1
+            }
+        },
+        destination: {
+            name: "PROXY SERVER",
+            driver: "proxyrest",
+            timeout: 10,
+            server: "192.204.21.12",
+            port: 5432,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+
+            }
+        },
+        devuid: uid3,
+        status: "STOP",
+    },
+    {
+        uid: uidscan4,
+        name: "SCANNER4",
+        type: "SCANNER",
+        description: "Seconday 2 Line 4",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
+        source: {
+            name: "GS4R-004",
+            timeout: 10,
+            driver: "gs4r",
+            server: "192.168.10.85",
+            port: 102,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+
+            }
+        },
+        destination: {
+            name: "MQTT CODA SCANNER4",
+            driver: "mqtt",
+            timeout: 10,
+            server: "192.168.1.33",
+            port: 8883,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+                channel: "SCANNER4",
+                mqtts: true,
+                clean: false,
+                qos: 1
+            }
+        },
+        dbs: [{
+            uid: 0,
+            name: "gs4r-2.csv",
+        }],
+        devuid: uid4,
+        status: "STOP",
+    },
+    {
+        uid: uidhist3,
+        name: "HIST4",
+        type: "HIST",
+        description: "Historian from queue SCANNER4",
+        lastmodified: "2022-06-30T09:58:00",
+        module: 'DATA',
+        source: {
+            name: "MQTT SCANNER4.",
+            driver: "mqtt",
+            timeout: 10,
+            server: "192.168.1.33",
+            port: 8883,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+                channel: "SCANNER4",
+                mqtts: true,
+                clean: false,
+                qos: 1
+            }
+        },
+        destination: {
+            name: "PROXY SERVER",
+            driver: "proxyrest",
+            timeout: 10,
+            server: "192.204.21.12",
+            port: 5432,
+            username: "aiqadmin",
+            password: "aiqadmin",
+            options: {
+
+            }
+        },
+        devuid: uid4,
+        status: "STOP",
     }
 ]
 
@@ -254,119 +475,185 @@ let companies = [
 let mainentities = [
     {
         uid: uidstr1,
-        name: 'RFI-002',
+        name: 'Depuratore A',
         company: companyid,
         lastmodified: "2022-06-30T10:00:00",
-        description: "Ferrovia Roma Pescara",
-        lat: 45.102365,
-        lon: 9.114037,
+        description: "Depuratore quadrante nord",
+        lat: 41.9636,
+        lon: 12.4975,
         image: 'RFI-002.jpg',
         geojson: [
             {id:'',area:'',local:'',path:[]}
         ],
-        label: 'BR1',
-        address: 'Piacenza,IT',
+        label: 'DEP',
+        address: 'Roma,IT',
         color: '#FF6188', // RED SOFT
-    },
-    {
-        uid: uidstr2,
-        name: 'TUNNEL-001',
-        company: companyid,
-        lastmodified: "2022-06-30T10:00:00",
-        description: "Tunnel tratta Piacenza Milano",
-        lat: 45.227513,
-        lon: 9.152713,
-        image: 'TUNNEL-001.jpg',
-        label: 'TU1',
-        address: 'Pavia,IT',
-        color: '#B9DCCC', // BLUE SOFT
     }
 ]
 
 let areaentities = [
     {
         uid: uiddept1,
-        name: 'AREA-001',
+        name: 'LINEA-DEP-001',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Sterile Production",
+        description: "Linea Depurazione 1.",
         plant: uidstr1
     },
     {
         uid: uiddept2,
-        name: 'AREA-002',
+        name: 'LINEA-DEP-002',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Sterile Production New",
-        plant: uidstr2
+        description: "Linea Depurazione 2",
+        plant: uidstr1
     },
 ]
 
 let localentities = [
     {
         uid: uidline1,
-        name: 'LINE-001',
+        name: 'LINE-001-01',
         lastmodified: "2022-06-30T10:00:00",
-        description: "DESALPHA Line",
+        description: "Trattamento primario Linea 1",
         department: uiddept1
     },
     {
         uid: uidline2,
-        name: 'LINE-002',
+        name: 'LINE-001-02',
         lastmodified: "2022-06-30T10:00:00",
-        description: "NOVOMIXIN Line",
-        department: uiddept2
+        description: "Trattamento secondario Linea 1",
+        department: uiddept1
+    },
+    {
+        uid: uidline3,
+        name: 'LINE-002-01',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Trattamento primario Linea 2",
+        department: uiddept1
+    },
+    {
+        uid: uidline4,
+        name: 'LINE-002-02',
+        lastmodified: "2022-06-30T10:00:00",
+        description: "Trattamento secondario Linea 2",
+        department: uiddept1
     },
 ]
 
 let controlledentities = [
     {
         uid: uidmach1,
-        name: "PONTE-001",
-        description: "Ponte ferroviario",
+        name: "PRIMARIO-001",
+        description: "Linea trattamento primaria",
         line: uidline1,
         type: "BRIDGE",
         buildyear: "1952",
         agent: uidscan1,
         lastmodified: "2022-06-30T10:00:00",
+        localization: {
+            lat: 41.96492,
+            lon: 12.50021,
+        }
     },
     {
         uid: uidmach2,
-        name: "GALLERIA-001",
-        description: "Galleria Ferroviaria",
+        name: "SECONDARIO-001",
+        description: "Linea trattamento secondaria",
         line: uidline2,
         type: "TUNNEL",
         buildyear: "1921",
         agent: uidscan2,
         lastmodified: "2022-06-30T10:00:00",
+        localization: {
+            lat: 41.96481,
+            lon: 12.49707,
+        }
+    },
+    {
+        uid: uidmach3,
+        name: "PRIMaRIO-002",
+        description: "Linea trattamento Primaria",
+        line: uidline3,
+        type: "TUNNEL",
+        buildyear: "1921",
+        agent: uidscan3,
+        lastmodified: "2022-06-30T10:00:00",
+        localization: {
+            lat: 41.96259,
+            lon: 12.49945,
+        }
+    },
+    {
+        uid: uidmach4,
+        name: "SECONDARIO-002",
+        description: "Linea trattamento secondaria",
+        line: uidline4,
+        type: "TUNNEL",
+        buildyear: "1921",
+        agent: uidscan4,
+        lastmodified: "2022-06-30T10:00:00",
+        localization: {
+            lat: 41.96314,
+            lon: 12.49631,
+        }
     },
 ]
 
 let controllers = [
     {
         uid: uidcontr1,
-        name: "CNTL-BRIDGE-01",
+        name: "CNTL-PRM-01",
         ctype: "",
-        model: "Controller Thema4",
+        model: "SCADA GE",
         machine: uidmach1,
-        manufacturer: "GlobalSensing",
+        manufacturer: "Jointech",
         ip: "10.1.234.67",
         port: 502,
         mac: "E1:F7:2D:23:C7:3F",
-        intf: "LORAWAN",
-        driver: "modbus",
+        intf: "ETHERNET",
+        driver: "sql",
         lastmodified: "2022-06-30T10:00:00",
     },
     {
         uid: uidcontr2,
-        name: "CNTL-TUNNEL-01",
+        name: "CNTL-SEC-01",
         ctype: "",
-        model: "Controller Thema4",
+        model: "SCADA GE",
         machine: uidmach2,
-        manufacturer: "GlobalSensing",
-        ip: "10.1.234.69",
+        manufacturer: "Jointech",
+        ip: "10.1.234.67",
         port: 502,
         mac: "E1:F7:2D:23:C7:3F",
-        intf: "LORAWAN",
-        driver: "modbus",
+        intf: "ETHERNET",
+        driver: "sql",
+        lastmodified: "2022-06-30T10:00:00",
+
+    },
+    {
+        uid: uidcontr3,
+        name: "CNTL-PRM-02",
+        ctype: "",
+        model: "SCADA GE",
+        machine: uidmach3,
+        manufacturer: "Jointech",
+        ip: "10.1.234.67",
+        port: 502,
+        mac: "E1:F7:2D:23:C7:3F",
+        intf: "ETHERNET",
+        driver: "sql",
+        lastmodified: "2022-06-30T10:00:00",
+    },
+    {
+        uid: uidcontr4,
+        name: "CNTL-SEC-02",
+        ctype: "",
+        model: "SCADA GE",
+        machine: uidmach4,
+        manufacturer: "Jointech",
+        ip: "10.1.234.67",
+        port: 502,
+        mac: "E1:F7:2D:23:C7:3F",
+        intf: "ETHERNET",
+        driver: "sql",
         lastmodified: "2022-06-30T10:00:00",
 
     },
@@ -377,31 +664,40 @@ let controllers = [
 function randomTDUABD(length) {
     const pre = [
         'TT-',
-        'TS-',
+        'RPM-',
         'HH-',
+        "FL-",
         "AL-T-",
-        "AL-TS-",
+        "AL-RPM-",
         "AL-H-",
+        "AL-FL-",
         "EV-T-",
-        "EV-TS-",
+        "EV-RMP-",
         "EV-H-",
+        "EV-FL-",
     ]
     const desc = [
         "Temperature measure",
-        "Mechanical tension measure",
+        "Rotational speed",
         "Humidity measure",
+        "Flow measure",
         "Temperature alarm",
-        "Mechanical stress alarm",
+        "Rotational speed alarm",
         "Humidity alarm",
+        "Flow alarm",
         "Temperature set event",
-        "Mechanical tension set event",
+        "Rotational speed set event",
         "Humidity set event",
+        "Flow set event",
     ]
 
     const um = [
         'DEGC',
-        'Pa',
+        'RPM',
         "%",
+        "L/min",
+        'ON/OFF',
+        'ON/OFF',
         'ON/OFF',
         'ON/OFF',
         'ON/OFF',
@@ -443,12 +739,14 @@ function getPointType(tag) {
         case 'TT-':
             ret = 'TEMPERATURE'
             break;
-        case 'TS-':
-            ret = 'STRESS'
+        case 'RPM-':
+            ret = 'SPEED'
             break;
         case 'HH-':
             ret = 'HUMIDITY'
             break;
+        case 'FL-':
+            ret = 'FLOW'
         case 'AL-':
             ret = 'ALARM'
             break;
@@ -493,7 +791,7 @@ function getPointLims(type) {
     return [hhlim,hlim, llim,lllim]
 }
 
-function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
+function makeDataPointsUid(driver, agent, device, controller, machine, db, lon,lat,num = 30) {
     const points = []
     for (let i = 0; i < num; i++) {
         const point = {
@@ -519,6 +817,8 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
             device: device,
             controller: controller,
             machine: machine,
+            lon: lon,
+            lat: lat,
             db: db,
             lastvalue: "",
             lasttime: "",
@@ -603,6 +903,8 @@ const generateDataPoints = () => {
             const index = Math.floor(Math.random() * agMachines.length)
             const machine = agMachines[index]
             const muid = machine.uid
+            const lon = machine.localization? machine.localization.lon: null
+            const lat = machine.localization? machine.localization.lat: null
             // GET CONTROLLER FOR MACHINE
             const cltrs = controllers.filter((item) => item.machine == muid)
             let cuid = ''
@@ -610,7 +912,7 @@ const generateDataPoints = () => {
                 cuid = cltrs[0].uid
             const index2 = Math.floor(Math.random() * dataAgents[i].dbs.length)
             const dbuid = dataAgents[i].dbs[index2].uid
-            const points = makeDataPointsUid(driver, agentuid, devuid, cuid, muid, dbuid)
+            const points = makeDataPointsUid(driver, agentuid, devuid, cuid, muid, dbuid,lon,lat)
             array.push.apply(array, points)
         }
     }

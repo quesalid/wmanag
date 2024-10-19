@@ -15,7 +15,6 @@ export default class chatClass {
     
     constructor(div, conf) {
         this.chatDiv = div;
-        console.log("DIV:",this.chatDiv)
         this.containerSendImag = conf && conf.containerSendImag ? conf.containerSendImag : chatClass.containerSendImag;
         this.containerReceiveImag = conf && conf.containerReceiveImag ? conf.containerReceiveImag : chatClass.containerReceiveImag;
         this.classContainerSend = conf && conf.classContainerSend ? conf.classContainerSend : chatClass.classContainerSend;

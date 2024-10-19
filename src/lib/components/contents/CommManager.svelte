@@ -53,6 +53,7 @@
 	export let top = "10px"
 	export let left = "10px"
 	export let resize = 'both'
+	export let showheader = true
 	// COMPONENTS
 	export let chat = ChatSimple
 	export let image = $avatar
@@ -78,7 +79,8 @@
 				{titlefontsize}
 				{titlecolor}
 				{titleweight}
-				{bodycolor}>
+				{bodycolor}
+				{showheader}>
 				<svelte:component this={chat} slot="bodycontent" img={image}/>
 			</Wmanag>
 		</div>

@@ -61,13 +61,7 @@
       errors['password'] = "Password must not be empty";
     }
 
-    const radios:any = document.getElementsByClassName("family-radio")
-    for (var i = 0; i < radios.length; i++) {
-        if (radios[i].checked) {
-            // get value, set checked flag or do whatever you need to
-            $family = radios[i].value;       
-        }
-    }
+   
    
     if (Object.keys(errors).length === 0) {
       isLoading = true;
@@ -77,19 +71,21 @@
             const restoken = await login(usrid,password,$mock)
             isSuccess = true;
             isLoading = false;
-            // 0. SET MOCKDB FAMILY (only for showroom)
-            if($mock){
-                initMockDB($family)
-                init($family,$mock)
-            }
+            
             const decoded = await  decodeToken(restoken,$mock)
             // A. SET MODULE NAME IN STORE
             $module = modulename
             // B. SET USER,ROLE AND TOKEN IN STORE
             $token = restoken
             // C. GET USER PROFILE
-            const profile =  await getProfile(decoded.token.uuid,$mock)
-           
+            const profile:any =  await getProfile(decoded.token.uuid,$mock)
+            const fam = profile && profile.data && profile.data.family ? profile.data.family : 'INDUSTRY'
+            $family = fam
+            // C1. SET MOCKDB FAMILY (TBD: make it configurable by user)
+            if($mock){
+                initMockDB($family)
+                init($family,$mock)
+            }
             // D. SET USER IN STORE
             $user = { username: 
                 decoded.token.sub, 
@@ -107,7 +103,7 @@
             $navigation = getArrayFromPath(landingPage)
         })
         .catch((err:any) => {
-           array_of_errors= []
+          array_of_errors= []
           isLoading = true;
           switch(err){
               case "ERR_PASSWD_EXPIRED":
@@ -163,35 +159,7 @@
         <label for="password" style = '--color:{fixcolor}'>Password</label>
         <input name="password" type="password" bind:value={password} style = '--color:{fixcolor}'/>
 
-        {#if modulename == 'clone'}
-          <fieldset class="family-div">
-              {#if $family == 'INDUSTRY'}
-                  <input checked class="family-radio"  type="radio" id="familiy-industry" name="family" value="INDUSTRY">
-                  <label style = '--color:{fixcolor}' for="family-industry">INDUSTRY</label><br>
-                  <input class="family-radio" type="radio" id="family_utility" name="family" value="UTILITY">
-                  <label style = '--color:{fixcolor}' for="family_utility">UTILITY</label><br>
-             {:else}
-                  <input class="family-radio"  type="radio" id="familiy-industry" name="family" value="INDUSTRY">
-                  <label style = '--color:{fixcolor}' for="family-industry">INDUSTRY</label><br>
-                  <input checked class="family-radio" type="radio" id="family_utility" name="family" value="UTILITY">
-                  <label style = '--color:{fixcolor}' for="family_utility">UTILITY</label><br>
-             {/if}
-         </fieldset>
-         {:else if modulename == 'data'}
-         <fieldset class="family-div">
-                {#if $family == 'PLANT'}
-                  <input checked class="family-radio"  type="radio" id="familiy-industry" name="family" value="PLANT">
-                  <label style = '--color:{fixcolor}' for="family-industry">PLANT</label><br>
-                  <input class="family-radio" type="radio" id="family_utility" name="family" value="INFR">
-                  <label style = '--color:{fixcolor}' for="family_utility">INFR</label><br>
-             {:else}
-                  <input class="family-radio"  type="radio" id="familiy-industry" name="family" value="PLANT">
-                  <label style = '--color:{fixcolor}' for="family-industry">PLANT</label><br>
-                  <input checked class="family-radio" type="radio" id="family_utility" name="family" value="INFR">
-                  <label style = '--color:{fixcolor}' for="family_utility">INFR</label><br>
-             {/if}
-              </fieldset>
-        {/if}
+        
 
         <button type="submit" style = '--color:{color}; --background-color:{bgcolor}'>
           {#if isLoading}Logging in...{:else}Log in 🔒{/if}

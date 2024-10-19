@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { filterArray, orderBy, paginate } from './mock.js'
 import DBINDUSTRY from './mockdb_industry.js'
-import  DBINFASTRUCTURE  from './mockdb_infr.js'
+import  DBWATERWASTE  from './mockdb_wwaste.js'
 
 // **************** DATA ****************
 let devices = DBINDUSTRY.devices
@@ -23,23 +23,27 @@ let companies = DBINDUSTRY.companies
 const init = (family) => {
     console.log("INITIALIZE MOCK DB FOR", family)
     switch (family) {
+        case 'UTILITY':
         case 'INFR':
-            devices = DBINFASTRUCTURE.devices
-            agents = DBINFASTRUCTURE.agents
-            mainentities = DBINFASTRUCTURE.mainentities
-            areaentities = DBINFASTRUCTURE.areaentities
-            localentities = DBINFASTRUCTURE.localentities
-            controlledentities = DBINFASTRUCTURE.controlledentities
-            controllers = DBINFASTRUCTURE.controllers
-            datapoints = DBINFASTRUCTURE.generateDataPoints()
+        case 'WWATER':
+            devices = DBWATERWASTE.devices
+            agents = DBWATERWASTE.agents
+            mainentities = DBWATERWASTE.mainentities
+            areaentities = DBWATERWASTE.areaentities
+            localentities = DBWATERWASTE.localentities
+            controlledentities = DBWATERWASTE.controlledentities
+            controllers = DBWATERWASTE.controllers
+            datapoints = DBWATERWASTE.generateDataPoints()
             clonepoints = []
             learnpoints = []
             masterbatchphases = []
             clonephases = []
             learnphases = []
-            companies = DBINFASTRUCTURE.companies
+            companies = DBWATERWASTE.companies
             break;
-        default:
+        case 'INDUSTRY':
+        case 'PLANT':
+        case 'PHARMA':
             devices = DBINDUSTRY.devices
             agents = DBINDUSTRY.agents
             mainentities = DBINDUSTRY.plants

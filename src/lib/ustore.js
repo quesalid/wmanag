@@ -52,6 +52,7 @@ export const getArrayFromPath = (path) => {
      switch (family) {
          case 'INDUSTRY':
          case 'PLANT':
+         case 'PHARMA':
              retName.main.singular = 'plant'
              retName.main.plural = 'plants'
              retName.main.Singular = 'Plant'
@@ -71,6 +72,7 @@ export const getArrayFromPath = (path) => {
              break;
          case 'UTILITY':
          case 'INFR':
+         case 'WWATER':
              retName.main.singular = 'infrastructure'
              retName.main.plural = 'infrastructures'
              retName.main.Singular = 'Infrastructure'

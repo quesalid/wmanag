@@ -25,6 +25,7 @@ export let visibility = "visible"
 export let resize = 'none'
 export let minimized = 'off'
 export let scrollable = false
+export let showheader = true
 
 
 export let toolbar:any = [
@@ -72,7 +73,9 @@ const minimize = (event:any)=>{
 </script>
 
 <div class="window-menu" id="{id}" style="--resize:{resize};--visibility:{visibility};--height:{height};--width:{width};--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
+	
 	<header id="{id+'dragelement'}">
+		{#if showheader}
 		<div class="window-menu-header" id="{id+'dragzone'}" style="background-color: {headercolor};">
 			<span id={"title-"+id} style={"padding:4px;font-weight:"+titleweight+";color:"+titlecolor+";font-size:"+titlefontsize+";"}>{title}</span>
 			<!--span id={"title-"+id}>{title}</!--span-->
@@ -112,6 +115,7 @@ const minimize = (event:any)=>{
 			{/each}
 			{/key}
 		</div>
+		{/if}
 		<div class="window-menu-body" style="overflow-x: hidden ; overflow-y: {scrollable?'auto':'hidden'} ">
 			{#if $$slots.bodycontent}
 				<slot name="bodycontent" data={data} options={dragE}></slot>

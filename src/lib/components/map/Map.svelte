@@ -22,7 +22,7 @@ import {getClassFromColor} from '../../script/utils.js'
 
 
 let mapContainer:any
-let map:any 
+export let map:any 
 
 onMount(async () => { 
     // add eventlistner to listen for profile base coords
@@ -35,17 +35,21 @@ onMount(async () => {
 })
 
 export let mapClasses = 'relative w-full aspect-[9/16] max-h-[70vh] sm:max-h-full sm:aspect-video';
+export let mapStyle = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
 export let group:any = null
+export let markers:any = []
 export let zoom:any = 5;
 export let initZoom:any = 1;
 export let initCenter:any= [-30,30]
+export let pitch:any = 45;
+export let bearing:any = -17.5;
 export let modalId = 'markerClickedDivPlants'
 export let clickedName:any = (g:any)=>{
+   
     const modalEdit = document.getElementById(modalId)
     const editClicked = new CustomEvent("markerclicked", { detail: g.uid })
-    modalEdit?.dispatchEvent(editClicked)
+        modalEdit?.dispatchEvent(editClicked)
 }
-
 export let geolineprops:any = {
     layout:{'line-cap': 'round', 'line-join': 'round' },
     paint:{'line-width': 2,
@@ -57,6 +61,8 @@ export let geolineprops:any = {
 
 // CONSIDER MOVE THIS ON UTILITIES
 let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-6 h-6 '+'bg-indigo-400'+' text-white text-[8px] font-bold rounded-full grid place-items-center'
+let markerClassSmall = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-4 h-4 '+'bg-[#FF0000]'+' text-white text-[5px] font-bold rounded-full grid place-items-center animate-blink-5 '
+
 const getMarkerClass = (color:string) =>{
     let newClass = JSON.parse(JSON.stringify(markerClass))
     const cl = getClassFromColor(color)
@@ -64,7 +70,7 @@ const getMarkerClass = (color:string) =>{
     return(ret)
 }
 
-const MyFlyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
+const MyFlyTo = (lon:any=null,lat:any=null,zoom:any=null) => {
     const lz = zoom || initZoom
     const llon = lon || initCenter[0]
     const llat = lat || initCenter[1]
@@ -80,10 +86,12 @@ const MyFlyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
 </script>
 
 <MapLibre
-  style="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+  bind:style={mapStyle}
   class={mapClasses}
   center={initCenter}
   zoom={initZoom}
+  pitch={pitch}
+  bearing={bearing}
   attributionControl={true}
   bind:map={map}
   bind:mapContainer={mapContainer}
@@ -103,7 +111,7 @@ const MyFlyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
             {#if (g.lon && g.lat)}
 			    <ControlButton class="text-left w-fit text-xs"
 				    on:click={() => {
-						MyFlyTo(map,g.lon,g.lat,zoom)
+						MyFlyTo(g.lon,g.lat,zoom)
 				    }}>
 				    {g.label}
 			    </ControlButton>
@@ -113,10 +121,27 @@ const MyFlyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
 
     <ControlGroup>
       <ControlButton class="text-lg flybutton"  on:click={() => {
-           MyFlyTo(map)
+           MyFlyTo()
       }}>&#127757</ControlButton>
     </ControlGroup>
   </Control>
+ 
+  {#each markers as m}
+  	<Marker
+	  lngLat={m.lngLat}
+	  class={markerClassSmall+" blink"}
+	>
+	  <span>{"alm"}</span>
+	  <Popup openOn="click" offset={[0, -10]}>
+		<div class="text-sm font-bold">
+            <a href="#">{m.name}</a>
+            </div>
+		<div class="text-sm font-bold">{m.description}</div>
+	  </Popup>
+	</Marker>
+  
+  {/each}
+  
   {#if group}
       {#each group as g}
         {#if g.geojson}
@@ -149,7 +174,5 @@ const MyFlyTo = (map:any=null,lon:any=null,lat:any=null,zoom:any=null) => {
 
 
 <style>
-.flybutton{
-    cursor:pointer;
-}
+
 </style>

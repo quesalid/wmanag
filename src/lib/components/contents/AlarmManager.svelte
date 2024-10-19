@@ -32,6 +32,7 @@
 	export let  zindex = 4
 	export let resize = 'none'
 	export let bgcolor = '#ddefde'
+	export let showheader = true
     // TABLE VARIABLES
 	export let  pagesize = true
 	export let  pSize = 3
@@ -60,7 +61,8 @@
 				{titlefontsize}
 				{titlecolor}
 				{titleweight}
-				{bodycolor}>
+				{bodycolor}
+				{showheader}>
 					<SimpleTableNoPage slot="bodycontent" bind:data={alarmsdata} datacolumns={alarmdatacolumns} {height}/>
 				</Wmanag>
 		</div>

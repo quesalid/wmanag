@@ -23,6 +23,7 @@
 	export let titlecolor = "#666"
 	export let titleweight = "bold"
 	export let bodycolor = "#ffffff"
+	export let showheader = true
 	export let  key = 0
 	export let top = $module.toUpperCase() == 'DATA'?'380px':'10px'
 	export let left = '1%'
@@ -44,7 +45,8 @@
 						{titlefontsize}
 						{titlecolor}
 						{titleweight}
-						{bodycolor}>
+						{bodycolor}
+						{showheader}>
 						<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 						    {#key key}
 								<Donut donut={donut}/>
