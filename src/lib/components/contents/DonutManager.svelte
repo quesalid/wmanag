@@ -9,7 +9,6 @@
    
   
 
-
    
 	onMount(async () => {
 		
@@ -20,6 +19,10 @@
 	// WINDOW VARIABLES
 	export let donut:any = {}
 	export let bgcolor:any = '#FFFFFF'
+	export let titlefontsize = "15px"
+	export let titlecolor = "#666"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
 	export let  key = 0
 	export let top = $module.toUpperCase() == 'DATA'?'380px':'10px'
 	export let left = '1%'
@@ -37,7 +40,11 @@
 						top={top}
 						left={left}
 						minimized="off"
-						resize='both'>
+						resize='both'
+						{titlefontsize}
+						{titlecolor}
+						{titleweight}
+						{bodycolor}>
 						<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 						    {#key key}
 								<Donut donut={donut}/>

@@ -11,7 +11,6 @@ let group:any = []
 
 export let width = "600px"
 export let height = "3800px"
-export let headercolor = '#fff2e8'
 export let disableClose = true
 export let title = "MAP MANAGER"
 export let top = '20%'
@@ -20,6 +19,12 @@ export let minimized = 'on'
 export let resize = 'both'
 export let toolbar:any = []
 export let maptype:any ='factory'
+export let bgcolor = '#ddefde'
+export let headercolor = bgcolor
+export let titlefontsize = "15px"
+export let titlecolor = "#666"
+export let titleweight = "bold"
+export let bodycolor = "#ffffff"
 let component:any = MarkerClickedPlants
 let modalId = "markerClickedDivPlants"
 let mapManagerId = 'mapManagerId'
@@ -68,14 +73,18 @@ onMount(async () => {
 		title="{title}" 
 		disableClose={disableClose} 
 		draggable={true} 
-		headercolor={headercolor}
+		headercolor={bgcolor?bgcolor:headercolor}
 		width={width}
 		height={height}
 		top={top}
 		left={left}
 		toolbar = {toolbar}
 		minimized="{minimized}"
-		resize={resize}>
+		resize={resize}
+		{titlefontsize}
+		{titlecolor}
+		{titleweight}
+		{bodycolor}>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 			<Map bind:group={group} zoom=14 modalId={modalId} bind:initZoom={initZoom} bind:initCenter={initCenter}/>
 		</div>

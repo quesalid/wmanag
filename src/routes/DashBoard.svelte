@@ -197,7 +197,12 @@
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
+	// WINDOW VARIABLES
 	export let  bgcolor = "#ddefde"
+	export let titlefontsize = "15px"
+	export let titlecolor = "#666"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
 
 	// BAR VARIABLES
 	const barheigth = "60px"
@@ -310,11 +315,15 @@
 				{#each dashboard.windows as Window}
 					{#if Window.id == 'Donut'}
 						<DonutManager 
-							bgcolor={colorScheme.wincolor} 
 							bind:donut={donut} 
 							bind:key={key} 
 							top={Window.top} 
 							left={Window.left}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
 						/>
 					{/if}
 					{#if Window.id == 'Map'}
@@ -325,6 +334,11 @@
 							top={Window.top} 
 							left={Window.left}
 							height={mapheight}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
 						/>
 					{/if}
 					{#if Window.id == 'Alarms'}
@@ -336,6 +350,11 @@
 							width={alarmwidth}
 							bind:alarmsdata={alarmsdata}
 							resize="both"
+							{bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
 						/>
 					{/if}
 					{#if Window.id == 'Monitor'}
@@ -348,6 +367,11 @@
 							height={monitorheight}
 							pointsdata={pointsdata}
 							pointdatacolumns={pointdatacolumns}
+							{bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
 						/>
 					{/if}
 					{#if Window.id == 'Communication'}
@@ -357,12 +381,16 @@
 							width={commwidth}
 							headercolor={colorScheme.wincolor}  
 							height={commheight}
+							{bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
 						/>
 					{/if}
 				{/each}
 			{/if}
 		</div>
-
 </div>
 
 

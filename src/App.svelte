@@ -43,6 +43,14 @@ import Assistant from "./routes/Assistant.svelte"
 
 export const url = "/deploy"
 
+// APPWIDE VARIABLES
+let bgcolor = "#efddde"
+export let titlefontsize = "13px"
+export let titlecolor = "#666"
+export let titleweight = "bold"
+export let bodycolor = "#ffffff"
+//let bgcolor = "#ddefde"
+
  onMount(async () => {  
      
  })
@@ -71,117 +79,137 @@ export const url = "/deploy"
     </Route>
     <!-- D A S H B O A R D S -->
     <Route path="/data">
-        <DashBoard logoImage="/ICO_UP2_DATA.png"/>
+        <DashBoard logoImage="/ICO_UP2_DATA.png"  
+            {bgcolor}
+            {titlefontsize}
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}/>
     </Route>
     <Route path="/clone">
-        <DashBoard logoImage="/ICO_UP2_CLONE.png"/>
+        <DashBoard logoImage="/ICO_UP2_CLONE.png"  
+            {bgcolor}
+            {titlefontsize}
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}/>
     </Route>
     <Route path="/ai">
-        <DashBoard logoImage="/ICO_UP2_AI.png"/>
+        <DashBoard logoImage="/ICO_UP2_AI.png"  
+            {bgcolor}
+            {titlefontsize}
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}/>
     </Route>
     <Route path="/learn">
-        <DashBoard logoImage="/ICO_UP2_LEARN.png"/>
+        <DashBoard logoImage="/ICO_UP2_LEARN.png"  
+            {bgcolor}
+            {titlefontsize}
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}/>
     </Route>
     <!--  C O N F I G U R E   -->
      <Route path="/data/configure">
-        <Configure logoImage="/ICO_UP2_DATA.png"/>
+        <Configure logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/configure">
-		    <Configure logoImage="/ICO_UP2_CLONE.png"/>
+		    <Configure logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/configure">
-		    <Configure logoImage="/ICO_UP2_AI.png"/>
+		    <Configure logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/learn/configure">
-		    <Configure logoImage="/ICO_UP2_LEARN.png"/>
+		    <Configure logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
     </Route>
     <!-- C O N F I G U R E     A G E N T-->
     <Route path="/data/configure/agent">
-        <ConfigureAgent logoImage="/ICO_UP2_DATA.png"/>
+        <ConfigureAgent logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_CLONE.png"/>
+		    <ConfigureAgent logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_AI.png"/>
+		    <ConfigureAgent logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/learn/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_LEARN.png"/>
+		    <ConfigureAgent logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
     </Route>
     <!-- D E P L O Y -->
     <Route path="/data/deploy">
-        <Deploy logoImage="/ICO_UP2_DATA.png"/>
+        <Deploy logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/deploy">
-		    <Deploy logoImage="/ICO_UP2_CLONE.png"/>
+		    <Deploy logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/deploy">
-		    <Deploy logoImage="/ICO_UP2_AI.png"/>
+		    <Deploy logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/learn/deploy">
-		    <Deploy logoImage="/ICO_UP2_LEARN.png"/>
+		    <Deploy logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
     </Route>
     <!-- B U I L D -->
     <Route path="/data/build">
-        <BuildData logoImage="/ICO_UP2_DATA.png"/>
+        <BuildData logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/build">
-        <BuildClone logoImage="/ICO_UP2_CLONE.png"/>
+        <BuildClone logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/build">
-        <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"/>
+        <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"  bgcolor={bgcolor}/>
     </Route>
 	<!-- M O N I T O R-->
     <Route path="/data/monitor">
-        <Monitor logoImage="/ICO_UP2_DATA.png"/>
+        <Monitor logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/monitor">
-		<Monitor logoImage="/ICO_UP2_CLONE.png"/>
+		<Monitor logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/monitor">
-		 <Monitor logoImage="/ICO_UP2_AI.png"/>
+		 <Monitor logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/learn/monitor">
-		 <Monitor logoImage="/ICO_UP2_LEARN.png"/>
+		 <Monitor logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
     </Route>
     <!-- A D M I N-->
     <Route path="/data/admin">
-        <Admin logoImage="/ICO_UP2_DATA.png"/>
+        <Admin logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/admin">
-		<Admin logoImage="/ICO_UP2_CLONE.png" />
+		<Admin logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/admin">
-		 <Admin logoImage="/ICO_UP2_AI.png" />
+		 <Admin logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/learn/admin">
-		 <Admin logoImage="/ICO_UP2_LEARN.png" />
+		 <Admin logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
     </Route>
     <!-- D A S H B O A R D    C O N F I G -->
     <Route path="/data/dashboardconfig">
-        <DashBoardConfig logoImage="/ICO_UP2_DATA.png"/>
+        <DashBoardConfig logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/dashboardconfig">
-		<DashBoardConfig logoImage="/ICO_UP2_CLONE.png"/>
+		<DashBoardConfig logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/dashboardconfig">
-		 <DashBoardConfig logoImage="/ICO_UP2_AI.png"/>
+		 <DashBoardConfig logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/learn/dashboardconfig">
-		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png"/>
+		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
     </Route>
     <!-- A S S I S T A N T  -->
     <Route path="/data/assistant">
-        <Assistant logoImage="/ICO_UP2_DATA.png"/>
+        <Assistant logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/clone/assistant">
-		<Assistant logoImage="/ICO_UP2_CLONE.png"/>
+		<Assistant logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/ai/assistant">
-		 <Assistant logoImage="/ICO_UP2_AI.png"/>
+		 <Assistant logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
     </Route>
     <Route path="/learn/assistant">
-		 <Assistant logoImage="/ICO_UP2_LEARN.png"/>
+		 <Assistant logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
     </Route>
   </div>
 </Router>

@@ -13,6 +13,9 @@ export let top = "10px"
 export let left = "10px"
 export let zindex = 3
 export let headercolor = "#e9e9e9"
+export let titlecolor = "#666"
+export let titlefontsize = "15px"
+export let titleweight = "bold"
 export let bodycolor = "#ffffff"
 export let data:any = []
 export let dragE:any = {}
@@ -71,7 +74,8 @@ const minimize = (event:any)=>{
 <div class="window-menu" id="{id}" style="--resize:{resize};--visibility:{visibility};--height:{height};--width:{width};--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
 	<header id="{id+'dragelement'}">
 		<div class="window-menu-header" id="{id+'dragzone'}" style="background-color: {headercolor};">
-			<span id={"title-"+id} style="padding:4px;font-weight:bold;color:#666;font-size:15px;">{title}</span>
+			<span id={"title-"+id} style={"padding:4px;font-weight:"+titleweight+";color:"+titlecolor+";font-size:"+titlefontsize+";"}>{title}</span>
+			<!--span id={"title-"+id}>{title}</!--span-->
 			<div style="margin:2px;">
 				<input class="wmanag-button cursor-pointer text-lg" type="button" disabled={disableMinimize} value="&horbar;" on:click={minimize} />
 				<input class="wmanag-button cursor-pointer text-lg" type="button" disabled={disableClose} value="&bigotimes;" on:click={closeMenu} />
@@ -156,6 +160,7 @@ const minimize = (event:any)=>{
 		background-color: var(--background-color);
 		cursor:grab;
 		width: max(max-content,400px);
+		height: var(--headerheight);
 	}
 
 	.window-menu-header input[type="button"]:disabled{

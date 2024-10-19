@@ -4,7 +4,7 @@
    import {onMount} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import Wmanag from '../WManag.svelte'
+   import Wmanag from '../../components/WManag.svelte'
    import PlaceHolder from '../PlaceHolder.svelte'
    import {ChatSimple} from '../communication'
    // STORE
@@ -46,27 +46,17 @@
 	export let height = "max-content"
 	export let width = "max-content"
 	export let headercolor = bgcolor
+	export let titlefontsize = "15px"
+	export let titlecolor = "#666"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
 	export let top = "10px"
 	export let left = "10px"
 	export let resize = 'both'
 	// COMPONENTS
 	export let chat = ChatSimple
 	export let image = $avatar
-	// TABLE VARIABLES
-	/*export let pagesize = true
-	export let  pSize = 8
-	export let  pointsdata:any
-	export let pointdatacolumns:any = []
-	// DIALOG VARIABLES
-	export let savedialog = PointForm
-	export let deletedialog = DeleteForm
-	export let chartdialog = Chart
-	export let modalIdEdit = "PointInputDiv"
-	export let modalIdDel = "DeleteInputDiv"
-	export let modalIdChart = "PointChartDiv"
-	export let deleteTitle = "Clicking DELETE the point will be cancelled"
-	export let edit = async (ev:any)=>{}
-	export let del = async (ev:any)=>{}*/
+	
 	
 	
 
@@ -78,13 +68,17 @@
 				toolbar={toolbar} 
 				{disableClose} 
 				{draggable} 
-				{headercolor} 
+				headercolor={bgcolor?bgcolor:headercolor}
 				{zindex}
 				{width}
 				{height}
 				{top}
 				{left}
-				{resize}>
+				{resize}
+				{titlefontsize}
+				{titlecolor}
+				{titleweight}
+				{bodycolor}>
 				<svelte:component this={chat} slot="bodycontent" img={image}/>
 			</Wmanag>
 		</div>

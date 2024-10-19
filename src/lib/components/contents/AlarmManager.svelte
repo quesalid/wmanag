@@ -18,6 +18,10 @@
 	export let width = "750px"
 	export let height = "450px"
 	export let headercolor = '#fff2e8'
+	export let titlefontsize = "15px"
+	export let titlecolor = "#666"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
 	export let disableClose = true
 	export let title = "ALARMS"
 	export let top = '20%'
@@ -27,6 +31,7 @@
 	export let  draggable = true
 	export let  zindex = 4
 	export let resize = 'none'
+	export let bgcolor = '#ddefde'
     // TABLE VARIABLES
 	export let  pagesize = true
 	export let  pSize = 3
@@ -44,15 +49,18 @@
 				toolbar = {toolbar} 
 				{disableClose} 
 				{draggable} 
-				{headercolor} 
+				headercolor={bgcolor?bgcolor:headercolor}
 				{zindex}
 				{top}
 				{left}
 				{minimized}
-				{width}>
+				{width}
 				{height}
-				scrollable={false}
 				{resize}
+				{titlefontsize}
+				{titlecolor}
+				{titleweight}
+				{bodycolor}>
 					<SimpleTableNoPage slot="bodycontent" bind:data={alarmsdata} datacolumns={alarmdatacolumns} {height}/>
 				</Wmanag>
 		</div>

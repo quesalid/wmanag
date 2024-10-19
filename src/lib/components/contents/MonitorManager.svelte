@@ -4,7 +4,7 @@
    import {onMount} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import Wmanag from '../WManag.svelte'
+   import Wmanag from '../../components/WManag.svelte'
    import {SimpleTable} from '../table'
    import {PointForm,DeleteForm} from '../forms'
    import {Chart} from '../chart'
@@ -29,6 +29,10 @@
 	export let height = "max-content"
 	export let width = "max-content"
 	export let headercolor = bgcolor
+	export let titlefontsize = "15px"
+	export let titlecolor = "#666"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
 	export let top = "10px"
 	export let left = "10px"
 	export let resize = 'none'
@@ -58,13 +62,18 @@
 				toolbar={toolbarpoint} 
 				{disableClose} 
 				{draggable} 
-				{headercolor} 
+				headercolor={bgcolor?bgcolor:headercolor}
+				{bgcolor}
 				{zindex}
 				{width}
 				{height}
 				{top}
 				{left}
-				{resize}>
+				{resize}
+				{titlefontsize}
+				{titlecolor}
+				{titleweight}
+				{bodycolor}>
 				<SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

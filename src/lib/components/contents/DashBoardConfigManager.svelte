@@ -1,5 +1,5 @@
 <script lang='ts'>
-
+import {onMount} from 'svelte';
 
 export let widgets = [
 	{id:'Donut',top:'0px',left:'0px',included:false},
@@ -10,6 +10,41 @@ export let widgets = [
 export let saveDashboard = (ev:any)=>{
 	console.log("SAVE DASHBOARD")
 }
+
+// OBSERVERS
+const resizeObserver = new ResizeObserver((entries) => {
+  for (const entry of entries) {
+	 console.log("RESIZE OBSERVER",entry.contentBoxSize)
+    if (entry.contentBoxSize) {
+      /*const contentBoxSize = entry.contentBoxSize[0];
+      h1Elem.style.fontSize = `${Math.max(
+        1.5,
+        contentBoxSize.inlineSize / 200,
+      )}rem`;
+      pElem.style.fontSize = `${Math.max(
+        1,
+        contentBoxSize.inlineSize / 600,
+      )}rem`;
+    } else {
+      h1Elem.style.fontSize = `${Math.max(
+        1.5,
+        entry.contentRect.width / 200,
+      )}rem`;
+      pElem.style.fontSize = `${Math.max(1, entry.contentRect.width / 600)}rem`;*/
+    }
+  }
+  });
+
+  // On mount set resize observer or each widget
+  onMount(() => {
+	for(let i=0;i<widgets.length;i++){
+		const widget = document.getElementById(widgets[i].id)
+		if(widget){
+			resizeObserver.observe(widget);
+		}
+	}
+  });
+
 
 const setTargetProperties = (ev:any)=>{
 	const id = ev.target.id
@@ -29,6 +64,8 @@ const setTargetProperties = (ev:any)=>{
 	ev.currentTarget.style.border = '2px solid blue';
 	ev.currentTarget.style.width = 'fit-content';
 	ev.currentTarget.style.height = 'fit-content';
+	ev.currentTarget.style.resize='both'
+	ev.currentTarget.style.overflow='auto'
    
 }
 
@@ -207,5 +244,7 @@ const dragEnd = (ev:any)=>{
 	height:fit-content;
 	border:2px solid blue;
 	background-color: white;
+	resize:both;
+	overflow:auto ;
 }
 </style>
