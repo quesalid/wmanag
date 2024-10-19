@@ -61,8 +61,8 @@ export let geolineprops:any = {
 
 
 // CONSIDER MOVE THIS ON UTILITIES
-let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-6 h-6 '+'bg-indigo-400'+' text-white text-[8px] font-bold rounded-full grid place-items-center'
-let markerClassSmall = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-4 h-4 '+'bg-[#FF0000]'+' text-white text-[5px] font-bold rounded-full grid place-items-center animate-blink-5 '
+let markerClass = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-6 h-6 '+'bg-indigo-400'+' text-white text-[8px] font-bold rounded-full grid place-items-center cursor-pointer'
+let markerClassSmall = 'border-gray-200 border shadow-2xl focus:outline-2 focus:outline-black w-4 h-4 '+'bg-[#FF0000]'+' text-white text-[5px] font-bold rounded-full grid place-items-center animate-blink-5 cursor-pointer'
 
 const getMarkerClass = (color:string) =>{
     let newClass = JSON.parse(JSON.stringify(markerClass))
@@ -135,10 +135,12 @@ const MyFlyTo = (lon:any=null,lat:any=null,zoom:any=null) => {
 
 	  <span>{"alm"}</span>
 	  <Popup openOn="click" offset={[0, -10]}>
-		<div class="text-sm font-bold">
-            <a href="#">{m.name}</a>
-            </div>
-		<div class="text-sm font-bold">{m.description}</div>
+        <div >
+		    <div class="text-sm font-bold bg-slate-50 p-2 border-2 border-solid border-grey">
+                <a class="text-stone-900" href="#">{m.name}</a>
+             </div>
+		    <div class="text-sm">{m.description}</div>
+        </div>
 	  </Popup>
 	</Marker>
   
