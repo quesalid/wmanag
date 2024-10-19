@@ -209,6 +209,8 @@
 					lngLat:[lon,lat],
 					name:m.tag,
 					description:m.description,
+					uid: m.uid,
+					marker:null
 				})
 			}
 			console.log("MARKERS",markers)

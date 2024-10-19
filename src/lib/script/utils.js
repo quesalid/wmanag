@@ -129,18 +129,6 @@ const onLearnPointClickDetail = (ev) => {
     console.log("onLearnPointClickDetail", modalEdit)
     modalEdit?.dispatchEvent(detailClicked)
 }
-const onAlarmPointClickAck = (ev) => {
-    const target = ev.target
-    console.log("onAlarmPointClickAck", target)
-    // change text style color to orange
-    ev.target.style.color = 'orange'
-    /*const target = ev.target
-    const uid = target.getAttribute("data-uid")
-    // SEND EDIT CLICKED EVENT TO MODAL
-    const modalEdit = document.getElementById('DeleteInputDiv')
-    const deleteClicked = new CustomEvent("deleteclicked", { detail: uid })
-    modalEdit?.dispatchEvent(deleteClicked)*/
-}
 const onUserClickEdit = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
@@ -173,10 +161,21 @@ const onLogClickShow = (ev) => {
     const logDetailClicked = new CustomEvent("logdetailclicked", { detail: uid })
     modalEdit?.dispatchEvent(logDetailClicked)
 }
+const onAlarmPointClickAck = (ev) => {
+    const target = ev.target
+    // change text style color to orange
+    ev.target.style.color = 'orange'
+    const uid = target.getAttribute("data-uid")
+    console.log("onAlarmPointClickAck", target,uid)
+    // SEND ALARM ACKNOWLEDGE CLICKED EVENT TO MAP MANAGER
+    const mapManager = document.getElementById('mapManagerId')
+    const alarmAckClicked = new CustomEvent("alarmack", { detail: uid })
+    mapManager?.dispatchEvent(alarmAckClicked)
+}
 const onAlarmClickLocation = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
-    // SEND ALARM CLICKED EVENT TO MAP MANAGER
+    // SEND ALARM FLYBY CLICKED EVENT TO MAP MANAGER
     const mapManager = document.getElementById('mapManagerId')
     const alarmLocationClicked = new CustomEvent("alarmlocation", { detail: uid })
     mapManager?.dispatchEvent(alarmLocationClicked)
@@ -663,8 +662,9 @@ let pointdataalarmcolumns = [
         accessor: 'tag',
     },
     {
-        header: 'Value',
+        header: 'Ack',
         accessor: (item) => item.lastvalue,
+        //accessor: voidfunction,
         renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;z-index:-1; position:relative;', onClick: onAlarmPointClickAck } }
     },
     {

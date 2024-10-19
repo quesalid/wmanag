@@ -11,7 +11,7 @@ export let classname = "image-tool-component"
 
 </script>
 	<div class="text-tool-component-div">
-		<button style="{style}" class="text-tool-component {classname} " on:click={onClick}>{value}</button>
+		<button id="{name+'-'+uid}" style="{style}" class="text-tool-component {classname} " data-uid={uid} on:click={onClick}>{value}</button>
 		<!--div style="{style}" class="text-tool-component {classname} " on:click={onClick}>{value}</!--div-->
 	</div>
 <style>

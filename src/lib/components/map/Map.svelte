@@ -44,12 +44,13 @@ export let initCenter:any= [-30,30]
 export let pitch:any = 45;
 export let bearing:any = -17.5;
 export let modalId = 'markerClickedDivPlants'
+
 export let clickedName:any = (g:any)=>{
-   
     const modalEdit = document.getElementById(modalId)
     const editClicked = new CustomEvent("markerclicked", { detail: g.uid })
         modalEdit?.dispatchEvent(editClicked)
 }
+
 export let geolineprops:any = {
     layout:{'line-cap': 'round', 'line-join': 'round' },
     paint:{'line-width': 2,
@@ -130,7 +131,8 @@ const MyFlyTo = (lon:any=null,lat:any=null,zoom:any=null) => {
   	<Marker
 	  lngLat={m.lngLat}
 	  class={markerClassSmall+" blink"}
-	>
+      bind:marker={m.marker}>
+
 	  <span>{"alm"}</span>
 	  <Popup openOn="click" offset={[0, -10]}>
 		<div class="text-sm font-bold">

@@ -66,7 +66,7 @@ onMount(async () => {
 			const toggleBlink = (marker:any) => {
 				marker.classList.toggle('blink')
 			}
-
+			// ADD EVENT LISTENERS
 			if(mapManager){
 				mapManager.addEventListener("alarmlocation",async (e:any)=>{
 					const uid = e.detail
@@ -76,6 +76,18 @@ onMount(async () => {
 						const lon = found.lon?found.lon:initCenter[0]
 						const lat = found.lat?found.lat:initCenter[1]
 						map.flyTo({center: [lon, lat],zoom: initZoom+3,})
+					}
+				})
+				mapManager.addEventListener("alarmack",async (e:any)=>{
+					const uid = e.detail
+					// FIND THE UID IN MARKERS
+					const found = markers.find((m:any)=>m.uid == uid)
+					if(found){
+						// delete blink class from marker
+						found.marker._element.classList.remove('animate-blink-5')
+						// add orange color to marker
+						found.marker._element.classList.add('bg-orange-400')
+						console.log("MARKER ACKNOWLEDGED",found.marker._element)
 					}
 				})
 			}

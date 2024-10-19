@@ -883,7 +883,10 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, lon,l
         const start = new Date("2023-01-01")
         const newdate1 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
         point.lasttime = newdate1.toISOString().split('Z')[0]
-        points.push(point)
+        // if point is alarm and exist another alarm with the same lon-lat not add to array
+        const found = points.find((item) => (item.lon == lon && item.lat == lat && item.atype == 'ALARM'))
+        if(!found)
+            points.push(point)
     }
     return points
 }
