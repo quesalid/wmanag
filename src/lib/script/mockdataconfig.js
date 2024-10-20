@@ -1,23 +1,23 @@
 // @ts-nocheck
 import { filterArray, orderBy, paginate } from './mock.js'
-import DBINDUSTRY from './mockdb_industry.js'
+import DBPHARMA from './mockdb_pharma.js'
 import  DBWATERWASTE  from './mockdb_wwaste.js'
 
 // **************** DATA ****************
-let devices = DBINDUSTRY.devices
-let agents = DBINDUSTRY.agents
-let mainentities = DBINDUSTRY.plants
-let areaentities = DBINDUSTRY.departments
-let localentities = DBINDUSTRY.lines
-let controlledentities = DBINDUSTRY.machines
-let controllers = DBINDUSTRY.controllers
-let datapoints = DBINDUSTRY.generateDataPoints()
-let clonepoints = DBINDUSTRY.generateClonePoints()
-let learnpoints = DBINDUSTRY.generateLearnPoints()
-let masterbatchphases = DBINDUSTRY.masterbatchphases
-let clonephases = DBINDUSTRY.generateClonePhases(clonepoints, 'BATCH')
-let learnphases = DBINDUSTRY.generateClonePhases(learnpoints, 'BATCH')
-let companies = DBINDUSTRY.companies
+let devices = DBPHARMA.devices
+let agents = DBPHARMA.agents
+let mainentities = DBPHARMA.plants
+let areaentities = DBPHARMA.departments
+let localentities = DBPHARMA.lines
+let controlledentities = DBPHARMA.machines
+let controllers = DBPHARMA.controllers
+let datapoints = DBPHARMA.generateDataPoints()
+let clonepoints = DBPHARMA.generateClonePoints()
+let learnpoints = DBPHARMA.generateLearnPoints()
+let masterbatchphases = DBPHARMA.masterbatchphases
+let clonephases = DBPHARMA.generateClonePhases(clonepoints, 'BATCH')
+let learnphases = DBPHARMA.generateClonePhases(learnpoints, 'BATCH')
+let companies = DBPHARMA.companies
 
 // ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
@@ -44,20 +44,20 @@ const init = (family) => {
         case 'INDUSTRY':
         case 'PLANT':
         case 'PHARMA':
-            devices = DBINDUSTRY.devices
-            agents = DBINDUSTRY.agents
-            mainentities = DBINDUSTRY.plants
-            areaentities = DBINDUSTRY.departments
-            localentities = DBINDUSTRY.lines
-            controlledentities = DBINDUSTRY.machines
-            controllers = DBINDUSTRY.controllers
-            datapoints = DBINDUSTRY.generateDataPoints()
-            clonepoints = DBINDUSTRY.generateClonePoints()
-            learnpoints = DBINDUSTRY.generateLearnPoints()
-            masterbatchphases = DBINDUSTRY.masterbatchphases
-            clonephases = DBINDUSTRY.generateClonePhases(clonepoints, 'BATCH')
-            learnphases = DBINDUSTRY.generateClonePhases(learnpoints, 'BATCH')
-            companies = DBINDUSTRY.companies
+            devices = DBPHARMA.devices
+            agents = DBPHARMA.agents
+            mainentities = DBPHARMA.plants
+            areaentities = DBPHARMA.departments
+            localentities = DBPHARMA.lines
+            controlledentities = DBPHARMA.machines
+            controllers = DBPHARMA.controllers
+            datapoints = DBPHARMA.generateDataPoints()
+            clonepoints = DBPHARMA.generateClonePoints()
+            learnpoints = DBPHARMA.generateLearnPoints()
+            masterbatchphases = DBPHARMA.masterbatchphases
+            clonephases = DBPHARMA.generateClonePhases(clonepoints, 'BATCH')
+            learnphases = DBPHARMA.generateClonePhases(learnpoints, 'BATCH')
+            companies = DBPHARMA.companies
             break;
     }
 }
@@ -384,7 +384,7 @@ const getDataTimeSeries = async function (body) {
     if (ret.data.length > 0) {
         point = ret.data[0]
         const deg = 10
-        timeSeries = point.atype == 'ANALOG' ? DBINDUSTRY.generateTimeSeriesPoly(point, 1000, deg) :DBINDUSTRY.generateTimeSeriesRect(point,1000,deg)
+        timeSeries = point.atype == 'ANALOG' ? DBPHARMA.generateTimeSeriesPoly(point, 1000, deg) :DBPHARMA.generateTimeSeriesRect(point,1000,deg)
     }
 
     const pagination = body.options && body.options.pagination ? body.options.pagination : null

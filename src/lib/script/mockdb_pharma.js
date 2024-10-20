@@ -2,18 +2,86 @@ import { v4 as uuidv4 } from 'uuid';
 import polycurve from './polycurve.js'
 
 const companyid = uuidv4()
+// Devices
+const uiddev1 = uuidv4()
+const uiddev2 = uuidv4()
+const uiddev3 = uuidv4()
+const uiddev4 = uuidv4()
+const uiddev5 = uuidv4()
+const uiddev6 = uuidv4()
+const uiddev7 = uuidv4()
+const uiddev8 = uuidv4()
+const uiddev9 = uuidv4()
+// Agents
+const uidag1 = uuidv4()
+const uidag2 = uuidv4()
+const uidag3 = uuidv4()
+const uidag4 = uuidv4()
+const uidag5 = uuidv4()
+const uidag6 = uuidv4()
+const uidag7 = uuidv4()
+const uidag8 = uuidv4()
+const uidag9 = uuidv4()
+const uidag10 = uuidv4()
+const uidag11 = uuidv4()
+const uidag12 = uuidv4()
+// Plants
+const uidplant1 = uuidv4()
+const uidplant2 = uuidv4()
+// Departments
+const uiddept1 = uuidv4()
+const uiddept2 = uuidv4()
+const uiddept3 = uuidv4()
+const uiddept4 = uuidv4()
+// Lines
+const uidline1 = uuidv4()
+const uidline2 = uuidv4()
+const uidline3 = uuidv4()
+const uidline4 = uuidv4()
+// Machines
+const uidmach1 = uuidv4()
+const uidmach2 = uuidv4()
+const uidmach3 = uuidv4()
+const uidmach4 = uuidv4()
+const uidmach5 = uuidv4()
+const uidmach6 = uuidv4()
+const uidmach7 = uuidv4()
+const uidmach8 = uuidv4()
+const uidmach9 = uuidv4()
+const uidmach10 = uuidv4()
+const uidmach11 = uuidv4()
+const uidmach12 = uuidv4()
+const uidmach13 = uuidv4()
+const uidmach14 = uuidv4()
+// Controllers
+const uidcntl1 = uuidv4()
+const uidcntl2 = uuidv4()
+const uidcntl3 = uuidv4()
+const uidcntl4 = uuidv4()
+const uidcntl5 = uuidv4()
+const uidcntl6 = uuidv4()
+const uidcntl7 = uuidv4()
+const uidcntl8 = uuidv4()
+const uidcntl9 = uuidv4()
+const uidcntl10 = uuidv4()
+const uidcntl11 = uuidv4()
+const uidcntl12 = uuidv4()
+const uidcntl13 = uuidv4()
+const uidcntl14 = uuidv4()
+
+const deltacoord = 0.0001
 
 let devices = [
     {
-        uid: 'abc-1',
+        uid: uiddev1,
         name: 'DEV1-001',
         lastmodified: "2022-06-30T10:00:00",
         description: "Virtual Machine DESALPHA Line Pabianice Plant",
         module: "DATA",
-        plant: 'plant-1',
+        plant: uidplant1,
         localization: {
-            department: 'dept-1',
-            line: 'line-1',
+            department: uiddept1,
+            line: uidline1,
         },
         host: "SRV01-01",
         port: 3001,
@@ -29,15 +97,15 @@ let devices = [
         },
     },
     {
-        uid: 'bca-2',
+        uid: uiddev2,
         name: 'DEV2-001',
         lastmodified: "2022-06-30T10:00:00",
         description: "Edge Computer NOVOMIXIN Line Tulsa Plant",
         module: "DATA",
-        plant: 'plant-2',
+        plant: uidplant2,
         localization: {
-            department: 'dept-2',
-            line: 'line-2',
+            department: uiddept2,
+            line: uidline2,
         },
         host: "192.164.0.23",
         port: 3000,
@@ -53,15 +121,15 @@ let devices = [
         },
     },
     {
-        uid: 'abc-2-2',
+        uid: uiddev3,
         name: 'DEV2-002',
         lastmodified: "2023-05-30T10:00:00",
         description: "Edge Computer Line WY Plant Z",
         module: "DATA",
-        plant: 'plant-2',
+        plant: uidplant2,
         localization: {
-            department: 'dept-2',
-            line: 'line-2',
+            department: uiddept2,
+            line: uidline2,
         },
         host: "10.112.1.71",
         port: 3000,
@@ -77,15 +145,15 @@ let devices = [
         },
     },
     {
-        uid: 'abc-2-3',
+        uid: uiddev4,
         name: 'DEV2-003',
         lastmodified: "2023-05-30T10:00:00",
         description: "PC Computer Line WY Plant Z",
         module: "DATA",
-        plant: 'plant-2',
+        plant: uidplant2,
         localization: {
-            department: 'dept-2',
-            line: 'line-2',
+            department: uiddept2,
+            line: uidline2,
         },
         host: "10.112.1.71",
         port: 3000,
@@ -101,15 +169,15 @@ let devices = [
         },
     },
     {
-        uid: 'kvz-1',
+        uid: uiddev5,
         name: 'PROCESSOR-1',
         lastmodified: "2022-06-30T10:00:00",
         description: "VMWare VM-2012-H ",
         module: "CLONE",
-        plant: 'plant-1',
+        plant: uidplant1,
         localization: {
-            department: 'dept-1',
-            line: 'line-1',
+            department: uiddept1,
+            line: uidline1,
         },
         host: "DC-SRV-03",
         port: 8080,
@@ -125,15 +193,15 @@ let devices = [
         },
     },
     {
-        uid: 'jhm-289-pod6',
+        uid: uiddev6,
         name: 'PROCESSOR-2',
         lastmodified: "2022-06-30T10:00:00",
         description: "VMWare VM-2012-H ",
         module: "CLONE",
-        plant: 'plant-2',
+        plant: uidplant2,
         localization: {
-            department: 'dept-2',
-            line: 'line-2',
+            department: uiddept2,
+            line: uidline2,
         },
         host: "DC-SRV-03",
         port: 8080,
@@ -149,15 +217,15 @@ let devices = [
         },
     },
     {
-        uid: 'psvm-289-sqox6',
+        uid: uiddev7,
         name: 'MODEL-02',
         lastmodified: "2022-06-30T10:00:00",
         description: "VMWare VM-2012-H ",
         module: "AI",
-        plant: 'plant-2',
+        plant: uidplant2,
         localization: {
-            department: 'dept-2',
-            line: 'line-2',
+            department: uiddept2,
+            line: uidline2,
         },
         host: "DC-SRV-11",
         port: 5252,
@@ -173,15 +241,15 @@ let devices = [
         },
     },
     {
-        uid: 'psvm-100-sqox6',
+        uid: uiddev8,
         name: 'MODEL-01',
         lastmodified: "2022-06-30T10:00:00",
         description: "VMWare VM-2012-H ",
         module: "AI",
-        plant: 'plant-1',
+        plant: uidplant1,
         localization: {
-            department: 'dept-1',
-            line: 'line-1',
+            department: uiddept1,
+            line: uidline1,
         },
         host: "DC-SRV-11",
         port: 5252,
@@ -197,15 +265,15 @@ let devices = [
         },
     },
     {
-        uid: 'lrn-100-sqox6',
+        uid: uiddev9,
         name: 'SIMUL-01',
         lastmodified: "2022-06-30T10:00:00",
         description: "VMWare VM-2012-H ",
         module: "LEARN",
-        plant: 'plant-1',
+        plant: uidplant1,
         localization: {
-            department: 'dept-1',
-            line: 'line-1',
+            department: uiddept1,
+            line: uidline1,
         },
         host: "DC-SRV-11",
         port: 5252,
@@ -224,7 +292,7 @@ let devices = [
 
 let agents = [
     {
-        uid: 'ag-234-abc-1',
+        uid: uidag1,
         name: "SCANNER1",
         type: "SCANNER",
         description: "Scanner for DESALPHA Line - 1",
@@ -261,11 +329,11 @@ let agents = [
             uid: 0,
             name: "s7.csv",
         }],
-        devuid: 'abc-1',
+        devuid: uiddev1,
         status: "STOP",
     },
     {
-        uid: 'ag-234-abc-11',
+        uid: uidag2,
         name: "SCANNER11",
         type: "SCANNER",
         description: "Scanner for DESALPHA Line - 2",
@@ -302,11 +370,11 @@ let agents = [
             uid: 0,
             name: "modbus-1.csv"
         }],
-        devuid: 'abc-1',
+        devuid: uiddev1,
         status: "STOP",
     },
     {
-        uid: 'ag-234-hst-1',
+        uid: uidag3,
         name: "HIST1",
         type: "HIST",
         description: "Historian from queue SCANNER1 (abc-1)",
@@ -339,11 +407,11 @@ let agents = [
 
             }
         },
-        devuid: 'abc-1',
+        devuid: uiddev1,
         status: "STOP",
     },
     {
-        uid: 'ag-234-abc-2',
+        uid: uidag4,
         name: "SCANNER2",
         type: "SCANNER",
         description: "Scanner for NOVOMIXIN Line",
@@ -379,10 +447,10 @@ let agents = [
         },
         dbs: [{ uid: 0, name: "iptest.csv" }],
         status: "STOP",
-        devuid: 'bca-2',
+        devuid: uiddev2,
     },
     {
-        uid: 'ag-234-hst-2',
+        uid: uidag5,
         name: "HIST2",
         type: "HIST",
         description: "Historian for queue SCANNER2 (bca-2)",
@@ -418,11 +486,11 @@ let agents = [
                 cbufsize: 200
             }
         },
-        devuid: 'bca-2',
+        devuid: uiddev2,
         status: "STOP",
     },
     {
-        uid: 'ag-234-abc-4',
+        uid: uidag6,
         name: "SCANNER3",
         type: "SCANNER",
         description: "Scanner for DESALPHA Line - ancillary",
@@ -457,10 +525,10 @@ let agents = [
         },
         dbs: [{ uid: 0, name: "s7-02.csv" }],
         status: "STOP",
-        devuid: 'abc-1',
+        devuid: uiddev1,
     },
     {
-        uid: 'ag-234-hst-3',
+        uid: uidag7,
         name: "HIST3",
         type: "HIST",
         description: "Historian from queue SCANNER3 (abc-1)",
@@ -497,10 +565,10 @@ let agents = [
             }
         },
         status: "STOP",
-        devuid: 'abc-1',
+        devuid: uiddev1,
     },
     {
-        uid: 'mdl-bys-001',
+        uid: uidag8,
         name: "BAYES01",
         type: "BAYES",
         description: "DECORTIN Pahse 1 Model",
@@ -511,10 +579,10 @@ let agents = [
             path: "/models/bayes/DECPAHSE1.json"
         },
         status: "STOP",
-        devuid: 'psvm-289-sqox6',
+        devuid: uiddev7,
     },
     {
-        uid: 'mdl-sysdyn-001',
+        uid: uidag9,
         name: "SYSDYN01",
         type: "SYSDYN",
         description: "FREEZE DRYING Model",
@@ -525,10 +593,10 @@ let agents = [
             path: "/models/bayes/LYOMODEL01.json"
         },
         status: "STOP",
-        devuid: 'psvm-100-sqox6',
+        devuid: uiddev8,
     },
     {
-        uid: 'rec-prc-001',
+        uid: uidag10,
         name: "REC-DEC-01",
         type: "RECORDER",
         description: "DECORTIN Pahse 1 Recorder",
@@ -539,10 +607,10 @@ let agents = [
             path: "/models/recorders/DECPAHSE1.json"
         },
         status: "STOP",
-        devuid: 'kvz-1',
+        devuid: uiddev5,
     },
     {
-        uid: 'rec-prc-002',
+        uid: uidag11,
         name: "REC-DEC-02",
         type: "RECORDER",
         description: "DECORTIN Pahse 2 Recorder",
@@ -553,10 +621,10 @@ let agents = [
             path: "/models/recorders/DECPAHSE2.json"
         },
         status: "STOP",
-        devuid: 'jhm-289-pod6',
+        devuid: uiddev6,
     },
     {
-        uid: 'play-prc-002',
+        uid: uidag12,
         name: "PLAY-DEC-02",
         type: "PLAYER_FREEZE-DRYER",
         description: "DECORTIN Pahse 2 Player",
@@ -567,7 +635,7 @@ let agents = [
             path: "/models/recorders/DECPAHSE2.json"
         },
         status: "STOP",
-        devuid: 'lrn-100-sqox6',
+        devuid: uiddev9,
     }
 ]
 
@@ -582,327 +650,315 @@ let companies = [
 
 let plants = [
     {
-        uid: 'plant-1',
+        uid: uidplant1,
         company: companyid,
         name: 'PLANT-001',
         lastmodified: "2022-06-30T10:00:00",
-        description: "Pabianice Plant",
-        lat: 51.66446000,
-        lon: 19.35473000,
+        description: "Rome Plant",
+        lat: 41.67167,
+        lon: 12.51118,
         image: 'PLANT-001.jpg',
-        geojson: {
-                type: "Feature",
-                properties: {
-                    name: 'Pabianice',
-                },
-                geometry: {
-                        "type": "Polygon",
-                        "coordinates":[
-                            [
-                                [19.354848014045043, 51.66443335292989],
-                                [19.355073319591117, 51.666170204900865],
-                                [19.35728345970976, 51.66608369660821],
-                                [19.357036696492624, 51.66433353182777],
-                                [19.354848014045043, 51.66443335292989]
-                            ]
-                        ]
-                    }
-                },
         label: 'PL1',
-        address: 'Pabianice, ul G. Zapolskej, Poland',
+        address: 'Roma RM, IT',
         color: '#FF6188', // RED SOFT
     },
     {
-        uid: 'plant-2',
+        uid: uidplant2,
         name: 'PLANT-002',
         company: companyid,
         lastmodified: "2022-06-30T10:00:00",
-        description: "Tulsa Plant",
-        lat: 36.153798,
-        lon: -95.992403,
+        description: "Pescara Plant",
+        lat: 42.29315,
+        lon: 14.02623,
         image: 'PLANT-002.jpg',
-        geojson: {
-            type: 'Feature',
-            properties: {
-                name: 'Tulsa',
-            },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [
-                    [
-                        [-95.99559173192402, 36.1541521183423],
-                        [-95.99661474440686, 36.15611617078741],
-                        [-95.99439821736071, 36.156859560981566],
-                        [-95.99337520487785, 36.154978127701135],
-                        [-95.99559173192402, 36.1541521183423],
-                    ],
-                ],
-            },
-        },
         label: 'PL2',
-        address: 'Tulsa, OK, USA',
+        address: 'Pescara PE, IT',
         color: '#B9DCCC', // BLUE SOFT
-    },
-    {
-        uid: 'plant-3',
-        name: 'PLANT-003',
-        company: companyid,
-        lastmodified: "2022-06-30T10:00:00",
-        description: "Latina Plant",
-        lat: 41.46614000,
-        lon: 12.90430000,
-        image: 'PLANT-003.jpg',
-        geojson: {
-            type: 'Feature',
-            properties: {
-                name: 'Latina',
-            },
-            geometry: {
-                type: 'Polygon',
-                coordinates: [
-                    [
-                        [12.89949347797811, 41.46667058423355],
-                        [12.901102803307218, 41.46683137517564],
-                        [12.901167176320381, 41.46649371373669],
-                        [12.900330327149247, 41.46588270285339],
-                        [12.899514935649165, 41.46647763457669],
-                        [12.89949347797811, 41.46667058423355],
-                    ],
-                ],
-            },
-        },
-        label: 'PL3',
-        address: 'Borgo Santa Maria, LT',
-        color: '#49CDA8', // TEAL
     }
 ]
 
 let departments = [
     {
-        uid: 'dept-1',
+        uid: uiddept1,
         name: 'DEPT-001',
         lastmodified: "2022-06-30T10:00:00",
         description: "Sterile Production",
-        plant: 'plant-1'
+        plant: uidplant1
     },
     {
-        uid: 'dept-2',
+        uid: uiddept2,
         name: 'DEPT-002',
         lastmodified: "2022-06-30T10:00:00",
         description: "Sterile Production New",
-        plant: 'plant-2'
+        plant: uidplant2
     },
     {
-        uid: 'dept-3',
+        uid: uiddept3,
         name: 'DEPT-003',
         lastmodified: "2022-06-30T10:00:00",
         description: "Oral Solid Production",
-        plant: 'plant-2'
+        plant: uidplant2
     },
     {
-        uid: 'dept-4',
+        uid: uiddept4,
         name: 'DEPT-004',
         lastmodified: "2022-06-30T10:00:00",
         description: "Oral Solid Production New",
-        plant: 'plant-3'
+        plant: uidplant2
     }
 ]
 
 let lines = [
     {
-        uid: 'line-1',
+        uid: uidline1,
         name: 'LINE-001',
         lastmodified: "2022-06-30T10:00:00",
         description: "DESALPHA Line",
-        department: 'dept-1'
+        department: uiddept1
     },
     {
-        uid: 'line-2',
+        uid: uidline2,
         name: 'LINE-002',
         lastmodified: "2022-06-30T10:00:00",
         description: "NOVOMIXIN Line",
-        department: 'dept-2'
+        department: uiddept2
     },
     {
-        uid: 'line-3',
+        uid: uidline3,
         name: 'LINE-003',
         lastmodified: "2022-06-30T10:00:00",
         description: "CERINOL Line",
-        department: 'dept-3'
+        department: uiddept3
     },
     {
-        uid: 'line-4',
+        uid: uidline4,
         name: 'LINE-004',
         lastmodified: "2022-06-30T10:00:00",
         description: "CERINOL Line New",
-        department: 'dept-4'
+        department: uiddept4
     }
 ]
 
 let machines = [
     {
-        uid: 'mach-1',
+        uid: uidmach1,
         name: "AUT-01",
         description: "Autoclave Fedegari",
-        line: 'line-1',
+        line: uidline1,
         type: "AUTOCLAVE",
         manufacturer: "FEDEGARI",
         model: "XFOAF7/Q253",
         room: "G041",
-        agent: 'ag-234-abc-1',
+        agent: uidag1,
+        localization: {
+            lat: 42.29315 -deltacoord,
+            lon: 14.02623,
+        }
     },
     {
-        uid: 'mach-2',
+        uid: uidmach2,
         name: "PRP-01",
         description: "Preparatore",
-        line: 'line-1',
+        line: uidline1,
         type: "PREPARATORE",
         manufacturer: "Intertech",
         model: "010",
         room: "G040",
-        agent: 'ag-234-abc-1'
+        agent: uidag1,
+        localization: {
+            lat: 42.29315 + deltacoord,
+            lon: 14.02623,
+        }
     },
     {
-        uid: 'mach-3',
+        uid: uidmach3,
         name: "INF-01",
         description: "Infialatrice Pharmasiena",
-        line: 'line-1',
+        line: uidline1,
         type: "INFIALATRICE",
         manufacturer: "PHARMASIENA",
         model: "A6-FC",
         room: "G043",
-        agent: 'ag-234-abc-11'
+        agent: uidag2,
+        localization: {
+            lat: 42.29315,
+            lon: 14.02623 - deltacoord,
+        }
     },
     {
-        uid: 'mach-4',
+        uid: uidmach4,
         name: "LIO-01",
         description: "Liofilizzatore IMA",
-        line: 'line-01',
+        line: uidline1,
         type: "LIOFILIZZATORE",
         manufacturer: "IMA",
         model: "LYOFAST 25",
         room: "G044",
-        agent: 'ag-234-abc-1'
+        agent: uidag1,
+        localization: {
+            lat: 42.29315,
+            lon: 14.02623 + deltacoord,
+        }
     },
     {
-        uid: 'mach-5',
+        uid: uidmach5,
         name: "ITU-01",
         description: "Test filtri Pall",
-        line: 'line-1',
+        line: uidline1,
         type: "FILTERTEST",
         manufacturer: "PALL",
         model: "ACQUAWIT IV",
         room: "G038",
-        agent: 'ag-234-abc-11'
+        agent: uidag2,
+        localization: {
+            lat: 42.29315 + deltacoord,
+            lon: 14.02623 + deltacoord,
+        }
     },
     {
-        uid: 'mach-6',
+        uid: uidmach6,
         name: "STE-01",
         description: "Forno De Lama",
-        line: 'line-1',
+        line: uidline1,
         type: "FORNO",
         manufacturer: "DE LAMA",
         model: "DLST/L",
         room: "G041",
-        agent: 'ag-234-abc-11'
+        agent: uidag2,
+        localization: {
+            lat: 42.29315 + deltacoord,
+            lon: 14.02623 - deltacoord,
+        }
     },
     {
-        uid: 'mach-7',
+        uid: uidmach7,
         name: "UTA-01-1",
         description: "Unita Trattamento Aria",
-        line: 'line-1',
+        line: uidline1,
         type: "UTA",
         manufacturer: "EMI RAD",
         model: "MXC010",
         room: "G0002",
-        agent: 'ag-234-abc-2'
+        agent: uidag4,
+        localization: {
+            lat: 42.29315 - deltacoord,
+            lon: 14.02623 - deltacoord,
+        }
     },
     {
-        uid: 'mach-8',
+        uid: uidmach8,
         name: "AUT-02",
         description: "Autoclave Fedegari",
-        line: 'line-2',
+        line: uidline2,
         type: "AUTOCLAVE",
         manufacturer: "FEDEGARI",
         model: "XFOAF9/QST",
         room: "H014",
-        agent: 'ag-234-abc-2'
+        agent: uidag4,
+        localization: {
+            lat: 41.67167 + deltacoord,
+            lon: 12.51118 + deltacoord,
+        }
     },
     {
-        uid: 'mach-9',
+        uid: uidmach9,
         name: "PRP-02",
         description: "Preparatore",
-        line: 'line-2',
+        line: uidline2,
         type: "PREPARATORE",
         manufacturer: "Intertech",
         model: "010",
         room: "H015",
-        agent: 'ag-234-abc-11'
+        agent: uidag2,
+        localization: {
+            lat: 41.67167 + deltacoord,
+            lon: 12.51118,
+        }
     },
     {
-        uid: 'mach-10',
+        uid: uidmach10,
         name: "INF-02",
         description: "Infialatrice Pharmasiena",
-        line: 'line-2',
+        line: uidline2,
         type: "INFIALATRICE",
         manufacturer: "PHARMASIENA",
         model: "A6-FC",
         room: "H028",
-        agent: 'ag-234-abc-2'
+        agent: uidag4,
+        localization: {
+            lat: 41.67167 - deltacoord,
+            lon: 12.51118,
+        }
     },
     {
-        uid: 'mach-11',
+        uid: uidmach11,
         name: "LIO-02",
         description: "Liofilizzatore IMA",
-        line: 'line-2',
+        line: uidline2,
         type: "LIOFILIZZATORE",
         manufacturer: "IMA",
         model: "LYOFAST 25",
         room: "H028",
-        agent: 'ag-234-abc-2'
+        agent: uidag4,
+        localization: {
+            lat: 41.67167,
+            lon: 12.51118 + deltacoord,
+        }
     },
     {
-        uid: 'mach-12',
+        uid: uidmach12,
         name: "ITU-02",
         description: "Test filtri Pall",
-        line: 'line-1',
+        line: uidline1,
         type: "FILTERTEST",
         manufacturer: "PALL",
         model: "ACQUAWIT IV",
         room: "H015",
-        agent: 'ag-234-abc-4'
+        agent: uidag6,
+        localization: {
+            lat: 41.67167 - deltacoord,
+            lon: 12.51118 + deltacoord,
+        }
     },
     {
-        uid: 'mach-13',
+        uid: uidmach13,
         name: "STE-02",
         description: "Forno De Lama",
-        line: 'line-2',
+        line: uidline2,
         type: "FORNO",
         manufacturer: "DE LAMA",
         model: "DLST/L",
         room: "H014",
-        agent: 'ag-234-abc-4'
+        agent: uidag6,
+        localization: {
+            lat: 41.67167,
+            lon: 12.51118 - deltacoord,
+        }
     },
     {
-        uid: 'mach-14',
+        uid: uidmach14,
         name: "UTA-02-1",
         description: "Unita Trattamento Aria",
-        line: 'line-2',
+        line: uidline2,
         type: "UTA",
         manufacturer: "EMI RAD",
         model: "MXC010",
         room: "H-TECH",
-        agent: 'ag-234-abc-4'
+        agent: uidag6,
+        localization: {
+            lat: 41.67167 + deltacoord,
+            lon: 12.51118 - deltacoord,
+        }
     }
 ]
 
 let controllers = [
     {
-        uid: 'cntl-1',
+        uid: uidcntl1,
         name: "CNTL-AUT-01",
         ctype: "",
         model: "Controller Thema4",
-        machine: 'mach-1',
+        machine: uidmach1,
         manufacturer: "FEDEGARI",
         ip: "10.1.234.67",
         port: 502,
@@ -911,11 +967,11 @@ let controllers = [
         driver: "modbus",
     },
     {
-        uid: 'cntl-2',
+        uid: uidcntl2,
         name: "CNTL-PRP-01",
         ctype: "",
         model: "Controller Thema4",
-        machine: "mach-2",
+        machine: uidmach2,
         manufacturer: "",
         ip: "10.1.234.69",
         port: 502,
@@ -924,11 +980,11 @@ let controllers = [
         driver: "modbus",
     },
     {
-        uid: 'cntl-3',
+        uid: uidcntl3,
         name: "CNTL-INF-01",
         ctype: "",
         model: "Controller Siemens S7 300",
-        machine: "mach-3",
+        machine: uidmach3,
         manufacturer: "SIEMENS",
         ip: "10.1.234.68",
         port: 102,
@@ -938,11 +994,11 @@ let controllers = [
 
     },
     {
-        uid: 'cntl-4',
+        uid: uidcntl4,
         name: "CNTL-LIO-01",
         ctype: "",
         model: "Controller IMA",
-        machine: "mach-4",
+        machine: uidmach4,
         manufacturer: "IMA",
         ip: "10.1.234.70",
         port: 1433,
@@ -951,11 +1007,11 @@ let controllers = [
         driver: "sql",
     },
     {
-        uid: 'cntl-5',
+        uid: uidcntl5,
         name: "CNTL-ITU-01",
         ctype: "",
         model: "Controller Pall",
-        machine: "mach-5",
+        machine: uidmach5,
         manufacturer: "PALL",
         ip: "10.1.234.78",
         port: 502,
@@ -964,11 +1020,11 @@ let controllers = [
         driver: "modbus",
     },
     {
-        uid: 'cntl-6',
+        uid: uidcntl6,
         name: "CNTL-STE-01",
         ctype: "",
         model: "Controller De Lama",
-        machine: "mach-6",
+        machine: uidmach6,
         manufacturer: "DE LAMA",
         ip: "10.1.234.80",
         port: 7777,
@@ -977,11 +1033,11 @@ let controllers = [
         driver: "delama",
     },
     {
-        uid: 'cntl-7',
+        uid: uidcntl7,
         name: "CNTL-UTA-01",
         ctype: "",
         model: "Controller Honeywell",
-        machine: "mach-7",
+        machine: uidmach7,
         manufacturer: "HONEYWELL",
         ip: "10.1.234.90",
         port: 47808,
@@ -990,11 +1046,11 @@ let controllers = [
         driver: "bacnet",
     },
     {
-        uid: 'cntl-8',
+        uid: uidcntl8,
         name: "CNTL-AUT-02",
         ctype: "",
         model: "Controller Thema4",
-        machine: 'mach-8',
+        machine: uidmach8,
         manufacturer: "FEDEGARI",
         ip: "10.1.234.67",
         port: 502,
@@ -1003,11 +1059,11 @@ let controllers = [
         driver: "modbus",
     },
     {
-        uid: 'cntl-9',
+        uid: uidcntl9,
         name: "CNTL-PRP-02",
         ctype: "",
         model: "Controller Thema4",
-        machine: "mach-9",
+        machine: uidmach9,
         manufacturer: "",
         ip: "10.1.234.69",
         port: 502,
@@ -1016,11 +1072,11 @@ let controllers = [
         driver: "modbus",
     },
     {
-        uid: 'cntl-10',
+        uid: uidcntl10,
         name: "CNTL-INF-02",
         ctype: "",
         model: "Controller Siemens S7 300",
-        machine: "mach-10",
+        machine: uidmach10,
         manufacturer: "SIEMENS",
         ip: "10.1.234.68",
         port: 102,
@@ -1030,11 +1086,11 @@ let controllers = [
 
     },
     {
-        uid: 'cntl-11',
+        uid: uidcntl11,
         name: "CNTL-LIO-02",
         ctype: "",
         model: "Controller IMA",
-        machine: "mach-11",
+        machine: uidmach11,
         manufacturer: "IMA",
         ip: "10.1.234.70",
         port: 1433,
@@ -1043,11 +1099,11 @@ let controllers = [
         driver: "sql",
     },
     {
-        uid: 'cntl-12',
+        uid: uidcntl12,
         name: "CNTL-ITU-02",
         ctype: "",
         model: "Controller Pall",
-        machine: "mach-12",
+        machine: uidmach12,
         manufacturer: "PALL",
         ip: "10.1.234.78",
         port: 502,
@@ -1056,11 +1112,11 @@ let controllers = [
         driver: "modbus",
     },
     {
-        uid: 'cntl-13',
+        uid: uidcntl13,
         name: "CNTL-STE-02",
         ctype: "",
         model: "Controller De Lama",
-        machine: "mach-13",
+        machine: uidmach13,
         manufacturer: "DE LAMA",
         ip: "10.1.234.80",
         port: 7777,
@@ -1069,11 +1125,11 @@ let controllers = [
         driver: "delama",
     },
     {
-        uid: 'cntl-14',
+        uid: uidcntl14,
         name: "CNTL-UTA-02",
         ctype: "",
         model: "Controller Honeywell",
-        machine: "mach-14",
+        machine: uidmach14,
         manufacturer: "HONEYWELL",
         ip: "10.1.234.90",
         port: 47808,
@@ -1288,7 +1344,7 @@ function getPointLims(type) {
     }
     return [hhlim,hlim, llim,lllim]
 }
-function makeDataPointsUid(driver, agent, device, controller, machine, db, num = 30) {
+function makeDataPointsUid(driver, agent, device, controller, machine, db, lon, lat, num = 30) {
     const points = []
     for (let i = 0; i < num; i++) {
         const point = {
@@ -1313,6 +1369,8 @@ function makeDataPointsUid(driver, agent, device, controller, machine, db, num =
             device: device,
             controller: controller,
             machine: machine,
+            lon: lon,
+            lat: lat,
             db: db,
             lastvalue: "",
             lasttime: "",
@@ -1396,6 +1454,8 @@ const generateDataPoints = () => {
             const index = Math.floor(Math.random() * agMachines.length)
             const machine = agMachines[index]
             const muid = machine.uid
+            const lon = machine.localization ? machine.localization.lon : null
+            const lat = machine.localization ? machine.localization.lat : null
             // GET CONTROLLER FOR MACHINE
             const cltrs = controllers.filter((item) => item.machine == muid)
             let cuid = ''
@@ -1403,7 +1463,7 @@ const generateDataPoints = () => {
                 cuid = cltrs[0].uid
             const index2 = Math.floor(Math.random() * dataAgents[i].dbs.length)
             const dbuid = dataAgents[i].dbs[index2].uid
-            const points = makeDataPointsUid(driver, agentuid, devuid, cuid, muid, dbuid)
+            const points = makeDataPointsUid(driver, agentuid, devuid, cuid, muid, dbuid, lon, lat)
             array.push.apply(array, points)
         }
     }
