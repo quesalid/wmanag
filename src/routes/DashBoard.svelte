@@ -195,21 +195,34 @@
 		$pointsdata = $pointsdata.filter((item:any)=>item.type != 'ALARM')
 		console.log('ALARMS DATA',$alarmsdata)
 
-		// SET UP MARKERS
+		const findFreeOffset:any = (lon:any,lat:any,machine='')=>{
+			for(let i=0;i<$alarmsdata.length;i++){
+				const m = $alarmsdata[i]
+				const foundMarker = markers.find((item:any)=>item.lngLat[0] == lon && item.lngLat[1] == lat)
+				if(foundMarker){
+					let lonoffset = 0.000015
+					lon+=lonoffset
+				}else{
+					break
+				}
+			}
+			console.log("FREE OFFSET",lon,lat,machine)
+			return [lon,lat]
+		}
+		
+		const latoffset = 0.0003
 			for(let i=0; i<$alarmsdata.length;i++){
 				const m = $alarmsdata[i]
-				let lon = m.lon?m.lon:initCenter[0]
-				let lat = m.lat?m.lat:initCenter[1]
-				// if lon lat overlap then add a small offset
-				if(markers.find((item:any)=>item.lngLat[0] == lon && item.lngLat[1] == lat)){
-					lon = lon + 0.00003
-					lat = lat + 0.00003
-				}
+				let ilon = m.lon?m.lon:initCenter[0]
+				let ilat = m.lat?m.lat:initCenter[1]
+				const [lon,lat] = findFreeOffset(ilon,ilat,m.machineName)
+				
 				markers.push({
 					lngLat:[lon,lat],
 					name:m.tag,
 					description:m.description,
 					uid: m.uid,
+					machine:m.machineName,
 					marker:null
 				})
 			}

@@ -205,7 +205,7 @@ let profiles = [
                 ]
             }
         ],
-        map: { center: { lat: 42.01, lng: 12.30 }, zoom: 14.5 }
+        map: { center: { lat: 42.01, lng: 12.30 }, zoom: 16 }
     },
     {
         uid: 'dd7b65da-66b8-7aa3-965d-abd4bc48a59a',

@@ -139,6 +139,7 @@ const MyFlyTo = (lon:any=null,lat:any=null,zoom:any=null) => {
 		    <div class="text-sm font-bold bg-slate-50 p-2 border-2 border-solid border-grey">
                 <a class="text-stone-900" href="#">{m.name}</a>
              </div>
+            <div class="text-sm">{m.machine}</div>
 		    <div class="text-sm">{m.description}</div>
         </div>
 	  </Popup>

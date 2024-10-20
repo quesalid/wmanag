@@ -129,7 +129,7 @@ let devices = [
         plant: uidplant2,
         localization: {
             department: uiddept2,
-            line: uidline2,
+            line: uidline3,
         },
         host: "10.112.1.71",
         port: 3000,
