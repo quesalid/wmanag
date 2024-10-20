@@ -30,8 +30,9 @@ export let showheader = true
 // MAP EXPORTS
 //export let mapStyle:any ='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
 export let mapStyle:any =`https://api.maptiler.com/maps/streets-v2/style.json?key=${PUBLIC_MAPTILER_KEY}`
-export let initZoom:any = $user.profile.map.zoom;
-export let initCenter:any= [$user.profile.map.center.lng, $user.profile.map.center.lat]
+export let initZoom:any = 10
+export let initCenter:any= [-0.12755,51.507222]
+export let zoomfactor = 3
 // DATA EXPORTS
 export let mapdata:any = []
 export let markers:any = []
@@ -53,10 +54,7 @@ onMount(async () => {
 			group= ret.data
 			component = MarkerClickedPlants
 			modalId = "markerClickedDivPlants"
-			if($user.profile.map){
-				initZoom = $user.profile.map.zoom
-				initCenter = [$user.profile.map.center.lng, $user.profile.map.center.lat]
-			}
+			map.flyTo({center: initCenter,zoom: initZoom})
 			// dispacth event to listen for profile base coords
 			const modalEdit = document.getElementById(modalId)
 			const profileCoords = new CustomEvent("profilecoords", { detail: {zoom: initZoom,center:initCenter} })
@@ -75,19 +73,28 @@ onMount(async () => {
 					if(found){
 						const lon = found.lon?found.lon:initCenter[0]
 						const lat = found.lat?found.lat:initCenter[1]
-						map.flyTo({center: [lon, lat],zoom: initZoom+3,})
+						map.flyTo({center: [lon, lat],zoom: initZoom+zoomfactor,})
 					}
 				})
 				mapManager.addEventListener("alarmack",async (e:any)=>{
-					const uid = e.detail
+					const uid = e.detail.uid
+					const action = e.detail.action
 					// FIND THE UID IN MARKERS
 					const found = markers.find((m:any)=>m.uid == uid)
 					if(found){
-						console.log("MARKER ACKNOWLEDGED",found.marker)
-						// delete blink class from marker
-						found.marker._element.classList.remove('animate-blink-5')
-						// add orange color to marker
-						found.marker._element.classList.add('bg-orange-400')
+						switch(action){
+							case 'ACKNOWLEDGE':
+								// find data in mapdata
+								const foundData = mapdata.find((m:any)=>m.uid == uid)
+								console.log('foundData',foundData)
+								// set value to 'ACK'
+								foundData.value = 'ACK'
+								// delete blink class from marker
+								found.marker._element.classList.remove('animate-blink-5')
+								// add orange color to marker
+								found.marker._element.classList.add('bg-orange-400')
+								break;
+						}
 					}
 				})
 			}
@@ -118,8 +125,8 @@ onMount(async () => {
 			<Map bind:group={group} 
 				zoom=14 
 				modalId={modalId} 
-				bind:initZoom={initZoom}
-				bind:initCenter={initCenter}
+				initZoom={initZoom}
+				initCenter={initCenter}
 				bind:mapStyle={mapStyle}
 				bind:map={map}
 				bind:markers={markers}/>

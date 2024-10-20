@@ -61,7 +61,7 @@
 		return colorScheme
 	}
 
-	// Get configured app windows
+	// Get configured app windows from profile
 	let alarmapp = findWindow('Alarms')
 	const donutapp = findWindow('Donut')
 	const mapapp = findWindow('Map')
@@ -82,6 +82,10 @@
 	let mapwidth  = mapapp && mapapp.width? mapapp.width: '600px'
 	let maptop = mapapp && mapapp.top? mapapp.top:'10px'
 	let mapleft = mapapp && mapapp.left? mapapp.left:'10px'
+	let mapcenter = mapapp && mapapp.params && mapapp.params.center? [mapapp.params.center.lon,mapapp.params.center.lat]:[-0.12755,51.507222]
+	let mapzoom = mapapp && mapapp.params && mapapp.params.zoom? mapapp.params.zoom: 10
+	let mapzoomfactor = mapapp && mapapp.params && mapapp.params.zoomfactor? mapapp.params.zoomfactor: 3
+	let markeroffset = mapapp && mapapp.params && mapapp.params.markeroffset? mapapp.params.markeroffset: 0.000015
 
 	let monitorheight = monitorapp && monitorapp.height? monitorapp.height:'max-content'
 	let monitorwidth  = monitorapp && monitorapp.width? monitorapp.width: 'max-content'
@@ -200,7 +204,7 @@
 				const m = $alarmsdata[i]
 				const foundMarker = markers.find((item:any)=>item.lngLat[0] == lon && item.lngLat[1] == lat)
 				if(foundMarker){
-					let lonoffset = 0.000015
+					let lonoffset = markeroffset
 					lon+=lonoffset
 				}else{
 					break
@@ -210,7 +214,6 @@
 			return [lon,lat]
 		}
 		
-		const latoffset = 0.0003
 			for(let i=0; i<$alarmsdata.length;i++){
 				const m = $alarmsdata[i]
 				let ilon = m.lon?m.lon:initCenter[0]
@@ -373,8 +376,11 @@
 							{titlecolor}
 							{titleweight}
 							{bodycolor}
-							mapdata={$alarmsdata}
+							bind:mapdata={$alarmsdata}
 							bind:markers={markers}
+							initZoom = {mapzoom}
+							initCenter = {mapcenter}
+							zoomfactor = {mapzoomfactor}
 						/>
 					{/if}
 					{#if Window.id == 'Alarms'}

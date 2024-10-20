@@ -11,7 +11,7 @@ let users = [
         permissions: [],
         role: 'SADMIN',
         status: 'active',
-        confitmationCode: null,
+        confirmationCode: null,
         createdAt: '2024-02-25T17:23:06.705859',
         updatedAt: '2024-02-25T17:23:06.705859'
     },
@@ -24,7 +24,7 @@ let users = [
         permissions: [],
         role: 'USER',
         status: 'active',
-        confitmationCode: null,
+        confirmationCode: null,
         createdAt: '2024-02-25T17:23:06.705859',
         updatedAt: '2024-02-25T17:23:06.705859'
     },
@@ -37,7 +37,7 @@ let users = [
         permissions: [],
         role: 'ADMIN',
         status: 'active',
-        confitmationCode: null,
+        confirmationCode: null,
         createdAt: '2024-02-25T17:23:06.705859',
         updatedAt: '2024-02-25T17:23:06.705859'
     },
@@ -50,7 +50,7 @@ let users = [
         permissions: [],
         role: 'SADMIN',
         status: 'active',
-        confitmationCode: null,
+        confirmationCode: null,
         createdAt: '2024-02-25T17:23:06.705859',
         updatedAt: '2024-02-25T17:23:06.705859'
     },
@@ -63,7 +63,7 @@ let users = [
         permissions: [],
         role: 'SADMIN',
         status: 'active',
-        confitmationCode: null,
+        confirmationCode: null,
         createdAt: '2024-02-25T17:23:06.705859',
         updatedAt: '2024-02-25T17:23:06.705859'
     }
@@ -89,7 +89,7 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
-                    { id: 'Map', top: '0px', left: '10px', width: '600px', width: '850px' },
+                    { id: 'Map', top: '0px', left: '10px', width: '600px', width: '850px', params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor:3 } },
                     { id: 'Alarms', top: '0px', left: '10px',height:'350px', width:'750px' }
                 ]
             },
@@ -134,7 +134,7 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     { id: 'Monitor', top: '290px', left: '10px',height:'320px' },
-                    { id: 'Map', top: '0px', left: '10px',height:'340px' },
+                    { id: 'Map', top: '0px', left: '10px', height: '340px', params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor:3 } },
                     { id: 'Alarms', top: '0px', left: '10px', height: '300px', width: '850px' },
                     { id: 'Communication', top: '298px', left: '1020px', height: '300px', width:'450px' }
                 ]
@@ -180,8 +180,8 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
-                    { id: 'Map', top: '0px', left: '10px' },
-                    { id: 'Alarms', top: '0px', left: '10px', height: '300px', width: '850px' },
+                    { id: 'Map', top: '0px', left: '10px', params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 } },
+                    { id: 'Alarms', top: '0px', left: '10px', height: '350px', width: '850px' },
                     { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
                 ]
             },
@@ -227,7 +227,7 @@ let profiles = [
                 colorScheme: { wincolor:'#eaf5eb'},
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
-                    { id: 'Map', top: '0px', left: '10px' },
+                    { id: 'Map', top: '0px', left: '10px', params: { center: { lat: 42.01, lon: 12.30 }, zoom: 14.5, zoomfactor:3} },
                     { id: 'Alarms', top: '0px', left: '10px', height: '300px', width:'850px' },
                     { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
                 ]

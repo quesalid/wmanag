@@ -169,7 +169,7 @@ const onAlarmPointClickAck = (ev) => {
     console.log("onAlarmPointClickAck", target,uid)
     // SEND ALARM ACKNOWLEDGE CLICKED EVENT TO MAP MANAGER
     const mapManager = document.getElementById('mapManagerId')
-    const alarmAckClicked = new CustomEvent("alarmack", { detail: uid })
+    const alarmAckClicked = new CustomEvent("alarmack", { detail: { uid: uid, action: 'ACKNOWLEDGE' } })
     mapManager?.dispatchEvent(alarmAckClicked)
 }
 const onAlarmClickLocation = (ev) => {
@@ -179,6 +179,16 @@ const onAlarmClickLocation = (ev) => {
     const mapManager = document.getElementById('mapManagerId')
     const alarmLocationClicked = new CustomEvent("alarmlocation", { detail: uid })
     mapManager?.dispatchEvent(alarmLocationClicked)
+}
+
+const onAlarmCheck = (ev) => {
+    const target = ev.target
+    const uid = target.getAttribute("data-uid")
+    console.log("onAlarmCheck", uid, target.checked)
+    // SEND ALARM FLYBY CLICKED EVENT TO MAP MANAGER
+    const mapManager = document.getElementById('mapManagerId')
+    const alarmCheckClicked = new CustomEvent("alarmcheck", { detail: uid })
+    mapManager?.dispatchEvent(alarmCheckClicked)
 }
 // ACCESSORS
 
@@ -658,11 +668,16 @@ export function getDataPointColumnReduced() {
 
 let pointdataalarmcolumns = [
     {
+        header: '',
+        id: 'selected',
+        renderdef: { type: 'checkbox', params: { onClick: onAlarmCheck } }
+    },
+    {
         header: 'Tag',
         accessor: 'tag',
     },
     {
-        header: 'Ack',
+        header: 'Status',
         accessor: (item) => item.lastvalue,
         //accessor: voidfunction,
         renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;z-index:-1; position:relative;', onClick: onAlarmPointClickAck } }

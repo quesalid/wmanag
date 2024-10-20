@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
-  import { addSortBy,addPagination,addTableFilter } from 'svelte-headless-table/plugins';
+  import { addSortBy,addPagination,addTableFilter,addSelectedRows } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
   import ImageRenderDynamic from './ImageRenderDynamic.svelte'
   import CheckRender from './CheckRender.svelte'
@@ -62,12 +62,15 @@
 			}
 			break;
 		  case 'checkbox':
-			ret = ({row}:any)=>{
+			ret = ({row}:any,{pluginStates}:any)=>{
 				const keys = Object.keys(row.original)
 				const key = keys.find((k)=>k==idtag)
 				params.uid = row.original['uid']
 				if(key)
 					params.value = row.original[key]
+			    const { isSomeSubRowsSelected, isSelected } = pluginStates.select.getRowState(row);
+				params.isSelected = isSelected
+				params.isSomeSubRowsSelected = isSomeSubRowsSelected
 				return createRender(CheckRender,{...params})
 			}
 			break;
@@ -133,38 +136,20 @@
   //const datarows = readable(data);
 
   const tableOptions:any = {}
-  
 	  tableOptions.sort = addSortBy()
-  
 	  tableOptions.tableFilter = addTableFilter()
+	  tableOptions.select = addSelectedRows()
 
   const table = createTable(data, tableOptions);
 
   const columns = table.createColumns(getColumns(datacolumns))
 
   const { visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
-  
   const { sortKeys } = pluginStates.sort;
-  
   const { filterValue } = pluginStates.tableFilter;
+  const { selectedDataIds } = pluginStates.select;
   
  
-
-  
-
- /*const table = createTable(data, {
-    sort: addSortBy(),
-	page: addPagination(),
-	tableFilter: addTableFilter(),
-  });
-
-  const columns = table.createColumns(getColumns(datacolumns))
-
-  const { visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
-  const { sortKeys } = pluginStates.sort;
-  const { filterValue } = pluginStates.tableFilter;
-  const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;*/
-
  
 
 </script>
