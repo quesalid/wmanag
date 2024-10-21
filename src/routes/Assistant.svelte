@@ -15,9 +15,12 @@
    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
    // MANAGER
    import {AssistantManager} from '../lib/components/contents'
-   import Switch from "../lib/components/switch/Switch.svelte"
+   // UTILITY
+   import { getGroups} from '../lib/script/utils.js'
    
 
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
 
 	onMount(async () => {
 		center.init([
@@ -92,7 +95,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 		</div>

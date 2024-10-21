@@ -1421,4 +1421,32 @@ export let getWidgetsByModule = (module) => {
     return moduleWidgets
 }
 
+const defaultGroups  = [
+    [
+        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
+        { icon: '/MONITOR.svg', text: `Monitor`, link:  '/monitor' },
+        { icon: '/BUILD.svg', text: `Build`, link: '/build' },
+    ], [
+        { icon: '/EDIT.svg', text: `Configure`, link:  '/configure' },
+        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+    ]
+]
+
+
+export let getGroups = (module, user) => {
+    // chcek if user has groups configuration
+    let groups = user.profile.topbar && user.profile.topbar.groups ? user.profile.topbar.groups : null
+    let clone = groups ? JSON.parse(JSON.stringify(groups)) : JSON.parse(JSON.stringify(defaultGroups))
+    // for each group
+    for (let i = 0; i < clone.length; i++) {
+        // for each item
+        for (let j = 0; j < clone[i].length; j++) {
+            clone[i][j].link =  '/' + module.toLowerCase() + clone[i][j].link
+        }
+    }
+    return clone
+}
+
+
+
         

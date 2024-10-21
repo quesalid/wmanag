@@ -33,6 +33,8 @@ export let mapStyle:any =`https://api.maptiler.com/maps/streets-v2/style.json?ke
 export let initZoom:any = 10
 export let initCenter:any= [-0.12755,51.507222]
 export let zoomfactor = 3
+export let pitch:any = 0;
+export let bearing:any = 0;
 // DATA EXPORTS
 export let mapdata:any = []
 export let markers:any = []
@@ -129,7 +131,9 @@ onMount(async () => {
 				initCenter={initCenter}
 				bind:mapStyle={mapStyle}
 				bind:map={map}
-				bind:markers={markers}/>
+				bind:markers={markers}
+				bind:pitch={pitch}
+				bind:bearing={bearing}/>
 		</div>
 	</WManag>
 </div>

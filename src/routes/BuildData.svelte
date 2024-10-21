@@ -22,7 +22,11 @@
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
    import {fromFlowToDb,fromGraphToFlow} from '../lib/script/flow/flowmap.js'
+   // UTILITY
+   import {getGroups} from '../lib/script/utils.js'
 
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
 
 	onMount(async () => {
 		center.init([
@@ -183,7 +187,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 		</div>

@@ -34,7 +34,7 @@ export let  groups = [
 		]
 	]
 
-const toggleNav = (ev:any)=> {
+/*const toggleNav = (ev:any)=> {
   const sidenav = document.getElementById("mySidenav")
   if(sidenav){
 		if(!$menu.expanded){
@@ -44,7 +44,7 @@ const toggleNav = (ev:any)=> {
 			sidenav.style.width = "0";
 		}
 	}
-}
+}*/
 
 
 </script>

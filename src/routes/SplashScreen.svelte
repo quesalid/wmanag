@@ -3,6 +3,26 @@
 // https://www.softether.org/
 
 import { navigate } from "svelte-routing";
+import {onMount} from "svelte"
+
+
+ const setOpacity:any = function(classname:any, opacity="0.5"){
+	 const el = document.getElementsByClassName(classname)
+	 console.log("SET OPACITY",el)
+	 // set the opacity of the elements
+	 for (let i = 0; i < el.length; i++) {
+		 el[i].style.opacity = opacity
+		 el[i].style.cursor = 'not-allowed'
+	 }
+ }
+
+ onMount(async () => {
+	  if(import.meta.env.MODE == 'production'){
+		 setOpacity('UP2CLONE')
+		 setOpacity('UP2AI')
+		 setOpacity('UP2LEARN')
+	  }
+ })
 
  const goToUp2Data:any = function(){
 	 
@@ -10,18 +30,28 @@ import { navigate } from "svelte-routing";
  }
 
  const goToUp2Clone:any = function(){
-	
-	 navigate(`/clonelogin`) 
+	 
+     if(import.meta.env.MODE == 'production'){
+		navigate(`/`)
+	 }
+	 else
+		navigate(`/clonelogin`) 
  }
 
  const goToUp2Ai:any = function(){
-	 
-	 navigate(`/ailogin`) 
+	  if(import.meta.env.MODE == 'production'){
+		navigate(`/`)
+	  }
+	 else
+		navigate(`/ailogin`) 
  }
 
  const goToUp2Learn:any = function(){
-	
-	 navigate(`/learnlogin`) 
+	  if(import.meta.env.MODE == 'production'){
+		navigate(`/`)
+	  }
+	 else
+		navigate(`/learnlogin`) 
  }
 
 

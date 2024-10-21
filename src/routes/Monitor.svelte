@@ -25,6 +25,12 @@
 			getEntityMain} from '../lib/script/apidataconfig.js'
    // STORE
    import { mock,module,user,avatar,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
+   // UTILITY
+   import {getGroups} from '../lib/script/utils.js'
+
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
+
    
    // EXPORT VARIABLES
    export let logoImage = "/ICO_UP2_DATA.png"
@@ -229,7 +235,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 

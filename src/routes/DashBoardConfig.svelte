@@ -19,6 +19,11 @@
    import {getWidgetsByModule} from '../lib/script/utils.js'
    // API
    import {setProfile} from '../lib/script/apisecurity.js'
+   // UTILITY
+   import {getGroups} from '../lib/script/utils.js'
+
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
   
 	let widgets:any
 	
@@ -108,7 +113,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 

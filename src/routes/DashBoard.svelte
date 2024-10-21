@@ -35,6 +35,12 @@
 			user,
 			getEntityNames,
 			family} from '../lib/ustore.js'
+
+   // UTILITY
+   import {getGroups} from '../lib/script/utils.js'
+
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
    
 	let plants:any = []
 	let devices:any = []
@@ -86,6 +92,8 @@
 	let mapzoom = mapapp && mapapp.params && mapapp.params.zoom? mapapp.params.zoom: 10
 	let mapzoomfactor = mapapp && mapapp.params && mapapp.params.zoomfactor? mapapp.params.zoomfactor: 3
 	let markeroffset = mapapp && mapapp.params && mapapp.params.markeroffset? mapapp.params.markeroffset: 0.000015
+	let mappitch = mapapp && mapapp.params && mapapp.params.pitch? mapapp.params.pitch: 0
+	let mapbearing = mapapp && mapapp.params && mapapp.params.bearing? mapapp.params.bearing: 0
 
 	let monitorheight = monitorapp && monitorapp.height? monitorapp.height:'max-content'
 	let monitorwidth  = monitorapp && monitorapp.width? monitorapp.width: 'max-content'
@@ -216,8 +224,8 @@
 		
 			for(let i=0; i<$alarmsdata.length;i++){
 				const m = $alarmsdata[i]
-				let ilon = m.lon?m.lon:initCenter[0]
-				let ilat = m.lat?m.lat:initCenter[1]
+				let ilon = m.lon?m.lon:mapcenter[0]
+				let ilat = m.lat?m.lat:mapcenter[1]
 				const [lon,lat] = findFreeOffset(ilon,ilat,m.machineName)
 				
 				markers.push({
@@ -342,7 +350,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 
@@ -381,6 +389,8 @@
 							initZoom = {mapzoom}
 							initCenter = {mapcenter}
 							zoomfactor = {mapzoomfactor}
+							pitch = {mappitch}
+							bearing = {mapbearing}
 						/>
 					{/if}
 					{#if Window.id == 'Alarms'}

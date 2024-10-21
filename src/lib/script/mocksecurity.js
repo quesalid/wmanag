@@ -89,7 +89,13 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
-                    { id: 'Map', top: '0px', left: '10px', width: '600px', width: '850px', params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor:3 } },
+                    {
+                        id: 'Map',
+                        top: '0px',
+                        left: '10px',
+                        width: '600px',
+                        params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
+                    },
                     { id: 'Alarms', top: '0px', left: '10px',height:'350px', width:'750px' }
                 ]
             },
@@ -113,7 +119,18 @@ let profiles = [
                 ]
             }
         ],
-        map: { center: { lat: 30, lng: -30 }, zoom: 1 }
+        topbar: {
+            groups: [
+                [
+                    { icon: '/DASHBOARD.svg', text: `Home`, link: '/' },
+                    { icon: '/MONITOR.svg', text: `Monitor`, link:  '/monitor' },
+                    { icon: '/BUILD.svg', text: `Build`, link:  '/build' },
+                ], [
+                    { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                    { icon: '/DEPLOY.svg', text: `Deploy`, link:  '/deploy' }
+                ]
+            ]
+        }
     },
     {
         uid: '667b658f-66ca-7aa3-965d-abd4bc22a59a',
@@ -134,7 +151,13 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     { id: 'Monitor', top: '290px', left: '10px',height:'320px' },
-                    { id: 'Map', top: '0px', left: '10px', height: '340px', params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor:3 } },
+                    {
+                        id: 'Map',
+                        top: '0px',
+                        left: '10px',
+                        height: '340px',
+                        params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch:45,bearing:-15.7 }
+                    },
                     { id: 'Alarms', top: '0px', left: '10px', height: '300px', width: '850px' },
                     { id: 'Communication', top: '298px', left: '1020px', height: '300px', width:'450px' }
                 ]
@@ -159,7 +182,6 @@ let profiles = [
                 ]
             }
         ],
-        map: { center: { lat: 41.9636, lng: 12.4975 }, zoom: 14.5 }
     },
     {
         uid: 'dd7b658f-66ca-7aa3-965d-abd4bc48a59a',
@@ -180,7 +202,12 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
-                    { id: 'Map', top: '0px', left: '10px', params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 } },
+                    {
+                        id: 'Map',
+                        top: '0px',
+                        left: '10px',
+                        params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 }
+                    },
                     { id: 'Alarms', top: '0px', left: '10px', height: '350px', width: '850px' },
                     { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
                 ]
@@ -205,7 +232,6 @@ let profiles = [
                 ]
             }
         ],
-        map: { center: { lat: 42.01, lng: 12.30 }, zoom: 16 }
     },
     {
         uid: 'dd7b65da-66b8-7aa3-965d-abd4bc48a59a',
@@ -227,7 +253,12 @@ let profiles = [
                 colorScheme: { wincolor:'#eaf5eb'},
                 windows: [
                     { id: 'Donut', top: '380px', left: '10px' },
-                    { id: 'Map', top: '0px', left: '10px', params: { center: { lat: 42.01, lon: 12.30 }, zoom: 14.5, zoomfactor:3} },
+                    {
+                        id: 'Map',
+                        top: '0px',
+                        left: '10px',
+                        params: { center: { lat: 42.01, lon: 12.30 }, zoom: 14.5, zoomfactor: 3 }
+                    },
                     { id: 'Alarms', top: '0px', left: '10px', height: '300px', width:'850px' },
                     { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
                 ]
@@ -252,7 +283,6 @@ let profiles = [
                 ]
             }
         ],
-        map: { center: { lat: 42.01, lng: 12.30 }, zoom: 14.5 }
     },
     {
         uid: '447b658f-66ca-7aa3-965d-abd4bc22a893',
@@ -278,7 +308,14 @@ let profiles = [
                 ]
             }
         ],
-        map: { center: { lat: 30, lng: -30 }, zoom: 1 }
+        topbar: {
+            groups: [
+                [
+                    { icon: '/DASHBOARD.svg', text: `Home`, link: '/' },
+                    { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                ]
+            ]
+        }
     }
 ]
 

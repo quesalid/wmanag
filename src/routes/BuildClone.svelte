@@ -11,9 +11,11 @@
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
-   
-  
+    // UTILITY
+   import { getGroups} from '../lib/script/utils.js'
 
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
 
    let devicesdata:any = writable([])
 	onMount(async () => {
@@ -89,7 +91,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 

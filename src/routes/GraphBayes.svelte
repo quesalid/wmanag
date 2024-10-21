@@ -16,7 +16,12 @@
 			SaveGraph,
 			DeleteGraph} from '../lib/components/graph'
 
-    import { loadData, uploadFile} from '../lib/components/graph/GraphUtils.js'
+    import { uploadFile} from '../lib/components/graph/GraphUtils.js'
+	// UTILITY
+   import {getGroups} from '../lib/script/utils.js'
+
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
 
 	onMount(() => {
 		center.init([
@@ -183,7 +188,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 		</div>

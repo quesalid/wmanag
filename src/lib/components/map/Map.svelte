@@ -41,8 +41,8 @@ export let markers:any = []
 export let zoom:any = 5;
 export let initZoom:any = 1;
 export let initCenter:any= [-30,30]
-export let pitch:any = 45;
-export let bearing:any = -17.5;
+export let pitch:any = 0;
+export let bearing:any = 9;
 export let modalId = 'markerClickedDivPlants'
 
 export let clickedName:any = (g:any)=>{
@@ -93,7 +93,7 @@ const MyFlyTo = (lon:any=null,lat:any=null,zoom:any=null) => {
   zoom={initZoom}
   pitch={pitch}
   bearing={bearing}
-  attributionControl={true}
+  attributionControl={false}
   bind:map={map}
   bind:mapContainer={mapContainer}
 >

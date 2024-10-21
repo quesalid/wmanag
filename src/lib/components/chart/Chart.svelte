@@ -5,7 +5,6 @@ import {getDataPoints,getDataTimeSeries,getEntityControlled,getControllers, getD
 import SvelteEcharts from "./SvelteEcharts.svelte";
 import WManag from '../WManag.svelte'
 //import {CP_Button} from '../../script/controlpanel_0.0.1.js'
-import Gauge from '../gaugejs/Gauge.svelte'
 
 let opts = {
           angle: -0.2, // The span of the gauge arc
@@ -337,9 +336,6 @@ let onDataClick = (ev:any)=>{
 						<SvelteEcharts bind:data={echartdata} 
 									bind:options={chartoptions}
 									onDataClick={onDataClick}/>
-						<!--div class="control-container-div">
-							<Gauge  bind:myCanvasName={myCanvasName}/>
-						</!--div-->
 					</div>
 				</div>
 		  </div>

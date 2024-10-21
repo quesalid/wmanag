@@ -17,7 +17,11 @@
    import {getAgents,setAgent,deleteAgent,getDevices} from '../lib/script/apidataconfig.js'
    // STORE
    import { mock,module,navigation,getArrayFromPath,avatar,avatargroups,user,avatarclass,currdevice} from '../lib/ustore.js'
-  
+  // UTILITY
+   import {getGroups} from '../lib/script/utils.js'
+
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
 
 
    let agentsdata:any = writable([])
@@ -150,7 +154,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 

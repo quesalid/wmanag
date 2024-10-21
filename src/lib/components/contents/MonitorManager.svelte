@@ -64,7 +64,6 @@
 				{disableClose} 
 				{draggable} 
 				headercolor={bgcolor?bgcolor:headercolor}
-				{bgcolor}
 				{zindex}
 				{width}
 				{height}

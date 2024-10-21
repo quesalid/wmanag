@@ -10,17 +10,11 @@
    // STORE
    import {module, mock, avatar,currentmainentity,navigation,getArrayFromPath,avatargroups,avatarclass,user,role} from '../lib/ustore.js'
    // UTILITY
-   import { isUserAdmin} from '../lib/script/utils.js'
+   import { isUserAdmin,getGroups} from '../lib/script/utils.js'
    
- 
-  
-
-    let donutListener:any
-	let plants:any = []
-	let devices:any = []
-	let agents:any = []
+   // ADD SIDEBAR NENU ON USER BASIS
+   let  groups = getGroups($module,$user)
 	
-	let pippo = 0
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -95,7 +89,7 @@
 						message={$user.username}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}'/>
+				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 
