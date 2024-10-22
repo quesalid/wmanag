@@ -40,6 +40,10 @@ const draggable = true
 const titlecontainer = 'CONTAINERS'
 const titleimages = 'IMMAGINI'
 const topimage = '80px'
+let titlecolor = "#666"
+let titlefontsize = "12px"
+let titleweight = "bold"
+
 const voidfunction = ()=>{return ""}
 
 
@@ -100,10 +104,29 @@ let containerdatacolumns = [
 </script>
 
 	<div class="docker-container">
-		<Wmanag id="containerWManager"  title="{titlecontainer}" toolbar={toolbarcontainer} {disableClose} {draggable} {headercolor} {zindex}>
+		<Wmanag id="containerWManager"  
+			title="{titlecontainer}" 
+			toolbar={toolbarcontainer} 
+			{disableClose} 
+			{draggable} 
+			{headercolor} 
+			{zindex}
+			{titlecolor}
+			{titlefontsize}
+			{titleweight}>
 			<SimpleTable slot="bodycontent" data={contdatarows} datacolumns={containerdatacolumns} {pagesize}/>
 		</Wmanag>
-		<Wmanag id="imageWManager"  title="{titleimages}" toolbar={toolbarimage} {disableClose} {draggable} {zindex} {headercolor} top={topimage}>
+		<Wmanag id="imageWManager"  
+			title="{titleimages}" 
+			toolbar={toolbarimage} 
+			{disableClose} 
+			{draggable} 
+			{zindex} 
+			{headercolor} 
+			top={topimage}
+			{titlecolor}
+			{titlefontsize}
+			{titleweight}>
 			<SimpleTable slot="bodycontent" bind:data={imdatarows} datacolumns={imagedatacolumns} {pagesize}/>
 		</Wmanag>	
 	</div>

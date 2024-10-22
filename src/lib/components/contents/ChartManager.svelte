@@ -5,8 +5,6 @@
    import { writable } from "svelte/store";
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
-   import {SimpleTable} from '../table'
-   import {PointForm,DeleteForm} from '../forms'
    import {ChartPoint} from '../chart'
    
    // STORE
@@ -21,7 +19,7 @@
 	export let  bgcolor = "#ddefde"
 	export let barheigth = "60px"
 	// WMANAGER VARIABLES
-	export let titlepoint = 'POINTS'
+	export let titlepoint = 'CHART'
 	export let toolbarpoint:any = []
 	export let  disableClose = true
 	export let  draggable = true
@@ -37,22 +35,10 @@
 	export let top = "10px"
 	export let left = "10px"
 	export let resize = 'none'
-	// TABLE VARIABLES
-	export let pagesize = true
-	export let  pSize = 8
-	export let  pointsdata:any
-	export let pointdatacolumns:any = []
-	// DIALOG VARIABLES
-	export let savedialog = PointForm
-	export let deletedialog = DeleteForm
-	export let chartdialog = ChartPoint
-	export let modalIdEdit = "PointInputDiv"
-	export let modalIdDel = "DeleteInputDiv"
-	export let modalIdChart = "PointChartDiv"
-	export let deleteTitle = "Clicking DELETE the point will be cancelled"
-	export let edit = async (ev:any)=>{}
-	export let del = async (ev:any)=>{}
-	
+	export let bordercolor = bodycolor
+	export let boxshadow = "0px 0px 0px 0px #000000"
+	export let minimized = 'off'
+	// CHART VARIABLES
 	
 
 </script>
@@ -74,21 +60,13 @@
 				{titlecolor}
 				{titleweight}
 				{bodycolor}
-				{showheader}>
-				<SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/>
+				{showheader}
+				{boxshadow}
+				{bordercolor}
+				{minimized}>
+				<!--SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/-->
 			</Wmanag>
 		</div>
-		<div id="save-point-dialog">
-			<svelte:component this={savedialog} bind:modalId={modalIdEdit} save={edit} {bgcolor}/>
-		</div>
-		<div id="delete-point-dialog">
-			<svelte:component this={deletedialog} bind:modalId={modalIdDel} del={del} {bgcolor} title={deleteTitle}/>
-		</div>
-		{#if $module.toUpperCase() == 'DATA' || $module.toUpperCase() == 'CLONE' || $module.toUpperCase() == 'LEARN'}
-			<div id="show-chart-dialog">
-				<svelte:component this={chartdialog} bind:modalId={modalIdChart}  {bgcolor}/>
-			</div>
-		{/if}
 
 <style>
 .configurator-container{

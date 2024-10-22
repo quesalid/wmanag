@@ -82,7 +82,11 @@ let profiles = [
             {
                 module: 'DEFAULT',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px', left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
@@ -94,28 +98,56 @@ let profiles = [
                         top: '0px',
                         left: '10px',
                         width: '600px',
+                        visible: "visible",
                         params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
                     },
-                    { id: 'Alarms', top: '0px', left: '10px',height:'350px', width:'750px' }
+                    {
+                        id: 'Alarms',
+                        top: '0px',
+                        left: '10px',
+                        height: '350px',
+                        width: '750px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'CLONE',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' },
-                    { id: 'Alarm', top: '0px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Alarm',
+                        top: '0px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'AI',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'LEARN',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             }
         ],
@@ -144,41 +176,94 @@ let profiles = [
             {
                 module: 'DEFAULT',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'DATA',
                 windows: [
-                    { id: 'Monitor', top: '290px', left: '10px',height:'320px' },
+                    {
+                        id: 'Monitor',
+                        top: '290px',
+                        left: '10px',
+                        height: '320px',
+                        visible: "hidden"
+                    },
+                    {
+                        id: 'Chartcalendar',
+                        top: '290px',
+                        left: '10px',
+                        height: '320px',
+                        visible: "visible"
+                    },
                     {
                         id: 'Map',
                         top: '0px',
                         left: '10px',
                         height: '340px',
+                        visible: "visible",
                         params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch:45,bearing:-15.7 }
                     },
-                    { id: 'Alarms', top: '0px', left: '10px', height: '300px', width: '850px' },
-                    { id: 'Communication', top: '298px', left: '1020px', height: '300px', width:'450px' }
+                    {
+                        id: 'Alarms',
+                        top: '0px',
+                        left: '10px',
+                        height: '300px',
+                        width: '850px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Communication',
+                        top: '298px',
+                        left: '1020px',
+                        height: '300px',
+                        width: '350px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'CLONE',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' },
-                    { id: 'Alarm', top: '0px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Alarm',
+                        top: '0px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'AI',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'LEARN',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             }
         ],
@@ -195,40 +280,85 @@ let profiles = [
             {
                 module: 'DEFAULT',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'DATA',
                 windows: [
-                    { id: 'Donut', top: '380px', left: '10px' },
+                    {
+                        id: 'Donut',
+                        top: '380px',
+                        left: '10px',
+                        visible: "visible"
+                    },
                     {
                         id: 'Map',
                         top: '0px',
                         left: '10px',
+                        visible: "visible",
                         params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 }
                     },
-                    { id: 'Alarms', top: '0px', left: '10px', height: '350px', width: '850px' },
-                    { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
+                    {
+                        id: 'Alarms',
+                        top: '0px',
+                        left: '10px',
+                        height: '350px',
+                        width: '850px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Communication',
+                        top: '298px',
+                        left: '1020px',
+                        height: '300px',
+                        width: '350px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'CLONE',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' },
-                    { id: 'Alarm', top: '0px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Alarm',
+                        top: '0px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'AI',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'LEARN',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             }
         ],
@@ -245,7 +375,12 @@ let profiles = [
             {
                 module: 'DEFAULT',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
@@ -257,29 +392,64 @@ let profiles = [
                         id: 'Map',
                         top: '0px',
                         left: '10px',
+                        visible: "visible",
                         params: { center: { lat: 42.01, lon: 12.30 }, zoom: 14.5, zoomfactor: 3 }
                     },
-                    { id: 'Alarms', top: '0px', left: '10px', height: '300px', width:'850px' },
-                    { id: 'Communication', top: '298px', left: '1020px', height: '300px', width: '350px' }
+                    {
+                        id: 'Alarms',
+                        top: '0px',
+                        left: '10px',
+                        height: '300px',
+                        width: '850px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Communication',
+                        top: '298px',
+                        left: '1020px',
+                        height: '300px',
+                        width: '350px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'CLONE',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' },
-                    { id: 'Alarm', top: '0px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Alarm',
+                        top: '0px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'AI',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'LEARN',
                 windows: [
-                    { id: 'Donut', top: '10px', left: '10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             }
         ],
@@ -290,21 +460,93 @@ let profiles = [
         locale: 'en-US',
         avatar: '/LORENZO.png',
         data: {
-            family: 'INDUSTRY'
+            family: 'WWATER'
         },
         dashboard: [
             {
                 module: 'DEFAULT',
                 windows: [
-                    { id: 'Donut',top:'10px',left:'10px' }
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             },
             {
                 module: 'DATA',
-                colorScheme: { wincolor: '#eaf5eb' },
                 windows: [
-                    { id: 'Donut', top: '20px', left: '10px' },
-                    { id: 'Communication', top: '0px', left: '300px', height: '300px', width: '350px' }
+                    {
+                        id: 'Monitor',
+                        top: '290px',
+                        left: '10px',
+                        height: '320px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Map',
+                        top: '0px',
+                        left: '10px',
+                        height: '340px',
+                        visible: "visible",
+                        params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch: 45, bearing: -15.7 }
+                    },
+                    {
+                        id: 'Alarms',
+                        top: '0px',
+                        left: '10px',
+                        height: '300px',
+                        width: '850px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Communication',
+                        top: '298px',
+                        left: '1020px',
+                        height: '300px',
+                        width: '350px',
+                        visible: "visible"
+                    }
+                ]
+            },
+            {
+                module: 'CLONE',
+                windows: [
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Alarm',
+                        top: '0px',
+                        left: '10px',
+                        visible: "visible"
+                    }
+                ]
+            },
+            {
+                module: 'AI',
+                windows: [
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
+                ]
+            },
+            {
+                module: 'LEARN',
+                windows: [
+                    {
+                        id: 'Donut',
+                        top: '10px',
+                        left: '10px',
+                        visible: "visible"
+                    }
                 ]
             }
         ],

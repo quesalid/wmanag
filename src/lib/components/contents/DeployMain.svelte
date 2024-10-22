@@ -58,16 +58,27 @@ onMount(async () => {
 })
 
 // EXPORTS
-export let  headercolor:any = "#f4e2d2"
+export let headercolor:any = "#f4e2d2"
+export let width="900px" 
+export let top = "5%"
+export let left = "20%"
+export let titlecolor = "#666"
+export let titlefontsize = "13px"
+export let titleweight = "bold"
+export let title = "DEPLOY MANAGEMENT - DEVICE SERVER "
+export let draggable = true
+export let disableClose = false
+export let bgcolor = '#ddefde'
+export let showheader = true
+export let bordercolor = "#c0c0c0"
+export let boxshadow = "0px 0px 0px 0px #000000"
+export let height = "max-content"
 
 let deviceuid = 'abc-1'
 let devicename = ''
-let pagesize = false
+
 let spinnermessage = "Could take some time...."
-let title = "DEPLOY MANAGEMENT - DEVICE SERVER "
 let footermessage = "manage agents"
-const disableClose = false
-const draggable = true
 let defaultWManager = 'defaultWDeploy'
 let userid = ''
 let password = ''
@@ -191,7 +202,7 @@ const onClickSubmit = async (ev:any)=>{
 	showHideLoader(loaderid,pageid,false)
 }
 
-let toolbar = [
+export let toolbar = [
 	{type:'text',props:{id:"device-userid",value:'',size:20},function:onClickGetText,label:"Userid"},
 	{type:'password',props:{value:'',id:"device-password"},function:onClickGetText,label:'Password'},
 	{type:'button',props:{value:'\u2BC8',id:"login-submit",fsize:"small"},function:onClickSubmit,label:'',disabled:false},
@@ -252,14 +263,21 @@ let toolbar = [
 		<Wmanag id="{defaultWManager}" 
 				bind:dragE={dragElem} 
 				title="{title}" 
-				width="900px" 
-				top="5%" 
-				left="20%" 
+				{width}
+				{top} 
+				{left} 
 				toolbar={toolbar} 
 				closeMenu={closeModal}
 				{disableClose} 
 				{draggable} 
-				{headercolor}>
+				{headercolor}
+				{titlecolor}
+				{titlefontsize}
+				{titleweight}
+				{showheader}
+				{bordercolor}
+				{boxshadow}
+				{height}>
 				<FlipDivList slot="bodycontent" 
 					bind:dragelem={dragElem} 
 					bind:agents={agents}
@@ -299,7 +317,3 @@ let toolbar = [
 	height: 95%;
 }
 </style>
-
-
-
-

@@ -45,7 +45,7 @@ export const url = "/deploy"
 
 // APPWIDE VARIABLES
 let bgcolor = "#ddefde"
-export let titlefontsize = "13px"
+export let titlefontsize = "15px"
 export let titlecolor = "#444"
 export let titleweight = "bold"
 export let bodycolor = "#ffffff"
@@ -81,7 +81,7 @@ export let bodycolor = "#ffffff"
     <Route path="/data">
         <DashBoard logoImage="/ICO_UP2_DATA.png"  
             {bgcolor}
-            {titlefontsize}
+            titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
 		    {bodycolor}/>
@@ -89,7 +89,7 @@ export let bodycolor = "#ffffff"
     <Route path="/clone">
         <DashBoard logoImage="/ICO_UP2_CLONE.png"  
             {bgcolor}
-            {titlefontsize}
+            titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
 		    {bodycolor}/>
@@ -97,7 +97,7 @@ export let bodycolor = "#ffffff"
     <Route path="/ai">
         <DashBoard logoImage="/ICO_UP2_AI.png"  
             {bgcolor}
-            {titlefontsize}
+            titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
 		    {bodycolor}/>
@@ -105,7 +105,7 @@ export let bodycolor = "#ffffff"
     <Route path="/learn">
         <DashBoard logoImage="/ICO_UP2_LEARN.png"  
             {bgcolor}
-            {titlefontsize}
+            titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
 		    {bodycolor}/>

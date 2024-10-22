@@ -8,7 +8,7 @@
    import { center } from '../lib/components/topbar/notifications';
    import {getPointColumns} from '../lib/script/utils.js'
    import {PointForm,DeleteForm} from '../lib/components/forms'
-   import {Chart} from '../lib/components/chart'
+   import {ChartPoint} from '../lib/components/chart'
    import {BatchDetail,SynBatchDetail,MonitorManager} from '../lib/components/contents'
    // API INTERFACE
    import {getDataPoints,
@@ -67,7 +67,7 @@
    // DIALOG VARIABLES
 	let savedialog = PointForm
 	let deletedialog = DeleteForm
-	let chartdialog = Chart
+	let chartdialog = ChartPoint
 	let modalIdEdit = "PointInputDiv"
 	let modalIdDel = "DeleteInputDiv"
 	let modalIdChart = "PointChartDiv"
@@ -136,7 +136,7 @@
 				//console.log("MONITOR CONTROLLED ENTITIES",controlledentities)
 				ret2 = await getControllers([],$mock)
 				controllers = ret2.data
-				chartdialog = Chart
+				chartdialog = ChartPoint
 				modalIdChart = "PointChartDiv"
 				toolbarpoint = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddPoint,label:"Add"}]
 				// ADD MACHINE NAMES
@@ -214,11 +214,11 @@
 	
 
 </script>
- <div id="main-configuration-page">
+ <div id="main-monitor-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
-					<div style="display: flex;">
+					<div style="display: flex; viewport-fit: 100%;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
 					<DigitalClock/>

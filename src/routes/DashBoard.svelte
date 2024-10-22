@@ -18,7 +18,8 @@
 			DonutClicked,
 			DonutManager,
 			MonitorManager,
-			CommManager} from '../lib/components/contents'
+			CommManager,
+			ChartManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -73,6 +74,7 @@
 	const mapapp = findWindow('Map')
 	const monitorapp = findWindow('Monitor')
 	const commapp = findWindow('Communication')
+	const chartcalapp = findWindow('Chartcalendar')
 
 	let alarmheight = alarmapp && alarmapp.height? alarmapp.height:'450px'
 	let alarmwidth  = alarmapp && alarmapp.width? alarmapp.width: '750px'
@@ -104,6 +106,11 @@
 	let commwidth  = commapp && commapp.width? commapp.width: 'max-content'
 	let commtop = commapp && commapp.top? commapp.top:'10px'
 	let commleft = commapp && commapp.left? commapp.left:'10px'
+
+	let chartcalheight = chartcalapp && chartcalapp.height? chartcalapp.height:'max-content'
+	let chartcalwidth  = chartcalapp && chartcalapp.width? chartcalapp.width: 'max-content'
+	let chartcaltop = chartcalapp && chartcalapp.top? chartcalapp.top:'10px'
+	let chartcalleft = chartcalapp && chartcalapp.left? chartcalapp.left:'10px'
 
 	// get color scheme
 	let colorScheme:any = getColorScheme($module.toUpperCase())
@@ -218,7 +225,7 @@
 					break
 				}
 			}
-			console.log("FREE OFFSET",lon,lat,machine)
+			//console.log("FREE OFFSET",lon,lat,machine)
 			return [lon,lat]
 		}
 		
@@ -329,7 +336,7 @@
 	}
 
 </script>
-<div>
+<div id="main-dashboard-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
@@ -358,7 +365,7 @@
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
 			{#if dashboard}
 				{#each dashboard.windows as Window}
-					{#if Window.id == 'Donut'}
+					{#if Window.id == 'Donut' && Window.visible == 'visible'}
 						<DonutManager 
 							bind:donut={donut} 
 							bind:key={key} 
@@ -371,7 +378,7 @@
 							{bodycolor}
 						/>
 					{/if}
-					{#if Window.id == 'Map'}
+					{#if Window.id == 'Map'  && Window.visible == 'visible'}
 						<MapManager 
 							headercolor={colorScheme.wincolor}  
 							title="{entityName}" 
@@ -393,7 +400,7 @@
 							bearing = {mapbearing}
 						/>
 					{/if}
-					{#if Window.id == 'Alarms'}
+					{#if Window.id == 'Alarms'  && Window.visible == 'visible'}
 						<AlarmManager 
 							left="620px" 
 							headercolor={colorScheme.wincolor} 
@@ -409,7 +416,7 @@
 							{bodycolor}
 						/>
 					{/if}
-					{#if Window.id == 'Monitor'}
+					{#if Window.id == 'Monitor'  && Window.visible == 'visible'}
 						<MonitorManager 
 							left={monitorleft} 
 							top={monitortop}
@@ -426,13 +433,27 @@
 							{bodycolor}
 						/>
 					{/if}
-					{#if Window.id == 'Communication'}
+					{#if Window.id == 'Communication'  && Window.visible == 'visible'}
 						<CommManager 
 							left={commleft} 
 							top={commtop}
 							width={commwidth}
 							headercolor={colorScheme.wincolor}  
 							height={commheight}
+							{bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+						/>
+					{/if}
+					{#if Window.id == 'Chartcalendar'  && Window.visible == 'visible'}
+						<ChartManager 
+							left={chartcalleft} 
+							top={chartcaltop}
+							width={chartcalwidth}
+							headercolor={colorScheme.wincolor}  
+							height={chartcalheight}
 							{bgcolor}
 							{titlefontsize}
 							{titlecolor}

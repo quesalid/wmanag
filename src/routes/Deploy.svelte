@@ -170,7 +170,12 @@
 
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  title="{titleagent}"  {disableClose} {draggable} {headercolor} {zindex}>
+			<Wmanag id="containerWManager"  
+				title="{titleagent}"  
+				{disableClose} 
+				{draggable} 
+				{headercolor} 
+				{zindex}>
 				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

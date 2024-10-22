@@ -16,9 +16,6 @@ import {token, mock, currentmainentity} from '../../ustore.js'
 import {getLogs} from '../../script/apisecurity.js'
 
 
-export let  bgcolor = "#ddefde"
-
-
 let logs:any = writable([])
 onMount(async () => { 
 	const filters:any = []
@@ -33,12 +30,6 @@ onMount(async () => {
 })
 
 
-const disableClose = true
-const draggable = true
-const top = '60px'
-const left= '100px'
-let zindex = 4
-let headercolor = bgcolor
 let pagesize = true
 let pSize = 8
 let logcolumns = getLogColumns()
@@ -57,6 +48,18 @@ let detaildialog = LogDetailForm
 let modalIdSummary = "LogSummaryDiv"
 let modalIdDetail = "LogDetailDiv"
 
+export let  bgcolor = "#ddefde"
+export let titlefontsize = "13px"
+export let titlecolor = "#666"
+export let titleweight = "bold"
+export let bodycolor = "#ffffff"
+export let disableClose = true
+export let  disableMinimize = true
+export let  draggable = false
+export let zindex = 4
+export let headercolor = bgcolor
+export let  top = '60px'
+export let  left= '100px'
 
 
 </script>
@@ -70,7 +73,12 @@ let modalIdDetail = "LogDetailDiv"
 		{headercolor} 
 		{zindex}
 		{top}
-		{left}>
+		{left}
+		{titlefontsize}
+		{titlecolor}
+		{titleweight}
+		{bodycolor}
+		{disableMinimize}>
 	<SimpleTable slot="bodycontent" data={logs} datacolumns={logcolumns} {pagesize} {pSize}/>
 	</Wmanag>
 </div>

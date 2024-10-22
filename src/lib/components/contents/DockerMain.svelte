@@ -30,16 +30,16 @@ let keyfile
 let reqfile:any
 let host = "127.0.0.1"
 let port = "2376"
-let title = "DOCKER MANAGEMENT - DAEMON: "+host+":"+port
+//let title = "DOCKER MANAGEMENT - DAEMON: "+host+":"+port
 let footermessage = "load certificate files"
 let imagedatarows:any = [];
 let containerdatarows:any = [];
 let contdatarows:any = writable(containerdatarows);
 let imdatarows:any = writable(imagedatarows);
-const disableClose = false
-const draggable = true
+//const disableClose = false
+//const draggable = true
 const zindex = 4
-export let  headercolor = "#f4e2d2"
+//export let  headercolor = "#f4e2d2"
 let dockeruid = ""
 let selectedImage = ""
 let selectedNetwork = ""
@@ -53,6 +53,23 @@ let spinnermessage = "Could take some time...."
 let loaderid = "loading-docker-id"
 let pageid = defaultWManager
 let deviceuid = ''
+
+// EXPORTS
+export let headercolor:any = "#f4e2d2"
+export let width="900px" 
+export let top = "5%"
+export let left = "20%"
+export let titlecolor = "#666"
+export let titlefontsize = "13px"
+export let titleweight = "bold"
+export let title = "DOCKER MANAGEMENT - DAEMON: "+host+":"+port
+export let draggable = true
+export let disableClose = false
+export let bgcolor = '#ddefde'
+export let showheader = true
+export let bordercolor = "#c0c0c0"
+export let boxshadow = "0px 0px 0px 0px #000000"
+export let height = "max-content"
 
 let eventListener:any 
 onMount(async () => {
@@ -623,14 +640,29 @@ const closeModal = (ev:any) =>{
 			title="{title}" 
 			toolbar={toolbar}
 			closeMenu={closeModal}
-			top="5%" 
-			left="20%" 
+			{top}
+			{left} 
 			{disableClose} 
 			{draggable} 
-			{headercolor}>
-			<DockerManag slot="bodycontent" {zindex} {headercolor} 
-					bind:contdatarows={contdatarows} bind:imdatarows={imdatarows} 
-					{onClickContainerStart} {onClickContainerStop} {onClickContainerDelete} {onClickImageDelete} {pagesize}
+			{headercolor}
+			{titlecolor}
+			{titlefontsize}
+			{titleweight}
+			{showheader}
+			{bordercolor}
+			{boxshadow}
+			{height}>
+			<DockerManag 
+					slot="bodycontent" 
+					{zindex} 
+					{headercolor} 
+					bind:contdatarows={contdatarows} 
+					bind:imdatarows={imdatarows} 
+					{onClickContainerStart} 
+					{onClickContainerStop} 
+					{onClickContainerDelete} 
+					{onClickImageDelete} 
+					{pagesize}
 					bind:toolbarcontainer={toolbarcontainer} 
 					bind:toolbarimage={toolbarimage}/>
 			<WindowFooter slot="footercontent" message={footermessage}/>

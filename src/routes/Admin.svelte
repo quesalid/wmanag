@@ -71,35 +71,35 @@
 	
 </script>
 {#if isUserAdmin($role)}
-<div>
-		<div>
-			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
-				<div slot="lefttop">
-					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
-					</Logo>
-				</div>
-				<div slot="centertop">
-					<BreadCrumb/>
-				</div>
-				<div slot="righttop" class='flex'>
-				<AlertMessages/>
-				<ChatBot/>
-				<DropDownMenu groups={$avatargroups} bind:image="{$avatar}" 
-						imagesize='{avatarsize}'
-						message={$user.username}
-						messageclass={$avatarclass}>
-				</DropDownMenu>
-				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
-				</div>
-			</TopBar>
+	<div id="main-admin-page">
+			<div>
+				<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
+					<div slot="lefttop">
+						<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
+						</Logo>
+					</div>
+					<div slot="centertop">
+						<BreadCrumb/>
+					</div>
+					<div slot="righttop" class='flex'>
+					<AlertMessages/>
+					<ChatBot/>
+					<DropDownMenu groups={$avatargroups} bind:image="{$avatar}" 
+							imagesize='{avatarsize}'
+							message={$user.username}
+							messageclass={$avatarclass}>
+					</DropDownMenu>
+					<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
+					</div>
+				</TopBar>
 
-		</div>
-		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
-				<Tab {items} {tabclass} {divclass}/>
+			</div>
+			<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
+					<Tab {items} {tabclass} {divclass}/>
 			
-		</div>
+			</div>
 
-</div>
+	</div>
 {/if}
 
 

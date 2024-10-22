@@ -12,20 +12,25 @@ import {DbInformationForm,DbQueryForm,DbOutputForm} from '../forms'
 import {token, mock, currentmainentity} from '../../ustore.js'
 // API INTERFACE
 
-export let  bgcolor = "#ddefde"
-
-
 
 onMount(async () => { 
 	
 })
 
 
-const disableClose = true
-const disableMinimize = true
-const draggable = false
-let zindex = 4
-let headercolor = bgcolor
+// EXTERNAL VARIABLES
+// WINDOW VARIABLES
+export let  bgcolor = "#ddefde"
+export let titlefontsize = "13px"
+export let titlecolor = "#666"
+export let titleweight = "bold"
+export let bodycolor = "#ffffff"
+export let disableClose = true
+export let  disableMinimize = true
+export let  draggable = false
+export let zindex = 4
+export let headercolor = bgcolor
+
 // QUERY ALTS
 const executeQuery = ()=>{
 	try{
@@ -100,7 +105,10 @@ let result = ''
 		{draggable} 
 		{headercolor} 
 		{zindex}
-	>
+		{titlefontsize}
+		{titlecolor}
+		{titleweight}
+		{bodycolor}>
 		<Tab {items} slot="bodycontent" {tabclass} {divclass}/>
 	</Wmanag>
 	<Wmanag id="WManagerInformation"  
@@ -114,7 +122,10 @@ let result = ''
 		{draggable} 
 		{headercolor} 
 		{zindex}
-	>
+		{titlefontsize}
+		{titlecolor}
+		{titleweight}
+		{bodycolor}>
 		<DbInformationForm  slot="bodycontent" />
 	</Wmanag>
 	<Wmanag id="WManagerSQL"  
@@ -129,7 +140,10 @@ let result = ''
 		{draggable} 
 		{headercolor} 
 		{zindex}
-	>
+		{titlefontsize}
+		{titlecolor}
+		{titleweight}
+		{bodycolor}>
 	<svelte:component slot="bodycontent" this={queryform} bind:param={param}/>
 	</Wmanag>
 	<Wmanag id="WManagerOutput"  
@@ -143,7 +157,10 @@ let result = ''
 		{draggable} 
 		{headercolor} 
 		{zindex}
-	>
+		{titlefontsize}
+		{titlecolor}
+		{titleweight}
+		{bodycolor}>
 	<DbOutputForm  slot="bodycontent" bind:query={param} bind:result={result}/>
 	</Wmanag>
 </div>

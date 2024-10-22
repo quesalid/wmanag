@@ -29,6 +29,8 @@
 	export let toolbardevice:any = []
 	export let  draggable = true
 	export let  zindex = 4
+	export let bordercolor = "#c0c0c0"
+	export let boxshadow = "0px 0px 0px 0px #000000"
     // COMPONENT VARIABLES
 	export let options = ['','GPT-2','GPT-3','BERT','XLNet','RoBERTa','T5','DialoGPT']
 	export let type = ''
@@ -55,6 +57,8 @@
 			{minimized}
 			{width}>
 			scrollable={false}
+			{boxshadow}
+			{bordercolor}>
 			<AssistantConf slot="bodycontent" 
 				{options}
 				{type}

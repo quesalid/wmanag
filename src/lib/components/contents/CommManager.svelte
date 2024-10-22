@@ -53,7 +53,11 @@
 	export let top = "10px"
 	export let left = "10px"
 	export let resize = 'both'
+	export let minimized = 'off'
+	export let scrollable = false
 	export let showheader = true
+	export let bordercolor = "#c0c0c0"
+	export let boxshadow = "0px 0px 0px 0px #000000"
 	// COMPONENTS
 	export let chat = ChatSimple
 	export let image = $avatar
@@ -80,7 +84,11 @@
 				{titlecolor}
 				{titleweight}
 				{bodycolor}
-				{showheader}>
+				{showheader}
+				{scrollable}
+				{minimized}
+				{bordercolor}
+				{boxshadow}>
 				<svelte:component this={chat} slot="bodycontent" img={image}/>
 			</Wmanag>
 		</div>

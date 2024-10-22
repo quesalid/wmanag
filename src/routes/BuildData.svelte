@@ -18,6 +18,7 @@
 			navigation,
 			getArrayFromPath} from '../lib/ustore.js'
 
+   // U S E    https://svelteflow.dev/  for the editor
    import EDITOR from '../lib/components/drawflow/editor.svelte'
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
@@ -169,7 +170,7 @@
 	}
 
 </script>
-<div>
+<div id="main-build-data-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">

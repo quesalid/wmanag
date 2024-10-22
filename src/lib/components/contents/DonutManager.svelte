@@ -19,7 +19,7 @@
 	// WINDOW VARIABLES
 	export let donut:any = {}
 	export let bgcolor:any = '#FFFFFF'
-	export let titlefontsize = "15px"
+	export let titlefontsize = "13px"
 	export let titlecolor = "#666"
 	export let titleweight = "bold"
 	export let bodycolor = "#ffffff"
@@ -27,6 +27,10 @@
 	export let  key = 0
 	export let top = $module.toUpperCase() == 'DATA'?'380px':'10px'
 	export let left = '1%'
+	export let minimized = 'off'
+	export let resize = 'both'
+	export let bordercolor = "#c0c0c0"
+	export let boxshadow = "0px 0px 0px 0px #000000"
 
 </script>
  
@@ -40,13 +44,15 @@
 						width={donut.donutWidth+' +10'}
 						top={top}
 						left={left}
-						minimized="off"
-						resize='both'
+						{minimized}
+						{resize}
 						{titlefontsize}
 						{titlecolor}
 						{titleweight}
 						{bodycolor}
-						{showheader}>
+						{showheader}
+						{bordercolor}
+						{boxshadow}>
 						<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 						    {#key key}
 								<Donut donut={donut}/>

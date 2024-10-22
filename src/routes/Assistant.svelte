@@ -77,7 +77,7 @@
 	}
 
 </script>
-<div>
+<div id="main-assistant-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">

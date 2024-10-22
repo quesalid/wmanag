@@ -7,6 +7,7 @@
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
+   // U S E    https://svelteflow.dev/  for the editor
    import EDITOR from '../lib/components/drawflow/editor.svelte'
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    // STORE
@@ -73,7 +74,7 @@
 	
 
 </script>
- <div id="main-deploy-page">
+ <div id="main-build-clone-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">

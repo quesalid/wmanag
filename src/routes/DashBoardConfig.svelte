@@ -5,7 +5,7 @@
    // INTERN IMPORT
    import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import {DashBoardConfigManager} from '../lib/components/contents'
+   import {DashBoardConfigManager, DragManager} from '../lib/components/contents'
    // STORE
    import {module, 
 			mock, 
@@ -40,22 +40,9 @@
 		])
 		const filters:any = []
 		$navigation = getArrayFromPath("/"+$module+"/dashboardconfig")
-		widgets = JSON.parse(JSON.stringify(getWidgetsByModule($module.toUpperCase())))
-		//console.log("DASHBOARD CONFIG USER",$user)
 		let profileDahboard:any = $user.profile.dashboard.find((item:any)=>item.module == $module.toUpperCase())
-		if(!profileDahboard)
-			profileDahboard = $user.profile.dashboard.find((item:any)=>item.module == "DEFAULT")
-		const dashWidgets = profileDahboard.windows
-		for(let i=0;i<dashWidgets.length;i++){
-			let w = dashWidgets[i]
-			let index = widgets.findIndex((item:any)=>item.id == w.id)
-			if(index > -1){
-				widgets[index].included = true
-				widgets[index].top = dashWidgets[i].top
-				widgets[index].left = dashWidgets[i].left
-			}
-		}
-		//console.log("W I D G E T S",widgets,dashWidgets,$user)
+		widgets = JSON.parse(JSON.stringify(profileDahboard.windows))
+		console.log("DASHBOARD CONFIG WIDGETS",widgets)
 			
 	});
 
@@ -78,9 +65,9 @@
 	let saveDashboard = async (ev:any)=>{
 		// SET PROFILE IN STORE
 		const index = $user.profile.dashboard.findIndex((item:any) => item.module == $module.toUpperCase())
-		//console.log(" USER PROFILE DASHBOARD INDEX", index,widgets)
 		// FILTER WIDGETS
-		let filteredWidgets = JSON.parse(JSON.stringify(widgets.filter((item:any)=>item.included)))
+		let filteredWidgets = JSON.parse(JSON.stringify(widgets.filter((item:any)=>item.visible == 'visible')))
+		console.log("FILTERED WIDGETS",filteredWidgets)
 		if(index > -1)
 			$user.profile.dashboard[index].windows = filteredWidgets
 		else{
@@ -95,7 +82,7 @@
 		const ret = await setProfile($user.profile,$user.uid,$mock)
 	}
 </script>
-<div>
+<div id="main-dashboard-config-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
@@ -119,7 +106,8 @@
 
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
-				<DashBoardConfigManager bind:widgets={widgets} bind:saveDashboard={saveDashboard}/>
+				<!--DashBoardConfigManager bind:widgets={widgets} bind:saveDashboard={saveDashboard}/-->
+				<DragManager />
 			
 		</div>
 

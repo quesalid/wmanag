@@ -142,9 +142,17 @@
 		divCont.style.display = 'none'
  }
 
- const title = 'Login Error'
- let  wbgcolor = "#ddefde"
- let toolbar:any = []
+
+ export let  title = 'Login Error'
+ export let  headercolor = "#ddefde"
+ export let toolbar:any = []
+ export let disableClose = false
+ export let draggable = false
+ export let width = "800px"
+ export let top = "10%"
+ export let left = "20%"
+ export let minimized = "off"
+ export let resize = "both"
 
 </script>
 
@@ -172,15 +180,15 @@
     <WManag id="DonutClickedWindow"
 		closeMenu={closeModal}
 		title="{title}" 
-		disableClose={false} 
-		draggable={false} 
-		headercolor={wbgcolor}
-		width="800px"
-		top="10%"
-		left="20%"
+		{disableClose} 
+		{draggable} 
+		{headercolor}
+		{width}
+		{top}
+		{left}
 		toolbar = {toolbar}
-		minimized="off"
-		resize='both'>
+		{minimized}
+		{resize}>
 		<div class="logerr-content-div" slot="bodycontent">
 			{#each array_of_errors as Err}
                 <div>{Err}</div>

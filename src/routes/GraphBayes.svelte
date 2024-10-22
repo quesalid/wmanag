@@ -170,7 +170,7 @@
 
 </script>
 
-    <div>
+    <div id="main-graph-bayes-page">
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">

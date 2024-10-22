@@ -3,7 +3,7 @@
    import {onMount} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import {Chart} from '../chart'
+   import {ChartPoint} from '../chart'
    import Wmanag from '../../components/WManag.svelte'
    import {SimpleTableNoPage} from '../../components/table'
    import {getAlarmColumns} from '../../script/utils.js'
@@ -34,13 +34,15 @@
 	export let resize = 'none'
 	export let bgcolor = '#ddefde'
 	export let showheader = true
+	export let bordercolor = "#c0c0c0"
+	export let boxshadow = "0px 0px 0px 0px #000000"
     // TABLE VARIABLES
 	export let  pagesize = true
 	export let  pSize = 3
 	export let alarmdatacolumns = getAlarmColumns($module.toUpperCase())
 	export let alarmsdata:any
 	// CHART VARIABLES
-	export let chartdialog = Chart
+	export let chartdialog = ChartPoint
 	export let modalIdChart = "PointChartDiv"
 	// Set SimpleTableNoPage height equal to the height of the wmanager minus the height of the window title
 	let tableheight = (parseInt(height) - 35) + 'px'
@@ -69,7 +71,9 @@
 				{titlecolor}
 				{titleweight}
 				{bodycolor}
-				{showheader}>
+				{showheader}
+				{bordercolor}
+				{boxshadow}>
 					<SimpleTableNoPage slot="bodycontent" bind:data={alarmsdata} datacolumns={alarmdatacolumns} height={tableheight}/>
 				</Wmanag>
 		</div>

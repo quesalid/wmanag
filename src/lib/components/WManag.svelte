@@ -26,7 +26,8 @@ export let resize = 'none'
 export let minimized = 'off'
 export let scrollable = false
 export let showheader = true
-
+export let bordercolor = "#c0c0c0"
+export let boxshadow = "0px 0px 0px 0px #000000"
 
 export let toolbar:any = [
 	
@@ -72,7 +73,18 @@ const minimize = (event:any)=>{
 
 </script>
 
-<div class="window-menu" id="{id}" style="--resize:{resize};--visibility:{visibility};--height:{height};--width:{width};--z-index:{zindex};--top:{top};--left:{left};--background-color:{bodycolor}">
+<div class="window-menu" 
+		id="{id}" 
+		style="--resize:{resize};
+				--visibility:{visibility};
+				--height:{height};
+				--width:{width};
+				--z-index:{zindex};
+				--top:{top};
+				--left:{left};
+				--background-color:{bodycolor};
+				--border-color:{bordercolor};
+				--box-shadow:{boxshadow}">
 	
 	<header id="{id+'dragelement'}">
 		{#if showheader}
@@ -140,16 +152,13 @@ const minimize = (event:any)=>{
 		overflow-y: auto;
 		border-radius: 6px;
 		overflow: hidden;
-		box-shadow: var(--minimap-shadow, var(--default-minimap-shadow));
+		box-shadow: var(--box-shadow);
 		border: solid 1px;
 		z-index: var(--z-index);
 		justify-content: space-between;
 		align-items: left;
 		background-color: var(--background-color);
-		border-color: var(
-			--prop-minimap-border-color,
-			var(--minimap-border, var(--default-minimap-border))
-		);
+		border-color: var(--border-color);
 		font-family:Verdana, Geneva, Tahoma, sans-serif;
 		font-size: small;
 		resize: var(--resize);

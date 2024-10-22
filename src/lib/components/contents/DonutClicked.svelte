@@ -60,11 +60,29 @@ onMount(async () => {
 
 
 // EXPORTS
+// WIMANAGER VARIABLES
 export let modalId = "donutClickedDiv"
 export let  bgcolor = "#ddefde"
 export let toolbar:any = []
+export let title = "DONUT CLICKED"
+export let disableClose = false
+export let draggable = true
+export let width = "1100px"
+export let top = "5%"
+export let left = "5%"
+export let minimized = "off"
+export let resize = "both"
+export let titlecolor = "#666"
+export let titlefontsize = "13px"
+export let titleweight = "bold"
+export let showheader = true
+export let bordercolor = "#c0c0c0"
+export let boxshadow = "0px 0px 0px 0px #000000"
+export let height = "max-content"
+
+
+
 let uid = ''
-let title = "DONUT CLICKED"
 let devices:any =[]
 
 
@@ -85,24 +103,27 @@ const closeModal = (ev:any) =>{
 	 image = ''
  }
 
- 
-
- 
-
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
 	<WManag id="DonutClickedWindow"
 		closeMenu={closeModal}
 		title="{title}" 
-		disableClose={false} 
-		draggable={true} 
+		disableClose={disableClose} 
+		draggable={draggable} 
 		headercolor={bgcolor}
-		width="1100px"
-		top="5%"
-		left="5%"
+		{width}
+		{top}
+		{left}
 		toolbar = {toolbar}
-		minimized="off"
-		resize='both'>
+		{minimized}
+		{resize}
+		{titlecolor}
+		{titlefontsize}
+		{titleweight}
+		{showheader}
+		{bordercolor}
+		{boxshadow}
+		{height}>
 		<div class="dc-content-div" slot="bodycontent">
 			<DonutClickedForm {devices}/>
 		</div>

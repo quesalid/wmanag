@@ -11,8 +11,9 @@ import {mock} from '../../ustore.js'
 import {getClonePoints,getClonePhases,getCloneMBPhases} from '../../script/apidataconfig.js'
 // UTILS
 import {setConicDataBatch} from '../../script/utils.js'
-    import type { USTORE } from "../../..";
 
+
+// INTERNAL VARIABLES
 let batch:any
 let phases:any = []
 let phase: any ={}
@@ -83,13 +84,33 @@ onMount(async () => {
 
 })
 
+// EXTERNAL VARIABLES
+// MODAL VARIABLES
 export let modalId = "BatchDetailDiv"
 export let  bgcolor = "#ddefde"
+// WMANAGER VARIABLES
+export let title = "BATCH DETAILS"
 export let toolbar:any = []
+export let  disableClose = false
+export let  draggable = true
+export let  zindex = 4
+export let height = "max-content"
+export let width = "1300px"
+export let headercolor = bgcolor
+export let titlefontsize = "15px"
+export let titlecolor = "#666"
+export let titleweight = "bold"
+export let bodycolor = "#ffffff"
+export let showheader = true
+export let top = "5%"
+export let left = "10%"
+export let resize = 'both'
+export let bordercolor = bodycolor
+export let boxshadow = "0px 0px 0px 0px #000000"
+export let minimized = 'off'
 
-//let bgcl = '#004B7C'
+
 let bgcl = bgcolor
-let title = "BATCH DETAILS"
 let uid:any = ''
 let count = 0
 let donut:any = {
@@ -109,22 +130,32 @@ const closeModal = (ev:any) =>{
 	 if(divCont)
 		divCont.style.display = 'none'
  }
+
 </script>
 
 
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
 	<WManag id="BatchDetailWindow"
 			closeMenu={closeModal}
-			title="{title}" 
-			disableClose={false} 
-			draggable={true} 
-			headercolor={bgcolor}
-			width="1300px"
-			top="5%"
-			left="10%"
-			toolbar = {toolbar}
-			minimized="off"
-			resize='both'>
+			{title}
+			{disableClose} 
+			{draggable} 
+			{headercolor}
+			{width}
+			{height}
+			{bodycolor}
+			{top}
+			{left}
+			{toolbar}
+			{minimized}
+			{resize}
+			{bordercolor}
+			{boxshadow}
+			{zindex}
+			{showheader}
+			{titlefontsize}
+		    {titlecolor}
+		    {titleweight}>
 			<div class="batch-detail-form" slot="bodycontent"> 
 				<div class="donut-container" style="--background-color:{bgcl}" >
 					<Donut donut={donut} addNumbers={true} bgcolor="{bgcl}"/>
