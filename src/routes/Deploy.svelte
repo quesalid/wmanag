@@ -109,9 +109,7 @@
 		}
 	})
 
-	export let logoImage = "/ICO_UP2_DATA.png"
-	export let  bgcolor = "#ddefde"
-
+	
 	// BAR VARIABLES
 	const barheigth = "60px"
 	const imgheight = "60px"
@@ -128,12 +126,31 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	// TABLE VARIABLES
-	const titleagent = 'DEVICES'
-    const disableClose = true
-	const draggable = true
-	let zindex = 4
-    let headercolor = bgcolor
+	// EXTERNAL VARIABLES
+	export let logoImage = "/ICO_UP2_DATA.png"
+	export let  bgcolor = "#ddefde"
+	// WINDOW  VARIABLES
+	export let title = 'DEVICES'
+    export let disableClose = true
+	export let draggable = true
+	export let zindex = 4
+    export let headercolor = bgcolor
+	export let top = "10px"
+	export let left = "10px"
+	export let titlecolor = "#666"
+	export let titlefontsize = "15px"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
+	export let width = "max-content"
+	export let height = "max-content"
+	export let resize = 'none'
+	export let minimized = 'off'
+	export let scrollable = false
+	export let showheader = true
+	export let bordercolor = "#c0c0c0"
+	export let boxshadow = "0px 0px 0px 0px #000000"
+	export let toolbar:any = []
+
 	let pagesize = true
 	let pSize = 8
 	let devicedatacolumns = getDeviceDeployColumns($module)
@@ -171,11 +188,26 @@
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<Wmanag id="containerWManager"  
-				title="{titleagent}"  
+				title="{title}"
+				{toolbar}
 				{disableClose} 
 				{draggable} 
 				{headercolor} 
-				{zindex}>
+				{zindex}
+				{top}
+				{left}
+				{width}
+				{height}
+				{showheader}
+				{resize}
+				{minimized}
+				{titlecolor}
+				{titlefontsize}
+				{titleweight}
+				{boxshadow}
+				{bordercolor}
+				{scrollable}
+				{bodycolor}>
 				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

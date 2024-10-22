@@ -27,6 +27,8 @@ export let titlecolor = "#666"
 export let titleweight = "bold"
 export let bodycolor = "#ffffff"
 export let showheader = true
+export let bordercolor = "#c0c0c0"
+export let boxshadow = "0px 0px 0px 0px #000000"
 // MAP EXPORTS
 //export let mapStyle:any ='https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
 export let mapStyle:any =`https://api.maptiler.com/maps/streets-v2/style.json?key=${PUBLIC_MAPTILER_KEY}`
@@ -122,7 +124,9 @@ onMount(async () => {
 		{titlecolor}
 		{titleweight}
 		{bodycolor}
-		{showheader}>
+		{showheader}
+		{bordercolor}
+		{boxshadow}>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 			<Map bind:group={group} 
 				zoom=14 

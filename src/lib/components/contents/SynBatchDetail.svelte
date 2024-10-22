@@ -91,13 +91,38 @@ onMount(async () => {
 
 })
 
+// EXTERNAL
+// WINDOW VARIANBLES
 export let modalId = "SynBatchDetailDiv"
 export let  bgcolor = "#ddefde"
 export let toolbar:any = []
+export let closeModal = (ev:any) =>{
+	 const divCont = document.getElementById(modalId)
+	 if(divCont)
+		divCont.style.display = 'none'
+ }
+export let title = "BATCH DETAILS"
+export let disableClose = false
+export let draggable = true
+export let width = "1300px"
+export let top = "5%"
+export let left = "10%"
+export let minimized = "off"
+export let resize = "both"
+export let zindex = 3
+export let headercolor = bgcolor
+export let titlecolor = "#666"
+export let titlefontsize = "15px"
+export let titleweight = "bold"
+export let bodycolor = "#ffffff"
+export let height = "max-content"
+export let scrollable = false
+export let showheader = true
+export let bordercolor = "#c0c0c0"
+export let boxshadow = "0px 0px 0px 0px #000000"
 
 //let bgcl = '#004B7C'
 let bgcl = bgcolor
-let title = "BATCH DETAILS"
 let uid:any = ''
 let count = 0
 let donut:any = {
@@ -112,11 +137,7 @@ let donut:any = {
 		conicData: []
 	}
 
-const closeModal = (ev:any) =>{
-	 const divCont = document.getElementById(modalId)
-	 if(divCont)
-		divCont.style.display = 'none'
- }
+
 </script>
 
 
@@ -124,15 +145,25 @@ const closeModal = (ev:any) =>{
 	<WManag id="SynBatchDetailWindow"
 			closeMenu={closeModal}
 			title="{title}" 
-			disableClose={false} 
-			draggable={true} 
-			headercolor={bgcolor}
-			width="1300px"
-			top="5%"
-			left="10%"
+			{disableClose} 
+			{draggable} 
+			headercolor={headercolor}
+			{width}
+			{top}
+			{left}
 			toolbar = {toolbar}
-			minimized="off"
-			resize='both'>
+			{minimized}
+			{resize}
+			{zindex}
+			{titlecolor}
+			{titlefontsize}
+			{titleweight}
+			{boxshadow}
+			{bordercolor}
+			{showheader}
+			{bodycolor}
+			{height}
+			{scrollable}>
 			<div class="batch-detail-form" slot="bodycontent"> 
 				<div class="donut-container" style="--background-color:{bgcl}" >
 					<Donut donut={donut} addNumbers={true} bgcolor="{bgcl}"/>

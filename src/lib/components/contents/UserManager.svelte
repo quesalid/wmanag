@@ -13,7 +13,7 @@ import {token, mock, currentmainentity,avatar,user} from '../../ustore.js'
 import {getUsers,setUser,deleteUser,setAvatar} from '../../script/apisecurity.js'
 
 
-export let  bgcolor = "#ddefde"
+
 
 
 let userdata:any = writable([])
@@ -23,13 +23,32 @@ onMount(async () => {
 	$userdata = ret.data
 })
 
+// EXTERNAL
+// WINDOW VARIABLES
+export let  bgcolor = "#ddefde"
+export let  disableClose = true
+export let draggable = true
+export let top = '60px'
+export let left= '100px'
+export let zindex = 4
+export let headercolor = bgcolor
+export let title = 'USERS'
+export let titlecolor = "#666"
+export let titlefontsize = "15px"
+export let titleweight = "bold"
+export let bodycolor = "#ffffff"
+export let width = "max-content"
+export let height = "max-content"
+export let resize = 'none'
+export let minimized = 'off'
+export let scrollable = false
+export let showheader = true
+export let bordercolor = "#c0c0c0"
+export let boxshadow = "0px 0px 0px 0px #000000"
+export let toolbaruser = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddUser,label:"Add"}]
 
-const disableClose = true
-const draggable = true
-const top = '60px'
-const left= '100px'
-let zindex = 4
-let headercolor = bgcolor
+
+
 let pagesize = true
 let pSize = 8
 let userdatacolumns = getUserColumns()
@@ -39,8 +58,7 @@ let onClickAddUser = (ev:any)=>{
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
 		modalEdit?.dispatchEvent(addClicked)
 	}
-const titleuser = 'USERS'
-let toolbardevice = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddUser,label:"Add"}]
+
 // DIALOG VARIABLES
 let savedialog = UserForm
 let deletedialog = DeleteForm
@@ -49,6 +67,7 @@ let modalIdSave = "UserInputDiv"
 let modalIdDel = "DeleteInputDiv"
 let modalAvSave = "UserAvatarDiv"
 let deleteTitle = "Clicking DELETE the user will be cancelled"
+
 let save = async (ev:any)=>{
 	const target = ev.target
 	const cdev = JSON.parse(target.dataset.cdev)
@@ -100,14 +119,26 @@ let saveav = async (ev:any)=>{
 
 <div class="user-manager">
 	<Wmanag id="containerWManager"  
-		title="{titleuser}" 
-		toolbar={toolbardevice}
+		title="{title}" 
+		toolbar={toolbaruser}
 		{disableClose} 
 		{draggable} 
 		{headercolor} 
 		{zindex}
 		{top}
-		{left}>
+		{left}
+		{width}
+		{height}
+		{showheader}
+		{boxshadow}
+		{bordercolor}
+		{titlecolor}
+		{titlefontsize}
+		{titleweight}
+		{bodycolor}
+		{resize}
+		{minimized}
+		{scrollable}>
 	<SimpleTable slot="bodycontent" data={userdata} datacolumns={userdatacolumns} {pagesize} {pSize}/>
 	</Wmanag>
 </div>

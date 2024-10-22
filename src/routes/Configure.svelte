@@ -52,9 +52,7 @@
 		}
 	});
 
-	export let logoImage = "/ICO_UP2_DATA.png"
-	export let  bgcolor = "#ddefde"
-
+	
 	// BAR VARIABLES
 	const barheigth = "60px"
 	const imgheight = "60px"
@@ -71,21 +69,42 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	// TABLE VARIABLES
-	const titleagent = 'DEVICES'
 	let onClickAddDevice = (ev:any)=>{
 		const modalEdit = document.getElementById(modalIdSave)
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
 		modalEdit?.dispatchEvent(addClicked)
 	}
-	let toolbardevice = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
-	const disableClose = true
-	const draggable = true
-	let zindex = 4
-    let headercolor = bgcolor
+
+	// EXTERNAL VARIABLES
+	export let logoImage = "/ICO_UP2_DATA.png"
+	export let  bgcolor = "#ddefde"
+	// TABLE VARIABLES
+	export let title = 'DEVICES'
+	export let toolbar = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
+	export let  disableClose = true
+	export let draggable = true
+	export let zindex = 4
+    export let headercolor = bgcolor
+	export let top = "10px"
+	export let left = "10px"
+	export let titlecolor = "#666"
+	export let titlefontsize = "15px"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
+	export let width = "max-content"
+	export let height = "max-content"
+	export let resize = 'none'
+	export let minimized = 'off'
+	export let scrollable = false
+	export let showheader = true
+	export let bordercolor = "#c0c0c0"
+	export let boxshadow = "0px 0px 0px 0px #000000"
+
+
 	let pagesize = true
 	let pSize = 8
 	let devicedatacolumns = getDeviceColumns($module)
+
 
 	// DIALOG VARIABLES
 	let savedialog = DeviceForm
@@ -151,12 +170,26 @@
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<Wmanag id="containerWManager"  
-					title="{titleagent}" 
-					toolbar={toolbardevice}
+					title="{title}" 
+					toolbar={toolbar}
 					{disableClose} 
 					{draggable} 
 					{headercolor} 
-					{zindex}>
+					{zindex}
+					{top}
+					{left}
+					{width}
+					{height}
+					{showheader}
+					{resize}
+					{minimized}
+					{titlecolor}
+					{titlefontsize}
+					{titleweight}
+					{boxshadow}
+					{bordercolor}
+					{scrollable}
+					{bodycolor}>
 				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

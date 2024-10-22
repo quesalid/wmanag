@@ -50,14 +50,37 @@ onMount(async () => {
 	});
 
 
-// EXPORTS
+// EXTERNAL VARIABLES
+// WINDOW VARIABLES
 export let modalId = "markerClickedDivPlants"
 export let  bgcolor = "#ddefde"
 export let toolbar:any = []
+export let title = "PLANT"
+export let  closeModal = (ev:any) =>{
+	 const divCont = document.getElementById(modalId)
+	 if(divCont)
+		divCont.style.display = 'none'
+	 image = ''
+ }
+ export let disableClose = false
+ export let draggable = true
+ export let minimized = 'off'
+ export let resize = 'both'
+ export let width = "1100px"
+ export let top = "5%"
+ export let left = "5%"
+ export let headercolor = bgcolor
+ export let showheader = true
+ export let bordercolor = "#c0c0c0"
+ export let boxshadow = "0px 0px 0px 0px #000000"
+ export let titlecolor = "#666"
+ export let titlefontsize = "15px"
+ export let titleweight = "bold"
+ export let height = "max-content"
+ export let bodycolor = "#ffffff"
+ export let zindex = 4
 
 
-
-let title = "PLANT"
 let uid = ''
 let image = '/PLANT-001.jpg'
 let plant:any = {}
@@ -66,13 +89,6 @@ let lines:any = []
 let machines:any = []
 let controllers:any = []
 let videostarted = false
-
-const closeModal = (ev:any) =>{
-	 const divCont = document.getElementById(modalId)
-	 if(divCont)
-		divCont.style.display = 'none'
-	 image = ''
- }
 
  const cameraClicked = (ev:any) =>{
 	 ev.preventDefault();
@@ -122,15 +138,24 @@ const closeModal = (ev:any) =>{
 	<WManag id="MarkClickedWindow"
 		closeMenu={closeModal}
 		title="{title}" 
-		disableClose={false} 
-		draggable={true} 
-		headercolor={bgcolor}
-		width="1100px"
-		top="5%"
-		left="5%"
+		{disableClose} 
+		{draggable} 
+		{headercolor}
+		{width}
+		{top}
+		{left}
 		toolbar = {toolbar}
-		minimized="off"
-		resize='both'>
+		{minimized}
+		{resize}
+		{showheader}
+		{bordercolor}
+		{boxshadow}
+		{titlecolor}
+		{titlefontsize}
+		{titleweight}
+		{height}
+		{bodycolor}
+		{zindex}>
 		<div class="mc-content-div" slot="bodycontent">
 			<div class="left-panel">
 				<div class="left-panel-content" id="factoryVidPlayerDiv">

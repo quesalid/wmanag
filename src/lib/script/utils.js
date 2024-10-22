@@ -162,10 +162,25 @@ const onLogClickShow = (ev) => {
     modalEdit?.dispatchEvent(logDetailClicked)
 }
 const onAlarmPointClickAck = (ev) => {
+    /*
+    Alarm management:
+    Status: ACK, ON, SUS, DRP
+    Actions: ACKNOWLEDGE from ON to ACK (add to alarm history)
+             RESUME from SUS to ON (add to alarm history))
+             RESUME from ACK to ON (add to alarm history))
+             SEND status remain the same (add to alarm history and send alarm to recipient)
+             DROP from wahtever to DRP (add to alarm history and remove from alarm list))
+    */
     const target = ev.target
     // change text style color to orange
     ev.target.style.color = 'orange'
+    // remove blinking class
+    ev.target.classList.remove('blinking-text')
+    // add unblicking class
+    ev.target.classList.add('unblinking-text')
     const uid = target.getAttribute("data-uid")
+    // set value to ACK 
+    ev.target.innerHTML = 'ACK'
     console.log("onAlarmPointClickAck", target,uid)
     // SEND ALARM ACKNOWLEDGE CLICKED EVENT TO MAP MANAGER
     const mapManager = document.getElementById('mapManagerId')
@@ -230,7 +245,7 @@ let devicedatacolumns = [
     {
         header: 'Agents',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onDeviceClickAgent } }
+        renderdef: { type: 'image', params: { image: '/START.png', onClick: onDeviceClickAgent } }
     },
     {
         header: 'Edit',
@@ -285,7 +300,7 @@ let agentdatacolumnsData = [
     {
         header: 'Device',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onAgentClickDevice } }
+        renderdef: { type: 'image', params: { image: '/START.png', onClick: onAgentClickDevice } }
     },
     {
         header: 'Edit',
@@ -324,7 +339,7 @@ let agentdatacolumnsAi = [
     {
         header: 'Device',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onAgentClickDevice } }
+        renderdef: { type: 'image', params: { image: '/START.png', onClick: onAgentClickDevice } }
     },
     {
         header: 'Edit',
@@ -363,7 +378,7 @@ let agentdatacolumnsClone = [
     {
         header: 'Device',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onAgentClickDevice } }
+        renderdef: { type: 'image', params: { image: '/START.png', onClick: onAgentClickDevice } }
     },
     {
         header: 'Edit',
@@ -402,7 +417,7 @@ let agentdatacolumnsLearn = [
     {
         header: 'Device',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onAgentClickDevice } }
+        renderdef: { type: 'image', params: { image: '/START.png', onClick: onAgentClickDevice } }
     },
     {
         header: 'Edit',
@@ -680,7 +695,9 @@ let pointdataalarmcolumns = [
         header: 'Status',
         accessor: (item) => item.lastvalue,
         //accessor: voidfunction,
-        renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;z-index:-1; position:relative;', onClick: onAlarmPointClickAck } }
+        //renderdef: { type: 'textstyle', params: { style: 'color: red; font-weight: bold; cursor:pointer;z-index:-1; position:relative;', onClick: onAlarmPointClickAck } }
+        renderdef: { type: 'textstyle', params: { classname: 'blinking-text', onClick: onAlarmPointClickAck } }
+
     },
     {
         header: 'Time',
@@ -707,7 +724,7 @@ let pointdataalarmcolumns = [
     {
         header: 'Location',
         accessor: voidfunction,
-        renderdef: { type: 'image', params: { image: '/START.svg', onClick: onAlarmClickLocation } }
+        renderdef: { type: 'image', params: { image: '/START.png', onClick: onAlarmClickLocation } }
     }
 ];
 
