@@ -15,7 +15,7 @@
 	});
 
 	
-
+	export let managerid = "donutManagerId"
 	// WINDOW VARIABLES
 	export let donut:any = {}
 	export let bgcolor:any = '#FFFFFF'
@@ -35,7 +35,7 @@
 </script>
  
 
-		<div class="donut-container">
+		<div class="donut-container" id="{managerid}">
 			<WManag id="donutManager" 
 						title="{donut.dbTitle}" 
 						disableClose={true}

@@ -126,7 +126,6 @@ const onLearnPointClickDetail = (ev) => {
     // SEND EDIT CLICKED EVENT TO MODAL
     const modalEdit = document.getElementById('SynBatchDetailDiv')
     const detailClicked = new CustomEvent("detailclicked", { detail: uid })
-    console.log("onLearnPointClickDetail", modalEdit)
     modalEdit?.dispatchEvent(detailClicked)
 }
 const onUserClickEdit = (ev) => {
@@ -168,24 +167,17 @@ const onAlarmPointClickAck = (ev) => {
     Actions: ACKNOWLEDGE from ON to ACK (add to alarm history)
              RESUME from SUS to ON (add to alarm history))
              RESUME from ACK to ON (add to alarm history))
+             SUSPEND from ON to SUS (add to alarm history))
+             SUSPEND from ACK to SUS (add to alarm history))
              SEND status remain the same (add to alarm history and send alarm to recipient)
              DROP from wahtever to DRP (add to alarm history and remove from alarm list))
     */
     const target = ev.target
-    // change text style color to orange
-    ev.target.style.color = 'orange'
-    // remove blinking class
-    ev.target.classList.remove('blinking-text')
-    // add unblicking class
-    ev.target.classList.add('unblinking-text')
     const uid = target.getAttribute("data-uid")
-    // set value to ACK 
-    ev.target.innerHTML = 'ACK'
-    console.log("onAlarmPointClickAck", target,uid)
-    // SEND ALARM ACKNOWLEDGE CLICKED EVENT TO MAP MANAGER
-    const mapManager = document.getElementById('mapManagerId')
-    const alarmAckClicked = new CustomEvent("alarmack", { detail: { uid: uid, action: 'ACKNOWLEDGE' } })
-    mapManager?.dispatchEvent(alarmAckClicked)
+    // SEND ALARM ACKNOWLEDGE CLICKED EVENT TO ALARM ACTION FORM
+    const alarmAckClicked = new CustomEvent("alarmaction", { detail: { uid: uid, action: 'ACKNOWLEDGE',originid:ev.target.id } })
+    const alarmActionForm = document.getElementById('AlarmActionDiv')
+    alarmActionForm?.dispatchEvent(alarmAckClicked)
 }
 const onAlarmClickLocation = (ev) => {
     const target = ev.target
@@ -1124,6 +1116,17 @@ const logTemplate =
         }
     }
 
+const alarmHistoryTemplate = {
+    uid: null, // uuidv4
+    alarmuid: '', // uid of the alarm
+    status: 'ACK', // ACK, ON, SUS, DRP
+    action: 'ACKNOWLEDGE', // ACNOWLEDGE, RESUME, DROP, SEND
+    sendtotype: 'chat', // type of the message (email,sms,chat)
+    sendto: '', // recipient of the alarm
+    timestamp: '', // timestamp of the action
+    operator: '', // operator uid that perform the action
+    note: '', // note of the action
+}
 
 export const getDeviceTemplate = (module='DATA') => {
     switch (module) {
@@ -1179,6 +1182,9 @@ export const getTaskCloneTemplate = () => {
     return (taskCloneTemplate)
 }
 
+export const getAlarmHistoryTemplate = () => {
+    return (alarmHistoryTemplate)
+}
 
 const models = ['BAYES', 'NEURALNETWORK', 'SYSDYN']
 
@@ -1463,6 +1469,8 @@ export let getGroups = (module, user) => {
     }
     return clone
 }
+
+
 
 
 

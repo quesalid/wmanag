@@ -1347,3 +1347,97 @@ export const deleteLearnPhase = async function (filters, mock = false) {
     })
 }
 
+/**
+ * Get AlarmHist
+ * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+ * @param {any} mock use mock flag (default false)
+ */
+export const getAlarmHist = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getAlarmHist",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getAlarmHist(body))
+        }
+    })
+}
+
+/**
+ * Set AlarmHist
+ * @param {any} plant plant to set (add or update)
+ * @param {any} mock use mock flag (default false)
+ */
+export const setAlarmHist = async function (company, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "setAlarmHist",
+            options: {
+                company: company
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.setAlarmHist(body))
+        }
+    })
+}
+
+/**
+* Delete AlarmHist
+* @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+* @param {any} mock use mock flag (default false)
+*/
+export const deleteAlarmHist = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "deleteAlarmHist",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.deleteAlarmHist(body))
+        }
+    })
+}
+
+

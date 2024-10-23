@@ -18,6 +18,7 @@ let masterbatchphases = DBPHARMA.masterbatchphases
 let clonephases = DBPHARMA.generateClonePhases(clonepoints, 'BATCH')
 let learnphases = DBPHARMA.generateClonePhases(learnpoints, 'BATCH')
 let companies = DBPHARMA.companies
+let alarmhists = DBPHARMA.generateAlarmHistories()
 
 // ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
@@ -34,6 +35,7 @@ const init = (family) => {
             controlledentities = DBWATERWASTE.controlledentities
             controllers = DBWATERWASTE.controllers
             datapoints = DBWATERWASTE.generateDataPoints()
+            alarmhists = DBWATERWASTE.generateAlarmHistories()
             clonepoints = []
             learnpoints = []
             masterbatchphases = []
@@ -58,6 +60,7 @@ const init = (family) => {
             clonephases = DBPHARMA.generateClonePhases(clonepoints, 'BATCH')
             learnphases = DBPHARMA.generateClonePhases(learnpoints, 'BATCH')
             companies = DBPHARMA.companies
+            alarmhists = DBPHARMA.generateAlarmHistories()
             break;
     }
 }
@@ -569,6 +572,38 @@ const deleteLearnPhase = async function (body) {
     return (body)
 }
 
+const setAlarmHist = async function (body) {
+    const alarmhist = body.options.alarmhist
+    let old = null
+    if (alarmhist) {
+        const existing = alarmhists.findIndex((item) => { return item.uid == alarmhist.uid })
+        if (existing > -1) {
+            old = alarmhists[existing]
+            alarmhists[existing] = alarmhist
+        } else {
+            alarmhists.push(alarmhist)
+        }
+    }
+    return old
+}
+
+const deleteAlarmHist = async function (body) {
+    const filters = body.options.filters
+    alarmhists = filterArray(alarmhists, filters, true)
+    body.data = alarmhists
+    return (body)
+}
+
+const getAlarmHist = async function (body) {
+    let retalarmhist = JSON.parse(JSON.stringify(alarmhists))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retalarmhist = filterArray(alarmhists, filters)
+    }
+    body.data = alarmhists
+    return (body)
+}
+
 
 const CONFIG = {
     init,
@@ -616,6 +651,9 @@ const CONFIG = {
     getCompanies,
     setCompany,
     deleteCompany,
+    setAlarmHist,
+    deleteAlarmHist,
+    getAlarmHist
 }
 
 export default CONFIG

@@ -21,6 +21,8 @@ export { default as LearnPhaseForm } from './LearnPhaseForm.svelte';
 export { default as DbInformationForm } from './DbInformationForm.svelte';
 export { default as DbQueryForm } from './DbQueryForm.svelte';
 export { default as DbOutputForm } from './DbOutputForm.svelte';
+export { default as AlarmActionForm } from './AlarmActionForm.svelte';
+ 
 
 
 

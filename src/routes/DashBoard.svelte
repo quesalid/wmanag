@@ -61,10 +61,10 @@
 		let colorScheme = {wincolor:"#ddefde"}
 		let profile = $user.profile
 		let dashboards = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
-		console.log('COLOR DASH',dashboards)
+		
 		if(dashboards && dashboards.colorScheme)
 			colorScheme = dashboards.colorScheme
-		console.log('COLOR SCHEME',colorScheme)
+		
 		return colorScheme
 	}
 
@@ -174,6 +174,7 @@
 	
 	}
 
+
 	onMount(async () => {
 		center.init([
 			  'Suspicious login on your server less then a minute ago',
@@ -212,7 +213,7 @@
 		$alarmsdata = await getAlarmData()
 		// E1. FILTER OUT ALARMS FROM pointdata
 		$pointsdata = $pointsdata.filter((item:any)=>item.type != 'ALARM')
-		console.log('ALARMS DATA',$alarmsdata)
+		
 
 		const findFreeOffset:any = (lon:any,lat:any,machine='')=>{
 			for(let i=0;i<$alarmsdata.length;i++){
@@ -244,7 +245,7 @@
 					marker:null
 				})
 			}
-			console.log("MARKERS",markers)
+			
 
 	});
 
@@ -335,6 +336,69 @@
 		return(ret)
 	}
 
+	// MANAGER IDS
+	let mapManagerId = 'mapManagerId'
+	let alarmManagerId = 'alarmManagerId'
+	let donutManagerId = 'donutManagerId'
+	let monitorManagerId = 'monitorManagerId'
+	let commManagerId = 'commManagerId'
+	let chartManagerId = 'chartManagerId'
+	let modalIdActionDiv = "AlarmActionDiv"
+
+	// Container event managers
+	/*ALARM CONTAINER DO ACTION
+		Receive alarm object in cdev
+		A. Send alarm action to map manager
+		B. Change alarmsdata value
+		C. Change origin element class
+		D. Save action in alarm history
+	*/
+	const  doAction =  (ev:any)=>{
+		const target = ev.target
+		const cdev = target.dataset.cdev
+		const originid = target.dataset.originid
+		const alarmaction = JSON.parse(cdev)
+		
+		// A. Send alarm action to map manager
+		const mapDiv = document.getElementById(mapManagerId)
+		const alarmActionlicked = new CustomEvent("alarmaction", { detail: { uid: alarmaction.alarmuid, action:alarmaction.action } })
+		mapDiv?.dispatchEvent(alarmActionlicked)
+		// B. Change alarmsdata value
+		const index = $alarmsdata.findIndex((item:any)=>item.uid == alarmaction.alarmuid)
+		if(index > -1){
+			$alarmsdata[index].lastvalue = alarmaction.status
+			$alarmsdata = [...$alarmsdata]
+		}
+		// C. Change origin element class
+		changeOriginClass(originid,alarmaction.action)
+
+		// Close dave panel
+		const thisDiv = document.getElementById(modalIdActionDiv)
+		if(thisDiv)
+			thisDiv.style.display = 'none'
+	}
+
+	const alarmTextClasses =[
+	{action:'ACKNOWLEDGE',color:'orange'},
+	{action:'RESUME',color:'red'},
+	{action:'SUSPEND',color:'fuchsia'},
+	{action:'DROP',color:'green'},
+]
+	const changeOriginClass = (originid:any,action:any) =>{
+		const origin = document.getElementById(originid)
+		const color = alarmTextClasses.find((item:any)=>item.action == action)
+		if(origin){
+			origin.style.color = color?color.color:'gray'
+			if(action == 'RESUME'){
+				origin.classList.add("blinking-text")
+				origin.classList.remove("unblinking-text")
+			}else{
+				origin.classList.add("unblinking-text")
+				origin.classList.remove("blinking-text")
+			}
+		}
+	}
+	
 </script>
 <div id="main-dashboard-page">
 		<div>
@@ -376,6 +440,7 @@
 							{titlecolor}
 							{titleweight}
 							{bodycolor}
+							managerid= {donutManagerId}
 						/>
 					{/if}
 					{#if Window.id == 'Map'  && Window.visible == 'visible'}
@@ -398,6 +463,7 @@
 							zoomfactor = {mapzoomfactor}
 							pitch = {mappitch}
 							bearing = {mapbearing}
+							managerid= {mapManagerId}
 						/>
 					{/if}
 					{#if Window.id == 'Alarms'  && Window.visible == 'visible'}
@@ -414,6 +480,9 @@
 							{titlecolor}
 							{titleweight}
 							{bodycolor}
+							{doAction}
+							managerid= {alarmManagerId}
+							modalIdEdit = {modalIdActionDiv}
 						/>
 					{/if}
 					{#if Window.id == 'Monitor'  && Window.visible == 'visible'}
@@ -431,6 +500,7 @@
 							{titlecolor}
 							{titleweight}
 							{bodycolor}
+							managerid = {monitorManagerId}
 						/>
 					{/if}
 					{#if Window.id == 'Communication'  && Window.visible == 'visible'}
@@ -445,6 +515,7 @@
 							{titlecolor}
 							{titleweight}
 							{bodycolor}
+							managerid = {commManagerId}
 						/>
 					{/if}
 					{#if Window.id == 'Chartcalendar'  && Window.visible == 'visible'}
@@ -459,6 +530,7 @@
 							{titlecolor}
 							{titleweight}
 							{bodycolor}
+							managerid = {chartManagerId}
 						/>
 					{/if}
 				{/each}

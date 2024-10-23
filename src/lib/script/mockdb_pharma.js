@@ -1139,6 +1139,8 @@ let controllers = [
     }
 ]
 
+let alarmhists = []
+
 // DATA POINT GENERATION
 function randomTDUABD(length) {
     const pre = [
@@ -1760,6 +1762,22 @@ const generateTimeSeriesRect = (point, num, DEGREE = 5) => {
     return timeSeries
 }
 
+const generateAlarmHistories = () => {
+    /*
+    AlarmHist structure
+    {
+        uid: '', // uuidv4
+        tag: '', // tag of the alarm
+        status: '', // ACK, ON, SUS, DRP
+        action: '', // ACNOWLEDGE, RESUME, DROP, SEND
+        timestamp: '', // timestamp of the action
+        operator: '', // operator that perform the action
+        note: '', // note of the action
+    }
+    */
+    return alarmhists
+}
+
 const DBINDUSTRY = {
     companies,
     devices,
@@ -1775,7 +1793,8 @@ const DBINDUSTRY = {
     generateLearnPoints,
     generateClonePhases,
     generateTimeSeriesPoly,
-    generateTimeSeriesRect
+    generateTimeSeriesRect,
+    generateAlarmHistories
 }
 
 export default DBINDUSTRY

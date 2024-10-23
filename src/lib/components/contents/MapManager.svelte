@@ -40,14 +40,28 @@ export let bearing:any = 0;
 // DATA EXPORTS
 export let mapdata:any = []
 export let markers:any = []
+export let managerid = 'mapManagerId'
 
 let component:any = MarkerClickedPlants
 let modalId = "markerClickedDivPlants"
-let mapManagerId = 'mapManagerId'
 let map:any
 
 
+const alarmMarkerClasses =[
+	{action:'ACKNOWLEDGE',color:'bg-orange-400'},
+	{action:'RESUME',color:'animate-blink-5'},
+	{action:'SUSPEND',color:'bg-fuchsia-400'},
+	{action:'DROP',color:'bg-green-400'},
+]
 
+const changeMarkerClass = (marker:any,action:any) => {
+	alarmMarkerClasses.forEach((m:any)=>{
+		marker.classList.remove(m.color)
+		if(m.action == action){
+			marker.classList.add(m.color)
+		}
+	})
+}
 
 onMount(async () => {
 	let filters:any
@@ -63,7 +77,7 @@ onMount(async () => {
 			const modalEdit = document.getElementById(modalId)
 			const profileCoords = new CustomEvent("profilecoords", { detail: {zoom: initZoom,center:initCenter} })
 			modalEdit?.dispatchEvent(profileCoords)
-			const mapManager = document.getElementById(mapManagerId)
+			const mapManager = document.getElementById(managerid)
 
 			const toggleBlink = (marker:any) => {
 				marker.classList.toggle('blink')
@@ -80,25 +94,27 @@ onMount(async () => {
 						map.flyTo({center: [lon, lat],zoom: initZoom+zoomfactor,})
 					}
 				})
-				mapManager.addEventListener("alarmack",async (e:any)=>{
+				mapManager.addEventListener("alarmaction",async (e:any)=>{
 					const uid = e.detail.uid
 					const action = e.detail.action
 					// FIND THE UID IN MARKERS
 					const found = markers.find((m:any)=>m.uid == uid)
 					if(found){
-						switch(action){
+						changeMarkerClass(found.marker._element,action)
+						/*switch(action){
 							case 'ACKNOWLEDGE':
-								// find data in mapdata
-								const foundData = mapdata.find((m:any)=>m.uid == uid)
-								console.log('foundData',foundData)
-								// set value to 'ACK'
-								foundData.value = 'ACK'
 								// delete blink class from marker
 								found.marker._element.classList.remove('animate-blink-5')
 								// add orange color to marker
 								found.marker._element.classList.add('bg-orange-400')
 								break;
-						}
+							case 'RESUME':
+								// delete blink class from marker
+								found.marker._element.classList.remove('animate-blink-5')
+								// add orange color to marker
+								found.marker._element.classList.add('bg-orange-400')
+								break;
+						}*/
 					}
 				})
 			}
@@ -107,7 +123,7 @@ onMount(async () => {
 
 </script>
 
-<div class="map-manager" id="{mapManagerId}">
+<div class="map-manager" id="{managerid}">
 	<WManag id="{defaultWManager}" 
 		title="{title}" 
 		disableClose={disableClose} 

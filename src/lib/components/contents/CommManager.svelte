@@ -37,6 +37,7 @@
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
 	export let barheigth = "60px"
+	export let managerid = "commManagerId"
 	// WMANAGER VARIABLES
 	export let titlepoint = 'COMMUNICATION'
 	export let toolbar:any = []
@@ -67,7 +68,7 @@
 
 </script>
  
-		<div class="configurator-container" style="--top:{barheigth}">
+		<div class="configurator-container" style="--top:{barheigth}" id="{managerid}">
 			<Wmanag id="communicationWManager"  
 				title="{titlepoint}" 
 				toolbar={toolbar} 

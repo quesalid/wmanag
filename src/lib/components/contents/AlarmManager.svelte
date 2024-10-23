@@ -7,6 +7,7 @@
    import Wmanag from '../../components/WManag.svelte'
    import {SimpleTableNoPage} from '../../components/table'
    import {getAlarmColumns} from '../../script/utils.js'
+    import {AlarmActionForm} from '../forms'
    // STORE
    import { mock,module } from '../../ustore.js'
    
@@ -15,6 +16,7 @@
 		
 	});
 	  
+	export let managerid = "alarmManagerId"
 	// WINDOW VARIABLES
 	export let width = "750px"
 	export let height = "450px"
@@ -41,6 +43,10 @@
 	export let  pSize = 3
 	export let alarmdatacolumns = getAlarmColumns($module.toUpperCase())
 	export let alarmsdata:any
+	// DIALOG VARIABLES
+	export let savedialog = AlarmActionForm
+	export let doAction =  (ev:any)=>{}
+	export let modalIdEdit = "AlarmActionDiv"
 	// CHART VARIABLES
 	export let chartdialog = ChartPoint
 	export let modalIdChart = "PointChartDiv"
@@ -53,7 +59,7 @@
 </script>
  
         
-		<div class="alarm-container">
+		<div class="alarm-container" id="{managerid}">
 				<Wmanag id="alarmWManager"  
 				{title}
 				toolbar = {toolbar} 
@@ -76,6 +82,9 @@
 				{boxshadow}>
 					<SimpleTableNoPage slot="bodycontent" bind:data={alarmsdata} datacolumns={alarmdatacolumns} height={tableheight}/>
 				</Wmanag>
+		</div>
+		<div id="save-point-dialog">
+			<svelte:component this={savedialog} bind:modalId={modalIdEdit} save={doAction} {bgcolor} />
 		</div>
 		{#if $module.toUpperCase() == 'DATA' || $module.toUpperCase() == 'CLONE' || $module.toUpperCase() == 'LEARN'}
 			<div id="show-chart-dialog">
