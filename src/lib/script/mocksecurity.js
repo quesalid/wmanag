@@ -196,9 +196,10 @@ let profiles = [
                     },
                     {
                         id: 'Chartcalendar',
-                        top: '290px',
-                        left: '10px',
-                        height: '320px',
+                        top: '-58px',
+                        left: '620px',
+                        width: '700px',
+                        height: 'max-content',
                         visible: "visible"
                     },
                     {
@@ -215,12 +216,12 @@ let profiles = [
                         left: '10px',
                         height: '300px',
                         width: '850px',
-                        visible: "visible"
+                        visible: "hidden"
                     },
                     {
                         id: 'Communication',
                         top: '298px',
-                        left: '1020px',
+                        left: '0px',
                         height: '300px',
                         width: '350px',
                         visible: "visible"

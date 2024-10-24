@@ -35,8 +35,8 @@
 	export let showheader = true
 	export let top = "10px"
 	export let left = "10px"
-	export let resize = 'none'
-	export let bordercolor = bodycolor
+	export let resize = 'both'
+	export let bordercolor = "#c0c0c0"
 	export let boxshadow = "0px 0px 0px 0px #000000"
 	export let minimized = 'off'
 	// CHART VARIABLES
@@ -65,7 +65,7 @@
 				{boxshadow}
 				{bordercolor}
 				{minimized}>
-				<div  slot="bodycontent">
+				<div  slot="bodycontent" class="body-content-class">
 					<EChart modalId="EChartDivId" />
 				</div>
 			</Wmanag>
@@ -77,6 +77,12 @@
 		position:relative;
 		top: var(--top);
 	}
+.body-content-class{
+	min-width:400px;
+	height:max-content;
+	resize: both;
+
+}
 
 </style>
 

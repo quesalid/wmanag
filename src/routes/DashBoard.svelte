@@ -107,7 +107,7 @@
 	let commtop = commapp && commapp.top? commapp.top:'10px'
 	let commleft = commapp && commapp.left? commapp.left:'10px'
 
-	let chartcalheight = chartcalapp && chartcalapp.height? chartcalapp.height:'max-content'
+	let chartcalheight = chartcalapp && chartcalapp.height? chartcalapp.height:'100%'
 	let chartcalwidth  = chartcalapp && chartcalapp.width? chartcalapp.width: 'max-content'
 	let chartcaltop = chartcalapp && chartcalapp.top? chartcalapp.top:'10px'
 	let chartcalleft = chartcalapp && chartcalapp.left? chartcalapp.left:'10px'
@@ -544,7 +544,7 @@
 
 <style>
 .dashboard-container{
-	display:block;
+	display:flex;
 	position:relative;
 	top: var(--top);
 	overflow-y: auto;
