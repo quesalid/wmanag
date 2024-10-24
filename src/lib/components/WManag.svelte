@@ -42,7 +42,7 @@ let winHeight = ''
 onMount(async () => { 
 	const dragable = document.getElementById(id);
 	if(draggable){
-		const dragelement = document.getElementById(id+"dragelement");
+		//const dragelement = document.getElementById(id+"dragelement");
 		const dragzone = document.getElementById(id+"dragzone");
 		dragElement(dragable, dragzone)
 		dragE = id+"dragelement"

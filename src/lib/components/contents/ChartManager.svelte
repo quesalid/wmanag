@@ -5,7 +5,7 @@
    import { writable } from "svelte/store";
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
-   import {ChartPoint} from '../chart'
+   import {EChart} from '../chart'
    
    // STORE
    import { module} from '../../../lib/ustore.js'
@@ -65,7 +65,9 @@
 				{boxshadow}
 				{bordercolor}
 				{minimized}>
-				<!--SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/-->
+				<div  slot="bodycontent">
+					<EChart modalId="EChartDivId" />
+				</div>
 			</Wmanag>
 		</div>
 

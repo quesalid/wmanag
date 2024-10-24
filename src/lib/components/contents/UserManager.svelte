@@ -23,6 +23,12 @@ onMount(async () => {
 	$userdata = ret.data
 })
 
+let onClickAddUser = (ev:any)=>{
+		const modalEdit = document.getElementById(modalIdSave)
+		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
+		modalEdit?.dispatchEvent(addClicked)
+	}
+
 // EXTERNAL
 // WINDOW VARIABLES
 export let  bgcolor = "#ddefde"
@@ -53,11 +59,6 @@ let pagesize = true
 let pSize = 8
 let userdatacolumns = getUserColumns()
 
-let onClickAddUser = (ev:any)=>{
-		const modalEdit = document.getElementById(modalIdSave)
-		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
-		modalEdit?.dispatchEvent(addClicked)
-	}
 
 // DIALOG VARIABLES
 let savedialog = UserForm

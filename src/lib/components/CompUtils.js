@@ -8,12 +8,16 @@ export const dragElement = (element, dragzone) => {
 		pos2 = 0,
 		pos3 = 0,
 		pos4 = 0;
+	let initialZIndex = element.style.zIndex;
 
 	const dragMouseUp = () => {
 		document.onmouseup = null;
 		document.onmousemove = null;
 
 		element.classList.remove("drag");
+
+		// stop dragging the element: set it back to normal
+		element.style.zIndex = initialZIndex;
 	};
 
 	const dragMouseMove = (event) => {
@@ -40,6 +44,9 @@ export const dragElement = (element, dragzone) => {
 		pos4 = event.clientY;
 
 		element.classList.add("drag");
+
+		// start dragging the element: put it on top
+		element.style.zIndex = 1000;
 
 		document.onmouseup = dragMouseUp;
 		document.onmousemove = dragMouseMove;
