@@ -16,7 +16,6 @@
 			avatarclass,
 			user} from '../lib/ustore.js'
    
-   import {getWidgetsByModule} from '../lib/script/utils.js'
    // API
    import {setProfile} from '../lib/script/apisecurity.js'
    // UTILITY
@@ -62,11 +61,12 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	let saveDashboard = async (ev:any)=>{
+	let saveDashboard = async (ev:any,locwidgets:any)=>{
 		// SET PROFILE IN STORE
 		const index = $user.profile.dashboard.findIndex((item:any) => item.module == $module.toUpperCase())
 		// FILTER WIDGETS
-		let filteredWidgets = JSON.parse(JSON.stringify(widgets.filter((item:any)=>item.visible == 'visible')))
+		let filteredWidgets = JSON.parse(JSON.stringify(locwidgets))
+		widgets = filteredWidgets
 		console.log("FILTERED WIDGETS",filteredWidgets)
 		if(index > -1)
 			$user.profile.dashboard[index].windows = filteredWidgets
@@ -107,7 +107,7 @@
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
 				<!--DashBoardConfigManager bind:widgets={widgets} bind:saveDashboard={saveDashboard}/-->
-				<DragManager />
+				<DragManager  bind:widgets={widgets} bind:saveDashboard={saveDashboard}/>
 			
 		</div>
 

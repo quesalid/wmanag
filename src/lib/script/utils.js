@@ -1116,6 +1116,7 @@ const logTemplate =
         }
     }
 
+    // ALARM HISTORY TEMPLATE
 const alarmHistoryTemplate = {
     uid: null, // uuidv4
     alarmuid: '', // uid of the alarm
@@ -1188,7 +1189,9 @@ export const getAlarmHistoryTemplate = () => {
 
 const models = ['BAYES', 'NEURALNETWORK', 'SYSDYN']
 
-
+// UTILITIES FOR MOCKING DATA
+// MOCK DATA GENERATOR FOR DONUT OBJECT
+// TBD -- replace donut object with donut e-chart
 export const setConicData = (agents,devices,plants,type) => {
     const conicData = []
     let ag = []
@@ -1253,6 +1256,7 @@ export const setConicDataBatch = (batch, phases, type='BATCH') => {
     return conicData
 }
 
+// Return Tailwind CSS class from color
 export const getClassFromColor = (color) => {
     let ret = 'bg-yellow-200'
     switch (color) {
@@ -1282,6 +1286,7 @@ export const getClassFromColor = (color) => {
     return(ret)
 }
 
+
 const avatargroups = [
     [
         { icon: '/DASHBOARDCONF.svg', text: `Dashboard Conf` },
@@ -1293,6 +1298,8 @@ const avatargroups = [
     ]
 ]
 
+// return clone of menu groups (used in Login to set $avatargroups)
+// TBD: eliminate $avatargroup from store
 export const getMenuGroups = (role,module) => {
     let clone = JSON.parse(JSON.stringify(avatargroups))
     let dashboard = null
@@ -1320,6 +1327,7 @@ export const getMenuGroups = (role,module) => {
     return (clone)
 }
 
+// UPLOAD/DOWLOAD FILE UTILITY
 export const downloadDataUrl = (file) => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader()
@@ -1338,6 +1346,7 @@ export const downloadDataText = (file) => {
     })
 }
 
+// Parse log string to object
 export const logToObject = (log) => {
     let logobj = {}
     // A. Tokenize log
@@ -1367,6 +1376,7 @@ export const logToObject = (log) => {
     return(logobj)
 }
 
+// Mock log stats
 export let aggregateLogs = (logs) => {
     let userids = []
     let visitors = 0
@@ -1410,39 +1420,6 @@ export let getCommandsFromLogs = (logs) => {
     return commands
 }
 
-let widgets = [
-    {
-        module: 'DATA', wgs: [
-            { id: 'Donut', top: '0px', left: '0px', included: false },
-            { id: 'Map', top: '0px', left: '0px', included: false },
-            { id: 'Alarms', top: '0px', left: '0px', included: false }
-        ]
-    },
-    {
-        module: 'CLONE', wgs: [
-            { id: 'Donut', top: '0px', left: '0px', included: false },
-            { id: 'Map', top: '0px', left: '0px', included: false }
-        ]
-    },
-    {
-        module: 'AI', wgs: [
-            { id: 'Donut', top: '0px', left: '0px', included: false }
-        ]
-    },
-    {
-        module: 'LEARN', wgs: [
-            { id: 'Donut', top: '0px', left: '0px', included: false }
-        ]
-    }
-]
-
-export let getWidgetsByModule = (module) => {
-    let moduleWidgets = []
-    const found = widgets.find((item) => item.module == module)
-    if (found)
-        moduleWidgets = found.wgs
-    return moduleWidgets
-}
 
 const defaultGroups  = [
     [
@@ -1455,7 +1432,8 @@ const defaultGroups  = [
     ]
 ]
 
-
+// Get tooolbar groups from userprofile and add module to link
+// ----- WARNING same toolbar for different modules ---- 
 export let getGroups = (module, user) => {
     // chcek if user has groups configuration
     let groups = user.profile.topbar && user.profile.topbar.groups ? user.profile.topbar.groups : null
@@ -1469,6 +1447,7 @@ export let getGroups = (module, user) => {
     }
     return clone
 }
+
 
 
 

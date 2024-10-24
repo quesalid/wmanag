@@ -34,18 +34,6 @@ export let  groups = [
 		]
 	]
 
-/*const toggleNav = (ev:any)=> {
-  const sidenav = document.getElementById("mySidenav")
-  if(sidenav){
-		if(!$menu.expanded){
-			sidenav.style.width = "250px";
-		}
-		else{
-			sidenav.style.width = "0";
-		}
-	}
-}*/
-
 
 </script>
 

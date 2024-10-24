@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
-  import { addSortBy,addPagination,addTableFilter,addSelectedRows } from 'svelte-headless-table/plugins';
+  import { addSortBy,addTableFilter,addSelectedRows } from 'svelte-headless-table/plugins';
   import ImageRender from './ImageRender.svelte'
   import ImageRenderDynamic from './ImageRenderDynamic.svelte'
   import CheckRender from './CheckRender.svelte'
@@ -155,7 +155,7 @@
 </script>
 <div  class='table-fix-head' style="--height:{height};">
     <table {...$tableAttrs}>
-	  <thead>
+	  <thead >
 			{#each $headerRows as headerRow (headerRow.id)}
 				<Subscribe rowAttrs={headerRow.attrs()} let:rowAttrs>
 					<tr {...rowAttrs}>
@@ -205,22 +205,29 @@
     .table-fix-head {
         overflow-y: auto; /* make the table scrollable if height is more than height  */
         height: var(--height); 
+		
       }
       .table-fix-head thead  {
         position: sticky; /* make the table heads sticky */
+		position: -webkit-sticky;
         top: 0px; /* table head will be placed from the top of the table and sticks to it */
+		z-index: 2;
       }
 	table {
 			border-spacing: 0;
 			border-top: 1px solid black;
 			border-left: 1px solid black;
-			margin: 0.5rem;
+			margin: 0rem 0.5rem 0.5rem 0.5rem;
 			border-collapse: collapse;
 		}
 		thead {
 			opacity: 100% ;
+			/*border-top: 1px solid black;*/
+			/*border-bottom: 1px solid black*/
+			border : 1px solid black;
 		}
 		th, td {
+			border-top: 1px solid black;
 			border-bottom: 1px solid black;
 			border-right: 1px solid black;
 			padding: 0.5rem;
@@ -228,8 +235,9 @@
 		th{
 			background-color: #e9e9e9;
 		}
-		.th-input-search{
+		.th-input-search {
 			background-color: #fff;
+			border-bottom: 1px solid black;
 		}
 		.input-search{
 			width: 100%;
@@ -240,7 +248,5 @@
 		margin: 0.3rem;
 		border: 1px solid;
 	}
-	#page-size{
-		border: 1px solid;
-	}
+	
 </style>

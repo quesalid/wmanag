@@ -192,7 +192,7 @@ const minimize = (event:any)=>{
 
 	.window-menu-toolbar input,label{
 		margin-top: 2px;
-		margin-bottom: 2px;
+		/*margin-bottom: 2px;*/
 		margin-left: 2px;
 	}
 

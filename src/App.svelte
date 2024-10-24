@@ -22,7 +22,7 @@
 // WHATS App
 // https://github.com/WhiskeySockets/Baileys
 
-import { Router, Route, navigate } from "svelte-routing";
+import { Router, Route } from "svelte-routing";
 import { onMount} from "svelte";
 import {login} from './lib/script/apisecurity'
 
@@ -52,7 +52,7 @@ export let bodycolor = "#ffffff"
 //let bgcolor = "#ddefde"
 
  onMount(async () => {  
-     
+
  })
 
  const extsubmit = async (data:any) =>{
