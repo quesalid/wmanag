@@ -19,7 +19,8 @@
 			DonutManager,
 			MonitorManager,
 			CommManager,
-			ChartManager} from '../lib/components/contents'
+			ChartManager,
+			ChartChoiceManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -74,7 +75,8 @@
 	const mapapp = findWindow('Map')
 	const monitorapp = findWindow('Monitor')
 	const commapp = findWindow('Communication')
-	const chartcalapp = findWindow('Chartcalendar')
+	const chartapp = findWindow('Chart')
+	const chatchoiceapp = findWindow('Chartchoice')
 
 	let alarmheight = alarmapp && alarmapp.height? alarmapp.height:'450px'
 	let alarmwidth  = alarmapp && alarmapp.width? alarmapp.width: '750px'
@@ -107,10 +109,15 @@
 	let commtop = commapp && commapp.top? commapp.top:'10px'
 	let commleft = commapp && commapp.left? commapp.left:'10px'
 
-	let chartcalheight = chartcalapp && chartcalapp.height? chartcalapp.height:'100%'
-	let chartcalwidth  = chartcalapp && chartcalapp.width? chartcalapp.width: 'max-content'
-	let chartcaltop = chartcalapp && chartcalapp.top? chartcalapp.top:'10px'
-	let chartcalleft = chartcalapp && chartcalapp.left? chartcalapp.left:'10px'
+	let chartheight = chartapp && chartapp.height? chartapp.height:'100%'
+	let chartwidth  = chartapp && chartapp.width? chartapp.width: 'max-content'
+	let charttop = chartapp && chartapp.top? chartapp.top:'10px'
+	let chartleft = chartapp && chartapp.left? chartapp.left:'10px'
+
+	let chartchoiceheight = chatchoiceapp && chatchoiceapp.height? chatchoiceapp.height:'100%'
+	let chartchoicewidth  = chatchoiceapp && chatchoiceapp.width? chatchoiceapp.width: '200px'
+	let chartchoicetop = chatchoiceapp && chatchoiceapp.top? chatchoiceapp.top:'10px'
+	let chartchoiceleft = chatchoiceapp && chatchoiceapp.left? chatchoiceapp.left:'10px'
 
 	// get color scheme
 	let colorScheme:any = getColorScheme($module.toUpperCase())
@@ -468,7 +475,8 @@
 					{/if}
 					{#if Window.id == 'Alarms'  && Window.visible == 'visible'}
 						<AlarmManager 
-							left="620px" 
+							left={alarmleft}
+							top={alarmtop}
 							headercolor={colorScheme.wincolor} 
 							pSize={9} 
 							bind:height={alarmheight}
@@ -518,13 +526,30 @@
 							managerid = {commManagerId}
 						/>
 					{/if}
-					{#if Window.id == 'Chartcalendar'  && Window.visible == 'visible'}
+					{#if Window.id == 'Chart'  && Window.visible == 'visible'}
 						<ChartManager 
-							left={chartcalleft} 
-							top={chartcaltop}
-							width={chartcalwidth}
+							left={chartleft} 
+							top={charttop}
+							width={chartwidth}
 							headercolor={colorScheme.wincolor}  
-							height={chartcalheight}
+							height={chartheight}
+							{bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							managerid = {chartManagerId}
+						/>
+					{/if}
+					{#if Window.id == 'Chartchoice'  && Window.visible == 'visible'}
+						<ChartChoiceManager 
+							left={chartchoiceleft} 
+							top={chartchoicetop}
+							width={chartchoicewidth}
+							headercolor={colorScheme.wincolor}  
+							height={chartchoiceheight}
+							draggable = {false}
+							showheader = {false}
 							{bgcolor}
 							{titlefontsize}
 							{titlecolor}

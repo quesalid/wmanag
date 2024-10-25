@@ -104,11 +104,11 @@ let profiles = [
                     {
                         id: 'Alarms',
                         top: '0px',
-                        left: '10px',
+                        left: '620px',
                         height: '350px',
-                        width: '750px',
+                        width: '850px',
                         visible: "visible"
-                    }
+                    },
                 ]
             },
             {
@@ -195,11 +195,19 @@ let profiles = [
                         visible: "hidden"
                     },
                     {
-                        id: 'Chartcalendar',
+                        id: 'Chart',
                         top: '-58px',
                         left: '620px',
                         width: '700px',
                         height: 'max-content',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Chartchoice',
+                        top: '-58px',
+                        left: '1330px',
+                        width: '170px',
+                        height: '400px',
                         visible: "visible"
                     },
                     {
@@ -213,8 +221,8 @@ let profiles = [
                     {
                         id: 'Alarms',
                         top: '0px',
-                        left: '10px',
-                        height: '300px',
+                        left: '620px',
+                        height: '350px',
                         width: '850px',
                         visible: "hidden"
                     },
@@ -308,7 +316,7 @@ let profiles = [
                     {
                         id: 'Alarms',
                         top: '0px',
-                        left: '10px',
+                        left: '620px',
                         height: '350px',
                         width: '850px',
                         visible: "visible"
@@ -399,8 +407,8 @@ let profiles = [
                     {
                         id: 'Alarms',
                         top: '0px',
-                        left: '10px',
-                        height: '300px',
+                        left: '620px',
+                        height: '350px',
                         width: '850px',
                         visible: "visible"
                     },
@@ -496,8 +504,8 @@ let profiles = [
                     {
                         id: 'Alarms',
                         top: '0px',
-                        left: '10px',
-                        height: '300px',
+                        left: '620px',
+                        height: '350px',
                         width: '850px',
                         visible: "visible"
                     },

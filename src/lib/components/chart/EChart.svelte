@@ -1,13 +1,31 @@
 <script lang='ts'>
 import * as echarts from "echarts";
 import { onMount, onDestroy } from "svelte";
+// INTERNAL LIBS
+import {EchartsOptions} from ".";
 
 // INIT VARIABLES
 let chartInstance: any;
 let chartDom: any;
+const getVirtualData = () => {
+      const date = +echarts.time.parse('2024-09-01');
+      const end = +echarts.time.parse('2024-10-01');
+      const dayTime = 3600 * 24 * 1000;
+      const data = [];
+      for (let time = date; time < end; time += dayTime) {
+        data.push([
+          echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
+          Math.floor(Math.random() * 10000)
+        ]);
+      }
+      return data;
+    }
 
 export let modalId = "EChartDivId";
 export let option = {}
+export let data = getVirtualData()
+export let chartType = "gradientStackedArea"
+export let chartOpts = {title:"Consumo Enegia Linee"}
 
 
 const initChart = (option:any) => {
@@ -27,98 +45,16 @@ const resizeChart = () => {
     }
   };
 
+  const updateChart = (node:any,option:any) => {
+	if (chartInstance) {
+	  chartInstance.setOption(option);
+	}
+  }
+
 onMount(async () => {
   // ******** VARIABLES TO TEST CALENDAR ********
-
-    const cellSize = [80, 80];
-    const pieRadius = 25;
-    function getVirtualData() {
-      const date = +echarts.time.parse('2024-09-01');
-      const end = +echarts.time.parse('2024-10-01');
-      const dayTime = 3600 * 24 * 1000;
-      const data = [];
-      for (let time = date; time < end; time += dayTime) {
-        data.push([
-          echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
-          Math.floor(Math.random() * 10000)
-        ]);
-      }
-      return data;
-    }
-    const scatterData = getVirtualData();
-    const pieSeries = scatterData.map(function (item, index) {
-      const Line1 = Math.round(Math.random() * 70) + 30;
-      const Line2 = Math.round(Math.random() * (100-Line1));
-      const Idle = 100 - Line1 - Line2;
-      return {
-        type: 'pie',
-        id: 'pie-' + index,
-        center: item[0],
-        radius: pieRadius,
-        coordinateSystem: 'calendar',
-        label: {
-          formatter: '{c}',
-          position: 'inside'
-        },
-        data: [
-          { name: 'Line1', value: Line1 },
-          { name: 'Line2', value: Line2 },
-          { name: 'Idle', value: Idle }
-        ]
-      };
-    });
-    option = {
-      title:{
-          text: 'Utilizzo Mensile Linee - Sept. 2024',
-          left: 'center',
-          padding: [0,0,40,0]
-      },
-      tooltip: {
-          //formatter: '{a} {b} {c} {d}'
-      },
-      legend: {
-        data: ['Line1', 'Line2', 'Idle'],
-        bottom: 60
-      },
-      calendar: {
-        top: 65,
-        left: 'center',
-        orient: 'vertical',
-        height: 400,
-        cellSize: cellSize,
-        yearLabel: {
-          show: false,
-          fontSize: 30
-        },
-        dayLabel: {
-          margin: 20,
-          firstDay: 1,
-          nameMap: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        monthLabel: {
-          show: false
-        },
-        range: ['2024-09']
-      },
-      series: [
-        {
-          id: 'label',
-          type: 'scatter',
-          coordinateSystem: 'calendar',
-          symbolSize: 0,
-          label: {
-            show: true,
-            formatter: function (params:any) {
-              return echarts.time.format(params.value[0], '{dd}', false);
-            },
-            offset: [-cellSize[0] / 2 + 10, -cellSize[1] / 2 + 15],
-            fontSize: 12
-          },
-          data: scatterData
-        },
-        ...pieSeries
-      ]
-    };
+  option = EchartsOptions[chartType](data,chartOpts);
+    
   // ******** END VARIABLES TO TEST CALENDAR ********
   
   initChart(option);
@@ -146,7 +82,7 @@ onDestroy(() => {
 
 </script>
 
-<div class="e-chart-class" bind:this={chartDom} id={modalId}></div>
+<div class="e-chart-class" bind:this={chartDom} id={modalId} use:updateChart={option}></div>
 
 <style>
 .e-chart-class {

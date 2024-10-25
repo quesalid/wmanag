@@ -5,19 +5,15 @@
    import { writable } from "svelte/store";
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
-   import {EChart} from '../chart'
+   
    
    // STORE
    import { module} from '../../../lib/ustore.js'
    
   
 	onMount(async () => {
-		// Add event listener to the window to listen for the event charttype
-		window.addEventListener('charttype', (e:any) => {
-			chartType = e.detail.chartType
-			chartOpts = e.detail.chartOpts
-			
-		})
+		
+		
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
@@ -25,7 +21,7 @@
 	export let barheigth = "60px"
 	export let managerid = "chartManagerId"
 	// WMANAGER VARIABLES
-	export let titlepoint = 'CHART'
+	export let titlepoint = 'CHART CHOICE'
 	export let toolbarpoint:any = []
 	export let  disableClose = true
 	export let  draggable = true
@@ -72,7 +68,7 @@
 				{bordercolor}
 				{minimized}>
 				<div  slot="bodycontent" class="body-content-class">
-					<EChart modalId="EChartDivId" bind:chartType={chartType} bind:chartOpts={chartOpts}/>
+					
 				</div>
 			</Wmanag>
 		</div>

@@ -23,6 +23,8 @@ export { default as MonitorManager } from './MonitorManager.svelte';
 export { default as CommManager } from './CommManager.svelte';
 export { default as DragLib } from './draglib.js';
 export { default as ChartManager } from './ChartManager.svelte';
+export { default as ChartChoiceManager } from './ChartChoiceManager.svelte';
+
 
 
 
