@@ -33,6 +33,7 @@ let uid = ''
 let charts = [
 	{name:'Utilizzo',type:'calendarPie', checked:true, title:"Utilizzo Linee"},
 	{name:'Energia',type:'gradientStackedArea',checked:false,title:"Consumo Energia Linee"},
+	{name:'CO2',type:'barYStacked',checked:false,title:"Emissioni CO2 totali"},
 ]
 
 let chartChoice = 'calendarPie'
