@@ -336,7 +336,7 @@ const barYStacked = (data, opts) => {
         },
         yAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            data: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
         },
         series: [
             {

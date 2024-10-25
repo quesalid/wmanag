@@ -50,6 +50,8 @@ onMount(async () => {
 	});
 
 
+let defaultWManager = "defaultMarkClickedPlants"
+
 // EXTERNAL VARIABLES
 // WINDOW VARIABLES
 export let modalId = "markerClickedDivPlants"
@@ -135,7 +137,7 @@ let videostarted = false
 
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
-	<WManag id="MarkClickedWindow"
+	<WManag id="{defaultWManager}"
 		closeMenu={closeModal}
 		title="{title}" 
 		{disableClose} 

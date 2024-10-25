@@ -79,7 +79,7 @@ let devicename = ''
 
 let spinnermessage = "Could take some time...."
 let footermessage = "manage agents"
-let defaultWManager = 'defaultWDeploy'
+let defaultWManager = 'defaultDeployMain'
 let userid = ''
 let password = ''
 let host = '127.0.0.1'

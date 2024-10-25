@@ -38,6 +38,8 @@
   "dependencies": {
     "bayesjs": "^0.6.5",
     "bpmn-js": "^17.0.2",
+    "date-fns": "^4.1.0",
+    "date-picker-svelte": "^2.14.0",
     "echarts": "^5.4.3",
     "events": "^3.3.0",
     "konva": "^9.3.6",

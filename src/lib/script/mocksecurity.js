@@ -99,6 +99,7 @@ let profiles = [
                         left: '10px',
                         width: '600px',
                         visible: "visible",
+                        height: '340px',
                         params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
                     },
                     {
@@ -196,7 +197,7 @@ let profiles = [
                     },
                     {
                         id: 'Chart',
-                        top: '-58px',
+                        top: '0px',
                         left: '620px',
                         width: '700px',
                         height: 'max-content',
@@ -204,10 +205,10 @@ let profiles = [
                     },
                     {
                         id: 'Chartchoice',
-                        top: '-58px',
-                        left: '1330px',
-                        width: '170px',
-                        height: '400px',
+                        top: '30px',
+                        left: '1300px',
+                        width: '235px',
+                        height: '500px',
                         visible: "visible"
                     },
                     {

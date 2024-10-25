@@ -14,6 +14,7 @@
 		
 	});
 
+	let defaultWManager= 'defaultDonutManager'
 	
 	export let managerid = "donutManagerId"
 	// WINDOW VARIABLES
@@ -36,7 +37,7 @@
  
 
 		<div class="donut-container" id="{managerid}">
-			<WManag id="donutManager" 
+			<WManag id="{defaultWManager}" 
 						title="{donut.dbTitle}" 
 						disableClose={true}
 						draggable={true} 

@@ -76,6 +76,8 @@ onMount(async () => {
 		chartType = e.detail.chartType
 		chartOpts = e.detail.chartOpts
 		console.log("ChartType---> received",chartType,chartOpts)
+        // Call routine to update data
+        
 		option = EchartsOptions[chartType](data,chartOpts);
         console.log(option)
         chartInstance.dispose();

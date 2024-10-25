@@ -157,8 +157,8 @@ const minimize = (event:any)=>{
 		z-index: var(--z-index);
 		justify-content: space-between;
 		align-items: left;
-		background-color: var(--background-color);
-		border-color: var(--border-color);
+		background-color: var(--background-color, rgba(255, 0, 0, 0));
+		border-color: var(--border-color,rgba(255, 0, 0, 0));
 		font-family:Verdana, Geneva, Tahoma, sans-serif;
 		font-size: small;
 		resize: var(--resize);

@@ -70,28 +70,8 @@
 	}
 
 	// Get configured app windows from profile
-	let alarmapp = findWindow('Alarms')
-	const donutapp = findWindow('Donut')
 	const mapapp = findWindow('Map')
-	const monitorapp = findWindow('Monitor')
-	const commapp = findWindow('Communication')
-	const chartapp = findWindow('Chart')
-	const chatchoiceapp = findWindow('Chartchoice')
-
-	let alarmheight = alarmapp && alarmapp.height? alarmapp.height:'450px'
-	let alarmwidth  = alarmapp && alarmapp.width? alarmapp.width: '750px'
-	let alarmtop = alarmapp && alarmapp.top? alarmapp.top:'10px'
-	let alarmleft = alarmapp && alarmapp.left? alarmapp.left:'10px'
-
-	let donutheight = donutapp && donutapp.height? donutapp.height:'300px'
-	let donutwidth  = donutapp && donutapp.width? donutapp.width: '300px'
-	let donuttop = donutapp && donutapp.top? donutapp.top:'10px'
-	let donutleft = donutapp && donutapp.left? donutapp.left:'10px'
-
-	let mapheight = mapapp && mapapp.height? mapapp.height:'max-content'
-	let mapwidth  = mapapp && mapapp.width? mapapp.width: '600px'
-	let maptop = mapapp && mapapp.top? mapapp.top:'10px'
-	let mapleft = mapapp && mapapp.left? mapapp.left:'10px'
+	
 	let mapcenter = mapapp && mapapp.params && mapapp.params.center? [mapapp.params.center.lon,mapapp.params.center.lat]:[-0.12755,51.507222]
 	let mapzoom = mapapp && mapapp.params && mapapp.params.zoom? mapapp.params.zoom: 10
 	let mapzoomfactor = mapapp && mapapp.params && mapapp.params.zoomfactor? mapapp.params.zoomfactor: 3
@@ -99,25 +79,8 @@
 	let mappitch = mapapp && mapapp.params && mapapp.params.pitch? mapapp.params.pitch: 0
 	let mapbearing = mapapp && mapapp.params && mapapp.params.bearing? mapapp.params.bearing: 0
 
-	let monitorheight = monitorapp && monitorapp.height? monitorapp.height:'max-content'
-	let monitorwidth  = monitorapp && monitorapp.width? monitorapp.width: 'max-content'
-	let monitortop = monitorapp && monitorapp.top? monitorapp.top:'10px'
-	let monitorleft = monitorapp && monitorapp.left? monitorapp.left:'10px'
-
-	let commheight = commapp && commapp.height? commapp.height:'max-content'
-	let commwidth  = commapp && commapp.width? commapp.width: 'max-content'
-	let commtop = commapp && commapp.top? commapp.top:'10px'
-	let commleft = commapp && commapp.left? commapp.left:'10px'
-
-	let chartheight = chartapp && chartapp.height? chartapp.height:'100%'
-	let chartwidth  = chartapp && chartapp.width? chartapp.width: 'max-content'
-	let charttop = chartapp && chartapp.top? chartapp.top:'10px'
-	let chartleft = chartapp && chartapp.left? chartapp.left:'10px'
-
-	let chartchoiceheight = chatchoiceapp && chatchoiceapp.height? chatchoiceapp.height:'100%'
-	let chartchoicewidth  = chatchoiceapp && chatchoiceapp.width? chatchoiceapp.width: '200px'
-	let chartchoicetop = chatchoiceapp && chatchoiceapp.top? chatchoiceapp.top:'10px'
-	let chartchoiceleft = chatchoiceapp && chatchoiceapp.left? chatchoiceapp.left:'10px'
+	
+	
 
 	// get color scheme
 	let colorScheme:any = getColorScheme($module.toUpperCase())
@@ -351,6 +314,7 @@
 	let commManagerId = 'commManagerId'
 	let chartManagerId = 'chartManagerId'
 	let modalIdActionDiv = "AlarmActionDiv"
+	let chartChoiceManagerId = 'chartChoiceManagerId'
 
 	// Container event managers
 	/*ALARM CONTAINER DO ACTION
@@ -457,7 +421,7 @@
 							minimized="off" 
 							top={Window.top} 
 							left={Window.left}
-							height={mapheight}
+							height={Window.height}
 							bgcolor = {bgcolor}
 							{titlefontsize}
 							{titlecolor}
@@ -475,12 +439,12 @@
 					{/if}
 					{#if Window.id == 'Alarms'  && Window.visible == 'visible'}
 						<AlarmManager 
-							left={alarmleft}
-							top={alarmtop}
+							left={Window.left}
+							top={Window.top}
 							headercolor={colorScheme.wincolor} 
 							pSize={9} 
-							bind:height={alarmheight}
-							width={alarmwidth}
+							bind:height={Window.height}
+							width={Window.width}
 							bind:alarmsdata={alarmsdata}
 							resize="both"
 							{bgcolor}
@@ -495,12 +459,12 @@
 					{/if}
 					{#if Window.id == 'Monitor'  && Window.visible == 'visible'}
 						<MonitorManager 
-							left={monitorleft} 
-							top={monitortop}
-							width={monitorwidth}
+							left={Window.left} 
+							top={Window.top}
+							width={Window.width}
 							headercolor={colorScheme.wincolor} 
 							pSize={psize} 
-							height={monitorheight}
+							height={Window.height}
 							pointsdata={pointsdata}
 							pointdatacolumns={pointdatacolumns}
 							{bgcolor}
@@ -513,11 +477,11 @@
 					{/if}
 					{#if Window.id == 'Communication'  && Window.visible == 'visible'}
 						<CommManager 
-							left={commleft} 
-							top={commtop}
-							width={commwidth}
+							left={Window.left} 
+							top={Window.top}
+							width={Window.width}
 							headercolor={colorScheme.wincolor}  
-							height={commheight}
+							height={Window.height}
 							{bgcolor}
 							{titlefontsize}
 							{titlecolor}
@@ -528,11 +492,12 @@
 					{/if}
 					{#if Window.id == 'Chart'  && Window.visible == 'visible'}
 						<ChartManager 
-							left={chartleft} 
-							top={charttop}
-							width={chartwidth}
+							left={Window.left} 
+							top={Window.top}
+							width={Window.width}
 							headercolor={colorScheme.wincolor}  
-							height={chartheight}
+							height={Window.height}
+							draggable={true}
 							{bgcolor}
 							{titlefontsize}
 							{titlecolor}
@@ -543,21 +508,22 @@
 					{/if}
 					{#if Window.id == 'Chartchoice'  && Window.visible == 'visible'}
 						<ChartChoiceManager 
-							left={chartchoiceleft} 
-							top={chartchoicetop}
-							width={chartchoicewidth}
+							left={Window.left} 
+							top={Window.top}
+							width={Window.width}
 							headercolor={colorScheme.wincolor}  
-							height={chartchoiceheight}
+							height={Window.height}
 							draggable = {false}
 							showheader = {false}
-							bordercolor = "#FFFFFF"
+							bordercolor = ""
 							resize="none"
+							zindex={4}
 							{bgcolor}
 							{titlefontsize}
 							{titlecolor}
 							{titleweight}
-							{bodycolor}
-							managerid = {chartManagerId}
+							bodycolor=""
+							managerid = {chartChoiceManagerId}
 						/>
 					{/if}
 				{/each}
@@ -574,7 +540,6 @@
 	display:flex;
 	position:relative;
 	top: var(--top);
-	overflow-y: auto;
 	height: calc( 100vh - 50px );
 }
 

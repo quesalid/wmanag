@@ -17,6 +17,10 @@ onMount(async () => {
 	
 })
 
+let defaultWManagerSchema = "WManagerSchema"
+let defaultWManagerInformation = "WManagerInformation"
+let defaultWManagerSQL = "WManagerSQL"
+let defaultWManagerOutput = "WManagerOutput"
 
 // EXTERNAL VARIABLES
 // WINDOW VARIABLES
@@ -94,7 +98,7 @@ let result = ''
 </script>
 
 <div class="user-manager">
-	<Wmanag id="WManagerSchema"  
+	<Wmanag id="{defaultWManagerSchema}"  
 		title="SCHEMAS"
 		top='58px'
 		left='3px'
@@ -111,7 +115,7 @@ let result = ''
 		{bodycolor}>
 		<Tab {items} slot="bodycontent" {tabclass} {divclass}/>
 	</Wmanag>
-	<Wmanag id="WManagerInformation"  
+	<Wmanag id="{defaultWManagerInformation}"  
 		title="INFORMATIONS"
 		top='458px'
 		left='3px'
@@ -128,7 +132,7 @@ let result = ''
 		{bodycolor}>
 		<DbInformationForm  slot="bodycontent" />
 	</Wmanag>
-	<Wmanag id="WManagerSQL"  
+	<Wmanag id="{defaultWManagerSQL}"  
 		title="{querytitle}"
 		top='58px'
 		left='402px'
@@ -146,7 +150,7 @@ let result = ''
 		{bodycolor}>
 	<svelte:component slot="bodycontent" this={queryform} bind:param={param}/>
 	</Wmanag>
-	<Wmanag id="WManagerOutput"  
+	<Wmanag id="{defaultWManagerOutput}"  
 		title="OUTPUT"
 		top='408px'
 		left='402px'

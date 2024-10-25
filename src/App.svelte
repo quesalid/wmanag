@@ -215,4 +215,16 @@ export let bodycolor = "#ffffff"
 </Router>
 
 <style>
+:global(body) {
+		--date-picker-foreground: #26272c;
+		--date-picker-background: #a7a7f7
+		--date-picker-highlight-border: hsl(var(--deg), 98%, 49%);
+		--date-picker-highlight-shadow: hsla(var(--deg), 98%, 49%, 50%);
+		--date-picker-selected-color: hsl(var(--deg), 100%, 85%);
+		--date-picker-selected-background: hsla(var(--deg), 98%, 49%, 20%);
+        --date-input-width: 10rem;
+	}
+:global(.date-time-picker) {
+	width: 13.5rem;
+}
 </style>

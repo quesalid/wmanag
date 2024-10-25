@@ -15,6 +15,8 @@
 	onMount(async () => {
 		
 	});
+
+	let defaultWManager = 'defaultAlarm'
 	  
 	export let managerid = "alarmManagerId"
 	// WINDOW VARIABLES
@@ -60,7 +62,7 @@
  
         
 		<div class="alarm-container" id="{managerid}">
-				<Wmanag id="alarmWManager"  
+				<Wmanag id="{defaultWManager}"  
 				{title}
 				toolbar = {toolbar} 
 				{disableClose} 

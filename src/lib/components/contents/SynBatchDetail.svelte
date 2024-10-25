@@ -91,6 +91,8 @@ onMount(async () => {
 
 })
 
+let defaultWManager = 'defaultSynBatchDetail'
+
 // EXTERNAL
 // WINDOW VARIANBLES
 export let modalId = "SynBatchDetailDiv"
@@ -142,7 +144,7 @@ let donut:any = {
 
 
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
-	<WManag id="SynBatchDetailWindow"
+	<WManag id="{defaultWManager}"
 			closeMenu={closeModal}
 			title="{title}" 
 			{disableClose} 

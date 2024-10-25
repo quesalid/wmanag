@@ -84,6 +84,8 @@ onMount(async () => {
 
 })
 
+let defaultWManager = "defaultBatchDetailWindow"
+
 // EXTERNAL VARIABLES
 // MODAL VARIABLES
 export let modalId = "BatchDetailDiv"
@@ -135,7 +137,7 @@ const closeModal = (ev:any) =>{
 
 
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
-	<WManag id="BatchDetailWindow"
+	<WManag id="{defaultWManager}"
 			closeMenu={closeModal}
 			{title}
 			{disableClose} 

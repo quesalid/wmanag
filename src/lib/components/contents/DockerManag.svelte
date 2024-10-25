@@ -30,7 +30,8 @@ onMount(async () => {
 	
  })
 
-
+ let defaultManagerContainer = "defaultDockerContainerWManager"
+ let defaultManagerImage = "defaultDockerImageWManager"
 
 let toolbar = [
 ]
@@ -104,7 +105,7 @@ let containerdatacolumns = [
 </script>
 
 	<div class="docker-container">
-		<Wmanag id="containerWManager"  
+		<Wmanag id="{defaultManagerContainer}"  
 			title="{titlecontainer}" 
 			toolbar={toolbarcontainer} 
 			{disableClose} 
@@ -116,7 +117,7 @@ let containerdatacolumns = [
 			{titleweight}>
 			<SimpleTable slot="bodycontent" data={contdatarows} datacolumns={containerdatacolumns} {pagesize}/>
 		</Wmanag>
-		<Wmanag id="imageWManager"  
+		<Wmanag id="{defaultManagerImage}"  
 			title="{titleimages}" 
 			toolbar={toolbarimage} 
 			{disableClose} 

@@ -7,7 +7,7 @@ import {mock,user} from '../../ustore.js'
 import {getEntityMain} from '../../script/apidataconfig.js'
     import { Toggle } from 'svelvet';
 
-let defaultWManager = 'defaultMapper'
+let defaultWManager = 'defaultMapManager'
 let group:any = []
 let PUBLIC_MAPTILER_KEY = "WtDpLYuY39XKDh4g0h1z"
 // WINDOW EXPORTS

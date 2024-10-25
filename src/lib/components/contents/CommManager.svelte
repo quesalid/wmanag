@@ -34,6 +34,8 @@
 		toolbar = updateToolbar(toolbar)
 	});
 
+	let defaultWManager= 'defaultCommWManager'
+
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
 	export let barheigth = "60px"
@@ -69,7 +71,7 @@
 </script>
  
 		<div class="configurator-container" style="--top:{barheigth}" id="{managerid}">
-			<Wmanag id="communicationWManager"  
+			<Wmanag id="{defaultWManager}"  
 				title="{titlepoint}" 
 				toolbar={toolbar} 
 				{disableClose} 

@@ -48,6 +48,8 @@ let detaildialog = LogDetailForm
 let modalIdSummary = "LogSummaryDiv"
 let modalIdDetail = "LogDetailDiv"
 
+let defaultWManager = 'defaultLogManager'
+
 export let  bgcolor = "#ddefde"
 export let titlefontsize = "13px"
 export let titlecolor = "#666"
@@ -55,7 +57,7 @@ export let titleweight = "bold"
 export let bodycolor = "#ffffff"
 export let disableClose = true
 export let  disableMinimize = true
-export let  draggable = false
+export let  draggable = true
 export let zindex = 4
 export let headercolor = bgcolor
 export let  top = '60px'
@@ -65,7 +67,7 @@ export let  left= '100px'
 </script>
 
 <div class="user-manager">
-	<Wmanag id="logWManager"  
+	<Wmanag id="{defaultWManager}"  
 		title="{titlelog}" 
 		toolbar={toolbardevice}
 		{disableClose} 

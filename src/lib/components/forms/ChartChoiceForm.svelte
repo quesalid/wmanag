@@ -2,13 +2,13 @@
 // EXTERNAL
 import {onMount} from "svelte"
 import { v4 as uuidv4 } from 'uuid';
+import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte'
+import { it } from 'date-fns/locale'
 // INTERNAL 
 
 
 
-onMount(async () => {
-		
-		// GET MYSELF
+onMount(() => {
 		
 	});
 
@@ -27,13 +27,15 @@ export let targetDiv = "ChartChoiceDiv"
 
 let title = ""
 let uid = ''
-
+let showdatepicker = true
+let date = new Date()
+let locale = localeFromDateFnsLocale(it)
 
 
 let charts = [
-	{name:'Utilizzo',type:'calendarPie', checked:true, title:"Utilizzo Linee"},
-	{name:'Energia',type:'gradientStackedArea',checked:false,title:"Consumo Energia Linee"},
-	{name:'CO2',type:'barYStacked',checked:false,title:"Emissioni CO2 totali"},
+	{name:'Utilizzo',type:'calendarPie', checked:true, title:"Utilizzo Linee", datepicker:true},
+	{name:'Energia',type:'gradientStackedArea',checked:false,title:"Consumo Energia Linee",datepicker:true},
+	{name:'CO2',type:'barYStacked',checked:false,title:"Emissioni CO2 totali",datepicker:true},
 ]
 
 let chartChoice = 'calendarPie'
@@ -42,9 +44,11 @@ let fsTitle = 'Scelta Grafico'
 const changeChart = (ev:any)=>{
 	// Send the selected chart to the parent
 	chartChoice = ev.target.value
-	console.log(ev.target.value,chartChoice)
+	console.log(ev.target.value,chartChoice,date)
 	// Send Custom Event to targetDiv
 	const found = charts.find((el)=>el.type === chartChoice)
+	// enable or disable datepicker
+	showdatepicker = found?found.datepicker:false
 	const event = new CustomEvent('charttype', {
 		detail: { chartType: chartChoice, chartOpts:found?{title:found.title}:{title:'Title'} }
 	})
@@ -55,14 +59,14 @@ const changeChart = (ev:any)=>{
 
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
-	<form class="device-form">
+	<div class="device-form">
 		<section>
 			<h3>{title}</h3>
 		</section>
 		<!--svelte:component this={pointform} bind:point={point} title={title}/-->
 		
-		<fieldset style="display:flex;padding:10px; border:2px solid #4238ca; background:#ffffff;">
-			<legend style="font-weight:bold"> {fsTitle} </legend>
+		<!--fieldset style="display:flex;padding:10px; border:2px solid #4238ca; background:#ffffff;">
+			<legend style="font-weight:bold"> {fsTitle} </legend-->
 			<div style="display:block;padding:0% 10% 0% 0%">
 				<h3>CHARTS</h3>
 				{#each charts as Chart}
@@ -78,21 +82,33 @@ const changeChart = (ev:any)=>{
 					</div>
 				{/each}
 			</div>
-		</fieldset>
-		
-	</form>
+		<!--/!--fieldset-->
+		{#if showdatepicker}
+			<div class="date-picker-class">
+			<DateInput
+					format="yyyy/MM/dd HH:mm:ss"
+					placeholder="2000/31/12 23:59:59" 
+					dynamicPositioning={true}
+					timePrecision="minute"
+					{locale}
+					bind:value={date}/>
+			</div>
+		{/if}
+	</div>
 </div>
 <style>
 .modal{
   display: block;
   position: absolute; /* Stay in place */
-  z-index: 4; /* Sit on top */
+  width: 100%;
 }
 .device-form{
 	color: #444;
-	background-color: #fff;
+	background-color: rgba(255, 0, 0, 0);
 	padding:0.4em;
 	border-radius: 10px;
+	width: 60%;
+	float: right;
 }
 section{
 	margin: 3px;
@@ -137,4 +153,11 @@ legend{
 .req {
   color: red;
 }
+.date-picker-class{
+	display: flexbox ;
+	/*position: absolute;*/
+	z-index: 5;
+	float: right;
+}
+
 </style>

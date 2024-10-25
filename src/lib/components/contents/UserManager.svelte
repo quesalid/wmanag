@@ -29,6 +29,7 @@ let onClickAddUser = (ev:any)=>{
 		modalEdit?.dispatchEvent(addClicked)
 	}
 
+let defaultWManager = "defaultUserManager"
 // EXTERNAL
 // WINDOW VARIABLES
 export let  bgcolor = "#ddefde"
@@ -119,7 +120,7 @@ let saveav = async (ev:any)=>{
 </script>
 
 <div class="user-manager">
-	<Wmanag id="containerWManager"  
+	<Wmanag id="{defaultWManager}"  
 		title="{title}" 
 		toolbar={toolbaruser}
 		{disableClose} 

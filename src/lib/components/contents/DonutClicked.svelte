@@ -58,6 +58,7 @@ onMount(async () => {
 		}
 	});
 
+let defaultWManager = "defaultDonutClickedManager"
 
 // EXPORTS
 // WIMANAGER VARIABLES
@@ -105,7 +106,7 @@ const closeModal = (ev:any) =>{
 
 </script>
 <div class="modal" id={modalId} style="--background-color:{bgcolor}">
-	<WManag id="DonutClickedWindow"
+	<WManag id="{defaultWManager}"
 		closeMenu={closeModal}
 		title="{title}" 
 		disableClose={disableClose} 

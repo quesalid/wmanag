@@ -15,7 +15,8 @@
 		console.log('ASSISTANT MANAGER')
 	});
 
-	
+	let defaultWManager = "defaultAssistantWManager"
+
 	export let  bgcolor = "#ddefde"
 	export let barheigth = "60px"
 	// WINDOW VARIABLES
@@ -45,7 +46,7 @@
  
 
 		<div class="assistant-container" style="--top:{barheigth}">
-			<Wmanag id="assistantWManager"  
+			<Wmanag id="{defaultWManager}"  
 			{title}
 			toolbar={toolbardevice} 
 			{disableClose} 

@@ -15,6 +15,8 @@
 		
 	});
 
+	let defaultWManager= 'defaultChartChoiceManager'
+
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
 	export let barheigth = "60px"
@@ -46,8 +48,8 @@
 
 </script>
  
-		<div class="configurator-container" style="--top:{barheigth}" id="{managerid}">
-			<Wmanag id="containerWManager"  
+		<div class="chart-choice-manager" style="--top:{barheigth}" id="{managerid}">
+			<Wmanag id="{defaultWManager}"  
 				title="{titlepoint}" 
 				toolbar={toolbarpoint} 
 				{disableClose} 
@@ -62,7 +64,7 @@
 				{titlefontsize}
 				{titlecolor}
 				{titleweight}
-				{bodycolor}
+				bodycolor={bodycolor}
 				{showheader}
 				{boxshadow}
 				{bordercolor}
@@ -74,18 +76,6 @@
 		</div>
 
 <style>
-.configurator-container{
-		display:flex;
-		position:relative;
-		top: var(--top);
-	}
-.body-content-class{
-	min-width:400px;
-	height:max-content;
-	resize: both;
-
-}
-
 </style>
 
 
