@@ -550,6 +550,8 @@
 							height={chartchoiceheight}
 							draggable = {false}
 							showheader = {false}
+							bordercolor = "#FFFFFF"
+							resize="none"
 							{bgcolor}
 							{titlefontsize}
 							{titlecolor}

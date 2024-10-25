@@ -5,8 +5,7 @@
    import { writable } from "svelte/store";
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
-   
-   
+   import {ChartChoiceForm} from '../forms'
    // STORE
    import { module} from '../../../lib/ustore.js'
    
@@ -19,7 +18,8 @@
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
 	export let barheigth = "60px"
-	export let managerid = "chartManagerId"
+	export let managerid = "chartChoiceManagerId"
+	export let targetDiv = "EChartDivId"
 	// WMANAGER VARIABLES
 	export let titlepoint = 'CHART CHOICE'
 	export let toolbarpoint:any = []
@@ -68,7 +68,7 @@
 				{bordercolor}
 				{minimized}>
 				<div  slot="bodycontent" class="body-content-class">
-					
+					<ChartChoiceForm modalId="chartChoiceForm" bgcolor="#ffffff" targetDiv={targetDiv}/>
 				</div>
 			</Wmanag>
 		</div>

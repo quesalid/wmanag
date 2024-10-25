@@ -12,12 +12,6 @@
    
   
 	onMount(async () => {
-		// Add event listener to the window to listen for the event charttype
-		window.addEventListener('charttype', (e:any) => {
-			chartType = e.detail.chartType
-			chartOpts = e.detail.chartOpts
-			
-		})
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
@@ -51,7 +45,7 @@
 </script>
  
 		<div class="configurator-container" style="--top:{barheigth}" id="{managerid}">
-			<Wmanag id="containerWManager"  
+			<Wmanag id="{managerid}"  
 				title="{titlepoint}" 
 				toolbar={toolbarpoint} 
 				{disableClose} 

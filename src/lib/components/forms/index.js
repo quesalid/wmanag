@@ -22,6 +22,7 @@ export { default as DbInformationForm } from './DbInformationForm.svelte';
 export { default as DbQueryForm } from './DbQueryForm.svelte';
 export { default as DbOutputForm } from './DbOutputForm.svelte';
 export { default as AlarmActionForm } from './AlarmActionForm.svelte';
+export { default as ChartChoiceForm } from './ChartChoiceForm.svelte';
  
 
 

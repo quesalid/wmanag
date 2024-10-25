@@ -68,6 +68,20 @@ onMount(async () => {
     if (chartDom) {
       resizeObserver.observe(chartDom);
     }
+
+    // Add event listener to the window to listen for the event charttype
+    const div = document.getElementById(modalId)
+    if(div){
+	  div.addEventListener('charttype', (e:any) => {
+		chartType = e.detail.chartType
+		chartOpts = e.detail.chartOpts
+		console.log("ChartType---> received",chartType,chartOpts)
+		option = EchartsOptions[chartType](data,chartOpts);
+        console.log(option)
+        chartInstance.dispose();
+		initChart(option);
+	  })
+	}
 });
 
 onDestroy(() => {

@@ -48,6 +48,24 @@ const uidcontr3 = uuidv4()
 const uidcontr4 = uuidv4()
 const companyid = uuidv4()
 
+let plant = "RMSUD"
+const latMain = plant == "RMNORD" ? 41.9636: 41.81668
+const lonMain = plant == "RMNORD" ? 12.4975: 12.42641
+
+const latContr1 = plant == "RMNORD"? 41.96492: 41.81788
+const lonContr1 = plant == "RMNORD"? 12.50021: 12.42846
+
+const latContr2 = plant == "RMNORD"? 41.96481: 41.81453
+const lonContr2 = plant == "RMNORD"? 12.49707: 12.42631
+
+const latContr3 = plant == "RMNORD"? 41.96259: 41.81818
+const lonContr3 = plant == "RMNORD"? 12.49945: 12.42720
+
+const latContr4 = plant == "RMNORD"? 41.96314: 41.81482
+const lonContr4 = plant == "RMNORD"? 12.49631: 12.42515
+
+
+
 
 let devices = [
     {
@@ -480,8 +498,8 @@ let mainentities = [
         company: companyid,
         lastmodified: "2022-06-30T10:00:00",
         description: "Depuratore quadrante nord",
-        lat: 41.9636,
-        lon: 12.4975,
+        lat: latMain,
+        lon: lonMain,
         image: 'RFI-002.jpg',
         geojson: [
             {id:'',area:'',local:'',path:[]}
@@ -546,13 +564,13 @@ let controlledentities = [
         name: "PRIMARIO-001",
         description: "Linea trattamento primaria",
         line: uidline1,
-        type: "BRIDGE",
+        type: "LIQUAMI",
         buildyear: "1952",
         agent: uidscan1,
         lastmodified: "2022-06-30T10:00:00",
         localization: {
-            lat: 41.96492,
-            lon: 12.50021,
+            lat: latContr1,
+            lon: lonContr1,
         }
     },
     {
@@ -560,13 +578,13 @@ let controlledentities = [
         name: "SECONDARIO-001",
         description: "Linea trattamento secondaria",
         line: uidline2,
-        type: "TUNNEL",
+        type: "LIQUAMI",
         buildyear: "1921",
         agent: uidscan2,
         lastmodified: "2022-06-30T10:00:00",
         localization: {
-            lat: 41.96481,
-            lon: 12.49707,
+            lat: latContr2,
+            lon: lonContr2,
         }
     },
     {
@@ -574,13 +592,13 @@ let controlledentities = [
         name: "PRIMaRIO-002",
         description: "Linea trattamento Primaria",
         line: uidline3,
-        type: "TUNNEL",
+        type: "LIQUAMI",
         buildyear: "1921",
         agent: uidscan3,
         lastmodified: "2022-06-30T10:00:00",
         localization: {
-            lat: 41.96259,
-            lon: 12.49945,
+            lat: latContr3,
+            lon: lonContr3,
         }
     },
     {
@@ -588,13 +606,13 @@ let controlledentities = [
         name: "SECONDARIO-002",
         description: "Linea trattamento secondaria",
         line: uidline4,
-        type: "TUNNEL",
+        type: "LIQUAMI",
         buildyear: "1921",
         agent: uidscan4,
         lastmodified: "2022-06-30T10:00:00",
         localization: {
-            lat: 41.96314,
-            lon: 12.49631,
+            lat: latContr4,
+            lon: lonContr4,
         }
     },
 ]
