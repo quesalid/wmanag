@@ -204,14 +204,6 @@ let profiles = [
                         visible: "visible"
                     },
                     {
-                        id: 'Chartchoice',
-                        top: '30px',
-                        left: '1300px',
-                        width: '235px',
-                        height: '500px',
-                        visible: "visible"
-                    },
-                    {
                         id: 'Map',
                         top: '0px',
                         left: '10px',

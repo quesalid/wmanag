@@ -2,14 +2,14 @@
 import * as echarts from "echarts";
 import { onMount, onDestroy } from "svelte";
 // INTERNAL LIBS
-import {EchartsOptions} from ".";
+import {EchartOptions} from ".";
 
 // INIT VARIABLES
 let chartInstance: any;
 let chartDom: any;
 const getVirtualData = () => {
-      const date = +echarts.time.parse('2024-09-01');
-      const end = +echarts.time.parse('2024-10-01');
+      const date = +echarts.time.parse('2024-10-01');
+      const end = +echarts.time.parse('2024-11-01');
       const dayTime = 3600 * 24 * 1000;
       const data = [];
       for (let time = date; time < end; time += dayTime) {
@@ -53,7 +53,7 @@ const resizeChart = () => {
 
 onMount(async () => {
   // ******** VARIABLES TO TEST CALENDAR ********
-  option = EchartsOptions[chartType](data,chartOpts);
+  option = EchartOptions[chartType](data,chartOpts);
     
   // ******** END VARIABLES TO TEST CALENDAR ********
   
@@ -78,7 +78,7 @@ onMount(async () => {
 		console.log("ChartType---> received",chartType,chartOpts)
         // Call routine to update data
         
-		option = EchartsOptions[chartType](data,chartOpts);
+		option = EchartOptions[chartType](data,chartOpts);
         console.log(option)
         chartInstance.dispose();
 		initChart(option);

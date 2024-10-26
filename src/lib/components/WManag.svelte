@@ -4,6 +4,7 @@ import { onMount} from "svelte";
 import {dragElement} from './CompUtils.js'
 
 
+
 export let id = 'defaultWManager'
 export let title = 'WINDOW TITLE'
 export let disableClose = false
@@ -101,25 +102,64 @@ const minimize = (event:any)=>{
 		  {#key toolbar}
 			{#each toolbar as Tool}
 			   {#if Tool.label}
-					<label id={Tool.props.id?"label-"+Tool.props.id:null} style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}">{Tool.label}</label>
+					<label id={Tool.props.id?"label-"+Tool.props.id:null} 
+						style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}">{Tool.label}</label>
 			   {/if}
 			   {#if Tool.type == 'button'}
-					<input class="wmanag-button" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+					<input class="wmanag-button" 
+						style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'}" 
+						type="{Tool.type}" 
+						id={Tool.props.id?""+Tool.props.id:null} 
+						value="{Tool.props.value}"  
+						on:click={Tool.function} 
+						disabled={Tool.disabled?Tool.disabled:false}/>
 				{/if}
 				{#if Tool.type == 'text'}
-					<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+					<input class="wmanag-text" 
+						size="{Tool.props.size?Tool.props.size:20}" 
+						style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" 
+						type="{Tool.type}" 
+						id={Tool.props.id?""+Tool.props.id:null} 
+						value="{Tool.props.value}"  
+						on:change={Tool.function} 
+						disabled={Tool.disabled?Tool.disabled:false}/>
 				{/if}
 				{#if Tool.type == 'password'}
-					<input class="wmanag-text" size="{Tool.props.size?Tool.props.size:20}" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} value="{Tool.props.value}"  on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+					<input class="wmanag-text" 
+						size="{Tool.props.size?Tool.props.size:20}" 
+						style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" 
+						type="{Tool.type}" id={Tool.props.id?""+Tool.props.id:null} 
+						value="{Tool.props.value}"  
+						on:change={Tool.function} 
+						disabled={Tool.disabled?Tool.disabled:false}/>
 				{/if}
-			   {#if Tool.type == 'image'}
-					<input class="wmanag-image" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} type="{Tool.type}" src="{Tool.props.src}" height="25" on:click={Tool.function} disabled={Tool.disabled?Tool.disabled:false}/>
+			    {#if Tool.type == 'image'}
+					<input class="wmanag-image" 
+						style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" 
+						id={Tool.props.id?""+Tool.props.id:null} 
+						type="{Tool.type}" 
+						src="{Tool.props.src}" 
+						height="25" 
+						on:click={Tool.function} 
+						disabled={Tool.disabled?Tool.disabled:false}/>
+				{/if}
+				{#if Tool.type == 'date'}
+					<input class="wmanag-text" 
+						size="{Tool.props.size?Tool.props.size:20}" 
+						style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'};font-size:{Tool.props.fsize?Tool.props.fsize:'small'};" 
+						type="{Tool.type}" 
+						id={Tool.props.id?""+Tool.props.id:null} 
+						value="{Tool.props.value}"  
+						on:change={Tool.function} 
+						disabled={Tool.disabled?Tool.disabled:false}
+						min={Tool.min?Tool.min:null}
+						max={Tool.max?Tool.max:null}/>
 				{/if}
 				{#if Tool.type == 'select'}
 					<select class="wmanag-select" style="visibility:{Tool.props.visibility?Tool.props.visibility:'visible'}" id={Tool.props.id?""+Tool.props.id:null} on:change={Tool.function} disabled={Tool.disabled?Tool.disabled:false}>
 						<option value="" style="color:#afafaf"></option>
 						{#each Tool.props.options as Opt}
-							<option value={Opt.value}>{Opt.label}</option>
+							<option value={Opt.value} selected={Opt.selected?Opt.selected:false}>{Opt.label}</option>
 						{/each}
 					</select>
 			
@@ -193,7 +233,7 @@ const minimize = (event:any)=>{
 	.window-menu-toolbar input,label{
 		margin-top: 2px;
 		/*margin-bottom: 2px;*/
-		margin-left: 2px;
+		margin-left: 3px;
 	}
 
 	.window-menu-toolbar .wmanag-button{

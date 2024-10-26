@@ -57,7 +57,7 @@ export const calendarPie = (data,opts) => {
             monthLabel: {
                 show: false
             },
-            range: ['2024-09']
+            range: opts.calendar && opts.calendar.range? [opts.calendar.range]:['2024-10']
         },
         series: [
             {
