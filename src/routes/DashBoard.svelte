@@ -26,6 +26,7 @@
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
    //API
    import {getEntityMain,getDevices,getAgents,getDataPoints,getEntityControlled,getControllers} from '../lib/script/apidataconfig.js'
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
    import {module, 
 			mock,
@@ -146,16 +147,10 @@
 
 
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 		// A. GET PROFILE DASHBOARD
 		dashboard = $user.profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
 		if(!dashboard)
@@ -226,14 +221,15 @@
 	export let titlecolor = "#666"
 	export let titleweight = "bold"
 	export let bodycolor = "#ffffff"
-
 	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
+	export let barheigth = "60px"
+	export let imgheight = "60px"
+	export let topbarheight = "90%"
+	export let  avatarsize = "w-10"
+
 	let entityName = 'PLANTS'
 	
-	const avatarsize = "w-10"
+	
 
 
 	// DONUT

@@ -202,6 +202,7 @@ const minimize = (event:any)=>{
 		font-family:Verdana, Geneva, Tahoma, sans-serif;
 		font-size: small;
 		resize: var(--resize);
+		/*transition: height 0.5s linear;*/
 	}
 
 	.window-menu-header{

@@ -4,7 +4,14 @@
    import {onMount,afterUpdate} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
@@ -16,6 +23,8 @@
    import {agentGetInfo} from '../lib/script/apidataagent.js'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,currdevice,avatargroups,avatarclass} from '../lib/ustore.js'
+   // API
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // UTILITY
    import {getGroups} from '../lib/script/utils.js'
 
@@ -27,16 +36,10 @@
 
    let devicesdata:any = writable([])
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 		const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 		const ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
@@ -110,13 +113,8 @@
 	})
 
 	
-	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
 	
 	
-	const avatarsize = "w-10"
 	let deviceuid = ''
 
 
@@ -150,6 +148,11 @@
 	export let bordercolor = "#c0c0c0"
 	export let boxshadow = "0px 0px 0px 0px #000000"
 	export let toolbar:any = []
+	// BAR VARIABLES
+	export let  barheigth = "60px"
+	export let imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let avatarsize = "w-10"
 
 	let pagesize = true
 	let pSize = 8
@@ -167,8 +170,11 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
+					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
+					<DigitalClock/>
+					</div>
 				</div>
 				<div slot="centertop">
 					<BreadCrumb/>
@@ -184,7 +190,6 @@
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
-
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<Wmanag id="containerWManager"  

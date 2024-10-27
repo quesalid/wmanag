@@ -1,3 +1,4 @@
+import { secondsInDay } from 'date-fns/constants';
 import { filterArray } from './mock.js'
 import { v4 as uuidv4 } from 'uuid'; 
 
@@ -651,6 +652,40 @@ function generateLogs(num = 30) {
 }
 
 const logs = generateLogs(40)
+
+const alertsTemplates = [
+    'Suspicious login on your server less then a minute ago',
+    'Successful login attempt by @johndoe',
+    'Successful login attempt by @amy',
+    'Suspicious login on your server 7 min',
+    'Suspicious login on your server 11 min ago',
+    'Successful login attempt by @horace',
+    'Suspicious login on your server 14 min ago',
+    'Successful login attempt by @jack'
+]
+function generateSecurityAlerts(num = 4) {
+    const secAlerts = []
+    for (let i = 0; i < num; i++) {
+        let secAlert = {}
+        secAlert.uid = uuidv4()
+        // get random alet template
+        let aindex = Math.floor(Math.random() * (alertsTemplates.length - 1))
+        secAlert.message = alertsTemplates[aindex] 
+        // generate date
+        const now = Date.now()
+        const start = new Date("2023-01-01")
+        const newdate1 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
+        secAlert.date = newdate1.toISOString().split('Z')[0]
+        // generate status
+        //let sindex = Math.floor(Math.random() * 1.1)
+        //secAlert.status = levels[sindex]
+        secAlerts.push(secAlert)
+    }
+
+    return secAlerts
+}
+
+let securityAlerts = generateSecurityAlerts()
 const getUsers = async function (body) {
     let retUsers = JSON.parse(JSON.stringify(users))
     const filters = body.options.filters
@@ -801,6 +836,42 @@ const login = async function (body) {
 }
 
 
+const getSecurityAlerts = async function (body) {
+    let retAlerts = JSON.parse(JSON.stringify(securityAlerts))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retAlerts = filterArray(retAlerts, filters)
+    }
+    body.data = retAlerts
+    return (body)
+}
+
+const setSecurityAlert = async function (body) {
+    const alert = body.options.alert
+    let old = null
+    let oldp = null
+    if (alert) {
+        const existing = securityAlerts.findIndex((item) => { return item.uid == alert.uid })
+        if (existing > -1) {
+            old = securityAlerts[existing]
+            securityAlerts[existing] = alert
+        } else {
+            securityAlerts.push(alert)
+        }
+    }
+    return alert
+}
+
+const deleteSecurityAlert = async function (body) {
+    const filters = body.options.filters
+    // CLONE USERS
+    let clone = JSON.parse(JSON.stringify(securityAlerts))
+    clone = filterArray(clone, filters, true)
+    securityAlerts = clone
+    body.data = securityAlerts
+    return (body)
+}
+
 
 const USER = {
     getUsers,
@@ -816,6 +887,9 @@ const USER = {
     getLogsByUid,
     setAvatar,
     setProfile,
+    getSecurityAlerts,
+    setSecurityAlert,
+    deleteSecurityAlert
 }
 
 export default USER

@@ -27,15 +27,18 @@ const onClick = (ev:any) =>{
   border-radius: 0.3rem;
   display: inline-flex;
   overflow: hidden;
+  height: 30px ;
 }
 
 .breadcrumbs__item {
   background: #fff;
-  color: #333;
+  color: #666;
   outline: none;
-  padding: 0.65em 0.65em 0.65em 1.25em;
+  /*padding: 0.65em 0.65em 0.65em 1.25em;*/
+  padding: 0em 0.65em 0em 0.65em;
   position: relative;
   text-decoration: none;
+  font-weight: normal ;
   transition: background 0.2s linear;
 }
 
@@ -76,6 +79,7 @@ const onClick = (ev:any) =>{
 
 .breadcrumbs__item.is-active {
   background: #edf1f5;
+  font-weight: bold ;
 }
 
 </style>

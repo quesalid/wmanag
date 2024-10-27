@@ -1,6 +1,13 @@
 <script lang="ts">
    import { navigate } from "svelte-routing";
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {getEntityMain,
@@ -10,6 +17,7 @@
 		   setEntityLocal,
 		   setEntityControlled,
 		   setController} from '../lib/script/apidataconfig.js'
+	// STORE
    import {module, 
 			mock,
 			avatar,avatargroups,
@@ -17,11 +25,11 @@
 			user,
 			navigation,
 			getArrayFromPath} from '../lib/ustore.js'
-
+   // API
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // U S E    https://svelteflow.dev/  for the editor
    import EDITOR from '../lib/components/drawflow/editor.svelte'
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
-   import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
    import {fromFlowToDb,fromGraphToFlow} from '../lib/script/flow/flowmap.js'
    // UTILITY
    import {getGroups} from '../lib/script/utils.js'
@@ -30,16 +38,10 @@
    let  groups = getGroups($module,$user)
 
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 		const filters:any = []
 		const ret = await getEntityMain(filters,$mock)
 	});
@@ -47,59 +49,14 @@
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
 	let editor:any
-
 	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
-	
-	
-	const avatarsize = "w-10"
+	export let barheigth = "60px"
+	export let imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
 	// GRAPH VARIABLES
     let defaultNodes: any[] = [];
 	let graph:any
-	
-
-	/*let typeOptions = [
-		{value:"COMPANY",options:{level:'level1',color:'#ffff80'}},
-		{value:"PLANT",options:{level:'level2',color:'#80ff80',image:'FACTORY.png'}},
-		{value:"DEPARTMENT",options:{level:'level3',color:'#ff80ff'}},
-		{value:"LINE",options:{level:'level4',color:'#8080ff'}},
-		{value:"MACHINE",options:{level:'level5',color:'#ff00ff'}},
-		{value:"CONTROLLER",options:{level:'level6',color:'#ffc800'}}
-	]
-
-	
-	let panel = [
-		{type:'text',subtype:'',name:'name',option:'COMPANY'},
-		{type:'date',subtype:'',name:'createdAt',option:'COMPANY'},
-		{type:'text',subtype:'',name:'name',option:'PLANT'},
-		{type:'text',subtype:'',name:'address',option:'PLANT'},
-		{type:'text',subtype:'',name:'name',option:'DEPARTMENT'},
-		{type:'text',subtype:'',name:'description',option:'DEPARTMENT'},
-		{type:'text',subtype:'',name:'name',option:'LINE'},
-		{type:'text',subtype:'',name:'description',option:'LINE'},
-		{type:'text',subtype:'',name:'name',option:'MACHINE'},
-		{type:'text',subtype:'',name:'description',option:'MACHINE'},
-		{type:'text',subtype:'',name:'supplier',option:'MACHINE'},
-		{type:'text',subtype:'',name:'name',option:'CONTROLLER'},
-		{type:'text',subtype:'',name:'description',option:'CONTROLLER'},
-		{type:'text',subtype:'',name:'model',option:'CONTROLLER'},
-		{type:'text',subtype:'ip',name:'ip',option:'CONTROLLER'},
-		{type:'number',subtype:'',name:'port',option:'CONTROLLER'},
-		{type:'text',subtype:'',name:'hostname',option:'CONTROLLER'},
-		{type:'select',subtype:'select',name:'driver',option:'CONTROLLER',options:[
-			{name:'s7'},
-			{name:'ethip'},
-			{name:'modbus'},
-			{name:'opcua'},
-			{name:'mqtt'},
-			{name:'rest'},
-			{name:'soap'},
-			{name:'opcda'},
-			{name:'bacnet'}
-		]},
-	]*/
 
 
 	let exp = async (ev:any)=>{
@@ -174,11 +131,14 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
+					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
+					<DigitalClock/>
+					</div>
 				</div>
 				<div slot="centertop">
-					<Breadcrumb/>
+					<BreadCrumb/>
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>

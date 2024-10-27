@@ -1,12 +1,20 @@
 <script lang="ts">
    // ADD TOP BAR
 	import { navigate } from "svelte-routing";
-	import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+	import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
 	import { center } from '../lib/components/topbar/notifications';
 	import {onMount} from "svelte"
-	import {module,avatargroups,avatar,user,avatarclass, navigation, getArrayFromPath} from '../lib/ustore.js'
-
-
+	// STORE
+	import {module,mock,avatargroups,avatar,user,avatarclass, navigation, getArrayFromPath} from '../lib/ustore.js'
+	 // API
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    import { GraphEditor,
 			BayesNode,
 			BayesDataPanel,
@@ -23,31 +31,21 @@
    // ADD SIDEBAR NENU ON USER BASIS
    let  groups = getGroups($module,$user)
 
-	onMount(() => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+	onMount(async () => {
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let logout = "/datalogin"
 	export let  bgcolor = "#ddefde"
-	
-
 	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
-	
-	
-	const avatarsize = "w-10"
+	export let  barheigth = "60px"
+	export let imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
 	
 
 	// GRAPH VARIABLES
@@ -174,11 +172,14 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
+					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
+					<DigitalClock/>
+					</div>
 				</div>
 				<div slot="centertop">
-					<BreadCrumb />
+					<BreadCrumb/>
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>

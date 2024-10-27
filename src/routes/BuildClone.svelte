@@ -4,7 +4,14 @@
    import {onMount,afterUpdate} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
    // U S E    https://svelteflow.dev/  for the editor
@@ -12,6 +19,8 @@
    import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
+   // API
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
     // UTILITY
    import { getGroups} from '../lib/script/utils.js'
 
@@ -20,17 +29,10 @@
 
    let devicesdata:any = writable([])
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
-		
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 	});
 
 
@@ -38,14 +40,12 @@
 	export let  bgcolor = "#ddefde"
 	let editor:any
 	let graph:any
-
 	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
-	
-	
-	const avatarsize = "w-10"
+	export let  barheigth = "60px"
+	export let  imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
+
 	let deviceuid = ''
 
 
@@ -78,8 +78,11 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
+					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
+					<DigitalClock/>
+					</div>
 				</div>
 				<div slot="centertop">
 					<BreadCrumb/>
@@ -95,7 +98,6 @@
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
-
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<!--Modeler /-->

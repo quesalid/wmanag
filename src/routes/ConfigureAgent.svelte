@@ -6,7 +6,14 @@
    import {onMount} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
@@ -15,6 +22,7 @@
    import {AgentForm,DeleteForm} from '../lib/components/forms'
    // API INTERFACE
    import {getAgents,setAgent,deleteAgent,getDevices} from '../lib/script/apidataconfig.js'
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
    import { mock,module,navigation,getArrayFromPath,avatar,avatargroups,user,avatarclass,currdevice} from '../lib/ustore.js'
   // UTILITY
@@ -27,16 +35,10 @@
    let agentsdata:any = writable([])
    let device:any = {name:''}
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 		// GET AGENT INFO
 		let filters:any = [{uid:$currdevice,_type:'eq'}]
 		const devices = await getDevices(filters,$mock)
@@ -63,13 +65,8 @@
 	});
 
 	
-	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
 	
 	
-	const avatarsize = "w-10"
 	let deviceuid = ''
 
 
@@ -108,6 +105,11 @@
 	export let showheader = true
 	export let bordercolor = "#c0c0c0"
 	export let boxshadow = "0px 0px 0px 0px #000000"
+	// BAR VARIABLES
+	export let  barheigth = "60px"
+	export let imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
 
 
 	let pagesize = true
@@ -157,8 +159,11 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
+					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
+					<DigitalClock/>
+					</div>
 				</div>
 				<div slot="centertop">
 					<BreadCrumb/>
@@ -174,7 +179,6 @@
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
-
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<Wmanag id="containerWManager"  

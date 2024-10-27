@@ -49,7 +49,12 @@ export let titlefontsize = "15px"
 export let titlecolor = "#444"
 export let titleweight = "bold"
 export let bodycolor = "#ffffff"
-//let bgcolor = "#ddefde"
+/// BAR VARIABLES
+export let barheigth = "55px"
+export let barheigth1 = "55px"
+export let imgheight = "55px"
+export let topbarheight = "90%"
+export let  avatarsize = "w-10"
 
  onMount(async () => {  
 
@@ -84,7 +89,11 @@ export let bodycolor = "#ffffff"
             titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
-		    {bodycolor}/>
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone">
         <DashBoard logoImage="/ICO_UP2_CLONE.png"  
@@ -92,7 +101,11 @@ export let bodycolor = "#ffffff"
             titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
-		    {bodycolor}/>
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai">
         <DashBoard logoImage="/ICO_UP2_AI.png"  
@@ -100,7 +113,11 @@ export let bodycolor = "#ffffff"
             titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
-		    {bodycolor}/>
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn">
         <DashBoard logoImage="/ICO_UP2_LEARN.png"  
@@ -108,123 +125,274 @@ export let bodycolor = "#ffffff"
             titlefontsize="13px"
 		    {titlecolor}
 		    {titleweight}
-		    {bodycolor}/>
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <!--  C O N F I G U R E   -->
      <Route path="/data/configure">
-        <Configure logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <Configure logoImage="/ICO_UP2_DATA.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/configure">
-		    <Configure logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+		    <Configure logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/configure">
-		    <Configure logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
+		    <Configure logoImage="/ICO_UP2_AI.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn/configure">
-		    <Configure logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
+		    <Configure logoImage="/ICO_UP2_LEARN.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <!-- C O N F I G U R E     A G E N T-->
     <Route path="/data/configure/agent">
-        <ConfigureAgent logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <ConfigureAgent logoImage="/ICO_UP2_DATA.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+		    <ConfigureAgent logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
+		    <ConfigureAgent logoImage="/ICO_UP2_AI.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn/configure/agent">
-		    <ConfigureAgent logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
+		    <ConfigureAgent logoImage="/ICO_UP2_LEARN.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <!-- D E P L O Y -->
     <Route path="/data/deploy">
-        <Deploy logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <Deploy logoImage="/ICO_UP2_DATA.png"  
+        bgcolor={bgcolor}
+        barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/deploy">
-		    <Deploy logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+		    <Deploy logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/deploy">
-		    <Deploy logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
+		    <Deploy logoImage="/ICO_UP2_AI.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn/deploy">
-		    <Deploy logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
+		    <Deploy logoImage="/ICO_UP2_LEARN.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <!-- B U I L D -->
     <Route path="/data/build">
-        <BuildData logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <BuildData logoImage="/ICO_UP2_DATA.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/build">
-        <BuildClone logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+        <BuildClone logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/build">
-        <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"  bgcolor={bgcolor}/>
+        <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
 	<!-- M O N I T O R-->
     <Route path="/data/monitor">
-        <Monitor logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <Monitor logoImage="/ICO_UP2_DATA.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/monitor">
-		<Monitor logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+		<Monitor logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/monitor">
-		 <Monitor logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
+		 <Monitor logoImage="/ICO_UP2_AI.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn/monitor">
-		 <Monitor logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
+		 <Monitor logoImage="/ICO_UP2_LEARN.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <!-- A D M I N-->
     <Route path="/data/admin">
-        <Admin logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <Admin logoImage="/ICO_UP2_DATA.png"  
+            bgcolor={bgcolor}
+	        barheigth = {barheigth}
+	        barheigth1 = {barheigth1}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/admin">
-		<Admin logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+		<Admin logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        barheigth1 = {barheigth1}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/admin">
-		 <Admin logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
+		 <Admin logoImage="/ICO_UP2_AI.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        barheigth1 = {barheigth1}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn/admin">
-		 <Admin logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
+		 <Admin logoImage="/ICO_UP2_LEARN.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        barheigth1 = {barheigth1}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <!-- D A S H B O A R D    C O N F I G -->
     <Route path="/data/dashboardconfig">
-        <DashBoardConfig logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <DashBoardConfig logoImage="/ICO_UP2_DATA.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/dashboardconfig">
-		<DashBoardConfig logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+		<DashBoardConfig logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/dashboardconfig">
-		 <DashBoardConfig logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
+		 <DashBoardConfig logoImage="/ICO_UP2_AI.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn/dashboardconfig">
-		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
+		 <DashBoardConfig logoImage="/ICO_UP2_LEARN.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <!-- A S S I S T A N T  -->
     <Route path="/data/assistant">
-        <Assistant logoImage="/ICO_UP2_DATA.png"  bgcolor={bgcolor}/>
+        <Assistant logoImage="/ICO_UP2_DATA.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/clone/assistant">
-		<Assistant logoImage="/ICO_UP2_CLONE.png"  bgcolor={bgcolor}/>
+		<Assistant logoImage="/ICO_UP2_CLONE.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/ai/assistant">
-		 <Assistant logoImage="/ICO_UP2_AI.png"  bgcolor={bgcolor}/>
+		 <Assistant logoImage="/ICO_UP2_AI.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
     <Route path="/learn/assistant">
-		 <Assistant logoImage="/ICO_UP2_LEARN.png"  bgcolor={bgcolor}/>
+		 <Assistant logoImage="/ICO_UP2_LEARN.png"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
     </Route>
   </div>
 </Router>
 
 <style>
-:global(body) {
-		--date-picker-foreground: #26272c;
-		--date-picker-background: #a7a7f7
-		--date-picker-highlight-border: hsl(var(--deg), 98%, 49%);
-		--date-picker-highlight-shadow: hsla(var(--deg), 98%, 49%, 50%);
-		--date-picker-selected-color: hsl(var(--deg), 100%, 85%);
-		--date-picker-selected-background: hsla(var(--deg), 98%, 49%, 20%);
-        --date-input-width: 10rem;
-	}
-:global(.date-time-picker) {
-	width: 13.5rem;
-}
 </style>

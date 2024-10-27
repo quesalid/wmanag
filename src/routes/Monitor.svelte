@@ -4,7 +4,14 @@
    import {onMount} from "svelte"
    import { writable } from "svelte/store";
    // INTERNAL
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb, ChatBot, DigitalClock} from "../lib/components/topbar"
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb, 
+			ChatBot, 
+			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {getPointColumns} from '../lib/script/utils.js'
    import {PointForm,DeleteForm} from '../lib/components/forms'
@@ -23,6 +30,7 @@
 			getEntityControlled,
 			getControllers,
 			getEntityMain} from '../lib/script/apidataconfig.js'
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
    import { mock,module,user,avatar,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
    // UTILITY
@@ -37,10 +45,11 @@
    export let  bgcolor = "#ddefde"
   
     // BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
-	const avatarsize = "w-10"
+	export let  barheigth = "60px"
+	export let imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
+
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
 		$navigation = getArrayFromPath(`/`+$module)
@@ -77,16 +86,10 @@
    let controllers:any = []
    let mainentities:any = []
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 		const filters:any = []
 		let ret:any
 		let ret1:any

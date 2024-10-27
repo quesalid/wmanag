@@ -1,9 +1,17 @@
 <script lang="ts">
    import { navigate } from "svelte-routing";
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
    import {getEntityMain} from '../lib/script/apidataconfig.js'
+   // STORE
    import {module, 
 			mock,
 			avatar,avatargroups,
@@ -12,7 +20,8 @@
 			navigation,
 			getArrayFromPath,
 			assistant} from '../lib/ustore.js'
-   import Breadcrumb from "../lib/components/topbar/BreadCrumb.svelte";
+    // API
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // MANAGER
    import {AssistantManager} from '../lib/components/contents'
    // UTILITY
@@ -23,31 +32,22 @@
    let  groups = getGroups($module,$user)
 
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 		const filters:any = []
 		const ret = await getEntityMain(filters,$mock)
 	});
 
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
-	
-
 	// BAR VARIABLES
-	const barheigth = "60px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
-	
-	
-	const avatarsize = "w-10"
+	export let barheigth = "60px"
+	export let  imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
+
 	// ASSISTANT VARIABLES
 	let options = ['','GPT-2','GPT-3','BERT','XLNet','RoBERTa','T5','DialoGPT']
 	let type = ''
@@ -81,11 +81,14 @@
 		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
+					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
+					<DigitalClock/>
+					</div>
 				</div>
 				<div slot="centertop">
-					<Breadcrumb/>
+					<BreadCrumb/>
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>

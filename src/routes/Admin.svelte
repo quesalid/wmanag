@@ -3,12 +3,21 @@
    import { navigate } from "svelte-routing";
    import {onMount} from "svelte"
    // INTERN IMPORT
-   import {TopBar,Logo,DropDownMenu,AlertMessages,SideMenu,BreadCrumb,ChatBot} from "../lib/components/topbar"
+   import {TopBar,
+			Logo,
+			DropDownMenu,
+			AlertMessages,
+			SideMenu,
+			BreadCrumb,
+			ChatBot,
+			DigitalClock} from "../lib/components/topbar"
    import Tab from '../lib/components/tabs/Tab.svelte'
    import { center } from '../lib/components/topbar/notifications';
    import {UserManager,DbManager,LogManager} from '../lib/components/contents'
    // STORE
    import {module, mock, avatar,currentmainentity,navigation,getArrayFromPath,avatargroups,avatarclass,user,role} from '../lib/ustore.js'
+   // API
+   import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // UTILITY
    import { isUserAdmin,getGroups} from '../lib/script/utils.js'
    
@@ -16,16 +25,11 @@
    let  groups = getGroups($module,$user)
 	
 	onMount(async () => {
-		center.init([
-			  'Suspicious login on your server less then a minute ago',
-			  'Successful login attempt by @johndoe',
-			  'Successful login attempt by @amy',
-			  'Suspicious login on your server 7 min',
-			  'Suspicious login on your server 11 min ago',
-			  'Successful login attempt by @horace',
-			  'Suspicious login on your server 14 min ago',
-			  'Successful login attempt by @jack'
-		])
+		// INIT NOTIFICATIONS
+		const retalert = await getSecurityAlerts([],$mock)
+		const securityAlerts = retalert.data
+		const messages = securityAlerts.map((item:any)=>item.message)
+		center.init(messages)
 		const filters:any = []
 		$navigation = getArrayFromPath("/"+$module+"/admin")
 		// SET FOCUS ON FIRST MENU AND SHOW REALTED DIV ON MOUNT
@@ -42,14 +46,12 @@
 
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
-
 	// BAR VARIABLES
-	const barheigth = "60px"
-	const barheigth1 = "55px"
-	const imgheight = "60px"
-	const topbarheight = "90%"
-	
-	const avatarsize = "w-10"
+	export let barheigth = "60px"
+	export let barheigth1 = "55px"
+	export let imgheight = "60px"
+	export let topbarheight = "90%"
+	export let  avatarsize = "w-10"
 	
 
 
@@ -75,8 +77,11 @@
 			<div>
 				<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 					<div slot="lefttop">
+						<div style="display: flex;">
 						<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 						</Logo>
+						<DigitalClock/>
+						</div>
 					</div>
 					<div slot="centertop">
 						<BreadCrumb/>
@@ -84,7 +89,7 @@
 					<div slot="righttop" class='flex'>
 					<AlertMessages/>
 					<ChatBot/>
-					<DropDownMenu groups={$avatargroups} bind:image="{$avatar}" 
+					<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 							imagesize='{avatarsize}'
 							message={$user.username}
 							messageclass={$avatarclass}>
@@ -92,7 +97,6 @@
 					<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 					</div>
 				</TopBar>
-
 			</div>
 			<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
 					<Tab {items} {tabclass} {divclass}/>
