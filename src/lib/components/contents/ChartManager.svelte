@@ -34,14 +34,17 @@
 				break;
 			case 'gradientStackedArea':
 				chartOpts = found?{title:found.title}:{title:'Title'}
+				chartOpts['_data'] ={initdate:firstDayOfWeek,enddate:lastDayOfWeek}
 				break;
 			case 'barYStacked':
 				chartOpts = found?{title:found.title}:{title:'Title'}
+				chartOpts['_data'] ={initdate:firstDayOfWeek,enddate:lastDayOfWeek}
 				break;
 		}
 		return chartOpts
 	}
 
+	// Get first day of month and first day of next month
 	const getFirstDayOfMonth = (date:any):any => {
 		// date format: yyyy-mm-dd
 		const items = date.split('-');
@@ -63,6 +66,29 @@
 		];
 	}
 
+	// Get week boundaries
+	const  getWeekBoundaries = (date:any) => {
+		// Creiamo una nuova data per evitare di modificare l'oggetto originale
+		const currentDate = new Date(date)
+
+		// Calcolo del primo giorno della settimana (lunedì)
+		const dayOfWeek = currentDate.getDay(); // Ottiene il giorno della settimana (0: domenica, 1: lunedì, ...)
+		const distanceToMonday = (dayOfWeek + 6) % 7; // Calcola la distanza dal lunedì
+		const firstDayOfWeek = new Date(currentDate);
+		firstDayOfWeek.setDate(currentDate.getDate() - distanceToMonday);
+		let isoFirstday = firstDayOfWeek.toISOString().split('T')[0]
+
+		// Calcolo dell'ultimo giorno della settimana (domenica)
+		const lastDayOfWeek = new Date(firstDayOfWeek);
+		lastDayOfWeek.setDate(firstDayOfWeek.getDate() + 6); // Aggiunge 6 giorni a partire dal lunedì
+		let isoLastday = lastDayOfWeek.toISOString().split('T')[0]
+
+		return [
+			isoFirstday,
+			isoLastday
+		];
+	}
+
 	const changeChart = (ev:any)=>{
 		chartChoice = ev.target.value
 		if(chartChoice && chartChoice != ""){
@@ -80,6 +106,7 @@
 	const changeDate = (ev:any)=>{
 		date = ev.target.value;
 		[firstDayCurrentMonth, firstDayNextMonth, range] = getFirstDayOfMonth(date);
+		[firstDayOfWeek, lastDayOfWeek] = getWeekBoundaries(date);
 		if(chartChoice && chartChoice != ""){
 			// Send Custom Event to targetDiv
 			let chartOpts = getChartOpts(chartChoice)
@@ -93,6 +120,7 @@
 	}
 
 	let [firstDayCurrentMonth, firstDayNextMonth, range] = getFirstDayOfMonth(date);
+	let [firstDayOfWeek, lastDayOfWeek] = getWeekBoundaries(today);
 
 
 	export let logoImage = "/ICO_UP2_DATA.png"

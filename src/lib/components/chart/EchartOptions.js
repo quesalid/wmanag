@@ -32,7 +32,10 @@ export const calendarPie = (data,opts) => {
         title: {
             text: opts.title ? opts.title : 'Utilizzo Mensile Linee - Sept. 2024',
             left: 'center',
-            padding:  [0, 0, 40, 0]
+            padding: [0, 0, 40, 0],
+            textStyle: {
+                color: '#999'
+            },
         },
         tooltip: {
             //formatter: '{a} {b} {c} {d}'
@@ -85,13 +88,20 @@ export const calendarPie = (data,opts) => {
 }
 
 export const gradientStackedArea = (data, opts) => {
-    const locdata = EchartData.gradientStackedArea(data);
+    const dataopts = opts && opts._data ? opts._data : null;
+    const locdata = EchartData.gradientStackedArea(data, dataopts);
+    let title = opts.title ? opts.title : 'Gradient Stacked Area Chart';
+    if (opts._data && opts._data.initdate && opts._data.enddate)
+        title = title + ' ' + opts._data.initdate.replaceAll('-', '/') + ' - ' + opts._data.enddate.replaceAll('-', '/');
     const option = {
         color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
         title: {
-            text: opts.title?opts.title:'Gradient Stacked Area Chart',
+            text: title,
             left: 'center',
-            padding: [0, 0, 40, 0]
+            padding: [0, 0, 40, 0],
+            textStyle: {
+                color: '#999'
+            },
         },
         tooltip: {
             trigger: 'axis',
@@ -275,7 +285,8 @@ export const gradientStackedArea = (data, opts) => {
 }
 
 const barWithColor = (data, opts) => {
-    const locdata = EchartData.barWithColor(data);
+    const dataopts = opts && opts._data ? opts._data : null;
+    const locdata = EchartData.gradientStackedArea(data, dataopts);
     const option = {
         xAxis: {
             type: 'category',
@@ -313,7 +324,11 @@ const barWithColor = (data, opts) => {
 }
 
 const barYStacked = (data, opts) => {
-    const locdata = EchartData.barYStacked(data);
+    const dataopts = opts && opts._data ? opts._data : null;
+    const locdata = EchartData.gradientStackedArea(data, dataopts);
+    let title = opts.title ? opts.title : 'Y Bar Chart Stacked';
+    if (opts._data && opts._data.initdate && opts._data.enddate)
+        title = title + ' ' + opts._data.initdate.replaceAll('-', '/') + ' - ' + opts._data.enddate.replaceAll('-', '/');
     const option = {
         tooltip: {
             trigger: 'axis',
@@ -323,9 +338,12 @@ const barYStacked = (data, opts) => {
             }
         },
         title: {
-            text: opts.title ? opts.title : 'Y Bar Chart Stacked',
+            text: title,
             left: 'center',
-            padding: [0, 0, 40, 0]
+            padding: [0, 0, 40, 0],
+            textStyle: {
+                color: '#999'
+            },
         },
         legend: {
             top: 30,
