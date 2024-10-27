@@ -310,9 +310,10 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     {
-                        id: 'Donut',
-                        top: '380px',
+                        id: 'Monitor',
+                        top: '290px',
                         left: '10px',
+                        height: '320px',
                         visible: "visible"
                     },
                     {
