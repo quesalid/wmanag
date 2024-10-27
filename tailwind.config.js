@@ -19,6 +19,9 @@ export default {
                 'blink-4': 'blink 4s infinite',
                 'blink-5': 'blink 5s infinite',
             },
+            colors: {
+                'brand-bluegreen': '#ddefde',  // Aggiungi il tuo colore qui
+            },
         },
     },
     content: ['./src/**/*.{html,js,svelte,ts}'],

@@ -7,6 +7,8 @@
   import { center } from './notifications';
 
   export let count = 5;
+  export let dismissText = "Rimuovi"
+  export let clearText = "Cancella tutto"
 
   // open-close state
   let show = false;
@@ -68,13 +70,12 @@
   <!-- clicking anywhere on the page will close the popup -->
   <button
     tabindex="-1"
-    class="fixed inset-0 w-full h-full cursor-default focus:outline-none"
+    class="fixed inset-0 w-full h-full cursor-default focus:outline-none "
     on:click|preventDefault={() => (show = false)}
   />
 
   <div
-    class="absolute right-10 top-10 p-3 mt-1 text-gray-600 bg-white bg-gray-100 rounded shadow-md messages z-10"
-	>
+    class="absolute right-10 top-12 p-3 mt-1 text-gray-600 bg-white bg-gray-100 rounded shadow-md messages z-10">
     <ul class="space-y-3">
       {#each messages as message}
         <li class="p-3 border rounded">
@@ -82,10 +83,10 @@
           <div class="mt-1">
             <!-- add dismiss handler -->
             <button
-              class="px-2 text-sm text-blue-200 bg-teal-600 rounded-sm"
+              class="px-2 border-2 border-gray-400 text-sm text-gray-600 font-bold bg-brand-bluegreen rounded-sm"
               on:click={() => handleDismiss(message)}
             >
-              dismiss
+              {dismissText}
             </button>
           </div>
         </li>
@@ -94,10 +95,9 @@
     <div class="flex justify-end mt-3">
       <!-- add clear all handler -->
       <button
-        class="px-2 text-sm text-blue-200 bg-teal-600 rounded-sm"
-        on:click={clearAll}
-      >
-        clear all
+        class="px-2 border-2 border-gray-400 text-sm text-gray-600 font-bold bg-brand-bluegreen rounded-sm"
+        on:click={clearAll}>
+        {clearText}
       </button>
     </div>
   </div>

@@ -46,6 +46,7 @@
 
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
+	export let innertop = "58px"
 	// BAR VARIABLES
 	export let barheigth = "60px"
 	export let barheigth1 = "55px"
@@ -99,7 +100,7 @@
 				</TopBar>
 			</div>
 			<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
-					<Tab {items} {tabclass} {divclass}/>
+					<Tab {items} {tabclass} {divclass} top={innertop}/>
 			
 			</div>
 

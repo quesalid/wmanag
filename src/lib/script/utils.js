@@ -1436,7 +1436,8 @@ const defaultGroups  = [
 // ----- WARNING same toolbar for different modules ---- 
 export let getGroups = (module, user) => {
     // chcek if user has groups configuration
-    let groups = user.profile.topbar && user.profile.topbar.groups ? user.profile.topbar.groups : null
+    console.log('getGroups',module,user.profile.topbar,module)
+    let groups = user.profile.topbar && user.profile.topbar.groups && user.profile.topbar.groups[module] ? user.profile.topbar.groups[module] : null
     let clone = groups ? JSON.parse(JSON.stringify(groups)) : JSON.parse(JSON.stringify(defaultGroups))
     // for each group
     for (let i = 0; i < clone.length; i++) {

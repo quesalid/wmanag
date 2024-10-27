@@ -154,16 +154,17 @@ let profiles = [
             }
         ],
         topbar: {
-            groups: [
-                [
-                    { icon: '/DASHBOARD.svg', text: `Home`, link: '/' },
-                    { icon: '/MONITOR.svg', text: `Monitor`, link:  '/monitor' },
-                    { icon: '/BUILD.svg', text: `Build`, link:  '/build' },
-                ], [
-                    { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
-                    { icon: '/DEPLOY.svg', text: `Deploy`, link:  '/deploy' }
+            groups: {
+                'data': [
+                    [
+                        { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                        { icon: '/BUILD.svg', text: `Build`, link: '/build' },
+                    ], [
+                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                    ]
                 ]
-            ]
+            }
         }
     },
     {
@@ -270,6 +271,20 @@ let profiles = [
                 ]
             }
         ],
+        topbar: {
+            groups: {
+                'data': [
+                    [
+                        { icon: '/DASHBOARD.svg', text: `Dashboard`, link: '' },
+                        { icon: '/MONITOR.svg', text: `Monitoraggio`, link: '/monitor' },
+                        { icon: '/BUILD.svg', text: `Costruzione`, link: '/build' },
+                    ], [
+                        { icon: '/EDIT.svg', text: `Configurazione`, link: '/configure' },
+                        { icon: '/DEPLOY.svg', text: `Rilascio`, link: '/deploy' }
+                    ]
+                ]
+            }
+        }
     },
     {
         uid: 'dd7b658f-66ca-7aa3-965d-abd4bc48a59a',
@@ -304,6 +319,7 @@ let profiles = [
                         id: 'Map',
                         top: '0px',
                         left: '10px',
+                        height: '340px',
                         visible: "visible",
                         params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 }
                     },
@@ -365,6 +381,20 @@ let profiles = [
                 ]
             }
         ],
+        topbar: {
+            groups: {
+                'data': [
+                    [
+                        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
+                        { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                        { icon: '/BUILD.svg', text: `Build`, link: '/build' },
+                    ], [
+                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                    ]
+                ]
+            }
+        }
     },
     {
         uid: 'dd7b65da-66b8-7aa3-965d-abd4bc48a59a',
@@ -396,6 +426,7 @@ let profiles = [
                         top: '0px',
                         left: '10px',
                         visible: "visible",
+                        height: '340px',
                         params: { center: { lat: 42.01, lon: 12.30 }, zoom: 14.5, zoomfactor: 3 }
                     },
                     {
@@ -456,6 +487,20 @@ let profiles = [
                 ]
             }
         ],
+        topbar: {
+            groups: {
+                'data': [
+                    [
+                        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
+                        { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                        { icon: '/BUILD.svg', text: `Build`, link: '/build' },
+                    ], [
+                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                    ]
+                ]
+            }
+        }
     },
     {
         uid: '447b658f-66ca-7aa3-965d-abd4bc22a893',
@@ -554,12 +599,14 @@ let profiles = [
             }
         ],
         topbar: {
-            groups: [
-                [
-                    { icon: '/DASHBOARD.svg', text: `Home`, link: '/' },
-                    { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+            groups: {
+                'data': [
+                    [
+                        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
+                        { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                    ]
                 ]
-            ]
+            }
         }
     }
 ]
@@ -654,28 +701,28 @@ function generateLogs(num = 30) {
 const logs = generateLogs(40)
 
 const alertsTemplates = [
-    'Suspicious login on your server less then a minute ago',
-    'Successful login attempt by @johndoe',
-    'Successful login attempt by @amy',
-    'Suspicious login on your server 7 min',
-    'Suspicious login on your server 11 min ago',
-    'Successful login attempt by @horace',
-    'Suspicious login on your server 14 min ago',
-    'Successful login attempt by @jack'
+    'Suspicious login on your server at',
+    'Successful login attempt by @johndoe at',
+    'Successful login attempt by @amy at',
+    'Suspicious login on your server at',
+    'Suspicious login on your server at',
+    'Successful login attempt by @horace at',
+    'Suspicious login on your server at',
+    'Successful login attempt by @jack at'
 ]
 function generateSecurityAlerts(num = 4) {
     const secAlerts = []
     for (let i = 0; i < num; i++) {
         let secAlert = {}
         secAlert.uid = uuidv4()
-        // get random alet template
-        let aindex = Math.floor(Math.random() * (alertsTemplates.length - 1))
-        secAlert.message = alertsTemplates[aindex] 
         // generate date
         const now = Date.now()
         const start = new Date("2023-01-01")
         const newdate1 = new Date(start.getTime() + Math.random() * (now - start.getTime()));
         secAlert.date = newdate1.toISOString().split('Z')[0]
+        // get random alet template
+        let aindex = Math.floor(Math.random() * (alertsTemplates.length - 1))
+        secAlert.message = alertsTemplates[aindex] + ' ' + secAlert.date
         // generate status
         //let sindex = Math.floor(Math.random() * 1.1)
         //secAlert.status = levels[sindex]
@@ -685,7 +732,7 @@ function generateSecurityAlerts(num = 4) {
     return secAlerts
 }
 
-let securityAlerts = generateSecurityAlerts()
+let securityAlerts = generateSecurityAlerts(8)
 const getUsers = async function (body) {
     let retUsers = JSON.parse(JSON.stringify(users))
     const filters = body.options.filters
@@ -842,6 +889,10 @@ const getSecurityAlerts = async function (body) {
     if (filters && filters.length) {
         retAlerts = filterArray(retAlerts, filters)
     }
+    // order by date
+    retAlerts.sort((a, b) => {
+        return new Date(b.date) - new Date(a.date)
+    })
     body.data = retAlerts
     return (body)
 }
