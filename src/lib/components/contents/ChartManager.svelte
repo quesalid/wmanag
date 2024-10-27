@@ -17,8 +17,11 @@
 	let defaultWManager = 'defaultCharter'
 	let chartChoice = 'calendarPie'
 	let showdatepicker = true
-	let date = new Date()
+	const today = new Date()
+	let date = today.toISOString().split('T')[0]
+	
 
+	/* Set options based on chartType */
 	const getChartOpts = (chartType:string)=>{
 		const tool = toolbarpoint.find((el:any)=>el.id === 'ChartTypeSelect')
 		const found = tool.props.options.find((el:any)=>el.value === chartChoice)
@@ -26,7 +29,8 @@
 		switch(chartType){
 			case 'calendarPie':
 				chartOpts = found?{title:found.title}:{title:'Title'}
-				//chartOpts['calendar'] = {range:'2024-10'}
+				chartOpts['calendar'] = {range:range}
+				chartOpts['_data'] ={initdate:firstDayCurrentMonth,enddate:firstDayNextMonth}
 				break;
 			case 'gradientStackedArea':
 				chartOpts = found?{title:found.title}:{title:'Title'}
@@ -38,10 +42,30 @@
 		return chartOpts
 	}
 
+	const getFirstDayOfMonth = (date:any):any => {
+		// date format: yyyy-mm-dd
+		const items = date.split('-');
+		const year = parseInt(items[0]);
+		const month = parseInt(items[1]);
+		// Primo giorno del mese corrente
+		//const firstDayCurrentMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+		const fdcm = new Date(year, month-1,2)
+		const range = fdcm.getFullYear() + '-' + (fdcm.getMonth() + 1);
+		const firstDayCurrentMonth = fdcm.toISOString().split('T')[0];
+		// Primo giorno del mese successivo
+		//const firstDayNextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+		const firstDayNextMonth = new Date(year, month,2).toISOString().split('T')[0];
+
+		return [
+			firstDayCurrentMonth,
+			firstDayNextMonth,
+			range
+		];
+	}
+
 	const changeChart = (ev:any)=>{
 		chartChoice = ev.target.value
 		if(chartChoice && chartChoice != ""){
-			console.log(ev.target.value,chartChoice,date)
 			// Send Custom Event to targetDiv
 			let chartOpts = getChartOpts(chartChoice)
 			const event = new CustomEvent('charttype', {
@@ -54,23 +78,22 @@
 	}
 
 	const changeDate = (ev:any)=>{
-		date = ev.target.value
-		console.log(" **********************",ev.target.value)
-		/*if(chartChoice && chartChoice != ""){
-			console.log(chartChoice,date)
+		date = ev.target.value;
+		[firstDayCurrentMonth, firstDayNextMonth, range] = getFirstDayOfMonth(date);
+		if(chartChoice && chartChoice != ""){
 			// Send Custom Event to targetDiv
-			const tool = toolbarpoint.find((el:any)=>el.id === 'ChartTypeSelect')
-			const found = tool.props.options.find((el:any)=>el.value === chartChoice)
-			// enable or disable datepicker
-			showdatepicker = found?found.datepicker:false
+			let chartOpts = getChartOpts(chartChoice)
 			const event = new CustomEvent('charttype', {
-				detail: { chartType: chartChoice, chartOpts:found?{title:found.title}:{title:'Title'} }
+				detail: { chartType: chartChoice, chartOpts:chartOpts }
 			})
 			const target = document.getElementById(targetDiv)
 			if(target)
 				target.dispatchEvent(event)
-		}*/
+		}
 	}
+
+	let [firstDayCurrentMonth, firstDayNextMonth, range] = getFirstDayOfMonth(date);
+
 
 	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
@@ -123,7 +146,7 @@
 	export let minimized = 'off'
 	// CHART VARIABLES
 	let chartType = "calendarPie"
-	let chartOpts = {title:"Utilizzo Impianto"}
+	let chartOpts = {title:"Utilizzo Impianto",_data:{initdate:firstDayCurrentMonth,enddate:firstDayNextMonth}}
 
 </script>
  

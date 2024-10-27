@@ -1,9 +1,11 @@
 import * as echarts from "echarts";
+import EchartData from './EchartData.js'
 
 export const calendarPie = (data,opts) => {
     const cellSize = [80, 80];
     const pieRadius = 25;
-    const scatterData = data;
+    const dataopts = opts && opts._data ? opts._data : null;
+    const scatterData = EchartData.calendarPie(data,dataopts);
     const pieSeries = scatterData.map(function (item, index) {
         const Line1 = Math.round(Math.random() * 70) + 30;
         const Line2 = Math.round(Math.random() * (100 - Line1));
@@ -82,7 +84,8 @@ export const calendarPie = (data,opts) => {
     return option;
 }
 
-export const gradientStackedArea = (data,opts) => {
+export const gradientStackedArea = (data, opts) => {
+    const locdata = EchartData.gradientStackedArea(data);
     const option = {
         color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
         title: {
@@ -271,7 +274,8 @@ export const gradientStackedArea = (data,opts) => {
     return option;
 }
 
-const barWithColor = (data,opts) => {
+const barWithColor = (data, opts) => {
+    const locdata = EchartData.barWithColor(data);
     const option = {
         xAxis: {
             type: 'category',
@@ -309,6 +313,7 @@ const barWithColor = (data,opts) => {
 }
 
 const barYStacked = (data, opts) => {
+    const locdata = EchartData.barYStacked(data);
     const option = {
         tooltip: {
             trigger: 'axis',

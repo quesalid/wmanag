@@ -7,9 +7,11 @@ import {EchartOptions} from ".";
 // INIT VARIABLES
 let chartInstance: any;
 let chartDom: any;
-const getVirtualData = () => {
-      const date = +echarts.time.parse('2024-10-01');
-      const end = +echarts.time.parse('2024-11-01');
+let initdate = '2024-10-01'
+let enddate = '2024-11-01'
+const getVirtualData = (initdate:string,enddate:string) => {
+      const date = +echarts.time.parse(initdate);
+      const end = +echarts.time.parse(enddate);
       const dayTime = 3600 * 24 * 1000;
       const data = [];
       for (let time = date; time < end; time += dayTime) {
@@ -23,7 +25,7 @@ const getVirtualData = () => {
 
 export let modalId = "EChartDivId";
 export let option = {}
-export let data = getVirtualData()
+export let data = getVirtualData(initdate,enddate)
 export let chartType = "gradientStackedArea"
 export let chartOpts = {title:"Consumo Enegia Linee"}
 
@@ -33,7 +35,6 @@ const initChart = (option:any) => {
     console.log("Inizializzazione del grafico...");
     chartInstance = echarts.init(chartDom);
     chartInstance.setOption(option);
-    console.log("Opzioni applicate:", option);
   } else {
     console.error("chartDom non è definito");
   }
@@ -75,11 +76,9 @@ onMount(async () => {
 	  div.addEventListener('charttype', (e:any) => {
 		chartType = e.detail.chartType
 		chartOpts = e.detail.chartOpts
-		console.log("ChartType---> received",chartType,chartOpts)
         // Call routine to update data
         
 		option = EchartOptions[chartType](data,chartOpts);
-        console.log(option)
         chartInstance.dispose();
 		initChart(option);
 	  })
