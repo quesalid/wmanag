@@ -1,7 +1,7 @@
 import * as echarts from "echarts";
 import EchartData from './EchartData.js'
 
-export const calendarPie = (data,opts) => {
+const calendarPie = (data,opts) => {
     const cellSize = [80, 80];
     const pieRadius = 25;
     const dataopts = opts && opts._data ? opts._data : null;
@@ -87,12 +87,43 @@ export const calendarPie = (data,opts) => {
     return option;
 }
 
-export const gradientStackedArea = (data, opts) => {
+const gradientStackedArea = (data, opts) => {
     const dataopts = opts && opts._data ? opts._data : null;
     const locdata = EchartData.gradientStackedArea(data, dataopts);
     let title = opts.title ? opts.title : 'Gradient Stacked Area Chart';
     if (opts._data && opts._data.initdate && opts._data.enddate)
         title = title + ' ' + opts._data.initdate.replaceAll('-', '/') + ' - ' + opts._data.enddate.replaceAll('-', '/');
+    const series = []
+    for (let i = 0; i < locdata.length; i++) {
+        const sr = {
+            name: locdata[i].name,
+            type: 'line',
+            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+                width: 0
+            },
+            showSymbol: false,
+            areaStyle: {
+                opacity: 0.8,
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                        offset: 0,
+                        color: locdata[i].colors.offset0
+                    },
+                    {
+                        offset: 1,
+                        color: locdata[i].colors.offset1
+                    }
+                ])
+            },
+            emphasis: {
+                focus: 'series'
+            },
+            data: locdata[i].data
+        }
+        series.push(sr)
+    }
     const option = {
         color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
         title: {
@@ -139,154 +170,14 @@ export const gradientStackedArea = (data, opts) => {
                 type: 'value'
             }
         ],
-        series: [
-            {
-                name: 'Prim 1',
-                type: 'line',
-                stack: 'Total',
-                smooth: true,
-                lineStyle: {
-                    width: 0
-                },
-                showSymbol: false,
-                areaStyle: {
-                    opacity: 0.8,
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        {
-                            offset: 0,
-                            color: 'rgb(128, 255, 165)'
-                        },
-                        {
-                            offset: 1,
-                            color: 'rgb(1, 191, 236)'
-                        }
-                    ])
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [140, 232, 101, 264, 90, 340, 250]
-            },
-            {
-                name: 'Sec 1',
-                type: 'line',
-                stack: 'Total',
-                smooth: true,
-                lineStyle: {
-                    width: 0
-                },
-                showSymbol: false,
-                areaStyle: {
-                    opacity: 0.8,
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        {
-                            offset: 0,
-                            color: 'rgb(0, 221, 255)'
-                        },
-                        {
-                            offset: 1,
-                            color: 'rgb(77, 119, 255)'
-                        }
-                    ])
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [120, 282, 111, 234, 220, 340, 310]
-            },
-            {
-                name: 'Prim 2',
-                type: 'line',
-                stack: 'Total',
-                smooth: true,
-                lineStyle: {
-                    width: 0
-                },
-                showSymbol: false,
-                areaStyle: {
-                    opacity: 0.8,
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        {
-                            offset: 0,
-                            color: 'rgb(55, 162, 255)'
-                        },
-                        {
-                            offset: 1,
-                            color: 'rgb(116, 21, 219)'
-                        }
-                    ])
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [320, 132, 201, 334, 190, 130, 220]
-            },
-            {
-                name: 'Sec 2',
-                type: 'line',
-                stack: 'Total',
-                smooth: true,
-                lineStyle: {
-                    width: 0
-                },
-                showSymbol: false,
-                areaStyle: {
-                    opacity: 0.8,
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        {
-                            offset: 0,
-                            color: 'rgb(255, 0, 135)'
-                        },
-                        {
-                            offset: 1,
-                            color: 'rgb(135, 0, 157)'
-                        }
-                    ])
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [220, 402, 231, 134, 190, 230, 120]
-            },
-            {
-                name: 'Fanghi',
-                type: 'line',
-                stack: 'Total',
-                smooth: true,
-                lineStyle: {
-                    width: 0
-                },
-                showSymbol: false,
-                label: {
-                    show: true,
-                    position: 'top'
-                },
-                areaStyle: {
-                    opacity: 0.8,
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        {
-                            offset: 0,
-                            color: 'rgb(255, 191, 0)'
-                        },
-                        {
-                            offset: 1,
-                            color: 'rgb(224, 62, 76)'
-                        }
-                    ])
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [220, 302, 181, 234, 210, 290, 150]
-            }
-        ]
+        series: series
     };
     return option;
 }
 
 const barWithColor = (data, opts) => {
     const dataopts = opts && opts._data ? opts._data : null;
-    const locdata = EchartData.gradientStackedArea(data, dataopts);
+    const locdata = EchartData.barWithColor(data, dataopts);
     const option = {
         xAxis: {
             type: 'category',
@@ -325,8 +216,24 @@ const barWithColor = (data, opts) => {
 
 const barYStacked = (data, opts) => {
     const dataopts = opts && opts._data ? opts._data : null;
-    const locdata = EchartData.gradientStackedArea(data, dataopts);
+    const locdata = EchartData.barYStacked(data, dataopts);
     let title = opts.title ? opts.title : 'Y Bar Chart Stacked';
+    const series = []
+    for (let i = 0; i < locdata.length; i++) {
+        const sr = {
+            name: locdata[i].name,
+            type: 'bar',
+            stack: 'total',
+            label: {
+                show: true
+            },
+            emphasis: {
+                focus: 'series'
+            },
+            data: locdata[i].data
+        }
+    series.push(sr)
+    }
     if (opts._data && opts._data.initdate && opts._data.enddate)
         title = title + ' ' + opts._data.initdate.replaceAll('-', '/') + ' - ' + opts._data.enddate.replaceAll('-', '/');
     const option = {
@@ -361,68 +268,7 @@ const barYStacked = (data, opts) => {
             type: 'category',
             data: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
         },
-        series: [
-            {
-                name: 'Prim 1',
-                type: 'bar',
-                stack: 'total',
-                label: {
-                    show: true
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [320, 302, 301, 334, 390, 330, 320]
-            },
-            {
-                name: 'Sec 1',
-                type: 'bar',
-                stack: 'total',
-                label: {
-                    show: true
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-                name: 'Prim 2',
-                type: 'bar',
-                stack: 'total',
-                label: {
-                    show: true
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-                name: 'Sec 2',
-                type: 'bar',
-                stack: 'total',
-                label: {
-                    show: true
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [150, 212, 201, 154, 190, 330, 410]
-            },
-            {
-                name: 'Fanghi',
-                type: 'bar',
-                stack: 'total',
-                label: {
-                    show: true
-                },
-                emphasis: {
-                    focus: 'series'
-                },
-                data: [820, 832, 901, 934, 1290, 1330, 1320]
-            }
-        ]
+        series: series
     };
     return option;
 }
