@@ -28,8 +28,8 @@
    // API
    import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // U S E    https://svelteflow.dev/  for the editor
-   import EDITOR from '../lib/components/drawflow/editor.svelte'
-   import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
+   import EDITOR from '../lib/components/svelteflow/Editor.svelte'
+   //import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
    import {fromFlowToDb,fromGraphToFlow} from '../lib/script/flow/flowmap.js'
    // UTILITY
    import {getGroups} from '../lib/script/utils.js'
@@ -54,12 +54,13 @@
 	export let imgheight = "60px"
 	export let  topbarheight = "90%"
 	export let  avatarsize = "w-10"
+	export let barheigth1 = "55px"
 	// GRAPH VARIABLES
     let defaultNodes: any[] = [];
 	let graph:any
 
 
-	let exp = async (ev:any)=>{
+	/*let exp = async (ev:any)=>{
 		let expdata = editor.export()
 		console.log("EXPDATA",expdata)
 		const filestring = JSON.stringify(expdata)
@@ -70,53 +71,14 @@
 		const element = document.getElementById("file-data-input")
 		if(element)
 			element.click()
-	}
+	}*/
 
 	const load = async (ev:any)=>{
-		const graphid = ev.target.value
-		const graphtext = ev.target.options[ev.target.selectedIndex].dataset.graph
-		if(graphtext){
-			graph = JSON.parse(graphtext)
-		}
-		console.log("GRAPH SELECT",graphid,graph)
+		console.log("BUILDDATA LOADDATAFLOW")
 	}
 
 	const save = async (ev:any)=>{
-		console.log("SAVEDATAFLOW")
-		let expdata = await editor.export()
-		const flow = fromGraphToFlow(expdata)
-		const objs = await fromFlowToDb(flow)
-		console.log("SAVED OBJS",objs)
-		// Save objs to db
-		for(let i=0;i<objs.length;i++){
-			const obj = objs[i]
-			switch (obj.type) {
-				case 'company':
-					await setCompany(obj.obj,$mock)
-					break;
-				case 'infrastructure':
-				case 'factory':
-					await setEntityMain(obj.obj,$mock)
-					break;
-				case 'department':
-				case 'area':
-					await setEntityArea(obj.obj,$mock)
-					break;
-				case 'section':
-				case 'line':
-					await setEntityLocal(obj.obj,$mock)
-					break;
-				case 'machine':
-				case 'asset':
-					await setEntityControlled(obj.obj,$mock)
-					break;
-				case 'controller':
-					await setController(obj.obj,$mock)
-					break;
-				default:
-					break;
-			}
-		}
+		console.log(" BUILD DATA SAVEDATAFLOW")
 	}
 
 
@@ -152,14 +114,9 @@
 				</div>
 			</TopBar>
 		</div>
-		<div style="width:100%;display:flex;justify-content:right;align-items: right;">
-			<EDITOR bind:editor={editor} 
-				top={barheigth}
-				{exp}
-				{imp}
-				{save}
-				bind:graph={graph}/>
-	</div>
+		<div class="editor-container"  id="editor-container-id">
+			<EDITOR load={load} save={save} maintop = {barheigth1}/>
+		</div>
 </div>
 
 <style>

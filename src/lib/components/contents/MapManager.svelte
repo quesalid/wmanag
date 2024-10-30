@@ -5,7 +5,6 @@ import WManag from '../WManag.svelte'
 import {onMount} from 'svelte'
 import {mock,user} from '../../ustore.js'
 import {getEntityMain} from '../../script/apidataconfig.js'
-    import { Toggle } from 'svelvet';
 
 let defaultWManager = 'defaultMapManager'
 let group:any = []

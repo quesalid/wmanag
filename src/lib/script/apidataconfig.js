@@ -1440,4 +1440,25 @@ export const deleteAlarmHist = async function (filters, mock = false) {
     })
 }
 
+/**
+ * Get Address from Coors - use open street map
+ * @param {any} coords coordinates object {lat:latitude,lng:longitude}
+ * @param {any} apikey mapbox api key
+ */
+
+export const getAddressFromCoordinates = async function (coords,apikey) {
+    return new Promise((resolve, reject) => {
+        const lng = coords.lng
+        const lat = coords.lat
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+            callFetchGet(url, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+    })
+}
 

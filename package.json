@@ -36,8 +36,8 @@
     "vite": "^5.0.5"
   },
   "dependencies": {
+    "@xyflow/svelte": "^0.1.21",
     "bayesjs": "^0.6.5",
-    "bpmn-js": "^17.0.2",
     "date-fns": "^4.1.0",
     "date-picker-svelte": "^2.14.0",
     "echarts": "^5.4.3",
