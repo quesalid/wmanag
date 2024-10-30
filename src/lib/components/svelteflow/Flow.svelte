@@ -151,6 +151,10 @@
     } satisfies Node;
     $nodes.push(newNode);
     $nodes = $nodes;
+    // Hide panel on drop
+    const nodePanel = document.getElementById(nodePanelId)
+    const hideClicked = new CustomEvent("hidenodepanel", { detail: '' })
+    nodePanel?.dispatchEvent(hideClicked)
   };
 
   // ***** Manage Context Menu *****

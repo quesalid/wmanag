@@ -34,6 +34,10 @@
 	});
     // add parent uid to internal data
       addParentUidToData($nodes, $edges, 'areaEntity', 'plant');
+      addParentUidToData($nodes, $edges, 'localEntity', 'department')
+      addParentUidToData($nodes, $edges, 'controlledEntity', 'line')
+      addParentUidToData($nodes, $edges, 'controller', 'machine')
+
 	const data = {nodes: $nodes, edges: $edges};
     const a = document.createElement('a');
     const file = new Blob([JSON.stringify(data)], {type: 'application/json'});
