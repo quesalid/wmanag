@@ -139,7 +139,7 @@
     });
 
     const newid = Math.random() +''
-    $internalData = {label:$nodTyp}
+    $internalData = {}
     const newNode:any = {
       id: newid,
       //type: $type,
@@ -149,7 +149,6 @@
       origin: [0.5, 0.0],
       ...nodeDefaults
     } satisfies Node;
-    console.log("DND OBJECT NEW NODE **********:",newNode)
     $nodes.push(newNode);
     $nodes = $nodes;
   };
@@ -162,7 +161,6 @@
   function handleContextMenu({ detail: { event, node } }) {
     // Prevent native context menu from showing
     event.preventDefault();
-    console.log(event.clientX, event.clientY)
     // Calculate position of the context menu. We want to make sure it
     // doesn't get positioned off-screen.
     menu = {
@@ -172,7 +170,6 @@
       right: event.clientX >= width - 200 ? width - event.clientX : undefined,
       bottom: event.clientY >= height - 200 ? height - event.clientY : undefined
     };
-    console.log(menu)
   }
 
   // Close the context menu if it's open whenever the window is clicked.

@@ -33,7 +33,6 @@
             nodeid = ev.detail
 			// Get Node
 			node = $nodes.find((node:any) => node.id === nodeid);
-			console.log("NODE",node)
 			template = getNodeTemplate(node.type)
             nodePanel.style.visibility='visible'
 			nodePanelBody.style.height = '';
@@ -92,12 +91,14 @@
 	 const value = ev.target.value
 	 // get node and update label
 	 const nodeIndex = $nodes.findIndex((node:any) => node.id === nodeid);
-	 if(nodeIndex != -1)
-		$nodes[nodeIndex].data.internalData[field] = value
+	 if(nodeIndex != -1){
+		// update node only if field is in template
+		if(template.findIndex((item:any) => item.field === field) != -1)
+			$nodes[nodeIndex].data.internalData[field] = value
+	 }
  }
 
 const pickAddress = async (ev:any) => {
-	  console.log("PICK ADDRESS")
 	  try{
 		  let response:any = ''
 		  if(selectedLocation){
@@ -105,7 +106,6 @@ const pickAddress = async (ev:any) => {
 			// get element and update value
 			const autoaddress:any = document.getElementById('autoaddress-'+nodeid)
 			const nodeIndex = $nodes.findIndex((node:any) => node.id === nodeid);
-			console.log("ADDRESS",response)
 			if(autoaddress && response){
 				const address = response.address.road + ", " + response.address.city + ", " + response.address.state + ", " + response.address.postcode
 				autoaddress.value = address
@@ -167,16 +167,16 @@ const pickAddress = async (ev:any) => {
 			{#if item.type == 'select'} 
 				<div class="node-panel-body-item">
 						<span>{item.name}</span> 
-						<select value={nodeid?node.data.internalData[item.name]:item.value} on:change={(ev)=>{changeValue(ev,item.name)}}>
+						<select value={nodeid?node.data.internalData[item.field]:item.value} on:change={(ev)=>{changeValue(ev,item.field)}}>
 							{#each item.options.opts as option}
 								<option value={option.value}>{option.name}</option>
 							{/each}}
 						</select>
 					</div>
-			{:else if item.type == 'number' && (item.name == 'lon' || item.name == 'lat')}
+			{:else if item.type == 'number' && (item.field == 'lon' || item.field == 'lat')}
 				<div class="node-panel-body-item">
 						<span>{item.name}</span> 
-						<input id={item.name+"-"+nodeid} type="number" size="10" disabled value={nodeid?node.data.internalData[item.name]:item.value}/>
+						<input id={item.field+"-"+nodeid} type="number" size="10" disabled value={nodeid?node.data.internalData[item.field]:item.value}/>
 						<div class="node-panel-body-item-button">
 							<input type="button" value="..." on:click={pickCoords}/>
 						</div>
@@ -184,7 +184,7 @@ const pickAddress = async (ev:any) => {
 			{:else if item.type == 'autoaddress'}
 				<div class="node-panel-body-item">
 						<span>{item.name}</span> 
-						<input id={item.type+"-"+nodeid} type="text" size="18" on:change={(ev)=>{changeValue(ev,item.name)}} value={nodeid?node.data.internalData[item.name]:item.value}/>
+						<input id={item.type+"-"+nodeid} type="text" size="18" on:change={(ev)=>{changeValue(ev,item.field)}} value={nodeid?node.data.internalData[item.field]:item.value}/>
 						<div class="node-panel-body-item-button">
 							<input type="button" value="..." on:click={pickAddress}/>
 						</div>
@@ -192,7 +192,7 @@ const pickAddress = async (ev:any) => {
 			{:else}
 				<div class="node-panel-body-item">
 					<span>{item.name}</span> 
-					<input type="{item.type}" value={nodeid?node.data.internalData[item.name]:item.value} on:change={(ev)=>{changeValue(ev,item.name)}}/>
+					<input type="{item.type}" value={nodeid?node.data.internalData[item.field]:item.value} on:change={(ev)=>{changeValue(ev,item.field)}}/>
 				</div>
 			{/if}
 		{/if}

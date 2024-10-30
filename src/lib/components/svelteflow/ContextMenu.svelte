@@ -51,7 +51,7 @@
   <p style="margin: 0.5em;">
     <small>node: {id}</small>
   </p>
-  <button on:click={duplicateNode}>duplicate</button>
+  <!--button on:click={duplicateNode}>duplicate</!--button-->
   <button on:click={deleteNode}>delete</button>
   <button on:click={editNode}>edit</button>
 </div>

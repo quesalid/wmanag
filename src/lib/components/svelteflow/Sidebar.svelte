@@ -1,5 +1,7 @@
 <script lang="ts">
-import { useEdges,useNodes } from '@xyflow/svelte';
+  import { useEdges,useNodes } from '@xyflow/svelte';
+  // import uuid
+  import { v4 as uuidv4 } from 'uuid';
   //import { useDnD,useNodes,useEdges, getNodeColor } from './utils';
   import { useDnD, getNodeColor } from './utils';
   import './flowstyles.css'
@@ -22,8 +24,16 @@ import { useEdges,useNodes } from '@xyflow/svelte';
 
     event.dataTransfer.effectAllowed = 'move';
   };
-  // EXPORT FILE
+  // Export json file
   const exp = (ev:any) => {
+    // traverse nodes and add uid to internal data if not present
+    $nodes.forEach((node:any) => {
+	  if (!node.data.internalData.uid) {
+		node.data.internalData.uid = uuidv4();
+	  }
+	});
+    // add parent uid to internal data
+      addParentUidToData($nodes, $edges, 'areaEntity', 'plant');
 	const data = {nodes: $nodes, edges: $edges};
     const a = document.createElement('a');
     const file = new Blob([JSON.stringify(data)], {type: 'application/json'});
@@ -32,7 +42,7 @@ import { useEdges,useNodes } from '@xyflow/svelte';
     a.click();
 
   }
-
+  // Import json file
   const imp = (ev:any) => {
     
 	const input = document.createElement('input');
@@ -65,13 +75,28 @@ import { useEdges,useNodes } from '@xyflow/svelte';
       const hideClicked = new CustomEvent("hidenodepanel", { detail: '' })
       nodePanel?.dispatchEvent(hideClicked)
   }
-  // Load graph
+  // Load graph from db
   export let load = (ev:any) =>{
       console.log("LOAD GRAPH")
   }
-  // save graph
+  // Save graph to db
   export let save = (ev:any) =>{
       console.log("SAVE GRAPH")
+  }
+  // UTILITIES
+  const addParentUidToData = (nodes:any, edges:any, type:any, field:any) => {
+	// for each node of type type, find its parent and add the parent's uid to its internal data at field field
+    nodes.forEach((node:any) => {
+	  if (node.type === type) {
+          const parentEdge = edges.find((edge:any) => edge.target === node.id);
+          if (parentEdge) {
+			const parentNode = nodes.find((n:any) => n.id === parentEdge.source);
+			if (parentNode) {
+			  node.data.internalData[field] = parentNode.data.internalData.uid;
+			}
+		  }
+      }
+    });
   }
 </script>
 

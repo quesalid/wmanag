@@ -25,49 +25,49 @@ export const getNodeColor = (type: any) => {
 }
 
 const mainEntityTemplate = [
-    { name: 'uid', value: '', type: 'text', show: false, options: null },
-    { name: 'name', value: '', type: 'text', show: true, options: null },
-    { name: 'description', value: '', type: 'text', show: true, options: null },
-    { name: 'lat', value: 0.0, type: 'number', show: true, options: null },
-    { name: 'lon', value: 0.0, type: 'number', show: true, options: null },
-    { name: 'image', value: '', type: 'text', show: true, options: null },
-    { name: 'geojson', value: [{ id: '', area: '', local: '', path: [] }], type: 'object', show: false, options: null },
-    { name: 'label', value: '', type: 'text', show: true, options: null },
-    { name: 'address', value: '', type: 'autoaddress', show: true, options: null },
-    { name: 'color', value: '#FF6188', type: 'color', show: true, options: null },
+    { field:'uid',name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field:'name',name: 'name', value: '', type: 'text', show: true, options: null },
+    { field:'description',name: 'description', value: '', type: 'text', show: true, options: null },
+    { field:'lat',name: 'lat', value: 0.0, type: 'number', show: true, options: null },
+    { field:'lon',name: 'lon', value: 0.0, type: 'number', show: true, options: null },
+    { field:'image',name: 'image', value: '', type: 'text', show: true, options: null },
+    { field:'geojson',name: 'geojson', value: [{ id: '', area: '', local: '', path: [] }], type: 'object', show: false, options: null },
+    { field:'label',name: 'label', value: '', type: 'text', show: true, options: null },
+    { field:'address',name: 'address', value: '', type: 'autoaddress', show: true, options: null },
+    { field:'color',name: 'color', value: '#FF6188', type: 'color', show: true, options: null },
 ]
 
 const areaEntityTemplate = [
-    { name: 'uid', value: '', type: 'text', show: false, options: null },
-    { name: 'name', value: '', type: 'text', show: true, options: null },
-    { name: 'description', value: '', type: 'text', show: true, options: null },
-    { name: 'plant', value: '', type: 'number', show: true, options: null },
+    { field:'uid',name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field:'name',name: 'name', value: '', type: 'text', show: true, options: null },
+    { field:'description',name: 'description', value: '', type: 'text', show: true, options: null },
+    { field:'plant',name: 'plant', value: '', type: 'text', show: false, options: null },
 ]
 
 const localEntityTemplate = [
-    { name: 'uid', value: '', type: 'text', show: false, options: null },
-    { name: 'name', value: '', type: 'text', show: true, options: null },
-    { name: 'description', value: '', type: 'text', show: true, options: null },
-    { name: 'plant', value: '', type: 'number', show: true, options: null },
+    { field:'uid',name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field:'name',name: 'name', value: '', type: 'text', show: true, options: null },
+    { field:'description',name: 'description', value: '', type: 'text', show: true, options: null },
+    { field:'department',name: 'department', value: '', type: 'text', show: false, options: null },
 ]
 
 const controlledEntityTemplate = [
-    { name: 'uid', value: '', type: 'text', show: false, options: null },
-    { name: 'name', value: '', type: 'text', show: true, options: null },
-    { name: 'description', value: '', type: 'text', show: true, options: null },
-    { name: 'line', value: '', type: 'text', show: true, options: null },
-    { name: 'type', value: '', type: 'text', show: true, options: null },
-    { name: 'buildyear', value: '', type: 'text', show: true, options: null },
-    { name: 'agent', value: '', type: 'text', show: false, options: null },
-    { name: 'lat', value: 0.0, type: 'number', show: true, options: null },
-    { name: 'lon', value: 0.0, type: 'number', show: true, options: null },
+    { field:'uid',name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field:'name',name: 'name', value: '', type: 'text', show: true, options: null },
+    { field:'description',name: 'description', value: '', type: 'text', show: true, options: null },
+    { field:'line',name: 'line', value: '', type: 'text', show: false, options: null },
+    { field:'type',name: 'type', value: '', type: 'text', show: true, options: null },
+    { field:'buildyear',name: 'buildyear', value: '', type: 'date', show: true, options: null },
+    { field:'agent',name: 'agent', value: '', type: 'text', show: false, options: null },
+    { field:'lat',name: 'lat', value: 0.0, type: 'number', show: true, options: null },
+    { field:'lon',name: 'lon', value: 0.0, type: 'number', show: true, options: null },
 ]
 
 const controllerTemplate = [
-    { name: 'uid', value: '', type: 'text', show: false, options: null },
-    { name: 'name', value: '', type: 'text', show: true, options: null },
+    { field:'uid',name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field:'name',name: 'name', value: '', type: 'text', show: true, options: null },
     {
-        name: 'ctype', value: '', type: 'select', show: true,
+        field:'ctype',name: 'ctype', value: '', type: 'select', show: true,
         options: {
             opts: [
                 { name: 'PLC', value: 'plc' },
@@ -77,14 +77,14 @@ const controllerTemplate = [
             ]
         }
     },
-    { name: 'model', value: '', type: 'text', show: true, options: null },
-    { name: 'machine', value: '', type: 'text', show: true, options: null },
-    { name: 'manufacturer', value: '', type: 'text', show: true, options: null },
-    { name: 'ip', value: '', type: 'text', show: true, options: null },
-    { name: 'port', value: 0, type: 'number', show: true, options: null },
-    { name: 'mac', value: '', type: 'text', show: true, options: null },
+    { field:'model',name: 'model', value: '', type: 'text', show: true, options: null },
+    { field:'machine',name: 'machine', value: '', type: 'text', show: false, options: null },
+    { field:'manufacturer',name: 'manufacturer', value: '', type: 'text', show: true, options: null },
+    { field:'ip',name: 'ip', value: '', type: 'text', show: true, options: null },
+    { field:'port',name: 'port', value: 0, type: 'number', show: true, options: null },
+    { field:'mac',name: 'mac', value: '', type: 'text', show: true, options: null },
     {
-        name: 'intf', value: '', type: 'select', show: true,
+        field:'intf',name: 'intf', value: '', type: 'select', show: true,
         options: {
             opts: [
                 { name: 'Ethernet', value: 'eth' },
@@ -103,7 +103,7 @@ const controllerTemplate = [
         }
     },
     {
-        name: 'driver', value: '', type: 'select', show: true,
+        field:'driver',name: 'driver', value: '', type: 'select', show: true,
         options: {
             opts: [
                 { name: 'Siemens', value: 's7' },
