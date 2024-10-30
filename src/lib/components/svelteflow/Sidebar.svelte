@@ -3,7 +3,7 @@
   // import uuid
   import { v4 as uuidv4 } from 'uuid';
   //import { useDnD,useNodes,useEdges, getNodeColor } from './utils';
-  import { useDnD, getNodeColor } from './utils';
+  import { useDnD, getNodeColor, getNodeLabel } from './utils';
   import './flowstyles.css'
 
   // EXPORT VARIABLE
@@ -14,7 +14,7 @@
   const nodes = useNodes();
   const edges = useEdges();
 
-  const onDragStart = (event: DragEvent, nodeType: string, nodeColor:string) => {
+  const onDragStart = (event: DragEvent, nodeType: string, nodeColor:string|null) => {
     if (!event.dataTransfer) {
       return null;
     }
@@ -128,7 +128,7 @@
       on:dragstart={(event) => onDragStart(event, 'mainEntity',getNodeColor('mainEntity'))}
       draggable={true}
     >
-      Main Entity
+      {getNodeLabel('mainEntity')}
     </div>
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div  style="background-color: {getNodeColor('areaEntity')} ;"
@@ -136,7 +136,7 @@
       on:dragstart={(event) => onDragStart(event, 'areaEntity',getNodeColor('areaEntity'))}
       draggable={true}
     >
-      Area Entity
+      {getNodeLabel('areaEntity')}
     </div>
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div  style="background-color: {getNodeColor('localEntity')} ;"
@@ -144,7 +144,7 @@
       on:dragstart={(event) => onDragStart(event, 'localEntity',getNodeColor('localEntity'))}
       draggable={true}
     >
-      Local Entity
+      {getNodeLabel('localEntity')}
     </div>
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div  style="background-color: {getNodeColor('controlledEntity')} ;"
@@ -152,7 +152,7 @@
       on:dragstart={(event) => onDragStart(event, 'controlledEntity',getNodeColor('controlledEntity'))}
       draggable={true}
     >
-      Controlled Entity
+      {getNodeLabel('controlledEntity')}
     </div>
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div  style="background-color: {getNodeColor('controller')} ;"
@@ -160,7 +160,7 @@
       on:dragstart={(event) => onDragStart(event, 'controller',getNodeColor('controller'))}
       draggable={true}
     >
-      Controller
+      {getNodeLabel('controller')}
     </div>
   </div>
 </aside>

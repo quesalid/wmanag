@@ -138,3 +138,21 @@ export const getNodeTemplate = (type: any) => {
         return (found.template)
     return null
 }
+
+const nodelabels = [
+    { type: 'mainEntity', label: 'Impianto' },
+    { type: 'areaEntity', label: 'Linea' },
+    { type: 'localEntity', label: 'Sezione' },
+    { type: 'controlledEntity', label: 'Macchinario' },
+    { type: 'controller', label: 'Controllore' },
+    { type: 'input', label: 'Input' },
+    { type: 'default', label: 'Default' },
+    { type: 'output', label: 'Output' },
+]
+
+export const getNodeLabel = (type: any) => {
+    const found = nodelabels.find((item: any) => item.type == type)
+    if (found)
+        return (found.label)
+    return null
+}
