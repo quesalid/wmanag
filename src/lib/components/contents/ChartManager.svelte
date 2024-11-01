@@ -6,12 +6,14 @@
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
    import {EChart} from '../chart'
-   
    // STORE
-   import { module} from '../../../lib/ustore.js'
    
   
 	onMount(async () => {
+		[firstDayCurrentMonth, firstDayNextMonth, range] = getFirstDayOfMonth(date);
+		[firstDayOfWeek, lastDayOfWeek] = getWeekBoundaries(today);
+		chartOpts = getChartOpts(chartChoice)
+		console.log("Chart Mamager Mount",chartOpts)
 	});
 
 	let defaultWManager = 'defaultCharter'
@@ -30,15 +32,36 @@
 			case 'calendarPie':
 				chartOpts = found?{title:found.title}:{title:'Title'}
 				chartOpts['calendar'] = {range:range}
-				chartOpts['_data'] ={initdate:firstDayCurrentMonth,enddate:firstDayNextMonth}
+				chartOpts['_data'] ={
+					initdate:firstDayCurrentMonth,
+					enddate:firstDayNextMonth,
+					xlabels:seriesXLabelsPie,
+					names: seriesNamesPie,
+				}
 				break;
 			case 'gradientStackedArea':
 				chartOpts = found?{title:found.title}:{title:'Title'}
-				chartOpts['_data'] ={initdate:firstDayOfWeek,enddate:lastDayOfWeek}
+				// calc num of days between firstDayOfWeek and lastDayOfWeek
+				const diffTime = Math.abs(new Date(lastDayOfWeek).getTime() - new Date(firstDayOfWeek).getTime());
+				const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) +1;
+				chartOpts['_data'] ={
+					initdate:firstDayOfWeek,
+					enddate:lastDayOfWeek,
+					range:diffDays,
+					names:seriesNames,
+					colors:seriesColors,
+					xlabels:seriesXLabels,
+				}
 				break;
 			case 'barYStacked':
 				chartOpts = found?{title:found.title}:{title:'Title'}
-				chartOpts['_data'] ={initdate:firstDayOfWeek,enddate:lastDayOfWeek}
+				chartOpts['_data'] ={
+					initdate:firstDayOfWeek,
+					enddate:lastDayOfWeek,
+					names:seriesNames,
+					colors:seriesColors,
+					xlabels:seriesXLabels,
+				}
 				break;
 		}
 		return chartOpts
@@ -129,7 +152,7 @@
 	export let managerid = "chartManagerId"
 	export let targetDiv = "EChartDivId"
 	// WMANAGER VARIABLES
-	export let titlepoint = 'CHART'
+	export let title = 'CHART'
 	export let toolbarpoint:any = [
 		{
 			type:'select',
@@ -138,7 +161,7 @@
 			id:'ChartTypeSelect',
 			props:{
 				options:[
-				{label:'Utilizzo',value:'calendarPie',title:"Utilizzo Impianto", selected:true,datepicker:true},
+				{label:'Utilizzo (torta)',value:'calendarPie',title:"Utilizzo Impianto", selected:true,datepicker:true},
 				{label:'Energia',value:'gradientStackedArea',title:"Consumo Energia totale",datepicker:true},
 				{label:'CO2',value:'barYStacked',title:"Emissioni CO2 totali",datepicker:true},
 				]
@@ -174,13 +197,35 @@
 	export let minimized = 'off'
 	// CHART VARIABLES
 	let chartType = "calendarPie"
-	let chartOpts = {title:"Utilizzo Impianto",_data:{initdate:firstDayCurrentMonth,enddate:firstDayNextMonth}}
+	const seriesNamesPie = ['Linea 1', 'Linea2', 'Linea3','Idle']
+	const seriesXLabels = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
+	const seriesXLabelsPie = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
+	let chartOpts = {
+		title:"Utilizzo Impianto",
+		_data:{
+			initdate:firstDayCurrentMonth,
+			enddate:firstDayNextMonth,
+		},
+		calendar:{range:range},
+		xlabels:seriesXLabelsPie,
+		names: seriesNamesPie,
+	}
+	let seriesNames = ['Prim 1', 'Sec 1', 'Prim 2', 'Sec 2', 'Fanghi','Scarico']
+	const seriesColors = [
+        { offset0: 'rgb(128, 255, 165)', offset1: 'rgb(1, 191, 236)' },
+        { offset0: 'rgb(0, 221, 255)', offset1: 'rgb(77, 119, 255)' },
+        { offset0: 'rgb(55, 162, 255)', offset1: 'rgb(116, 21, 219)' },
+        { offset0: 'rgb(255, 0, 135)', offset1: 'rgb(135, 0, 157)' },
+        { offset0: 'rgb(255, 191, 0)', offset1: 'rgb(224, 62, 76)' },
+		{ offset0: 'rgb(128, 255, 165)', offset1: 'rgb(1, 191, 236)' },
+    ]
+	
 
 </script>
  
 		<div class="chart-manager" id="{managerid}">
 			<Wmanag id="{defaultWManager}"  
-				title="{titlepoint}" 
+				title="{title}" 
 				toolbar={toolbarpoint} 
 				{disableClose} 
 				{draggable} 

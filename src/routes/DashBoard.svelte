@@ -158,6 +158,14 @@
 		// B. GET ENTITY NAMES BY APP FAMILY
 		const ret = getEntityNames($family)
 		entityName = ret.main.plural.toUpperCase()
+
+		// ***** TEMP ADD *****
+		/*entityName = "MAPPA"
+		titleChart = "GRAFICO"
+		titleAlarms = "ALLARMI"
+		titleMonitor = "MONITORAGGIO"
+		titleComm = "COMUNICAZIONE"*/
+		// ***** TEMP ADD *****
 		
 		// C. GET DONUT BY MODULE TYPE
 		donut = await getDonutByType()
@@ -228,6 +236,10 @@
 	export let  avatarsize = "w-10"
 
 	let entityName = 'PLANTS'
+	let titleChart = 'GRAPH'
+	let titleAlarms = 'ALARMS'
+	let titleMonitor = 'MONITOR'
+	let titleComm = 'COMMUNICATION'
 	
 	
 
@@ -408,13 +420,13 @@
 							{titleweight}
 							{bodycolor}
 							managerid= {donutManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 					{#if Window.id == 'Map'  && Window.visible == 'visible'}
 						<MapManager 
 							headercolor={colorScheme.wincolor}  
 							title="{entityName}" 
-							minimized="off" 
 							top={Window.top} 
 							left={Window.left}
 							height={Window.height}
@@ -431,10 +443,12 @@
 							pitch = {mappitch}
 							bearing = {mapbearing}
 							managerid= {mapManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 					{#if Window.id == 'Alarms'  && Window.visible == 'visible'}
 						<AlarmManager 
+						    title = {titleAlarms}
 							left={Window.left}
 							top={Window.top}
 							headercolor={colorScheme.wincolor} 
@@ -451,10 +465,12 @@
 							{doAction}
 							managerid= {alarmManagerId}
 							modalIdEdit = {modalIdActionDiv}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 					{#if Window.id == 'Monitor'  && Window.visible == 'visible'}
-						<MonitorManager 
+						<MonitorManager
+							title = {titleMonitor}
 							left={Window.left} 
 							top={Window.top}
 							width={Window.width}
@@ -469,10 +485,12 @@
 							{titleweight}
 							{bodycolor}
 							managerid = {monitorManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 					{#if Window.id == 'Communication'  && Window.visible == 'visible'}
 						<CommManager 
+							title = {titleComm}
 							left={Window.left} 
 							top={Window.top}
 							width={Window.width}
@@ -484,10 +502,12 @@
 							{titleweight}
 							{bodycolor}
 							managerid = {commManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 					{#if Window.id == 'Chart'  && Window.visible == 'visible'}
 						<ChartManager 
+							title={titleChart}
 							left={Window.left} 
 							top={Window.top}
 							width={Window.width}
@@ -500,6 +520,7 @@
 							{titleweight}
 							{bodycolor}
 							managerid = {chartManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 					{#if Window.id == 'Chartchoice'  && Window.visible == 'visible'}
@@ -520,6 +541,7 @@
 							{titleweight}
 							bodycolor=""
 							managerid = {chartChoiceManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 				{/each}

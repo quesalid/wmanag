@@ -41,7 +41,7 @@
 	export let barheigth = "60px"
 	export let managerid = "commManagerId"
 	// WMANAGER VARIABLES
-	export let titlepoint = 'COMMUNICATION'
+	export let title = 'COMMUNICATION'
 	export let toolbar:any = []
 	export let  disableClose = true
 	export let  draggable = true
@@ -72,7 +72,7 @@
  
 		<div class="configurator-container" style="--top:{barheigth}" id="{managerid}">
 			<Wmanag id="{defaultWManager}"  
-				title="{titlepoint}" 
+				title="{title}" 
 				toolbar={toolbar} 
 				{disableClose} 
 				{draggable} 

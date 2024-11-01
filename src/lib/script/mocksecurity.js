@@ -85,6 +85,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px', left: '10px',
                         visible: "visible"
                     }
@@ -93,9 +94,16 @@ let profiles = [
             {
                 module: 'DATA',
                 windows: [
-                    { id: 'Donut', top: '380px', left: '10px' },
+                    {
+                        id: 'Donut',
+                        name:'Corona',
+                        top: '380px',
+                        left: '10px',
+                        visible: "hidden"
+                    },
                     {
                         id: 'Map',
+                        name:'Mappa',
                         top: '0px',
                         left: '10px',
                         width: '600px',
@@ -105,6 +113,7 @@ let profiles = [
                     },
                     {
                         id: 'Alarms',
+                        name:'Allarmi',
                         top: '0px',
                         left: '620px',
                         height: '350px',
@@ -118,12 +127,14 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
                     },
                     {
-                        id: 'Alarm',
+                        id: 'Alarms',
+                        name:'Allarmi',
                         top: '0px',
                         left: '10px',
                         visible: "visible"
@@ -135,6 +146,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -146,6 +158,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -181,6 +194,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -191,7 +205,15 @@ let profiles = [
                 module: 'DATA',
                 windows: [
                     {
+                        id: 'Donut',
+                        name: 'Corona',
+                        top: '10px',
+                        left: '10px',
+                        visible: "hidden"
+                    },
+                    {
                         id: 'Monitor',
+                        name:'Monitor',
                         top: '290px',
                         left: '10px',
                         height: '320px',
@@ -199,6 +221,7 @@ let profiles = [
                     },
                     {
                         id: 'Chart',
+                        name:'Grafico',
                         top: '0px',
                         left: '620px',
                         width: '700px',
@@ -207,6 +230,7 @@ let profiles = [
                     },
                     {
                         id: 'Map',
+                        name:'Mappa',
                         top: '0px',
                         left: '10px',
                         height: '340px',
@@ -215,6 +239,7 @@ let profiles = [
                     },
                     {
                         id: 'Alarms',
+                        name:'Allarmi',
                         top: '0px',
                         left: '620px',
                         height: '350px',
@@ -223,6 +248,7 @@ let profiles = [
                     },
                     {
                         id: 'Communication',
+                        name:'Comunicazione',
                         top: '298px',
                         left: '0px',
                         height: '300px',
@@ -236,12 +262,14 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
                     },
                     {
                         id: 'Alarm',
+                        name:'Allarme',
                         top: '0px',
                         left: '10px',
                         visible: "visible"
@@ -253,6 +281,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -264,6 +293,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -300,6 +330,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -311,6 +342,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Monitor',
+                        name:'Monitor',
                         top: '290px',
                         left: '10px',
                         height: '320px',
@@ -318,6 +350,7 @@ let profiles = [
                     },
                     {
                         id: 'Map',
+                        name:'Mappa',
                         top: '0px',
                         left: '10px',
                         height: '340px',
@@ -326,6 +359,7 @@ let profiles = [
                     },
                     {
                         id: 'Alarms',
+                        name:'Allarmi',
                         top: '0px',
                         left: '620px',
                         height: '350px',
@@ -334,6 +368,7 @@ let profiles = [
                     },
                     {
                         id: 'Communication',
+                        name:'Comunicazione',
                         top: '298px',
                         left: '1020px',
                         height: '300px',
@@ -347,12 +382,14 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
                     },
                     {
                         id: 'Alarm',
+                        name:'Allarme',
                         top: '0px',
                         left: '10px',
                         visible: "visible"
@@ -364,6 +401,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -375,6 +413,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -411,6 +450,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -421,9 +461,16 @@ let profiles = [
                 module: 'DATA',
                 colorScheme: { wincolor:'#eaf5eb'},
                 windows: [
-                    { id: 'Donut', top: '380px', left: '10px' },
+                    {
+                        id: 'Donut',
+                        name:'Corona',
+                        top: '380px',
+                        left: '10px',
+                        visible: "hidden"
+                    },
                     {
                         id: 'Map',
+                        name: 'Mappa',
                         top: '0px',
                         left: '10px',
                         visible: "visible",
@@ -432,6 +479,7 @@ let profiles = [
                     },
                     {
                         id: 'Alarms',
+                        name:'Allarmi',
                         top: '0px',
                         left: '620px',
                         height: '350px',
@@ -440,6 +488,7 @@ let profiles = [
                     },
                     {
                         id: 'Communication',
+                        name:'Comunicazione',
                         top: '298px',
                         left: '1020px',
                         height: '300px',
@@ -453,12 +502,14 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
                     },
                     {
                         id: 'Alarm',
+                        name:'Allarme',
                         top: '0px',
                         left: '10px',
                         visible: "visible"
@@ -470,6 +521,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -481,6 +533,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name:'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -517,6 +570,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name: 'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -528,6 +582,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Monitor',
+                        name: 'Monitor',
                         top: '290px',
                         left: '10px',
                         height: '320px',
@@ -535,6 +590,7 @@ let profiles = [
                     },
                     {
                         id: 'Map',
+                        name: 'Mappa',
                         top: '0px',
                         left: '10px',
                         height: '340px',
@@ -543,6 +599,7 @@ let profiles = [
                     },
                     {
                         id: 'Alarms',
+                        name: 'Allarmi',
                         top: '0px',
                         left: '620px',
                         height: '350px',
@@ -551,6 +608,7 @@ let profiles = [
                     },
                     {
                         id: 'Communication',
+                        name: 'Comunicazione',
                         top: '298px',
                         left: '1020px',
                         height: '300px',
@@ -564,12 +622,14 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name: 'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
                     },
                     {
                         id: 'Alarm',
+                        name: 'Allarme',
                         top: '0px',
                         left: '10px',
                         visible: "visible"
@@ -581,6 +641,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name: 'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"
@@ -592,6 +653,7 @@ let profiles = [
                 windows: [
                     {
                         id: 'Donut',
+                        name: 'Corona',
                         top: '10px',
                         left: '10px',
                         visible: "visible"

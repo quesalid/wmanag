@@ -24,7 +24,7 @@
 	export let barheigth = "60px"
 	export let managerid = "monitorManagerId"
 	// WMANAGER VARIABLES
-	export let titlepoint = 'POINTS'
+	export let title = 'POINTS'
 	export let toolbarpoint:any = []
 	export let  disableClose = true
 	export let  draggable = true
@@ -42,6 +42,7 @@
 	export let resize = 'none'
 	export let bordercolor = "#c0c0c0"
 	export let boxshadow = "0px 0px 0px 0px #000000"
+	export let minimized = 'off'
 	// TABLE VARIABLES
 	export let pagesize = true
 	export let  pSize = 8
@@ -64,7 +65,7 @@
  
 		<div class="configurator-container" style="--top:{barheigth}" id={managerid}>
 			<Wmanag id="{defaultWManager}"  
-				title="{titlepoint}" 
+				title="{title}" 
 				toolbar={toolbarpoint} 
 				{disableClose} 
 				{draggable} 
@@ -81,7 +82,8 @@
 				{bodycolor}
 				{showheader}
 				{bordercolor}
-				{boxshadow}>
+				{boxshadow}
+				{minimized}>
 				<SimpleTable slot="bodycontent" data={pointsdata} bind:datacolumns={pointdatacolumns} {pagesize} {pSize}/>
 			</Wmanag>
 		</div>

@@ -32,7 +32,6 @@ export let chartOpts = {title:"Consumo Enegia Linee"}
 
 const initChart = (option:any) => {
   if (chartDom) {
-    console.log("Inizializzazione del grafico...");
     chartInstance = echarts.init(chartDom);
     chartInstance.setOption(option);
   } else {
@@ -53,11 +52,9 @@ const resizeChart = () => {
   }
 
 onMount(async () => {
+    console.log("ECHART MOUNT",chartOpts)
   // ******** VARIABLES TO TEST CALENDAR ********
-  option = EchartOptions[chartType](data,chartOpts);
-    
-  // ******** END VARIABLES TO TEST CALENDAR ********
-  
+  option = await EchartOptions[chartType](data,chartOpts);
   initChart(option);
 
   // Aggiungi un observer per rilevare i cambiamenti nelle dimensioni del contenitore

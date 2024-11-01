@@ -7,9 +7,10 @@ const calendarPie = (data,opts) => {
     const dataopts = opts && opts._data ? opts._data : null;
     const scatterData = EchartData.calendarPie(data,dataopts);
     const pieSeries = scatterData.map(function (item, index) {
+        /*console.log("ITEM: ", item)
         const Line1 = Math.round(Math.random() * 70) + 30;
         const Line2 = Math.round(Math.random() * (100 - Line1));
-        const Idle = 100 - Line1 - Line2;
+        const Idle = 100 - Line1 - Line2;*/
         return {
             type: 'pie',
             id: 'pie-' + index,
@@ -20,11 +21,7 @@ const calendarPie = (data,opts) => {
                 formatter: '{c}',
                 position: 'inside'
             },
-            data: [
-                { name: 'Line1', value: Line1 },
-                { name: 'Line2', value: Line2 },
-                { name: 'Idle', value: Idle }
-            ]
+            data: EchartData.piData(opts._data)
         };
     });
 
@@ -41,7 +38,7 @@ const calendarPie = (data,opts) => {
             //formatter: '{a} {b} {c} {d}'
         },
         legend: {
-            data: ['Line1', 'Line2', 'Idle'],
+            data: opts&&opts._data&&opts._data.names?opts._data.names:['Line1', 'Line2', 'Idle'],
             bottom: 60
         },
         calendar: {
@@ -57,7 +54,7 @@ const calendarPie = (data,opts) => {
             dayLabel: {
                 margin: 20,
                 firstDay: 1,
-                nameMap: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                nameMap: opts && opts._data && opts._data.xlabels ? opts._data.xlabels : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             },
             monthLabel: {
                 show: false
@@ -88,6 +85,7 @@ const calendarPie = (data,opts) => {
 }
 
 const gradientStackedArea = (data, opts) => {
+    console.log("GRADIENT STACKED AREA DATA: ", opts)
     const dataopts = opts && opts._data ? opts._data : null;
     const locdata = EchartData.gradientStackedArea(data, dataopts);
     let title = opts.title ? opts.title : 'Gradient Stacked Area Chart';
@@ -144,7 +142,7 @@ const gradientStackedArea = (data, opts) => {
             }
         },
         legend: {
-            data: ['Prim 1', 'Sec 1', 'Prim 2', 'Sec 2', 'Fanghi'],
+            data: opts&&opts._data&&opts._data.names?opts._data.names:['Prim 1', 'Sec 1', 'Prim 2', 'Sec 2', 'Fanghi'],
             top: 30,
         },
         toolbox: {
@@ -162,7 +160,7 @@ const gradientStackedArea = (data, opts) => {
             {
                 type: 'category',
                 boundaryGap: false,
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data: opts && opts._data && opts._data.xlabels ? opts._data.xlabels : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             }
         ],
         yAxis: [
@@ -266,7 +264,7 @@ const barYStacked = (data, opts) => {
         },
         yAxis: {
             type: 'category',
-            data: ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
+            data: opts&&opts._data&&opts._data.xlabels?opts._data.xlabels:['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
         },
         series: series
     };
