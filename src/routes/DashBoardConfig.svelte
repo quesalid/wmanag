@@ -12,7 +12,7 @@
 			ChatBot,
 			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import {DashBoardConfigManager, DragManager} from '../lib/components/contents'
+   import {DashboardConfigurator} from '../lib/components/contents'
    // STORE
    import {module, 
 			mock, 
@@ -32,6 +32,8 @@
    let  groups = getGroups($module,$user)
   
 	let widgets:any
+	let compid = "DashboardConfiguratorId"
+	let scale = 1
 	
 	onMount(async () => {
 		const retalert = await getSecurityAlerts([],$mock)
@@ -42,7 +44,11 @@
 		$navigation = getArrayFromPath("/"+$module+"/dashboardconfig")
 		let profileDahboard:any = $user.profile.dashboard.find((item:any)=>item.module == $module.toUpperCase())
 		widgets = JSON.parse(JSON.stringify(profileDahboard.windows))
-		console.log("DASHBOARD CONFIG WIDGETS",widgets)
+		// sleep 300ms to allow the dashboard to be mounted
+		await new Promise(r => setTimeout(r, 300));
+		// dispatch custom event to DashboardConfiguratorId
+		const event = new CustomEvent('dashmounted', {detail: {windows:widgets}})
+		document.getElementById(compid)?.dispatchEvent(event)
 			
 	});
 
@@ -61,26 +67,59 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	let saveDashboard = async (ev:any,locwidgets:any)=>{
-		// SET PROFILE IN STORE
+	interface Widget {
+    id: string;
+    name: string;
+    width: number;
+    height: number;
+    top?: number;
+    left?: number;
+    isSelected?: boolean;
+    isDragging?: boolean;
+    image?: string;
+    minimized?: string;
+	params?: any
+  }
+
+  const fromWidgetToWin = (widgets:Widget[],scale:any) => {
+	  return widgets.map((w:Widget) => {
+	  return {
+          id: w.id,
+          name: w.name,
+          width: w.width?Math.round(w.width/scale)+"px":'0px',
+          height: w.height?Math.round(w.height/scale)+"px":'0px',
+          top: w.top?Math.round(w.top/scale)+"px":'0px',
+          left: w.left?Math.round(w.left/scale)+"px":'0px',
+          image: w.image,
+          minimized: w.minimized,
+          visible: "hidden",
+		  params: w.params?w.params:null
+      }
+   })
+  }
+
+	
+
+  let saveDashboard = (ev:any, dwidgets:any,avwidgets:any) => {
+	  console.log("SAVE DASHBOARD",dwidgets,avwidgets)
 		const index = $user.profile.dashboard.findIndex((item:any) => item.module == $module.toUpperCase())
-		// FILTER WIDGETS
-		let filteredWidgets = JSON.parse(JSON.stringify(locwidgets))
-		widgets = filteredWidgets
-		console.log("FILTERED WIDGETS",filteredWidgets)
+		const visibleWindows = fromWidgetToWin(dwidgets,scale)
+		const hiddenWindows = fromWidgetToWin(avwidgets,scale)
+		// add visible property
+		visibleWindows.forEach(w => w.visible = "visible")
+		// merge windows
+		const windows = [...visibleWindows, ...hiddenWindows]
 		if(index > -1)
-			$user.profile.dashboard[index].windows = filteredWidgets
+			$user.profile.dashboard[index].windows = windows
 		else{
 			let dash:any = {
                 module: $module.toUpperCase(),
-                windows: filteredWidgets
+                windows: windows
             }
 			$user.profile.dashboard.push(dash)
 		}
-		//console.log(" USER PROFILE DASHBOARD", $user.profile.dashboard)
-		// SET PROFILE IN DB
-		const ret = await setProfile($user.profile,$user.uid,$mock)
-	}
+	
+  }
 </script>
 <div id="main-dashboard-config-page">
 		<div>
@@ -108,9 +147,7 @@
 			</TopBar>
 		</div>
 		<div class="dashboard-container" style="--top:{barheigth1}" id="dashboard-container-id">
-				<!--DashBoardConfigManager bind:widgets={widgets} bind:saveDashboard={saveDashboard}/-->
-				<DragManager  bind:widgets={widgets} bind:saveDashboard={saveDashboard}/>
-			
+				<DashboardConfigurator bind:windows={widgets} saveDashboard={saveDashboard} bind:scale={scale}/>
 		</div>
 
 </div>

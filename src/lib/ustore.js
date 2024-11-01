@@ -26,7 +26,6 @@ export const hfkey = writable("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") // HUGGIN
 export const getArrayFromPath = (path) => {
     const retArray = []
     const split = path.split('/')
-    console.log('split ***** ',split)
     if (split.length > 1) {
         let concat = ''
         for (let i = 1; i < split.length; i++) {

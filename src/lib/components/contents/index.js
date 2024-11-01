@@ -16,14 +16,12 @@ export { default as BatchDetail } from './BatchDetail.svelte';
 export { default as SynBatchDetail } from './SynBatchDetail.svelte';
 export { default as DbAdminManager } from './DbAdminManager.svelte';
 export { default as DonutManager } from './DonutManager.svelte';
-export { default as DashBoardConfigManager } from './DashBoardConfigManager.svelte';
-export { default as DragManager } from './DragManager.svelte';
 export { default as AssistantManager } from './AssistantManager.svelte';
 export { default as MonitorManager } from './MonitorManager.svelte';
 export { default as CommManager } from './CommManager.svelte';
-export { default as DragLib } from './draglib.js';
 export { default as ChartManager } from './ChartManager.svelte';
 export { default as ChartChoiceManager } from './ChartChoiceManager.svelte';
+export { default as DashboardConfigurator } from './DashboardConfigurator.svelte';
 
 
 

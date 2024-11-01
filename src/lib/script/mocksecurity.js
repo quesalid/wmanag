@@ -87,7 +87,8 @@ let profiles = [
                         id: 'Donut',
                         name:'Corona',
                         top: '10px', left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -99,7 +100,8 @@ let profiles = [
                         name:'Corona',
                         top: '380px',
                         left: '10px',
-                        visible: "hidden"
+                        visible: "hidden",
+                        image: 'Donut.png',
                     },
                     {
                         id: 'Map',
@@ -109,6 +111,7 @@ let profiles = [
                         width: '600px',
                         visible: "visible",
                         height: '340px',
+                        image: 'Map.png',
                         params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
                     },
                     {
@@ -118,6 +121,7 @@ let profiles = [
                         left: '620px',
                         height: '350px',
                         width: '850px',
+                        image: 'Alarms.png',
                         visible: "visible"
                     },
                 ]
@@ -130,6 +134,7 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
+                        image: 'Donut.png',
                         visible: "visible"
                     },
                     {
@@ -137,7 +142,8 @@ let profiles = [
                         name:'Allarmi',
                         top: '0px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Alarms.png',
                     }
                 ]
             },
@@ -149,7 +155,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -161,7 +168,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             }
@@ -197,6 +205,7 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
+                        image: 'Donut.png',
                         visible: "visible"
                     }
                 ]
@@ -209,6 +218,7 @@ let profiles = [
                         name: 'Corona',
                         top: '10px',
                         left: '10px',
+                        image: 'Donut.png',
                         visible: "hidden"
                     },
                     {
@@ -217,6 +227,8 @@ let profiles = [
                         top: '290px',
                         left: '10px',
                         height: '320px',
+                        width: '900px',
+                        image: 'Monitor.png',
                         visible: "hidden"
                     },
                     {
@@ -225,7 +237,8 @@ let profiles = [
                         top: '0px',
                         left: '620px',
                         width: '700px',
-                        height: 'max-content',
+                        height: '660px',
+                        image: 'Chart.png',
                         visible: "visible"
                     },
                     {
@@ -234,6 +247,8 @@ let profiles = [
                         top: '0px',
                         left: '10px',
                         height: '340px',
+                        image: 'Map.png',
+                        width: '600px',
                         visible: "visible",
                         params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch:45,bearing:-15.7 }
                     },
@@ -244,6 +259,7 @@ let profiles = [
                         left: '620px',
                         height: '350px',
                         width: '850px',
+                        image: 'Alarms.png',
                         visible: "hidden"
                     },
                     {
@@ -253,6 +269,7 @@ let profiles = [
                         left: '0px',
                         height: '300px',
                         width: '350px',
+                        image: 'Communication.png',
                         visible: "visible"
                     }
                 ]
@@ -265,13 +282,15 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
+                        image: 'Donut.png',
                         visible: "visible"
                     },
                     {
-                        id: 'Alarm',
+                        id: 'Alarms',
                         name:'Allarme',
                         top: '0px',
                         left: '10px',
+                        image: 'Alarms.png',
                         visible: "visible"
                     }
                 ]
@@ -284,6 +303,7 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
+                        image: 'Donut.png',
                         visible: "visible"
                     }
                 ]
@@ -296,6 +316,7 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
+                        image: 'Donut.png',
                         visible: "visible"
                     }
                 ]
@@ -333,7 +354,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -346,7 +368,9 @@ let profiles = [
                         top: '290px',
                         left: '10px',
                         height: '320px',
-                        visible: "visible"
+                        width: '900px',
+                        visible: "visible",
+                        image: 'Monitor.png',
                     },
                     {
                         id: 'Map',
@@ -354,7 +378,9 @@ let profiles = [
                         top: '0px',
                         left: '10px',
                         height: '340px',
+                        width: '600px',
                         visible: "visible",
+                        image: 'Map.png',
                         params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 }
                     },
                     {
@@ -364,7 +390,8 @@ let profiles = [
                         left: '620px',
                         height: '350px',
                         width: '850px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Alarms.png',
                     },
                     {
                         id: 'Communication',
@@ -373,7 +400,8 @@ let profiles = [
                         left: '1020px',
                         height: '300px',
                         width: '350px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Communication.png',
                     }
                 ]
             },
@@ -385,14 +413,16 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     },
                     {
                         id: 'Alarm',
                         name:'Allarme',
                         top: '0px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Alarms.png',
                     }
                 ]
             },
@@ -404,7 +434,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -416,7 +447,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             }
@@ -453,7 +485,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -466,7 +499,8 @@ let profiles = [
                         name:'Corona',
                         top: '380px',
                         left: '10px',
-                        visible: "hidden"
+                        visible: "hidden",
+                        image: 'Donut.png',
                     },
                     {
                         id: 'Map',
@@ -475,6 +509,8 @@ let profiles = [
                         left: '10px',
                         visible: "visible",
                         height: '340px',
+                        width: '600px',
+                        image: 'Map.png',
                         params: { center: { lat: 42.01, lon: 12.30 }, zoom: 14.5, zoomfactor: 3 }
                     },
                     {
@@ -484,6 +520,7 @@ let profiles = [
                         left: '620px',
                         height: '350px',
                         width: '850px',
+                        image: 'Alarms.png',
                         visible: "visible"
                     },
                     {
@@ -493,7 +530,8 @@ let profiles = [
                         left: '1020px',
                         height: '300px',
                         width: '350px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Communication.png',
                     }
                 ]
             },
@@ -505,14 +543,16 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     },
                     {
-                        id: 'Alarm',
+                        id: 'Alarms',
                         name:'Allarme',
                         top: '0px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Alarms.png',
                     }
                 ]
             },
@@ -524,7 +564,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -536,7 +577,8 @@ let profiles = [
                         name:'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             }
@@ -573,7 +615,8 @@ let profiles = [
                         name: 'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -586,7 +629,9 @@ let profiles = [
                         top: '290px',
                         left: '10px',
                         height: '320px',
-                        visible: "visible"
+                        width: '900px',
+                        visible: "visible",
+                        image: 'Monitor.png',
                     },
                     {
                         id: 'Map',
@@ -594,7 +639,9 @@ let profiles = [
                         top: '0px',
                         left: '10px',
                         height: '340px',
+                        width: '600px',
                         visible: "visible",
+                        image: 'Map.png',
                         params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch: 45, bearing: -15.7 }
                     },
                     {
@@ -603,8 +650,9 @@ let profiles = [
                         top: '0px',
                         left: '620px',
                         height: '350px',
-                        width: '850px',
-                        visible: "visible"
+                        width: '900px',
+                        visible: "visible",
+                        image: 'Alarms.png',
                     },
                     {
                         id: 'Communication',
@@ -613,7 +661,8 @@ let profiles = [
                         left: '1020px',
                         height: '300px',
                         width: '350px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Communication.png',
                     }
                 ]
             },
@@ -625,14 +674,16 @@ let profiles = [
                         name: 'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     },
                     {
-                        id: 'Alarm',
+                        id: 'Alarms',
                         name: 'Allarme',
                         top: '0px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Alarms.png',
                     }
                 ]
             },
@@ -644,7 +695,8 @@ let profiles = [
                         name: 'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             },
@@ -656,7 +708,8 @@ let profiles = [
                         name: 'Corona',
                         top: '10px',
                         left: '10px',
-                        visible: "visible"
+                        visible: "visible",
+                        image: 'Donut.png',
                     }
                 ]
             }

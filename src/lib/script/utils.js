@@ -191,7 +191,6 @@ const onAlarmClickLocation = (ev) => {
 const onAlarmCheck = (ev) => {
     const target = ev.target
     const uid = target.getAttribute("data-uid")
-    console.log("onAlarmCheck", uid, target.checked)
     // SEND ALARM FLYBY CLICKED EVENT TO MAP MANAGER
     const mapManager = document.getElementById('mapManagerId')
     const alarmCheckClicked = new CustomEvent("alarmcheck", { detail: uid })
@@ -1436,7 +1435,6 @@ const defaultGroups  = [
 // ----- WARNING same toolbar for different modules ---- 
 export let getGroups = (module, user) => {
     // chcek if user has groups configuration
-    console.log('getGroups',module,user.profile.topbar,module)
     let groups = user.profile.topbar && user.profile.topbar.groups && user.profile.topbar.groups[module] ? user.profile.topbar.groups[module] : null
     let clone = groups ? JSON.parse(JSON.stringify(groups)) : JSON.parse(JSON.stringify(defaultGroups))
     // for each group
