@@ -15,6 +15,8 @@
     isDragging?: boolean;
     image?: string;
     minimized?: string;
+    mimimizedHeight: number;
+    normalHeight: number;
     params?: any;
   }
 
@@ -33,7 +35,7 @@
 		id: w.id,
 		name: w.name,
 		width: w.width?w.width.replace("px",""):null,
-		height:w.height? w.height.replace("px",""):null,
+		height:w.minimized=='on'? 30:w.height? w.height.replace("px",""):null,
 		//top: w.top && w.top!="0px"?+w.top.replace("px","") + +barheight.replace("px",""):null,
         top: w.top && w.top!="0px"?+w.top.replace("px",""):null,
 		left: w.left? w.left.replace("px",""):null,
@@ -41,6 +43,8 @@
 		isDragging: false,
 		image: w.image,
         minimized: w.minimized?w.minimized:'off',
+        minimizedHeight: w.minimizedHeight?w.minimizedHeight:30,
+        normalHeight:w.height? w.height.replace("px",""):null,
         params: w.params?w.params:null
 	  }
 	})
@@ -53,31 +57,12 @@
 	  width: w.width * scale,
 	  height: w.height * scale,
 	  top: w.top ? (w.top) * scale : undefined,
-	  left: w.left ? w.left * scale : undefined
+	  left: w.left ? w.left * scale : undefined,
+      normalHeight: w.normalHeight * scale,
+      minimizedHeight: w.minimizedHeight * scale,
 	}));
   }
   onMount(() => {
-    /*const area = document.querySelector(container) as HTMLElement;
-	let areaWidth = area.clientWidth;
-   
-    // calcola la larghezza dello schermo
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    // calcola il fattore di scala
-    const scaleX = areaWidth / width;
-    scale = scaleX;
-    
-    // aggiusta l'altezza
-    area.style.height = (height * scale)+'px';
-    // calcola il numero di griglie
-    const grid2 = document.querySelector('.dashboard-grid') as HTMLElement;
-    const gridWidth2 = area.clientWidth;
-    const gridHeight2 = area.clientHeight;
-    // clacola il numero come minimo intero
-    const gridColsInt2 = Math.floor(gridWidth2 / GRID_SNAP);
-    const gridRowsInt2 = Math.floor(gridHeight2 / GRID_SNAP);
-    arrayrows = Array(gridRowsInt2)
-    arraycols = Array(gridColsInt2)*/
     // add event listener on custom event dashmounted
     const thisComponent = document.getElementById(id)
     thisComponent?.addEventListener('dashmounted', (e:any) => {
@@ -171,7 +156,6 @@
         }))
       );
     } else {
-      // Per i widget dal menu, imposta il widget trascinato
       draggedWidget = { ...widget, source };
     }
   }
@@ -193,14 +177,14 @@
       (event.clientY - containerRect.top - offsetY) / GRID_SNAP
     ) * GRID_SNAP;
 
-    // Aggiorna la posizione del widget
+    // Aggiorna la posizione e l'altezza del widget (caso minimizzazione)
     dashboardWidgets.update(widgets => 
       widgets.map(w => 
         w.isDragging 
           ? { 
               ...w, 
               left: Math.max(0, newLeft), 
-              top: Math.max(0, newTop) 
+              top: Math.max(0, newTop),
             } 
           : w
       )
@@ -235,8 +219,10 @@
     const rect:any = event.currentTarget.getBoundingClientRect();
     const newLeft:any = Math.round((event.clientX - rect.left) / GRID_SNAP) * GRID_SNAP;
     const newTop:any = Math.round((event.clientY - rect.top) / GRID_SNAP) * GRID_SNAP;
-
+   
     if (droppedWidget.source === 'menu' && targetArea === 'dashboard') {
+      // Aggoiona altezza se minimizzato
+      const newHeight = droppedWidget.minimized == 'on' ? droppedWidget.mimimizedHeight : droppedWidget.normalHeight;
       // Aggiungi alla dashboard
       dashboardWidgets.update(widgets => [
         ...widgets, 
@@ -244,7 +230,8 @@
           ...droppedWidget, 
           left: newLeft, 
           top: newTop,
-          isSelected: true
+          isSelected: true,
+          height: newHeight,
         }
       ]);
       availableWidgets.update(widgets => 
@@ -281,18 +268,23 @@
 	const widgetId = e.target.id.replace("check-","")
     // if checked set minimize
     const checked = (e.target as HTMLInputElement).checked
-    dashboardWidgets.update(widgets => 
+   /* dashboardWidgets.update(widgets => 
 	  widgets.map(w => ({ 
 		...w, 
-		minimized: w.id === widgetId && checked ? "on" : "off"
+		minimized: w.id === widgetId && checked ? "on" : w.minimized
 	  }))
-	);
-    availableWidgets.update(widgets => 
+	);*/
+    // find widget in availableWidgets
+    const index = $availableWidgets.findIndex((w:Widget) => w.id == widgetId)
+    if(index > -1){
+		$availableWidgets[index].minimized = checked?'on':'off'
+	}
+    /*availableWidgets.update(widgets => 
 	  widgets.map(w => ({ 
 		...w, 
-		minimized: w.id === widgetId && checked ? "on" : "off"
+		minimized: w.id === widgetId && checked ? "on" : w.minimized
 	  }))
-	);
+	);*/
   }
 </script>
 
@@ -366,8 +358,10 @@
           z-index: {widget.isDragging ? 100 : 10};
         "
       >
-      {#if widget.image}
+      {#if widget.image && widget.minimized == 'off'}
             <img src={'/dashboard/'+widget.image} alt={widget.name} />
+      {:else if widget.minimized == 'on'}
+			<img src={'/dashboard/Minim'+widget.image} alt={widget.name} />
       {:else}
             {widget.name}
       {/if}

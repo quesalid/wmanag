@@ -78,6 +78,8 @@
     isDragging?: boolean;
     image?: string;
     minimized?: string;
+	mimimizedHeight: number;
+    normalHeight: number;
 	params?: any
   }
 
@@ -87,7 +89,7 @@
           id: w.id,
           name: w.name,
           width: w.width?Math.round(w.width/scale)+"px":'0px',
-          height: w.height?Math.round(w.height/scale)+"px":'0px',
+          height: w.normalHeight?Math.round(w.normalHeight/scale)+"px":'0px',
           top: w.top?Math.round(w.top/scale)+"px":'0px',
           left: w.left?Math.round(w.left/scale)+"px":'0px',
           image: w.image,
