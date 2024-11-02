@@ -14,11 +14,18 @@
 		[firstDayOfWeek, lastDayOfWeek] = getWeekBoundaries(today);
 		chartOpts = getChartOpts(chartChoice)
 		console.log("Chart Mamager Mount",chartOpts)
+		// sleep 300 ms to wait for EChart to be mounted
+		await new Promise(r => setTimeout(r, 400));
+		const event = new CustomEvent('charttype', {
+			detail: { chartType: chartChoice, chartOpts:chartOpts }
+		})
+		const target = document.getElementById(targetDiv)
+		if(target)
+			target.dispatchEvent(event)
 	});
 
 	let defaultWManager = 'defaultCharter'
 	let chartChoice = 'calendarPie'
-	let showdatepicker = true
 	const today = new Date()
 	let date = today.toISOString().split('T')[0]
 	

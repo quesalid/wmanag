@@ -74,14 +74,12 @@
         // calcola la larghezza dello schermo
         const width = cont.clientWidth;
         const height = cont.clientHeight;
-        console.log("width",width,"height",height,"areaWidth",areaWidth,"areaHeight",areaHeight)
         // calcola il fattore di scala
         const scaleX = areaWidth / width;
         scale = scaleX;
     
         // aggiusta l'altezza
         area.style.height = (height * scale)+'px';
-        console.log("scale",scale,"width",width,"height",height,"areaWidth",areaWidth,"areaHeight",areaHeight)
         // calcola il numero di griglie
         const grid2 = document.querySelector('.dashboard-grid') as HTMLElement;
         const gridWidth2 = area.clientWidth;
@@ -97,7 +95,6 @@
 		dashboardWindows = windows.filter((w:any) => w.visible == "visible")
 		$availableWidgets = fromWinToWidget(availaibleWindows)
 		$dashboardWidgets = fromWinToWidget(dashboardWindows);
-        console.log("dashmounted",$availableWidgets,$dashboardWidgets)
 		// scale widgets
 		dashboardWidgets.update(widgets => scaleWidgets(widgets, scale));
 		availableWidgets.update(widgets => scaleWidgets(widgets, scale));
