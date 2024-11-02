@@ -63,7 +63,7 @@
 
 </script>
  
-		<div class="configurator-container" style="--top:{barheigth}" id={managerid}>
+		<div class="configurator-container" id={managerid}>
 			<Wmanag id="{defaultWManager}"  
 				title="{title}" 
 				toolbar={toolbarpoint} 
@@ -100,11 +100,11 @@
 		{/if}
 
 <style>
-.configurator-container{
+/*.configurator-container{
 		display:flex;
 		position:relative;
 		top: var(--top);
-	}
+	}*/
 
 </style>
 

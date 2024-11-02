@@ -31,7 +31,19 @@ export const dragElement = (element, dragzone) => {
 		pos2 = pos4 - event.clientY;
 		pos4 = event.clientY;
 
-
+		// maintain the element within the dragzone
+		if (element.offsetTop - pos2 < dragzone.offsetTop) {
+            pos2 = 0;
+		}
+		if (element.offsetLeft - pos1 < dragzone.offsetLeft) {
+            pos1 = 0;
+		}
+		if (element.offsetTop - pos2 > window.innerHeight - element.offsetHeight) {
+			pos2 = 0;
+		}
+		if (element.offsetLeft - pos1 > window.innerWidth - element.offsetWidth) {
+			pos1 = 0;
+		}
 		element.style.top = `${element.offsetTop - pos2}px`;
 		element.style.left = `${element.offsetLeft - pos1}px`;
 	};
@@ -50,6 +62,7 @@ export const dragElement = (element, dragzone) => {
 
 		document.onmouseup = dragMouseUp;
 		document.onmousemove = dragMouseMove;
+
 	};
 
 	dragzone.onmousedown = dragMouseDown;

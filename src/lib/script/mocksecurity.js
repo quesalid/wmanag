@@ -224,7 +224,7 @@ let profiles = [
                     {
                         id: 'Monitor',
                         name:'Monitor',
-                        top: '290px',
+                        top: '358px',
                         left: '10px',
                         height: '320px',
                         width: '900px',
@@ -265,8 +265,8 @@ let profiles = [
                     {
                         id: 'Communication',
                         name:'Comunicazione',
-                        top: '298px',
-                        left: '0px',
+                        top: '358px',
+                        left: '10px',
                         height: '300px',
                         width: '350px',
                         image: 'Communication.png',
@@ -365,7 +365,7 @@ let profiles = [
                     {
                         id: 'Monitor',
                         name:'Monitor',
-                        top: '290px',
+                        top: '358px',
                         left: '10px',
                         height: '320px',
                         width: '900px',
@@ -396,7 +396,7 @@ let profiles = [
                     {
                         id: 'Communication',
                         name:'Comunicazione',
-                        top: '298px',
+                        top: '358px',
                         left: '1020px',
                         height: '300px',
                         width: '350px',
@@ -526,7 +526,7 @@ let profiles = [
                     {
                         id: 'Communication',
                         name:'Comunicazione',
-                        top: '298px',
+                        top: '358px',
                         left: '1020px',
                         height: '300px',
                         width: '350px',
@@ -626,7 +626,7 @@ let profiles = [
                     {
                         id: 'Monitor',
                         name: 'Monitor',
-                        top: '290px',
+                        top: '358px',
                         left: '10px',
                         height: '320px',
                         width: '900px',
@@ -657,7 +657,7 @@ let profiles = [
                     {
                         id: 'Communication',
                         name: 'Comunicazione',
-                        top: '298px',
+                        top: '358px',
                         left: '1020px',
                         height: '300px',
                         width: '350px',

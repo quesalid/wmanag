@@ -34,7 +34,8 @@
 		name: w.name,
 		width: w.width?w.width.replace("px",""):null,
 		height:w.height? w.height.replace("px",""):null,
-		top: w.top?w.top.replace("px",""):null,
+		//top: w.top && w.top!="0px"?+w.top.replace("px","") + +barheight.replace("px",""):null,
+        top: w.top && w.top!="0px"?+w.top.replace("px",""):null,
 		left: w.left? w.left.replace("px",""):null,
 		isSelected: false,
 		isDragging: false,
@@ -51,12 +52,12 @@
 	  ...w,
 	  width: w.width * scale,
 	  height: w.height * scale,
-	  top: w.top ? w.top * scale : undefined,
+	  top: w.top ? (w.top) * scale : undefined,
 	  left: w.left ? w.left * scale : undefined
 	}));
   }
   onMount(() => {
-    const area = document.querySelector('.dashboard-area') as HTMLElement;
+    /*const area = document.querySelector(container) as HTMLElement;
 	let areaWidth = area.clientWidth;
    
     // calcola la larghezza dello schermo
@@ -76,16 +77,42 @@
     const gridColsInt2 = Math.floor(gridWidth2 / GRID_SNAP);
     const gridRowsInt2 = Math.floor(gridHeight2 / GRID_SNAP);
     arrayrows = Array(gridRowsInt2)
-    arraycols = Array(gridColsInt2)
+    arraycols = Array(gridColsInt2)*/
     // add event listener on custom event dashmounted
     const thisComponent = document.getElementById(id)
     thisComponent?.addEventListener('dashmounted', (e:any) => {
+        const area = document.querySelector('.dashboard-area') as HTMLElement;
+        const cont = document.querySelector(container) as HTMLElement;
+	    let areaWidth = area.clientWidth;
+        let areaHeight = area.clientHeight;
+   
+        // calcola la larghezza dello schermo
+        const width = cont.clientWidth;
+        const height = cont.clientHeight;
+        console.log("width",width,"height",height,"areaWidth",areaWidth,"areaHeight",areaHeight)
+        // calcola il fattore di scala
+        const scaleX = areaWidth / width;
+        scale = scaleX;
+    
+        // aggiusta l'altezza
+        area.style.height = (height * scale)+'px';
+        console.log("scale",scale,"width",width,"height",height,"areaWidth",areaWidth,"areaHeight",areaHeight)
+        // calcola il numero di griglie
+        const grid2 = document.querySelector('.dashboard-grid') as HTMLElement;
+        const gridWidth2 = area.clientWidth;
+        const gridHeight2 = area.clientHeight;
+        // clacola il numero come minimo intero
+        const gridColsInt2 = Math.floor(gridWidth2 / GRID_SNAP);
+        const gridRowsInt2 = Math.floor(gridHeight2 / GRID_SNAP);
+        arrayrows = Array(gridRowsInt2)
+        arraycols = Array(gridColsInt2)
 		// set windows
 		windows = e.detail.windows
 		availaibleWindows = windows.filter((w:any) => w.visible == "hidden")
 		dashboardWindows = windows.filter((w:any) => w.visible == "visible")
 		$availableWidgets = fromWinToWidget(availaibleWindows)
 		$dashboardWidgets = fromWinToWidget(dashboardWindows);
+        console.log("dashmounted",$availableWidgets,$dashboardWidgets)
 		// scale widgets
 		dashboardWidgets.update(widgets => scaleWidgets(widgets, scale));
 		availableWidgets.update(widgets => scaleWidgets(widgets, scale));
@@ -98,6 +125,8 @@
   // EXPORTS
   export let scale = 1;
   export let id = "DashboardConfiguratorId"
+  export let container = "#main-dashboard-config-page"
+  export let barheight = "60px"
   export let saveDashboard = (ev:any, dwidgets:any,avwidgets:any) => {
             console.log("saveDashboard")
   }
@@ -317,7 +346,7 @@
         {/each}
       {/each}
     </div>
-
+    <div style='width:100%;height:48px border: 2px solid #f00;'></div>
     <!-- Widget nella dashboard -->
     {#each $dashboardWidgets as widget (widget.id)}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
