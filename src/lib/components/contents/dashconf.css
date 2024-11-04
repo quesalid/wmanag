@@ -32,7 +32,7 @@
 .dashboard-area {
     flex-grow: 1;
     background-color: #ffffff;
-    border-left: 1px solid #ccc;
+    border: 2px solid #ccf;
     position: relative;
     overflow: hidden;
 }
@@ -98,7 +98,7 @@
         opacity: 0.8;
     }
 
-    .dashboard-widget image {
+    .dashboard-widget img {
         opacity: 0.5;
-        filter: grayscale(50%);
+        filter: grayscale(30%);
     }

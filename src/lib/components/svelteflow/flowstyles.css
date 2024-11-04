@@ -82,6 +82,24 @@ aside {
     text-align: center;
 }
 
+.custom-entity-node-short {
+    border: 1px solid #111;
+    border-radius: 3px;
+    min-width: 50px;
+    font-size: xx-small;
+    text-align: center;
+}
+.custom-entity-node-short-div {
+    font-size: smaller;
+}
+
+.custom-entity-node-group {
+    min-width: 100px;
+    min-height: 100px;
+    text-align: center;
+    opacity:70%;
+}
+
     .custom-entity-node span {
         font-weight: normal;
     }

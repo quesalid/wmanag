@@ -15,6 +15,8 @@ const nodecolors = [
     { type: 'input', color: null },
     { type: 'default', color: null },
     { type: 'output', color: null },
+    { type: 'phase', color: '#ddefde' },
+    { type: 'task', color: '#ddefde' },
 ]
 
 export const getNodeColor = (type: any) => {
@@ -121,12 +123,26 @@ const controllerTemplate = [
     },
 ]
 
+const phaseTemplate = [
+    { field: 'uid', name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field: 'name', name: 'name', value: '', type: 'text', show: true, options: null },
+    { field: 'description', name: 'description', value: '', type: 'text', show: true, options: null },
+]
+
+const taskTemplate = [
+    { field: 'uid', name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field: 'name', name: 'name', value: '', type: 'text', show: true, options: null },
+    { field: 'description', name: 'description', value: '', type: 'text', show: true, options: null },
+]
+
 const templates = [
     { type: 'mainEntity', template: mainEntityTemplate },
     { type: 'areaEntity', template: areaEntityTemplate },
     { type: 'localEntity', template: localEntityTemplate },
     { type: 'controlledEntity', template: controlledEntityTemplate },
     { type: 'controller', template: controllerTemplate },
+    { type: 'phase', template: phaseTemplate },
+    { type: 'task', template: taskTemplate },
     { type: 'input', template: null },
     { type: 'default', template: null },
     { type: 'output', template: null },
@@ -148,6 +164,8 @@ const nodelabels = [
     { type: 'input', label: 'Input' },
     { type: 'default', label: 'Default' },
     { type: 'output', label: 'Output' },
+    { type: 'phase', label: 'Fase' },
+    { type: 'task', label: 'Task' },
 ]
 
 export const getNodeLabel = (type: any) => {
@@ -156,3 +174,4 @@ export const getNodeLabel = (type: any) => {
         return (found.label)
     return null
 }
+

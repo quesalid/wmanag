@@ -27,10 +27,7 @@
 			getArrayFromPath} from '../lib/ustore.js'
    // API
    import {getSecurityAlerts} from '../lib/script/apisecurity.js'
-   // U S E    https://svelteflow.dev/  for the editor
    import EDITOR from '../lib/components/svelteflow/Editor.svelte'
-   //import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
-   import {fromFlowToDb,fromGraphToFlow} from '../lib/script/flow/flowmap.js'
    // UTILITY
    import {getGroups} from '../lib/script/utils.js'
 
@@ -56,22 +53,8 @@
 	export let  avatarsize = "w-10"
 	export let barheigth1 = "55px"
 	// GRAPH VARIABLES
-    let defaultNodes: any[] = [];
-	let graph:any
+    
 
-
-	/*let exp = async (ev:any)=>{
-		let expdata = editor.export()
-		console.log("EXPDATA",expdata)
-		const filestring = JSON.stringify(expdata)
-		EDITORUTILS.uploadFile(filestring,'DATA-TEST.json')
-	}
-
-	const imp = (e:any|undefined)=>{
-		const element = document.getElementById("file-data-input")
-		if(element)
-			element.click()
-	}*/
 
 	const load = async (ev:any)=>{
 		console.log("BUILDDATA LOADDATAFLOW")
@@ -115,7 +98,7 @@
 			</TopBar>
 		</div>
 		<div class="editor-container"  id="editor-container-id">
-			<EDITOR load={load} save={save} maintop = {barheigth1}/>
+			<EDITOR load={load} save={save} maintop = {barheigth1} editortype="data"/>
 		</div>
 </div>
 

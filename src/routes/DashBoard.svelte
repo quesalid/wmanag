@@ -12,6 +12,7 @@
 			BreadCrumb,
 			ChatBot,
 			DigitalClock} from "../lib/components/topbar"
+   import {ChartPoint} from '../lib/components/chart'
    //Managers
    import {AlarmManager,
 			MapManager,
@@ -20,12 +21,21 @@
 			MonitorManager,
 			CommManager,
 			ChartManager,
-			ChartChoiceManager} from '../lib/components/contents'
+			ChartChoiceManager,
+			BatchDetail,
+			SynBatchDetail} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
    //API
-   import {getEntityMain,getDevices,getAgents,getDataPoints,getEntityControlled,getControllers} from '../lib/script/apidataconfig.js'
+   import {getEntityMain,
+			getDevices,
+			getAgents,
+			getDataPoints,
+			getEntityControlled,
+			getControllers,
+			getLearnPoints,
+			getClonePoints} from '../lib/script/apidataconfig.js'
    import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
    import {module, 
@@ -86,11 +96,13 @@
 	// get color scheme
 	let colorScheme:any = getColorScheme($module.toUpperCase())
 	
+	// pointdata for AlarmManager and MonitorManager
 	let pointsdata:any = writable([])
-    let pointdatacolumns:any = getDataPointColumnReduced()
-	
-	
+    let pointdatacolumns:any = getDataPointColumnReduced($module.toUpperCase())
 	let alarmsdata:any = writable([])
+	let chartdialog:any = ChartPoint
+	let modalIdChart:any = "PointChartDiv"
+	// markers for MapManager
 	let markers:any = []
 	
 	let key = 0
@@ -98,14 +110,28 @@
 	let machines:any = []
 	let controllers:any = []
 
-	let psize = 3
+	let psize = 2
 
 	const getAlarmData = async ()=>{
 		 return new Promise(async (resolve, reject) => {
 				const filters:any = [{module:$module.toUpperCase(),_type:'eq'},{type:'ALARM',_type:'eq'},{lastvalue:'ON',_type:'eq'}]
 				const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:null}
 				// Here we get the data from the API
-				const ret = await getDataPoints(filters,$mock,pagination,$pointsdata)
+				let ret:any = []
+				switch($module.toUpperCase()){
+					case 'DATA':
+						ret = await getDataPoints(filters,$mock,pagination)
+						break;
+					case 'CLONE':
+						ret = await getClonePoints(filters,$mock,pagination)
+						break;
+					case 'LEARN':
+						ret = await getLearnPoints(filters,$mock,pagination)
+						break;
+					case 'AI':
+						ret = []
+						break;
+				}
 				for(let i=0;i<ret.data.length;i++){
 					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
 					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
@@ -127,7 +153,30 @@
 			const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 			const pagination:any = {_order:{lasttime:"DESC"},_offset:0,_limit:null}
 			// Here we get the data from the API
-			const ret = await getDataPoints(filters,$mock,pagination,$pointsdata)
+			let ret:any = []
+			switch($module.toUpperCase()){
+				case 'DATA':
+					ret = await getDataPoints(filters,$mock,pagination.$pointsdata)
+					pointdatacolumns = getDataPointColumnReduced($module.toUpperCase())
+					chartdialog = ChartPoint
+					modalIdChart = "PointChartDiv"
+					break;
+				case 'CLONE':
+					ret = await getClonePoints(filters,$mock,pagination.$pointsdata)
+					pointdatacolumns = getDataPointColumnReduced($module.toUpperCase())
+					chartdialog = BatchDetail
+					modalIdChart = "BatchDetailDiv"
+					break;
+					case 'LEARN':
+					ret = await getLearnPoints(filters,$mock,pagination,$pointsdata)
+					pointdatacolumns = getDataPointColumnReduced($module.toUpperCase())
+					chartdialog = SynBatchDetail
+					modalIdChart = "SynBatchDetailDiv"
+					break;
+					case 'AI':
+					ret = []
+					break;
+			}
 			for(let i=0;i<ret.data.length;i++){
 				const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
 				const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
@@ -478,7 +527,7 @@
 							pSize={psize} 
 							height={Window.height}
 							pointsdata={pointsdata}
-							pointdatacolumns={pointdatacolumns}
+							bind:pointdatacolumns={pointdatacolumns}
 							{bgcolor}
 							{titlefontsize}
 							{titlecolor}
@@ -486,6 +535,8 @@
 							{bodycolor}
 							managerid = {monitorManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
+							chartdialog={chartdialog}
+							modalIdChart={modalIdChart}
 						/>
 					{/if}
 					{#if Window.id == 'Communication'  && Window.visible == 'visible'}

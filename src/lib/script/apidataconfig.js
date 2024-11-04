@@ -887,7 +887,7 @@ export const getDataTimeSeries = async function (filters, mock = false) {
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getClonePoints = async function (filters, mock = false) {
+export const getClonePoints = async function (filters, mock = false, pagination = null, olddata = null) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -895,7 +895,9 @@ export const getClonePoints = async function (filters, mock = false) {
             version: 1.0,
             command: "getClonePoints",
             options: {
-                filters: filters
+                filters: filters,
+                pagination: pagination,
+                olddata: olddata
             }
         }
         if (!mock) {
@@ -1166,7 +1168,7 @@ export const deleteCloneMBPhase = async function (filters, mock = false) {
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getLearnPoints = async function (filters, mock = false) {
+export const getLearnPoints = async function (filters, mock = false, pagination = null, olddata = null) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
@@ -1174,7 +1176,9 @@ export const getLearnPoints = async function (filters, mock = false) {
             version: 1.0,
             command: "getLearnPoints",
             options: {
-                filters: filters
+                filters: filters,
+                pagination: pagination,
+                olddata: olddata
             }
         }
         if (!mock) {

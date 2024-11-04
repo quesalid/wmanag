@@ -660,15 +660,29 @@ export function getPointColumns(module) {
     }
 }
 
-export function getDataPointColumnReduced() {
-    const reduced = pointdatacolumns.filter((item) => (item.header != 'Edit' &&
-        item.header != 'Delete' &&
-        item.header != 'HH-lim' &&
-        item.header != 'H-lim' &&
-        item.header != 'L-lim' &&
-        item.header != 'LL-Lim' &&
-        item.header != 'Class'
-    ))
+export function getDataPointColumnReduced(module) {
+    let reduced = []
+    switch (module) {
+        case 'CLONE':
+            reduced = pointclonecolumns.filter((item) => (item.header != 'Edit' &&
+                item.header != 'Delete'))
+            break
+        case 'DATA':
+            reduced = pointdatacolumns.filter((item) => (item.header != 'Edit' &&
+                item.header != 'Delete' &&
+                item.header != 'HH-lim' &&
+                item.header != 'H-lim' &&
+                item.header != 'L-lim' &&
+                item.header != 'LL-Lim' &&
+                item.header != 'Class'))
+            break
+        case 'LEARN':
+            reduced = pointlearncolumns.filter((item) => (item.header != 'Edit' &&
+                item.header != 'Delete'))
+            break
+        default:
+            break
+    }
     return (reduced)    
 }
 

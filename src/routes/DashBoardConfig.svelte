@@ -44,6 +44,7 @@
 		$navigation = getArrayFromPath("/"+$module+"/dashboardconfig")
 		let profileDahboard:any = $user.profile.dashboard.find((item:any)=>item.module == $module.toUpperCase())
 		widgets = JSON.parse(JSON.stringify(profileDahboard.windows))
+		console.log("WIDGETS",widgets,$module)
 		// sleep 300ms to allow the dashboard to be mounted
 		await new Promise(r => setTimeout(r, 300));
 		// dispatch custom event to DashboardConfiguratorId

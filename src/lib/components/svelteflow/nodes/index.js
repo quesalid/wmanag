@@ -3,6 +3,10 @@ export { default as AreaEntityNode } from './AreaEntityNode.svelte';
 export { default as LocalEntityNode } from './LocalEntityNode.svelte';
 export { default as ControlledEntityNode } from './ControlledEntityNode.svelte';
 export { default as ControllerNode } from './ControllerNode.svelte';
+export { default as PhaseNode } from './PhaseNode.svelte';
+export { default as TaskNode } from './TaskNode.svelte';
+
+
 
 
 

@@ -12,21 +12,6 @@
   const nodes = useNodes();
   const edges = useEdges();
 
-  function duplicateNode() {
-    const node = $nodes.find((node) => node.id === id);
-    if (node) {
-      $nodes.push({
-        ...node,
-        // You should use a better id than this in production
-        id: `${id}-copy${Math.random()}`,
-        position: {
-          x: node.position.x,
-          y: node.position.y + 50
-        }
-      });
-    }
-    $nodes = $nodes;
-  }
 
   function deleteNode() {
     $nodes = $nodes.filter((node) => node.id !== id);

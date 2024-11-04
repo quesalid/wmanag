@@ -15,8 +15,7 @@
    import { center } from '../lib/components/topbar/notifications';
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
    // U S E    https://svelteflow.dev/  for the editor
-   import EDITOR from '../lib/components/drawflow/editor.svelte'
-   import EDITORUTILS from '../lib/components/drawflow/grapheditor.js'
+    import EDITOR from '../lib/components/svelteflow/Editor.svelte'
    // STORE
    import { mock,module, navigation, getArrayFromPath, user,avatar,avatargroups,avatarclass} from '../lib/ustore.js'
    // API
@@ -45,8 +44,7 @@
 	export let  imgheight = "60px"
 	export let  topbarheight = "90%"
 	export let  avatarsize = "w-10"
-
-	let deviceuid = ''
+	export let barheigth1 = "55px"
 
 
 	// click Logo
@@ -57,18 +55,12 @@
 
 	
 
-	let exp = async (ev:any)=>{
-		let expdata = editor.export()
-		console.log("EXPDATA",expdata)
-		const filestring = JSON.stringify(expdata)
-		EDITORUTILS.uploadFile(filestring,'DATA-TEST.json')
-		console.log("Graph ---> ",graph)
+	const load = async (ev:any)=>{
+		console.log("BUILDDATA LOADDATAFLOW")
 	}
 
-	const imp = (e:any|undefined)=>{
-		const element = document.getElementById("file-data-input")
-		if(element)
-			element.click()
+	const save = async (ev:any)=>{
+		console.log(" BUILD DATA SAVEDATAFLOW")
 	}
 
 	
@@ -101,19 +93,12 @@
 		</div>
 		<div class="configurator-container" style="--top:{barheigth}">
 			<!--Modeler /-->
-			<EDITOR bind:editor={editor} bind:graph={graph}
-				{exp}
-				{imp}/>
+			<EDITOR load={load} save={save} maintop = {barheigth1} editortype="clone"/>
 		</div>
 		
 </div>
 
 <style>
-.configurator-container{
-		display:flex;
-		position:relative;
-		top: var(--top);
-	}
 
 </style>
 

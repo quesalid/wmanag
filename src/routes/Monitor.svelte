@@ -32,7 +32,14 @@
 			getEntityMain} from '../lib/script/apidataconfig.js'
    import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
-   import { mock,module,user,avatar,avatargroups,avatarclass,navigation,getArrayFromPath} from '../lib/ustore.js'
+   import { mock,
+			module,
+			user,
+			avatar,
+			avatargroups,
+			avatarclass,
+			navigation,
+			getArrayFromPath} from '../lib/ustore.js'
    // UTILITY
    import {getGroups} from '../lib/script/utils.js'
 
@@ -246,7 +253,7 @@
 		<MonitorManager
 			pointsdata={pointsdata}
 			pointdatacolumns={pointdatacolumns}
-			titlepoint={titlepoint}
+			title={titlepoint}
 			toolbarpoint={toolbarpoint}
 			disableClose={disableClose}
 			draggable={draggable}
