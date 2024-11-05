@@ -106,7 +106,8 @@ aside {
 
 /* Node panel*/
 .node-panel {
-    width: 250px;
+    width: 300px;
+    height:auto;
     border: 1px solid #777;
     background-color: #f8f8f8;
     border-radius: 5px;
@@ -133,9 +134,10 @@ aside {
 .node-panel-body {
     display: block;
     justify-content: left;
-    overflow-y: auto;
+    overflow-y: hidden;
     overflow-x: hidden;
     width: 100%;
+    height:auto;
     font-size: small;
 }
 .node-panel-body-item {

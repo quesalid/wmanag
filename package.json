@@ -36,6 +36,7 @@
     "vite": "^5.0.5"
   },
   "dependencies": {
+    "@turf/turf": "^7.1.0",
     "@xyflow/svelte": "^0.1.21",
     "bayesjs": "^0.6.5",
     "date-fns": "^4.1.0",
@@ -43,6 +44,7 @@
     "echarts": "^5.4.3",
     "events": "^3.3.0",
     "konva": "^9.3.6",
+    "leaflet": "^1.9.4",
     "node-sql-parser": "^4.18.0",
     "svelte-konva": "^0.3.1",
     "svelte-maplibre": "^0.9.14",

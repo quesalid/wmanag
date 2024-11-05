@@ -6,7 +6,7 @@
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
    import PlaceHolder from '../PlaceHolder.svelte'
-   import {ChatSimple} from '../communication'
+   import {ChatSimple, ChatbotComponent} from '../communication'
    // STORE
    import { mock,module, assistant,avatar} from '../../ustore.js'
    // API INTERFACE
@@ -62,7 +62,8 @@
 	export let bordercolor = "#c0c0c0"
 	export let boxshadow = "0px 0px 0px 0px #000000"
 	// COMPONENTS
-	export let chat = ChatSimple
+	//export let chat = ChatSimple
+	export let chat = ChatbotComponent
 	export let image = $avatar
 	
 	

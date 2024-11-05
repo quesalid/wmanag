@@ -38,8 +38,8 @@
 			nodePanelBody.style.height = '';
 			// force update of values inside template
 			template = [...template]
+			// sleep for 300ms
 			
-
         })
     }
 	if(nodePanel){
@@ -89,6 +89,7 @@
 
  const changeValue = (ev:any, field:any) =>{
 	 const value = ev.target.value
+	 console.log("CHANGE VALUE",field,value)
 	 // get node and update label
 	 const nodeIndex = $nodes.findIndex((node:any) => node.id === nodeid);
 	 if(nodeIndex != -1){
@@ -189,10 +190,28 @@ const pickAddress = async (ev:any) => {
 							<input type="button" value="..." on:click={pickAddress}/>
 						</div>
 					</div>
+			{:else if item.type == 'selectmulti'}
+				<div class="node-panel-body-item">
+						<span>{item.name}</span> 
+						<select multiple value={nodeid && node.data.internalData[item.field] != null?node.data.internalData[item.field]:item.value} on:change={(ev)=>{changeValue(ev,item.field)}}>
+							{#each item.options.opts as option,idx}
+							{#if idx==0}
+								<option selected value={option.value}>{option.name}</option>
+							{:else}
+								<option value={option.value}>{option.name}</option>
+							{/if}
+							{/each}}
+						</select>
+					</div>
+			{:else if item.type == 'textarea' }
+				<div class="node-panel-body-item">
+						<span>{item.name}</span> 
+						<textarea value={nodeid?node.data.internalData[item.field]:item.value} on:change={(ev)=>{changeValue(ev,item.field)}}/>
+					</div>
 			{:else}
 				<div class="node-panel-body-item">
 					<span>{item.name}</span> 
-					<input type="{item.type}" value={nodeid?node.data.internalData[item.field]:item.value} on:change={(ev)=>{changeValue(ev,item.field)}}/>
+					<input type="{item.type}" value={nodeid && node.data.internalData[item.field]!= null?node.data.internalData[item.field]:item.value} on:change={(ev)=>{changeValue(ev,item.field)}}/>
 				</div>
 			{/if}
 		{/if}

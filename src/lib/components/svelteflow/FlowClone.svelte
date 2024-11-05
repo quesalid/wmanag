@@ -22,7 +22,8 @@
   import Sidebar from './SidebarClone.svelte';
   import ContextMenu from './ContextMenu.svelte';
   import { PhaseNode,
-           TaskNode} from './nodes';
+           TaskNode,
+           ProcessNode} from './nodes';
   import {NodePanel} from './panels'
   import { useDnD, getNodeColor } from './utils';
   import './flowstyles.css'
@@ -66,7 +67,8 @@
 
   const nodeTypes = {
     phase: PhaseNode,
-    task: TaskNode
+    task: TaskNode,
+    process: ProcessNode
   };
 
   // Nodes and Edges
@@ -144,7 +146,7 @@
       parentId: parentId,
       position:parentId?parentDimension:position,
       extent:parentId?'parent':undefined,
-      style:$nodTyp=='phase'?nodeStyle:undefined,
+      style:$nodTyp=='phase' || $nodTyp=='process'?nodeStyle:undefined,
       data: { label: $nodTyp, 
               color: $nodCol, 
               spanid:'span-'+newid, 

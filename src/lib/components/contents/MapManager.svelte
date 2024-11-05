@@ -100,20 +100,6 @@ onMount(async () => {
 					const found = markers.find((m:any)=>m.uid == uid)
 					if(found){
 						changeMarkerClass(found.marker._element,action)
-						/*switch(action){
-							case 'ACKNOWLEDGE':
-								// delete blink class from marker
-								found.marker._element.classList.remove('animate-blink-5')
-								// add orange color to marker
-								found.marker._element.classList.add('bg-orange-400')
-								break;
-							case 'RESUME':
-								// delete blink class from marker
-								found.marker._element.classList.remove('animate-blink-5')
-								// add orange color to marker
-								found.marker._element.classList.add('bg-orange-400')
-								break;
-						}*/
 					}
 				})
 			}

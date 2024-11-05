@@ -39,6 +39,8 @@
       addParentUidToData($nodes, $edges, 'controlledEntity', 'line')
       addParentUidToData($nodes, $edges, 'controller', 'machine')*/
 
+    addParentUidToDataArray($nodes, $edges, 'task', 'parenttask');
+
 	const data = {nodes: $nodes, edges: $edges};
     const a = document.createElement('a');
     const file = new Blob([JSON.stringify(data)], {type: 'application/json'});
@@ -94,7 +96,7 @@
       console.log("SAVE GRAPH")
   }
   // UTILITIES
-  const addParentUidToData = (nodes:any, edges:any, type:any, field:any) => {
+  const addParentUidToDataArray = (nodes:any, edges:any, type:any, field:any) => {
 	// for each node of type type, find its parent and add the parent's uid to its internal data at field field
     nodes.forEach((node:any) => {
 	  if (node.type === type) {
@@ -102,7 +104,13 @@
           if (parentEdge) {
 			const parentNode = nodes.find((n:any) => n.id === parentEdge.source);
 			if (parentNode) {
-			  node.data.internalData[field] = parentNode.data.internalData.uid;
+              // if field not exists or if not array
+              if (!node.data.internalData[field] || !Array.isArray(node.data.internalData[field])) {
+                  // add field as an array
+                  node.data.internalData[field] = [];
+              }
+              // push parent uid to field
+			  node.data.internalData[field].push(parentNode.data.internalData.uid);
 			}
 		  }
       }
@@ -128,6 +136,14 @@
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="aside-menuaction" on:click={clear}>Clear</div>
   <div class="aside-nodes-container">
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div style="background-color: {getNodeColor('process')} ;"
+      class="custom-entity-node aside-node"
+      on:dragstart={(event) => onDragStart(event, 'process',getNodeColor('process'))}
+      draggable={true}
+    >
+      {getNodeLabel('process')}
+    </div>
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div style="background-color: {getNodeColor('phase')} ;"
       class="custom-entity-node aside-node"

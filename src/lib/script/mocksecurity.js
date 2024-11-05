@@ -113,7 +113,7 @@ let profiles = [
                         top: '0px',
                         left: '10px',
                         width: '600px',
-                        visible: "visible",
+                        visible: "hidden",
                         height: '340px',
                         image: 'Map.png',
                         params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
@@ -126,7 +126,27 @@ let profiles = [
                         height: '350px',
                         width: '850px',
                         image: 'Alarms.png',
-                        visible: "visible"
+                        visible: "hidden"
+                    },
+                    {
+                        id: 'Firesim',
+                        name: 'Simulazione Incendio',
+                        top: '0px',
+                        left: '0px',
+                        height: '600px',
+                        width: '1000px',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                            initlat: 41.895,
+                            initlon: 12.62799,
+                            initzoom: 14,
+                            maxzoom: 19,
+                            fswidth: '100%',
+                            fsheight: '130vh',
+                            cellSize: 0.035,
+                            bbox:[12.61800, 41.90838, 12.65048, 41.89052],
+                        }
                     },
                 ]
             },
@@ -283,7 +303,7 @@ let profiles = [
                         name:'Comunicazione',
                         top: '358px',
                         left: '10px',
-                        height: '300px',
+                        height: '350px',
                         width: '350px',
                         image: 'Communication.png',
                         visible: "visible"

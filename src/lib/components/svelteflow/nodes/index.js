@@ -5,6 +5,8 @@ export { default as ControlledEntityNode } from './ControlledEntityNode.svelte';
 export { default as ControllerNode } from './ControllerNode.svelte';
 export { default as PhaseNode } from './PhaseNode.svelte';
 export { default as TaskNode } from './TaskNode.svelte';
+export { default as ProcessNode } from './ProcessNode.svelte';
+
 
 
 

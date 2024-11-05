@@ -23,7 +23,8 @@
 			ChartManager,
 			ChartChoiceManager,
 			BatchDetail,
-			SynBatchDetail} from '../lib/components/contents'
+			SynBatchDetail,
+			FireSimManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -80,7 +81,7 @@
 		return colorScheme
 	}
 
-	// Get configured app windows from profile
+	// Get configured parameters from profile window
 	const mapapp = findWindow('Map')
 	
 	let mapcenter = mapapp && mapapp.params && mapapp.params.center? [mapapp.params.center.lon,mapapp.params.center.lat]:[-0.12755,51.507222]
@@ -90,7 +91,15 @@
 	let mappitch = mapapp && mapapp.params && mapapp.params.pitch? mapapp.params.pitch: 0
 	let mapbearing = mapapp && mapapp.params && mapapp.params.bearing? mapapp.params.bearing: 0
 
-	
+	const fsimapp = findWindow('Firesim')
+	let fsiminitlat = fsimapp && fsimapp.params && fsimapp.params.initlat? fsimapp.params.initlat: 45.0
+	let fsiminitlon = fsimapp && fsimapp.params && fsimapp.params.initlon? fsimapp.params.initlon: 7.0
+	let fsiminitzoom = fsimapp && fsimapp.params && fsimapp.params.initzoom? fsimapp.params.initzoom: 10
+	let fsimmaxzoom = fsimapp && fsimapp.params && fsimapp.params.maxzoom? fsimapp.params.maxzoom: 19
+	let fswidth = fsimapp && fsimapp.params && fsimapp.params.width? fsimapp.params.width: '100%'
+	let fsheight = fsimapp && fsimapp.params && fsimapp.params.height? fsimapp.params.height: '100vh'
+	let cellSize = fsimapp && fsimapp.params && fsimapp.params.cellSize? fsimapp.params.cellSize: 0.1
+	let bbox = fsimapp && fsimapp.params && fsimapp.params.bbox? fsimapp.params.bbox: [6.5, 45, 7.5, 46]
 	
 
 	// get color scheme
@@ -278,6 +287,8 @@
 	export let titlecolor = "#666"
 	export let titleweight = "bold"
 	export let bodycolor = "#ffffff"
+	export let bordercolor = "#c0c0c0"
+	let transparentcolor = "rgba(0,0,0,0)"
 	// BAR VARIABLES
 	export let barheigth = "60px"
 	export let imgheight = "60px"
@@ -289,6 +300,7 @@
 	let titleAlarms = 'ALARMS'
 	let titleMonitor = 'MONITOR'
 	let titleComm = 'COMMUNICATION'
+	let titleFiresim = 'FIRE SIMULATION'
 	
 	
 
@@ -551,9 +563,12 @@
 							{titlefontsize}
 							{titlecolor}
 							{titleweight}
-							{bodycolor}
+							bodycolor={transparentcolor}
+							bordercolor = {transparentcolor}
 							managerid = {commManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
+							resize='none'
+							showheader={false}
 						/>
 					{/if}
 					{#if Window.id == 'Chart'  && Window.visible == 'visible'}
@@ -592,6 +607,31 @@
 							{titleweight}
 							bodycolor=""
 							managerid = {chartChoiceManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+						/>
+					{/if}
+					{#if Window.id == 'Firesim'  && Window.visible == 'visible'}
+						<FireSimManager 
+							headercolor={colorScheme.wincolor}  
+							title="{titleFiresim}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							initlat = {fsiminitlat}
+							initlon = {fsiminitlon}
+							initzoom = {fsiminitzoom}
+							maxzoom = {fsimmaxzoom}
+							cellSize = {cellSize}
+							bbox = {bbox}
+							fswidth = {fswidth}
+							fsheight = {fsheight}
+							managerid= {mapManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}

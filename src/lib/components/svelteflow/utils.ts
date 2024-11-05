@@ -17,6 +17,7 @@ const nodecolors = [
     { type: 'output', color: null },
     { type: 'phase', color: '#ddefde' },
     { type: 'task', color: '#ddefde' },
+    { type: 'process', color: '#ddefde' },
 ]
 
 export const getNodeColor = (type: any) => {
@@ -123,6 +124,13 @@ const controllerTemplate = [
     },
 ]
 
+const processTemplate = [
+    { field: 'uid', name: 'uid', value: '', type: 'text', show: false, options: null },
+    { field: 'name', name: 'name', value: '', type: 'text', show: true, options: null },
+    { field: 'description', name: 'description', value: '', type: 'text', show: true, options: null },
+    { field: 'plant', name: 'plant', value: '', type: 'text', show: true, options: null },
+]
+
 const phaseTemplate = [
     { field: 'uid', name: 'uid', value: '', type: 'text', show: false, options: null },
     { field: 'name', name: 'name', value: '', type: 'text', show: true, options: null },
@@ -131,8 +139,22 @@ const phaseTemplate = [
 
 const taskTemplate = [
     { field: 'uid', name: 'uid', value: '', type: 'text', show: false, options: null },
-    { field: 'name', name: 'name', value: '', type: 'text', show: true, options: null },
-    { field: 'description', name: 'description', value: '', type: 'text', show: true, options: null },
+    { field: 'name', name: 'nome', value: '', type: 'text', show: true, options: null },
+    { field: 'description', name: 'descrizione', value: '', type: 'textarea', show: true, options: null },
+    { field: 'equipments', name: 'equipments', value: '', type: 'text', show: true, options: null },
+    { field: 'environment', name: 'varamb', value: '', type: 'text', show: true, options: null },
+    {
+        field: 'people', name: 'persone', value: 'operator1', type: 'selectmulti', show: true,
+        options: {
+            opts: [
+                { name: 'Operatore 1', value: 'operator1' },
+                { name: 'Operatore 2', value: 'operator2' },
+                { name: 'Capo Squadra', value: 'teamleader' },
+
+            ]
+        }
+    },
+    { field: 'actions', name: 'azioni', value: '', type: 'text', show: true, options: null },
 ]
 
 const templates = [
@@ -143,6 +165,7 @@ const templates = [
     { type: 'controller', template: controllerTemplate },
     { type: 'phase', template: phaseTemplate },
     { type: 'task', template: taskTemplate },
+    { type: 'process', template: processTemplate },
     { type: 'input', template: null },
     { type: 'default', template: null },
     { type: 'output', template: null },
@@ -166,6 +189,7 @@ const nodelabels = [
     { type: 'output', label: 'Output' },
     { type: 'phase', label: 'Fase' },
     { type: 'task', label: 'Task' },
+    { type: 'process', label: 'Process' },
 ]
 
 export const getNodeLabel = (type: any) => {
