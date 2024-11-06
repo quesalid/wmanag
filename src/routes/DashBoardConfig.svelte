@@ -9,10 +9,10 @@
 			AlertMessages,
 			SideMenu,
 			BreadCrumb,
-			ChatBot,
 			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import {DashboardConfigurator} from '../lib/components/contents'
+   import {DashboardConfigurator} from '../lib/components/dashboard/'
+   import type {Widget} from '../lib/components/dashboard/'
    // STORE
    import {module, 
 			mock, 
@@ -67,22 +67,6 @@
 		navigate(`/`+$module)
 		$navigation = getArrayFromPath(`/`+$module)
 	}
-
-	interface Widget {
-    id: string;
-    name: string;
-    width: number;
-    height: number;
-    top?: number;
-    left?: number;
-    isSelected?: boolean;
-    isDragging?: boolean;
-    image?: string;
-    minimized?: string;
-	mimimizedHeight: number;
-    normalHeight: number;
-	params?: any
-  }
 
   const fromWidgetToWin = (widgets:Widget[],scale:any) => {
 	  return widgets.map((w:Widget) => {
@@ -139,10 +123,9 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
-						message={$user.username}
+						message={$user.username?$user.username:undefined}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>

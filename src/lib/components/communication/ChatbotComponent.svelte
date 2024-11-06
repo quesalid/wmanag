@@ -2,6 +2,7 @@
     import { onMount,afterUpdate  } from 'svelte';
     import { ChatbotClass, ChatbotType } from './chatbot';
 
+    export let chatComponentId = "chatComponentId"
     export let showHeader = false;
     export let showCheckbox = false;  // Variabile per mostrare/nascondere la checkbox per mostrare/nascondere la storia della chat
     export let showFullHistory = false;  // Variabile per mostrare/nascondere la storia della chat
@@ -15,31 +16,6 @@
     // set border color transparent
     export let bordercolor = "rgba(0,0,0,0)"
     export let chatMessageHeight = "110px"
-    export let clickLeft = (ev:any) => {
-		console.log("clickLeft")
-        num--
-        if(num<0){  
-			num = 0
-           ev.target.src = arrowLeftOff
-
-		}else{
-            const arrowright = document.getElementsByClassName('arrow-message-right')[0]
-            arrowright.src = arrowRightOn
-        }
-        handleRegisteredMessage(registeredMessages[num])
-	}
-    export let clickRight = (ev:any) => {
-        console.log("clickRight")
-        num++
-       if(num>=registeredMessages.length ){
-			num  = registeredMessages.length -1
-			ev.target.src = arrowRightOff
-		}else{
-            const arrowleft = document.getElementsByClassName('arrow-message-left')[0]
-            arrowleft.src = arrowLeftOn
-        }
-        handleRegisteredMessage(registeredMessages[num])
-        }
     export let registeredMessages = [
         "Primo testo che può anche essere particolarmente lungo. OK?",
         "Secondo testo che può anche essere anche più lungo del precedente. OK?",
@@ -60,31 +36,55 @@
     let input = "";
     let num = 0;
   
-   
+    
     onMount(async ()=>{
+        console.log("CHATBOT COMPONRNT MOUNTED")
         // Aggiunge il messaggio dell'utente
 		messages = [...messages, { sender: "user", text: "Ciao" }];
 		// Invia il messaggio al chatbot e riceve la risposta
 		const response:any = await chatbot.sendMessage("Ciao");
 		// Aggiunge la risposta del chatbot ai messaggi
 		messages = [...messages, { sender: "chatbot", text: response }];
-        // sleep 200 ms
-        await new Promise(r => setTimeout(r, 200));
-        // se showfullhistory false setta l'altezza dei messaggi chatbot
-        if(!showFullHistory){
-			const chatbotMessage = document.getElementsByClassName('chatbot-message');
-            const arr = Array.from(chatbotMessage);
-            arr.forEach( (node:any) => {
-                node.style.minHeight = chatMessageHeight
-            })
-			const chatbotMessages = document.getElementsByClassName('chatbot-messages')[0];
-			chatbotMessages.style.overflowY = 'hidden'
-		}
+        // Add event listener for parent componet loaded
+        const me = document.getElementById(chatComponentId)
+        console.log("CHATBOT COMPONRNT  ME",me)
+        me?.addEventListener('chatparams', (e:any) => {
+			// Parametri di configurazione in custom event
+            const params = e.detail;
+            // Aggiorna i parametri
+            showHeader = params.showHeader;
+            showCheckbox = params.showCheckbox;
+            showFullHistory =params.showFullHistory;
+            showImage =params.showImage;
+            showMessageInput =params.showMessageInput;
+            const typ:any = ChatbotType[params.type]
+            chatbot = params.type=='SIMPLE'? new ChatbotClass(typ,registeredMessages): new ChatbotClass(typ)
+
+            num=0
+            
+			const arrowleft = document.getElementsByClassName('arrow-message-left')[0]
+            if(arrowleft)
+			    arrowleft.style.visibility = params.type=='SIMPLE'?'visible':'hidden'
+			const arrowright = document.getElementsByClassName('arrow-message-right')[0]
+            if(arrowright)
+			    arrowright.style.visibility = params.type=='SIMPLE'?'visible':'hidden'
+			
+
+            if(!showFullHistory){
+			    const chatbotMessage = document.getElementsByClassName('chatbot-message');
+                const arr = Array.from(chatbotMessage);
+                arr.forEach( (node:any) => {
+                    node.style.minHeight = chatMessageHeight
+                })
+			    const chatbotMessages = document.getElementsByClassName('chatbot-messages')[0];
+			    chatbotMessages.style.overflowY = 'hidden'
+		    }
+		});
 	
     })
 
     // Inizializzo un'istanza di ChatbotClass
-    const chatbot = new ChatbotClass(ChatbotType.GENERATIVE);
+    let chatbot = new ChatbotClass(ChatbotType.SIMPLE);
 
     // Funzione per inviare il messaggio registrato
     async function handleRegisteredMessage(num:any) {
@@ -119,10 +119,37 @@
             lastMessageElement.scrollIntoView({ behavior: "smooth", block: "end" });
         }
     });
+
+    let clickLeft = (ev:any) => {
+		console.log("clickLeft")
+        num--
+        if(num<0){  
+			num = 0
+           ev.target.src = arrowLeftOff
+
+		}else{
+            const arrowright = document.getElementsByClassName('arrow-message-right')[0]
+            arrowright.src = arrowRightOn
+        }
+        handleRegisteredMessage(registeredMessages[num])
+	}
+
+    let clickRight = (ev:any) => {
+        console.log("clickRight")
+        num++
+       if(num>=registeredMessages.length ){
+			num  = registeredMessages.length -1
+			ev.target.src = arrowRightOff
+		}else{
+            const arrowleft = document.getElementsByClassName('arrow-message-left')[0]
+            arrowleft.src = arrowLeftOn
+        }
+        handleRegisteredMessage(registeredMessages[num])
+        }
 </script>
 
 <!-- Interfaccia del chatbot -->
-<div class="chatbot-container" style="--border-color:{bordercolor};">
+<div class="chatbot-container" id={chatComponentId} style="--border-color:{bordercolor};">
     {#if showHeader}
         <div class="chatbot-header">
             <h2>Chatbot</h2>

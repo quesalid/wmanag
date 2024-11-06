@@ -10,7 +10,6 @@
 			AlertMessages,
 			SideMenu,
 			BreadCrumb,
-			ChatBot,
 			DigitalClock} from "../lib/components/topbar"
    import {ChartPoint} from '../lib/components/chart'
    //Managers
@@ -62,8 +61,8 @@
 	let dashboard:any = {windows:[]}
 	
 	const findWindow = (id:any)=>{
-		let profile = $user.profile
-		let dashboards = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
+		let profile:any = $user.profile
+		let dashboards:any = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
 		if(!dashboards)
 			dashboards = profile.find((item:any) => item.module == 'DEFAULT')
 		let win = dashboards.windows.find((item:any) => item.id == id)
@@ -73,7 +72,7 @@
 	const getColorScheme = (type:any)=>{
 		let colorScheme = {wincolor:"#ddefde"}
 		let profile = $user.profile
-		let dashboards = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
+		let dashboards:any = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
 		
 		if(dashboards && dashboards.colorScheme)
 			colorScheme = dashboards.colorScheme
@@ -441,7 +440,7 @@
 	
 </script>
 <div id="main-dashboard-page">
-		<div>
+		
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
 					<div style="display: flex;">
@@ -455,17 +454,16 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
-						message={$user.username}
+						message={$user.username?$user.username:undefined}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
 
-		</div>
+		
 		<div class="dashboard-container" style="--top:{barheigth}" id="dashboard-container-id">
 			{#if dashboard}
 				{#each dashboard.windows as Window}
@@ -563,12 +561,13 @@
 							{titlefontsize}
 							{titlecolor}
 							{titleweight}
-							bodycolor={transparentcolor}
-							bordercolor = {transparentcolor}
+							bodycolor={bodycolor}
+							bordercolor = {bordercolor}
 							managerid = {commManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
-							resize='none'
-							showheader={false}
+							resize='both'
+							showheader={true}
+							params={Window.params}
 						/>
 					{/if}
 					{#if Window.id == 'Chart'  && Window.visible == 'visible'}

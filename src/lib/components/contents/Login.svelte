@@ -40,7 +40,7 @@
   onMount(async () => {
       // ON LOAD CLEAN STORE
       $role = ''
-      $user = {username:'',uid:'',name:'',surname:'',profile:{language:'',locale:'',dashboard:[],map:{center:{lat:0,lng:0},zoom:1}}}
+      $user = {}
       $token = ''
       $avatar = ''
       $family = 'INDUSTRY'

@@ -270,21 +270,21 @@ let profiles = [
                     {
                         id: 'Chart',
                         name:'Grafico',
-                        top: '0px',
-                        left: '620px',
-                        width: '700px',
-                        height: '660px',
+                        top: '0vh',
+                        left: '44vw',
+                        width: '48vw',
+                        height: '85vh',
                         image: 'Chart.png',
                         visible: "visible"
                     },
                     {
                         id: 'Map',
                         name:'Mappa',
-                        top: '0px',
-                        left: '10px',
-                        height: '340px',
+                        top: '0vh',
+                        left: '1vw',
+                        height: '50vh',
                         image: 'Map.png',
-                        width: '600px',
+                        width: '39vw',
                         visible: "visible",
                         params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch:45,bearing:-15.7 }
                     },
@@ -301,12 +301,21 @@ let profiles = [
                     {
                         id: 'Communication',
                         name:'Comunicazione',
-                        top: '358px',
-                        left: '10px',
-                        height: '350px',
-                        width: '350px',
+                        top: '50vh',
+                        left: '1vw',
+                        height: '50vh',
+                        width: '25vw',
                         image: 'Communication.png',
-                        visible: "visible"
+                        visible: "visible",
+                        params: {
+                            showHeader: false,
+                            showCheckbox: true,
+                            showFullHistory: false,
+                            showImage: true,
+                            showMessageInput: false,
+                            chatImage: "ChatBot.png",
+                            type: "SIMPLE",
+                        }
                     }
                 ]
             },
@@ -434,7 +443,7 @@ let profiles = [
                         name:'Allarmi',
                         top: '0px',
                         left: '620px',
-                        height: '350px',
+                        height: '310px',
                         width: '850px',
                         visible: "visible",
                         image: 'Alarms.png',
@@ -442,12 +451,21 @@ let profiles = [
                     {
                         id: 'Communication',
                         name:'Comunicazione',
-                        top: '358px',
+                        top: '42vh',
                         left: '1020px',
-                        height: '300px',
+                        height: '50vh',
                         width: '350px',
                         visible: "visible",
                         image: 'Communication.png',
+                        params: {
+                            showHeader: false,
+                            showCheckbox: true,
+                            showFullHistory: false,
+                            showImage: true,
+                            showMessageInput: false,
+                            chatImage: "ChatBot.png",
+                            type: "SIMPLE",
+                        }
                     }
                 ]
             },
@@ -590,6 +608,15 @@ let profiles = [
                         width: '350px',
                         visible: "visible",
                         image: 'Communication.png',
+                        params: {
+                            showHeader: false,
+                            showCheckbox: true,
+                            showFullHistory: false,
+                            showImage: true,
+                            showMessageInput: false,
+                            chatImage: "ChatBot.png",
+                            type: "SIMPLE",
+                        }
                     }
                 ]
             },
@@ -731,6 +758,15 @@ let profiles = [
                         width: '350px',
                         visible: "visible",
                         image: 'Communication.png',
+                        params: {
+                            showHeader: false,
+                            showCheckbox: true,
+                            showFullHistory: false,
+                            showImage: true,
+                            showMessageInput: false,
+                            chatImage: "ChatBot.png",
+                            type: "SIMPLE",
+                        }
                     }
                 ]
             },

@@ -6,7 +6,6 @@
 			AlertMessages,
 			SideMenu,
 			BreadCrumb,
-			ChatBot,
 			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    import {onMount} from "svelte"
@@ -49,7 +48,12 @@
 	export let  avatarsize = "w-10"
 
 	// ASSISTANT VARIABLES
-	let options = ['','GPT-2','GPT-3','BERT','XLNet','RoBERTa','T5','DialoGPT']
+	let  options = [
+		{type:'SIMPLE',name:'Semplice'},
+		{type:'GENERATIVE', name:'LLM'},
+		{type:'REINFORCEMENT_LEARNING',name:'LLM+'},
+		{type:'HUMAN',name:'Umano'},
+	]
 	let type = ''
 	let model = ''
 	let onClick = (ev:any)=>{
@@ -69,12 +73,6 @@
 		$navigation = getArrayFromPath(`/`+$module)
 	}
 
-	const onCheck = async (ev:any)=>{
-		// send custom event toggleassistant to ChatBot
-		const event = new CustomEvent('toggleassistant', {detail: {status: ev.target.checked}});
-		document.dispatchEvent(event)
-		$assistant = ev.target.checked
-	}
 
 </script>
 <div id="main-assistant-page">
@@ -92,10 +90,9 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
-						message={$user.username}
+						message={$user.username?$user.username:undefined}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>

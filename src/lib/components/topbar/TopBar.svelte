@@ -32,6 +32,7 @@ width: 100%;
   display: flex;
   justify-content: space-between;
   height: var(--height);
+  min-width:100%;
   align-items: center;
   background-color: var(--background-color);
 }
@@ -42,6 +43,7 @@ width: 100%;
     height:100%;
     /*border: 1px solid red;*/
     padding: 0.4rem;
+    width:max-content;
 }
 .left-section{
     width: 33%;

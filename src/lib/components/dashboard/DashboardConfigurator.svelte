@@ -2,23 +2,9 @@
   import { onMount, tick } from 'svelte';
   import { writable } from 'svelte/store';
   import './dashconf.css'
+  import type { Widget } from '.';
+  import { DashConf } from '.'
 
-  // Interfaccia per definire un widget
-  interface Widget {
-    id: string;
-    name: string;
-    width: number;
-    height: number;
-    top?: number;
-    left?: number;
-    isSelected?: boolean;
-    isDragging?: boolean;
-    image?: string;
-    minimized?: string;
-    mimimizedHeight: number;
-    normalHeight: number;
-    params?: any;
-  }
 
   // Costanti per le dimensioni
   const MENU_WIDGET_WIDTH = 100;
@@ -28,6 +14,7 @@
   const GRID_COLS = 60;
   let arrayrows = Array(GRID_ROWS)
   let arraycols = Array(GRID_COLS)
+  let dashconf:any = new DashConf([],[])
 
   const fromWinToWidget = (windows:any) => {
       return windows.map((w:any) => {
@@ -98,6 +85,8 @@
 		// scale widgets
 		dashboardWidgets.update(widgets => scaleWidgets(widgets, scale));
 		availableWidgets.update(widgets => scaleWidgets(widgets, scale));
+        dashconf.setAvailableWidgets(scaleWidgets(dashconf.getAvailableWidgets(), scale))
+        dashconf.setDashboardWidgets(scaleWidgets(dashconf.getDashboardWidgets(), scale))
 	});
 
   });
@@ -120,6 +109,9 @@
   let dashboardWindows = windows.filter((w:any) => w.visible == "visible")
   let availableWidgets = writable<Widget[]>(fromWinToWidget(availaibleWindows))
   let dashboardWidgets = writable<Widget[]>(fromWinToWidget(dashboardWindows));
+  dashconf.setAvailableWidgets($availableWidgets)
+  dashconf.setDashboardWidgets($dashboardWidgets)
+ 
 
   // Variabili per gestire il movimento del widget
   let draggedWidget: Widget | null = null;
@@ -145,13 +137,14 @@
       offsetY = event.clientY - rect.top;
       
       // Seleziona il widget
-      dashboardWidgets.update(widgets => 
+     dashboardWidgets.update(widgets => 
         widgets.map(w => ({
           ...w, 
           isSelected: w.id === widget.id,
           isDragging: w.id === widget.id
         }))
       );
+      //dashconf.setDraggingWidget(widget)
     } else {
       draggedWidget = { ...widget, source };
     }
@@ -159,6 +152,7 @@
 
   // Funzione per gestire il movimento del widget
   const  handleMouseMove = (event: MouseEvent) => {
+    //const movingWidget = $dashboardWidgets.find(w => w.isDragging);
     const movingWidget = $dashboardWidgets.find(w => w.isDragging);
     if (!movingWidget) return;
 
@@ -186,16 +180,18 @@
           : w
       )
     );
+    //dashconf.updateDraggingWidget(newLeft,newTop)
   }
 
   // Funzione per fermare il movimento
   const  handleMouseUp = () => {
-    dashboardWidgets.update(widgets => 
+   dashboardWidgets.update(widgets => 
       widgets.map(w => ({
         ...w, 
         isDragging: false
       }))
     );
+    //dashconf.setDraggingWidget(null)
   }
 
   // Funzione per gestire il drop
@@ -231,18 +227,32 @@
           height: newHeight,
         }
       ]);
+      /*dashconf.addDashboardWidget({
+		  ...droppedWidget, 
+		  left: newLeft, 
+		  top: newTop,
+		  isSelected: true,
+		  height: newHeight,
+	  })*/
       availableWidgets.update(widgets => 
         widgets.filter(w => w.id !== droppedWidget.id)
       );
+      //dashconf.removeAvailableWidget(droppedWidget.id)
     } else if (droppedWidget.source === 'dashboard' && targetArea === 'menu') {
       // Rimuovi dalla dashboard e aggiungi al menu
       dashboardWidgets.update(widgets => 
         widgets.filter(w => w.id !== droppedWidget.id)
       );
+      //dashconf.removeDashboardWidget(droppedWidget.id)
       availableWidgets.update(widgets => [
         ...widgets, 
         { ...droppedWidget, left: undefined, top: undefined }
       ]);
+      /*dashconf.addAvailableWidget({
+          ...droppedWidget,
+          left: undefined,
+          top: undefined
+          })*/
     }
   }
 
@@ -259,29 +269,26 @@
         isSelected: w.id === widgetId 
       }))
     );
+    //dashconf.setSelectedWidget(widgetId)
+  }
+
+  // Funzione per il menu contestuale
+  const  rightClickContextMenu = (event: MouseEvent, widgetId:any) => {
+	event.preventDefault();
+	selectWidget(widgetId);
+    console.log("CONTEXT MENU",widgetId)
   }
 
   const setminimize = (e:MouseEvent) => {
 	const widgetId = e.target.id.replace("check-","")
     // if checked set minimize
     const checked = (e.target as HTMLInputElement).checked
-   /* dashboardWidgets.update(widgets => 
-	  widgets.map(w => ({ 
-		...w, 
-		minimized: w.id === widgetId && checked ? "on" : w.minimized
-	  }))
-	);*/
     // find widget in availableWidgets
+    //dashconf.setMinimize(widgetId,checked)
     const index = $availableWidgets.findIndex((w:Widget) => w.id == widgetId)
     if(index > -1){
 		$availableWidgets[index].minimized = checked?'on':'off'
 	}
-    /*availableWidgets.update(widgets => 
-	  widgets.map(w => ({ 
-		...w, 
-		minimized: w.id === widgetId && checked ? "on" : w.minimized
-	  }))
-	);*/
   }
 </script>
 
@@ -294,7 +301,9 @@
 >
   <!-- Menu dei widget disponibili -->
   <div>
-      <input class="widget-menu-button" type="button" value="Save" on:click={(ev)=>{saveDashboard(ev,$dashboardWidgets,$availableWidgets)}} />
+      <input class="widget-menu-button" 
+            type="button" value="Save" 
+            on:click={(ev)=>{saveDashboard(ev,$dashboardWidgets,$availableWidgets)}} />
   <div 
     class="widget-menu" 
     on:drop={handleDrop} 
@@ -346,6 +355,7 @@
         draggable={true}
         on:dragstart={(e) => handleDragStart(e, widget, 'dashboard')}
         on:click={() => selectWidget(widget.id)}
+        on:contextmenu|preventDefault={(ev)=>{rightClickContextMenu(ev,widget.id)}}
         style="
           width: {widget.width}px; 
           height: {widget.height}px; 

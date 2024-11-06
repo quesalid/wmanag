@@ -8,7 +8,7 @@
    // API INTERFACE
    
    // STORE
-   import { mock,module} from '../../ustore.js'
+   import { mock,module, user} from '../../ustore.js'
    
   
 	onMount(async () => {
@@ -33,11 +33,16 @@
 	export let bordercolor = "#c0c0c0"
 	export let boxshadow = "0px 0px 0px 0px #000000"
     // COMPONENT VARIABLES
-	export let options = ['','GPT-2','GPT-3','BERT','XLNet','RoBERTa','T5','DialoGPT']
+	export let options = [
+		{type:'SIMPLE',name:'Semplice'},
+		{type:'GENERATIVE', name:'LLM'},
+		{type:'REINFORCEMENT_LEARNING',name:'LLM+'},
+		{type:'HUMAN',name:'Umano'},
+	]
 	export let type = ''
 	export let model = ''
 	export let onClick = (ev:any)=>{
-		model = ev.target.value
+		type = ev.target.value
 	}
 	export let initialcontext = ''
 	

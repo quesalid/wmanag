@@ -21,7 +21,6 @@ export { default as MonitorManager } from './MonitorManager.svelte';
 export { default as CommManager } from './CommManager.svelte';
 export { default as ChartManager } from './ChartManager.svelte';
 export { default as ChartChoiceManager } from './ChartChoiceManager.svelte';
-export { default as DashboardConfigurator } from './DashboardConfigurator.svelte';
 export { default as FireSimManager } from './FireSimManager.svelte';
 
 

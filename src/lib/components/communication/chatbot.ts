@@ -5,14 +5,15 @@ interface IChatbot {
 
 // Implementazione per il chatbot semplice
 class SimpleChatbot implements IChatbot {
-    private responses: { [key: string]: string };
+    private responses:  string[];
 
-    constructor(predefinedResponses: { [key: string]: string }) {
+    constructor(predefinedResponses: [string]) {
         this.responses = predefinedResponses;
     }
 
     async sendMessage(message: string): Promise<string> {
-        return this.responses[message] || "Risposta non trovata";
+        console.log("Messaggio ricevuto: ", message)
+        return message;
     }
 }
 
@@ -20,7 +21,7 @@ class SimpleChatbot implements IChatbot {
 class GenerativeChatbot implements IChatbot {
     async sendMessage(message: string): Promise<string> {
         // Simulazione di un'API di un modello generativo
-        return `Risposta generata: ${message}`;
+        return `Risposta LLM per: ${message}`;
     }
 }
 
@@ -64,11 +65,11 @@ export enum ChatbotType {
 export class ChatbotClass {
     private chatbot: IChatbot;
 
-    constructor(type: ChatbotType, predefinedResponses?: { [key: string]: string }) {
+    constructor(type: ChatbotType, predefinedResponses?: string[]) {
         // Seleziona il tipo di chatbot in base al tipo passato come argomento
         switch (type) {
             case ChatbotType.SIMPLE:
-                this.chatbot = new SimpleChatbot(predefinedResponses || {});
+                this.chatbot = new SimpleChatbot(predefinedResponses || []);
                 break;
             case ChatbotType.GENERATIVE:
                 this.chatbot = new GenerativeChatbot();

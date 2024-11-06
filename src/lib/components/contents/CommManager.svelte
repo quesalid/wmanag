@@ -6,9 +6,9 @@
    // INTERNAL
    import Wmanag from '../../components/WManag.svelte'
    import PlaceHolder from '../PlaceHolder.svelte'
-   import {ChatSimple, ChatbotComponent} from '../communication'
+   import {ChatbotComponent} from '../communication'
    // STORE
-   import { mock,module, assistant,avatar} from '../../ustore.js'
+   import { mock,module, assistant,navigation,getArrayFromPath} from '../../ustore.js'
    // API INTERFACE
    import {query} from '../../script/apiassistant.js'
 
@@ -29,9 +29,24 @@
 		const ret = await query(query1)
 		console.log('QUERY',ret)
 	}
-   
+    
+	let onClickOpenAssistant = (ev:any)=>{
+		const link = '/'+$module+'/assistant'
+		
+		navigate(link)
+		$navigation = getArrayFromPath(link)
+	}
+
 	onMount(async () => {
-		toolbar = updateToolbar(toolbar)
+		//toolbar = updateToolbar(toolbar)
+		// send custom events with params to child
+		const child = document.getElementById(chatComponentId)
+		const event = new CustomEvent('chatparams', { detail: params });
+		// sleep 200 ms to allow child to be mounted
+		await new Promise(r => setTimeout(r, 200));
+		child?.dispatchEvent(event);
+		console.log('COMM MANAGER SENT PARAMS',params,child)
+		
 	});
 
 	let defaultWManager= 'defaultCommWManager'
@@ -42,7 +57,7 @@
 	export let managerid = "commManagerId"
 	// WMANAGER VARIABLES
 	export let title = 'COMMUNICATION'
-	export let toolbar:any = []
+	export let toolbar:any = [{type:'image',props:{src:'/LLM.png'},function:onClickOpenAssistant,label:"Conf"}]
 	export let  disableClose = true
 	export let  draggable = true
 	export let  zindex = 4
@@ -61,10 +76,17 @@
 	export let showheader = true
 	export let bordercolor = "#c0c0c0"
 	export let boxshadow = "0px 0px 0px 0px #000000"
-	// COMPONENTS
-	//export let chat = ChatSimple
+	// COMPONENT 
 	export let chat = ChatbotComponent
-	export let image = $avatar
+	export let params:any = null
+
+    let showHeader = params && params.showHeader?params.showHeeader:false
+    let showCheckbox = params && params.showCheckbox? params.showCheckbox: false 
+    let showFullHistory = params && params.showFullHistory? params.showFullHistory:false
+	let showImage =  params && params.showImage? params.showImage:true
+    let showMessageInput = params && params.showMessageInput? params.showMessageInput:false
+	let chatImage = params && params.chatImage? params.chatImage:"ChatBot.png"
+	let chatComponentId = 'chatComponentId'
 	
 	
 	
@@ -93,8 +115,16 @@
 				{minimized}
 				{bordercolor}
 				{boxshadow}>
-				<svelte:component this={chat} slot="bodycontent" img={image}/>
-			</Wmanag>
+				<svelte:component this={chat} slot="bodycontent" 
+					showHeader={showHeader} 
+					showCheckbox={showCheckbox} 
+					showFullHistory={showFullHistory} 
+					showImage={showImage} 
+					showMessageInput={showMessageInput} 
+					chatImage={chatImage}
+					chatComponentId={chatComponentId}
+				/>
+			</Wmanag >
 		</div>
 
 <style>

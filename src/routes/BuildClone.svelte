@@ -10,7 +10,6 @@
 			AlertMessages,
 			SideMenu,
 			BreadCrumb,
-			ChatBot,
 			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
    //import Modeler from '../lib/components/modeler/Modeler.svelte'
@@ -81,10 +80,9 @@
 				</div>
 				<div slot="righttop" class='flex'>
 				<AlertMessages/>
-				<ChatBot/>
 				<DropDownMenu groups={$avatargroups} image="{$avatar}" 
 						imagesize='{avatarsize}'
-						message={$user.username}
+						message={$user.username?$user.username:undefined}
 						messageclass={$avatarclass}>
 				</DropDownMenu>
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
