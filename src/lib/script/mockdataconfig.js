@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { filterArray, orderBy, paginate } from './mock.js'
 import DBPHARMA from './mockdb_pharma.js'
-import  DBWATERWASTE  from './mockdb_wwaste.js'
+import DBWATERWASTE from './mockdb_wwaste.js'
+import sectioncoords from './mocksectcoords.js'
 
 // **************** DATA ****************
 let devices = DBPHARMA.devices
@@ -604,6 +605,38 @@ const getAlarmHist = async function (body) {
     return (body)
 }
 
+const getSectionCoords = async function (body) {
+    let retSectionCoords = JSON.parse(JSON.stringify(sectioncoords))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retSectionCoords = filterArray(retSectionCoords, filters)
+    }
+    body.data = retSectionCoords
+    return (body)
+}
+
+const setSectionCoords = async function (body) {
+    const sectionCoords = body.options.sectionCoords
+    let old = null
+    if (sectionCoords) {
+        const existing = sectioncoords.findIndex((item) => { return item.name == sectionCoords.name })
+        if (existing > -1) {
+            old = sectioncoords[existing]
+            sectioncoords[existing] = sectionCoords
+        } else {
+            sectioncoords.push(sectionCoords)
+        }
+    }
+    return old
+}
+
+const deleteSectionCoords = async function (body) {
+    const filters = body.options.filters
+    sectioncoords = filterArray(sectioncoords, filters, true)
+    body.data = sectioncoords
+    return (body)
+}
+
 
 const CONFIG = {
     init,
@@ -653,7 +686,10 @@ const CONFIG = {
     deleteCompany,
     setAlarmHist,
     deleteAlarmHist,
-    getAlarmHist
+    getAlarmHist,
+    getSectionCoords,
+    setSectionCoords,
+    deleteSectionCoords
 }
 
 export default CONFIG

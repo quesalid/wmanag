@@ -23,7 +23,9 @@
 			ChartChoiceManager,
 			BatchDetail,
 			SynBatchDetail,
-			FireSimManager} from '../lib/components/contents'
+			FireSimManager,
+			WaterMapManager,
+			SectionManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -35,7 +37,8 @@
 			getEntityControlled,
 			getControllers,
 			getLearnPoints,
-			getClonePoints} from '../lib/script/apidataconfig.js'
+			getClonePoints,
+			getSectionCoords} from '../lib/script/apidataconfig.js'
    import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
    import {module, 
@@ -100,6 +103,13 @@
 	let cellSize = fsimapp && fsimapp.params && fsimapp.params.cellSize? fsimapp.params.cellSize: 0.1
 	let bbox = fsimapp && fsimapp.params && fsimapp.params.bbox? fsimapp.params.bbox: [6.5, 45, 7.5, 46]
 	
+	const waterapp = findWindow('Watermap')
+	let wminitlon = waterapp && waterapp.params && waterapp.params.initlon? waterapp.params.initlon: 7.0
+	let wminitlat = waterapp && waterapp.params && waterapp.params.initlat? waterapp.params.initlat: 45.0
+	let wminitzoom = waterapp && waterapp.params && waterapp.params.initzoom? waterapp.params.initzoom: 10
+	let wmmaxzoom = waterapp && waterapp.params && waterapp.params.maxzoom? waterapp.params.maxzoom: 19
+	let wmwidth = waterapp && waterapp.params && waterapp.params.width? waterapp.params.width: '100%'
+	let wmheight = waterapp && waterapp.params && waterapp.params.height? waterapp.params.height: '100vh'
 
 	// get color scheme
 	let colorScheme:any = getColorScheme($module.toUpperCase())
@@ -112,13 +122,14 @@
 	let modalIdChart:any = "PointChartDiv"
 	// markers for MapManager
 	let markers:any = []
-	
 	let key = 0
 
 	let machines:any = []
 	let controllers:any = []
-
+	// VARIABLES FOR LEAFLET MAP
+	let sectionCoords:any = []
 	let psize = 2
+	let map:any
 
 	const getAlarmData = async ()=>{
 		 return new Promise(async (resolve, reject) => {
@@ -215,14 +226,6 @@
 		// B. GET ENTITY NAMES BY APP FAMILY
 		const ret = getEntityNames($family)
 		entityName = ret.main.plural.toUpperCase()
-
-		// ***** TEMP ADD *****
-		/*entityName = "MAPPA"
-		titleChart = "GRAFICO"
-		titleAlarms = "ALLARMI"
-		titleMonitor = "MONITORAGGIO"
-		titleComm = "COMUNICAZIONE"*/
-		// ***** TEMP ADD *****
 		
 		// C. GET DONUT BY MODULE TYPE
 		donut = await getDonutByType()
@@ -243,8 +246,11 @@
 		$alarmsdata = await getAlarmData()
 		// E1. FILTER OUT ALARMS FROM pointdata
 		$pointsdata = $pointsdata.filter((item:any)=>item.type != 'ALARM')
+		// F. GET SECTION COORDS
+		const retsc = await getSectionCoords([],$mock)
+		sectionCoords = retsc.data
+		console.log("DASHBOARD SECTION COORDS",sectionCoords)
 		
-
 		const findFreeOffset:any = (lon:any,lat:any,machine='')=>{
 			for(let i=0;i<$alarmsdata.length;i++){
 				const m = $alarmsdata[i]
@@ -375,6 +381,9 @@
 	}
 
 	// MANAGER IDS
+	let fireSimManagerId = 'fireSimManagerId'
+	let waterMapManagerId = 'waterMapManagerId'
+	let sectionManagerId = 'sectionManagerId'
 	let mapManagerId = 'mapManagerId'
 	let alarmManagerId = 'alarmManagerId'
 	let donutManagerId = 'donutManagerId'
@@ -612,7 +621,7 @@
 					{#if Window.id == 'Firesim'  && Window.visible == 'visible'}
 						<FireSimManager 
 							headercolor={colorScheme.wincolor}  
-							title="{titleFiresim}" 
+							title="{Window.name}" 
 							top={Window.top} 
 							left={Window.left}
 							height={Window.height}
@@ -630,8 +639,55 @@
 							bbox = {bbox}
 							fswidth = {fswidth}
 							fsheight = {fsheight}
-							managerid= {mapManagerId}
+							managerid= {fireSimManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
+						/>
+					{/if}
+					{#if Window.id == 'Watermap'  && Window.visible == 'visible'}
+						<WaterMapManager 
+							headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							initlat = {wminitlat}
+							initlon = {wminitlon}
+							initzoom = {wminitzoom}
+							maxzoom = {wmmaxzoom}
+							fswidth = {wmwidth}
+							fsheight = {wmheight}
+							managerid= {waterMapManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+							bind:sectionCoords={sectionCoords}
+							bind:map={map}
+						/>
+					{/if}
+					{#if Window.id == 'Section'  && Window.visible == 'visible'}
+						<SectionManager 
+							headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							initlat = {wminitlat}
+							initlon = {wminitlon}
+							initzoom = {wminitzoom}
+							managerid= {sectionManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+							bind:sectionCoords={sectionCoords}
+							bind:map={map}
 						/>
 					{/if}
 				{/each}

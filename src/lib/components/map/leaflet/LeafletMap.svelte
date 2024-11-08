@@ -12,15 +12,14 @@
     export let initlon = 7.0;
     export let initzoom = 6;
         
-    //map = L.map(mapid).setView([initlat, initlon], initzoom);
 
     onMount(() => {
-        console.log("MAP MOUNT")
         map = L.map("map-"+mapid).setView([initlat, initlon], initzoom); // Centro dell'area (es. Italia nord-ovest)
         // send maploaded custom event to parent
         const mapdiv = document.getElementById(mapid);
         const mapLoaded = new CustomEvent("maploaded", { detail: mapid })
         mapdiv?.dispatchEvent(mapLoaded)
+        console.log("MAP MOUNT:sent maploadevent to ",mapdiv)
 
     });
 
