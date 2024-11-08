@@ -1,17 +1,28 @@
 <script lang="ts">
 import WManag from '../WManag.svelte'
-import {onMount} from 'svelte'
+import {onMount, tick} from 'svelte'
+import L from 'leaflet';
 // INTERNAL
 import LeafletMap from '../map/leaflet/LeafletMap.svelte'
+import {createGrid, 
+            drawGrid, 
+            propagateFire, 
+            resetSimulation,
+            initSimulation,
+            updateGrid} from '../map/leaflet/mapfuncs/firepropagation'
 import {mock,user} from '../../ustore.js'
 let defaultWManager = 'defaultFireSimManager'
 let group:any = []
+// SIMULATION VARS
+// CELL DEFINITION
+ let cells:any = [];
+ let windDirection = 45; // Direzione del vento (0 = Nord, 90 = Est, 180 = Sud, 270 = Ovest)
+ let windIntensity = 2;  // Intensità del vento (più alto significa maggiore influenza)
+ let map:any;
 
 
 const resetFire = () => {
-	const mapdiv = document.getElementById(mapid);
-	const resetFire = new CustomEvent("resetsimulation", { detail: mapid })
-	mapdiv?.dispatchEvent(resetFire)
+	resetSimulation(cells);
 }
 
 
@@ -54,22 +65,46 @@ export let fsheight = '100vh';
 export let  cellSize = 0.1; // 100 metri
 export let  bbox = [6.5, 45, 7.5, 46]; // Bounding box per l'area simulata
 // DATA EXPORTS
-
 export let managerid = 'fireSimManagerId'
 
 
 
 
 
+
 onMount(async () => {
-	console.log("FIRE SIM MANAGER INIT")
-	// send parentloaded custom event to mapid
-	const mapdiv = document.getElementById(mapid);
-	const parentLoaded = new CustomEvent("parentloaded", { detail: mapid })
-	mapdiv?.dispatchEvent(parentLoaded)
+	console.log("FIRE MANAGER LOAD",map)
+	initSimulation(bbox, cellSize,windDirection,windIntensity,map,managerid);
+
+	L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: maxzoom,
+		attribution: '&copy; OpenStreetMap contributors'
+	}).addTo(map);
+
+	cells = createGrid();
+	drawGrid(cells);
+	const me = document.getElementById(managerid);
+    me?.addEventListener('startfire', (e:any) => {
+		startFire();
+	});
 })
 
+const  runSimulation = async () => {
+    console.log("RUN SIMULATION")
+    while (cells.some((cell:any) => cell.properties.state === 'burning')) {
+        propagateFire(cells);
+        // Aggiorna i colori sulla mappa
+        updateGrid(cells)
 
+        await tick(); // Aspetta il prossimo frame
+        await new Promise(resolve => setTimeout(resolve, 500)); // Delay tra i passi
+    }
+}
+
+const  startFire = () => {
+    console.log("START FIRE")
+    runSimulation();
+}
 
 </script>
 
@@ -95,15 +130,13 @@ onMount(async () => {
 		{boxshadow}>
 		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
 			<LeafletMap 
-				mapid={mapid}
-				initlat={initlat}
-				initlon={initlon}
-				initzoom={initzoom}
-				maxzoom={maxzoom}
+				mapid={managerid}
 				width={fswidth}
 				height={fsheight}
-				cellSize={cellSize}
-				bbox={bbox}/>
+				bind:map={map}
+				initlat={initlat}
+				initlon={initlon}
+				initzoom={initzoom}/>
 		</div>
 	</WManag>
 </div>

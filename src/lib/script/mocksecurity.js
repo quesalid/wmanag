@@ -282,9 +282,9 @@ let profiles = [
                         name:'Mappa',
                         top: '0vh',
                         left: '1vw',
-                        height: '50vh',
+                        height: '45vh',
                         image: 'Map.png',
-                        width: '39vw',
+                        width: '35vw',
                         visible: "visible",
                         params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch:45,bearing:-15.7 }
                     },
@@ -301,10 +301,10 @@ let profiles = [
                     {
                         id: 'Communication',
                         name:'Comunicazione',
-                        top: '50vh',
+                        top: '46vh',
                         left: '1vw',
-                        height: '50vh',
-                        width: '25vw',
+                        height: '46vh',
+                        width: '18vw',
                         image: 'Communication.png',
                         visible: "visible",
                         params: {
@@ -749,7 +749,7 @@ let profiles = [
                         visible: "visible",
                         image: 'Alarms.png',
                     },
-                    {
+                    /*{
                         id: 'Communication',
                         name: 'Comunicazione',
                         top: '358px',
@@ -758,6 +758,25 @@ let profiles = [
                         width: '350px',
                         visible: "visible",
                         image: 'Communication.png',
+                        params: {
+                            showHeader: false,
+                            showCheckbox: true,
+                            showFullHistory: false,
+                            showImage: true,
+                            showMessageInput: false,
+                            chatImage: "ChatBot.png",
+                            type: "SIMPLE",
+                        }
+                    },*/
+                    {
+                        id: 'Communication',
+                        name: 'Comunicazione',
+                        top: '46vh',
+                        left: '70vw',
+                        height: '46vh',
+                        width: '18vw',
+                        image: 'Communication.png',
+                        visible: "visible",
                         params: {
                             showHeader: false,
                             showCheckbox: true,

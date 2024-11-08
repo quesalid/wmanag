@@ -15,7 +15,7 @@
     export let showMessageInput = false
     // set border color transparent
     export let bordercolor = "rgba(0,0,0,0)"
-    export let chatMessageHeight = "110px"
+    export let chatMessageHeight = "14vh"
     export let registeredMessages = [
         "Primo testo che può anche essere particolarmente lungo. OK?",
         "Secondo testo che può anche essere anche più lungo del precedente. OK?",
@@ -187,7 +187,7 @@
     </div>
     {#if showImage}
         <div class="chatbot-image">
-            <img src={chatImage} width='160' alt="Chatbot"/>
+            <img src={chatImage}  alt="Chatbot"/>
         </div>
     {/if}
     {#if showMessageInput}
@@ -300,7 +300,14 @@
       margin-left: auto;
       margin-right: auto;
       width: 50%;
+      height:auto;
     }
+
+    .chatbot-image img{
+        width: 100%;
+        height: auto;
+    }
+
     .arrow-message{
         cursor: pointer ;
     }

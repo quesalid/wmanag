@@ -29,6 +29,7 @@ export let scrollable = false
 export let showheader = true
 export let bordercolor = "#c0c0c0"
 export let boxshadow = "0px 0px 0px 0px #000000"
+export let mbariconwidth = "18"
 
 export let toolbar:any = [
 	
@@ -139,7 +140,7 @@ const minimize = (event:any)=>{
 						id={Tool.props.id?""+Tool.props.id:null} 
 						type="{Tool.type}" 
 						src="{Tool.props.src}" 
-						height="25" 
+						height="{mbariconwidth}" 
 						on:click={Tool.function} 
 						disabled={Tool.disabled?Tool.disabled:false}/>
 				{/if}
