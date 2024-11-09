@@ -987,7 +987,7 @@ let profiles = [
                         name: 'Sezioni acquedotto',
                         top: '1vh',
                         left: '62vw',
-                        height: '50vh',
+                        height: '70vh',
                         width: '25vw',
                         image: 'Firesim.png',
                         visible: "visible",

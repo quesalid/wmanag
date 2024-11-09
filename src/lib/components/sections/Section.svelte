@@ -25,14 +25,67 @@ const reset = (ev:any) => {
 	}
 	map.setView([initlat, initlon], initzoom)
 }
+
+const twin = (ev:any) => {
+	// get section
+	let section = sections[parseInt(ev.target.id)]
+	console.log(section)
+}
 </script>
- <div>
-    <input type="button" id={"reset"} value="Reset" on:click={reset}/>
+ <div class="section-class">
+    <input class="button-reset" type="button" id={"reset"} value="Reset" on:click={reset}/>
 	{#each sections as section, idx}
-		<div>{section.name}</div>
+		<div class="section-class-item">
+		<span>{section.name}</span>
+		<div class="button-div">
 		<input type="button" id={idx+""} value="Show" on:click={fly}/>
+		<input type="button" id={idx+""} value="Twin" on:click={twin}/>
+		</div>
+		</div>
 	{/each}
  </div>
 
 <style>
+.section-class {
+	background-color: white;
+	padding: 10px;
+}
+.section-class-item{
+	margin-top: 4px;
+	display: flex;
+	justify-content: space-between;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 4px;
+}
+.section-class-item span {
+	margin-left: 4px;
+}
+input {
+	cursor:pointer;
+	margin-top: 8px;
+	border:1px solid #555; 
+	border-radius: 3px; 
+	background-color:#777; 
+	color:#fff;
+	font-weight:bold;
+	margin-right: 3px;
+}
+
+input:hover{
+	color: #FF0
+}
+
+.button-reset {
+	cursor:pointer;
+	margin-top: 8px;
+	border:1px solid #555; 
+	border-radius: 3px; 
+	background-color:#B77; 
+	color:#fff;
+	font-weight:bold;
+}
+.button-div{
+	display:flex
+}
 </style>

@@ -2,7 +2,7 @@
 import { filterArray, orderBy, paginate } from './mock.js'
 import DBPHARMA from './mockdb_pharma.js'
 import DBWATERWASTE from './mockdb_wwaste.js'
-import sectioncoords from './mocksectcoords.js'
+import sections from './mocksectcoords.js'
 
 // **************** DATA ****************
 let devices = DBPHARMA.devices
@@ -20,6 +20,7 @@ let clonephases = DBPHARMA.generateClonePhases(clonepoints, 'BATCH')
 let learnphases = DBPHARMA.generateClonePhases(learnpoints, 'BATCH')
 let companies = DBPHARMA.companies
 let alarmhists = DBPHARMA.generateAlarmHistories()
+let sectioncoords = sections.mocksectcoords
 
 // ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
