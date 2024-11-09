@@ -151,7 +151,13 @@
 		if(devInputDiv)
 			devInputDiv.style.display= 'none'
 	}
-	
+
+$: screensize = window.innerWidth
+
+window.onresize = function(event:any) {
+	screensize = window.innerWidth
+}
+let minscreensize = 850	
 
 </script>
  <div id="main-configuration-agent-page">
@@ -161,7 +167,9 @@
 					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
-					<DigitalClock/>
+					{#if screensize > minscreensize}
+						<DigitalClock/>
+					{/if}
 					</div>
 				</div>
 				<div slot="centertop">

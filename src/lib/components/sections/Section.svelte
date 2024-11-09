@@ -33,27 +33,38 @@ const twin = (ev:any) => {
 }
 </script>
  <div class="section-class">
+	 <div class="section-class-header">
     <input class="button-reset" type="button" id={"reset"} value="Reset" on:click={reset}/>
-	{#each sections as section, idx}
-		<div class="section-class-item">
-		<span>{section.name}</span>
-		<div class="button-div">
-		<input type="button" id={idx+""} value="Show" on:click={fly}/>
-		<input type="button" id={idx+""} value="Twin" on:click={twin}/>
-		</div>
-		</div>
-	{/each}
+	</div>
+	<div class="section-class-body">
+		{#each sections as section, idx}
+			<div class="section-class-item">
+			<span>{section.name}</span>
+			<div class="button-div">
+			<input type="button" id={idx+""} value="Show" on:click={fly}/>
+			<input type="button" id={idx+""} value="Twin" on:click={twin}/>
+			</div>
+			</div>
+		{/each}
+	</div>
  </div>
 
 <style>
 .section-class {
 	background-color: white;
 	padding: 10px;
+	width: 25vw;
+}
+.section-class-body{
+	overflow-x:hidden ;
+	overflow-y:auto;
+	height: 60vh;
 }
 .section-class-item{
 	margin-top: 4px;
 	display: flex;
-	justify-content: space-between;
+	justify-content:space-between;
+	flex-direction:column ;
 	border: 1px solid #ccc;
 	border-radius: 3px;
 	padding: 4px;

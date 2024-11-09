@@ -994,6 +994,25 @@ let profiles = [
                         params: {
                         }
                     },
+                    {
+                        id: 'Communication',
+                        name: 'Comunicazione',
+                        top: '46vh',
+                        left: '70vw',
+                        height: '46vh',
+                        width: '25vw',
+                        image: 'Communication.png',
+                        visible: "visible",
+                        params: {
+                            showHeader: false,
+                            showCheckbox: true,
+                            showFullHistory: true,
+                            showImage: true,
+                            showMessageInput: true,
+                            chatImage: "ChatBot.png",
+                            type: "LLM",
+                        }
+                    }
                 ]
             },
             {

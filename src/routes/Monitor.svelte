@@ -221,6 +221,12 @@
 	}
 
 	
+$: screensize = window.innerWidth
+
+window.onresize = function(event:any) {
+	screensize = window.innerWidth
+}
+let minscreensize = 850
 
 </script>
  <div id="main-monitor-page">
@@ -230,7 +236,9 @@
 					<div style="display: flex; viewport-fit: 100%;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
-					<DigitalClock/>
+					{#if screensize > minscreensize}
+						<DigitalClock/>
+					{/if}
 					</div>
 				</div>
 				<div slot="centertop">

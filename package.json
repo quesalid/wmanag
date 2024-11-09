@@ -36,6 +36,7 @@
     "vite": "^5.0.5"
   },
   "dependencies": {
+    "@huggingface/inference": "^2.8.1",
     "@turf/turf": "^7.1.0",
     "@xyflow/svelte": "^0.1.21",
     "bayesjs": "^0.6.5",

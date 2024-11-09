@@ -1,3 +1,6 @@
+import { HfInference } from "@huggingface/inference";
+const KEY = "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"; 
+
 // Definisco un'interfaccia per il comportamento base del chatbot
 interface IChatbot {
     sendMessage(message: string): Promise<string>;
@@ -5,7 +8,8 @@ interface IChatbot {
 
 // Implementazione per il chatbot semplice
 class SimpleChatbot implements IChatbot {
-    private responses:  string[];
+    private responses: string[];
+   
 
     constructor(predefinedResponses: [string]) {
         this.responses = predefinedResponses;
@@ -19,9 +23,31 @@ class SimpleChatbot implements IChatbot {
 
 // Implementazione per il chatbot complesso basato su un modello generativo
 class GenerativeChatbot implements IChatbot {
+    private hf: HfInference;
+    private messageHistory: any[] = [];
+    constructor() {
+        this.hf = new HfInference(KEY);
+    }
+
     async sendMessage(message: string): Promise<string> {
         // Simulazione di un'API di un modello generativo
-        return `Risposta LLM per: ${message}`;
+        const msgin = { role: "user", content: message };
+        this.messageHistory.push(msgin);
+        let out = "";
+        for await (const chunk of this.hf.chatCompletionStream({
+            model: "mistralai/Mistral-7B-Instruct-v0.2",
+            messages: this.messageHistory,
+            max_tokens: 500,
+            temperature: 0.1,
+            seed: 0,
+        })) {
+            if (chunk.choices && chunk.choices.length > 0) {
+                out += chunk.choices[0].delta.content;
+            }
+        }
+        const msgout = { role: "assistant", content: out };
+        this.messageHistory.push(msgout);
+        return `${out}`;
     }
 }
 

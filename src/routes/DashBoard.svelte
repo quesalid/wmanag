@@ -446,7 +446,13 @@
 			}
 		}
 	}
-	
+
+$: screensize = window.innerWidth
+
+window.onresize = function(event:any) {
+	screensize = window.innerWidth
+}
+let minscreensize = 850
 </script>
 <div id="main-dashboard-page">
 		
@@ -455,7 +461,10 @@
 					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
-					<DigitalClock/>
+					<!-- if screen size < 200 don't show Digital Clock -->
+					{#if screensize > minscreensize}
+						<DigitalClock/>
+					{/if}
 					</div>
 				</div>
 				<div slot="centertop">

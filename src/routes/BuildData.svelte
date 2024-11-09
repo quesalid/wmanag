@@ -69,7 +69,12 @@
 		navigate(`/`+$module)
 		$navigation = getArrayFromPath(`/`+$module)
 	}
+$: screensize = window.innerWidth
 
+window.onresize = function(event:any) {
+	screensize = window.innerWidth
+}
+let minscreensize = 850
 </script>
 <div id="main-build-data-page">
 		<div>
@@ -78,7 +83,9 @@
 					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
-					<DigitalClock/>
+					{#if screensize > minscreensize}
+						<DigitalClock/>
+					{/if}
 					</div>
 				</div>
 				<div slot="centertop">

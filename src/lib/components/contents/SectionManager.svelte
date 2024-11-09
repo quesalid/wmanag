@@ -38,7 +38,7 @@ export let initlat = 45.0;
 export let initlon = 7.0;
 export let initzoom = 10;
 // DATA EXPORTS
-export let managerid = 'fireSimManagerId'
+export let managerid = 'sectionManagerId'
 export let sectionCoords:any
 export let map:any
 
@@ -88,7 +88,7 @@ $:  {
 		{showheader}
 		{bordercolor}
 		{boxshadow}>
-		<div class="flex flex-col min-h-200 min-w-1" slot="bodycontent">
+		<div  slot="bodycontent">
 			<SectionComp  
 				sections={sections} 
 				bind:map={map}

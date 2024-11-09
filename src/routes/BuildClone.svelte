@@ -61,8 +61,12 @@
 	const save = async (ev:any)=>{
 		console.log(" BUILD DATA SAVEDATAFLOW")
 	}
+$: screensize = window.innerWidth
 
-	
+window.onresize = function(event:any) {
+	screensize = window.innerWidth
+}
+let minscreensize = 850
 
 </script>
  <div id="main-build-clone-page">
@@ -72,7 +76,9 @@
 					<div style="display: flex;">
 					<Logo logofilename="{logoImage}" imgheight={imgheight} onClick={onClickLogo}>
 					</Logo>
-					<DigitalClock/>
+					{#if screensize > minscreensize}
+						<DigitalClock/>
+					{/if}
 					</div>
 				</div>
 				<div slot="centertop">
