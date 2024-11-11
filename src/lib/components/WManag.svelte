@@ -36,7 +36,8 @@ export let toolbar:any = [
 ]
 
 export let closeMenu = (ev:any)=>{
-	visibility = "hidden";
+	let win:any = document.getElementById(id);
+	win.style.visibility = "hidden";
 }
 
 let winHeight = ''
@@ -219,7 +220,7 @@ const minimize = (event:any)=>{
 	}
 
 	.window-menu-header input[type="button"]:disabled{
-		opacity: 0.4;
+		opacity: 0.2;
 		cursor: not-allowed;
 	}
 

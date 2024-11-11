@@ -7,7 +7,8 @@ import L from 'leaflet';
 type Coords = [number, number, number?]; // [lat, long, alt]
 
 function getPopUp(section: Section) {
-    let popup = `<div style="display:block;font-weight:bold"><h3>${section.name}</h3>
+    const div = document.createElement('div');
+    div.innerHTML = `<div style="display:block;font-weight:bold"><h3>${section.name}</h3>
                         <div style="font-weight:normal">${section.description}</div>
                         <div style="font-weight:normal">Coordinates:
                         <ul style="padding-left:10px;">
@@ -16,9 +17,15 @@ function getPopUp(section: Section) {
                         <li>Altitude: ${section.closestPoint[2]} m.s.l.m.</li>
                         </ul>
                         </div>
-                        <input style="cursor:pointer;margin-top: 8px;border:1px solid #555; border-radius: 3px; background-color:#777; color:#fff" type="button" value="Twin" onclick="console.log('clicked')">
+                        <input id="button-${section.name}" style="cursor:pointer;margin-top: 8px;border:1px solid #555; border-radius: 3px; background-color:#777; color:#fff" type="button" value="Twin">
                         </div>`;
-    return popup;
+
+    const popupElement = div.firstChild;
+    // get the button
+    const button = popupElement?.querySelector(`#button-${section.name}`);
+    // add the event listener
+    button.addEventListener('click', () => { section.popupClickCallback(section) });
+    return div;
 }
 export class Section {
     name: string;
@@ -30,6 +37,7 @@ export class Section {
     drawsection: any;
     style: any;
     properties: any;
+    twinwin: any;
     
     constructor(opts: any) {
         this.name = opts && opts.name ? opts.name : "Default";
@@ -38,6 +46,7 @@ export class Section {
         this.zoom = opts && opts.zoom ? opts.zoom : 10;
         this.type = opts && opts.type ? opts.type : "LineString";
         this.properties = opts && opts.properties ? opts.properties : {};
+        this.twinwin = opts && opts.twinwin ? opts.twinwin : 'defaultTwinManager';
         this.style = opts && opts.style ? opts.style : {
             color:  '#0000ff',
             weight:  3,
@@ -118,8 +127,15 @@ export class Section {
             myStyle.radius = mySection.properties.radius;
             const coords =[ mySection.geometry.coordinates[0][1], mySection.geometry.coordinates[0][0]];
             section = new L.Circle(coords, myStyle)
-            const popup =getPopUp(this);
+            /**  POPOUP BUILD */
+            const popup = getPopUp(this);
+            // from innerHtml to DOM element
+            const div = document.createElement('div');
+            // add the popup
+            div.appendChild(popup);
             section.bindPopup(popup);
+            /**  END POPOUP BUILD */
+
             section.addTo(map);
         } else {
             section = L.geoJSON(mySection, {style: myStyle}).addTo(map);
@@ -178,6 +194,14 @@ export class Section {
                 }
             }
         })
+    }
+
+    popupClickCallback(section:any) {
+        // on popup click send event to the twinwin
+        const twin = document.getElementById(section.twinwin)
+        if (twin) {
+            twin.dispatchEvent(new CustomEvent('show', { detail: section }))
+        }
     }
     
 }

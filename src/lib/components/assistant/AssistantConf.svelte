@@ -113,6 +113,7 @@ const saveData = async (e:any|undefined)=>{
 
 const  onClick = (ev:any)=>{
 		type = ev.target.value
+		console.log('TYPE',type)
 		showMessageInput = type=='SIMPLE'?false:true
 		const saveButton = document.getElementById('save-button')
 		if(saveButton)

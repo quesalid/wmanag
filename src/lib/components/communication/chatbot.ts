@@ -16,7 +16,6 @@ class SimpleChatbot implements IChatbot {
     }
 
     async sendMessage(message: string): Promise<string> {
-        console.log("Messaggio ricevuto: ", message)
         return message;
     }
 }

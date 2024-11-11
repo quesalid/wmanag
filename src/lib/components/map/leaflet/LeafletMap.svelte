@@ -19,10 +19,17 @@
         const mapdiv = document.getElementById(mapid);
         const mapLoaded = new CustomEvent("maploaded", { detail: mapid })
         mapdiv?.dispatchEvent(mapLoaded)
-        console.log("MAP MOUNT:sent maploadevent to ",mapdiv)
 
     });
 
+    const popupClickCallback = (twinwin:any) => {
+        // on popup click send event to the twinwin
+        console.log('popup click', twinwin)
+        const twin = document.getElementById(twinwin)
+        if (twin) {
+            twin.dispatchEvent(new CustomEvent('show', { detail: "PIPPO" }))
+        }
+    }
     
 </script>
 

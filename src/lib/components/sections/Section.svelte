@@ -6,9 +6,14 @@ export let map:any
 export let initlat = 45.0;
 export let initlon = 7.0;
 export let initzoom = 10;
+export let twinwin = 'defaultTwinManager'
 
 
 const fly = (ev:any) => {
+	const twin = document.getElementById(twinwin)
+	if(twin) {
+		twin.dispatchEvent(new CustomEvent('hide', {detail: null}))
+	}
 	let section = sections[parseInt(ev.target.id)]
 	if(map && section)
 	    section.flyto(map)
@@ -18,6 +23,10 @@ const fly = (ev:any) => {
 }
 
 const reset = (ev:any) => {
+	const twin = document.getElementById(twinwin)
+	if(twin) {
+		twin.dispatchEvent(new CustomEvent('hide', {detail: null}))
+	}
 	for(let i=0;i<sections.length;i++) {
 		let section = sections[i]
 		const style ={color:'#0000ff',weight:3,opacity:1.0}
@@ -27,14 +36,18 @@ const reset = (ev:any) => {
 }
 
 const twin = (ev:any) => {
-	// get section
 	let section = sections[parseInt(ev.target.id)]
 	console.log(section)
+	// get twin manager
+	const twin = document.getElementById(twinwin)
+	if(twin) {
+		twin.dispatchEvent(new CustomEvent('show', {detail: section}))
+	}
 }
 </script>
  <div class="section-class">
 	 <div class="section-class-header">
-    <input class="button-reset" type="button" id={"reset"} value="Reset" on:click={reset}/>
+    <input class="button-header" type="button" id={"reset"} value="Reset" on:click={reset}/>
 	</div>
 	<div class="section-class-body">
 		{#each sections as section, idx}
@@ -52,7 +65,7 @@ const twin = (ev:any) => {
 <style>
 .section-class {
 	background-color: white;
-	padding: 10px;
+	padding: 5px 10px 10px 10px;
 	width: 25vw;
 }
 .section-class-body{
@@ -81,20 +94,23 @@ input {
 	color:#fff;
 	font-weight:bold;
 	margin-right: 3px;
+	padding: 2px;
 }
 
 input:hover{
 	color: #FF0
 }
 
-.button-reset {
+.button-header {
 	cursor:pointer;
-	margin-top: 8px;
+	/*margin-top: 5px;*/
+	margin-bottom: 5px;
 	border:1px solid #555; 
 	border-radius: 3px; 
 	background-color:#B77; 
 	color:#fff;
 	font-weight:bold;
+	padding: 2px;
 }
 .button-div{
 	display:flex

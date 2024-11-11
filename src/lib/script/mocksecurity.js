@@ -995,6 +995,18 @@ let profiles = [
                         }
                     },
                     {
+                        id: 'Twin',
+                        name: 'Twin sezione',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
+                    {
                         id: 'Communication',
                         name: 'Comunicazione',
                         top: '46vh',
@@ -1010,7 +1022,7 @@ let profiles = [
                             showImage: true,
                             showMessageInput: true,
                             chatImage: "ChatBot.png",
-                            type: "LLM",
+                            type: "GENERATIVE",
                         }
                     }
                 ]

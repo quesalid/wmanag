@@ -55,8 +55,6 @@ export let opt:any = {
 
 
 onMount(async () => {
-	console.log("WATER MANAGER LOAD",map)
-	
 	if (map) {
 			L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: maxzoom,

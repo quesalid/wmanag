@@ -25,7 +25,8 @@
 			SynBatchDetail,
 			FireSimManager,
 			WaterMapManager,
-			SectionManager} from '../lib/components/contents'
+			SectionManager,
+			TwinManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -249,7 +250,6 @@
 		// F. GET SECTION COORDS
 		const retsc = await getSectionCoords([],$mock)
 		sectionCoords = retsc.data
-		console.log("DASHBOARD SECTION COORDS",sectionCoords)
 		
 		const findFreeOffset:any = (lon:any,lat:any,machine='')=>{
 			for(let i=0;i<$alarmsdata.length;i++){
@@ -262,7 +262,6 @@
 					break
 				}
 			}
-			//console.log("FREE OFFSET",lon,lat,machine)
 			return [lon,lat]
 		}
 		
@@ -392,6 +391,7 @@
 	let chartManagerId = 'chartManagerId'
 	let modalIdActionDiv = "AlarmActionDiv"
 	let chartChoiceManagerId = 'chartChoiceManagerId'
+	let twinManagerId = 'twinManagerId'
 
 	// Container event managers
 	/*ALARM CONTAINER DO ACTION
@@ -697,6 +697,24 @@ let minscreensize = 850
 							minimized={Window.minimized?Window.minimized:'off'}
 							bind:sectionCoords={sectionCoords}
 							bind:map={map}
+							twinwin='defaultTwinManager'
+						/>
+					{/if}
+					{#if Window.id == 'Twin'  && Window.visible == 'visible'}
+						<TwinManager 
+							headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							managerid= {twinManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
 				{/each}

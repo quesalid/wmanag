@@ -38,7 +38,6 @@
   
     
     onMount(async ()=>{
-        console.log("CHATBOT COMPONRNT MOUNTED")
         // Aggiunge il messaggio dell'utente
 		messages = [...messages, { sender: "user", text: "Ciao" }];
 		// Invia il messaggio al chatbot e riceve la risposta
@@ -47,7 +46,6 @@
 		messages = [...messages, { sender: "chatbot", text: response }];
         // Add event listener for parent componet loaded
         const me = document.getElementById(chatComponentId)
-        console.log("CHATBOT COMPONRNT  ME",me)
         me?.addEventListener('chatparams', (e:any) => {
 			// Parametri di configurazione in custom event
             const params = e.detail;
@@ -62,10 +60,10 @@
 
             num=0
             
-			const arrowleft = document.getElementsByClassName('arrow-message-left')[0]
+			const arrowleft:any = document.getElementsByClassName('arrow-message-left')[0]
             if(arrowleft)
 			    arrowleft.style.visibility = params.type=='SIMPLE'?'visible':'hidden'
-			const arrowright = document.getElementsByClassName('arrow-message-right')[0]
+			const arrowright:any = document.getElementsByClassName('arrow-message-right')[0]
             if(arrowright)
 			    arrowright.style.visibility = params.type=='SIMPLE'?'visible':'hidden'
 			
@@ -76,7 +74,7 @@
                 arr.forEach( (node:any) => {
                     node.style.minHeight = chatMessageHeight
                 })
-			    const chatbotMessages = document.getElementsByClassName('chatbot-messages')[0];
+			    const chatbotMessages:any = document.getElementsByClassName('chatbot-messages')[0];
 			    chatbotMessages.style.overflowY = 'hidden'
 		    }
 		});
@@ -128,7 +126,7 @@
            ev.target.src = arrowLeftOff
 
 		}else{
-            const arrowright = document.getElementsByClassName('arrow-message-right')[0]
+            const arrowright:any = document.getElementsByClassName('arrow-message-right')[0]
             arrowright.src = arrowRightOn
         }
         handleRegisteredMessage(registeredMessages[num])
@@ -141,7 +139,7 @@
 			num  = registeredMessages.length -1
 			ev.target.src = arrowRightOff
 		}else{
-            const arrowleft = document.getElementsByClassName('arrow-message-left')[0]
+            const arrowleft:any = document.getElementsByClassName('arrow-message-left')[0]
             arrowleft.src = arrowLeftOn
         }
         handleRegisteredMessage(registeredMessages[num])
