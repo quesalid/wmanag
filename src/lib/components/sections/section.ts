@@ -192,6 +192,16 @@ export class Section {
                 } else {
                     layer.setStyle(this.style);
                 }
+            } else {
+                if (layer._mRadius) {
+                    const coords = [layer.getLatLng().lng, layer.getLatLng().lat];
+                    if (coords[0] === this.closestPoint[0] && coords[1] === this.closestPoint[1]) {
+                        layer.setStyle(style);
+                    }
+                    else {
+                        layer.setStyle(this.style);
+                    }
+                }
             }
         })
     }

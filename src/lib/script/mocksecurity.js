@@ -1014,7 +1014,7 @@ let profiles = [
                         height: '46vh',
                         width: '25vw',
                         image: 'Communication.png',
-                        visible: "visible",
+                        visible: "hidden",
                         params: {
                             showHeader: false,
                             showCheckbox: true,
