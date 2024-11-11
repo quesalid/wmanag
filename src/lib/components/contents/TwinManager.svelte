@@ -4,6 +4,7 @@ import L from 'leaflet';
 // INTERNAL
 import WManag from '../WManag.svelte'
 import {mock,user} from '../../ustore.js'
+import Twin from '../twin/Twin.svelte'
 
 let defaultWManager = 'defaultTwinManager'
 
@@ -32,6 +33,8 @@ export let boxshadow = "0px 0px 0px 0px #000000"
 
 // DATA EXPORTS
 export let managerid = 'twinManagerId'
+// INTERNAL VARIABLES
+let section:any = {}
 
 
 onMount(async () => {
@@ -39,9 +42,8 @@ onMount(async () => {
 	wmanag.style.visibility = 'hidden'
 	wmanag?.addEventListener('show', (e:any) => {
 		wmanag.style.visibility = 'visible'
-		const testdiv = document.getElementById('test-div')
-		testdiv.innerHTML = e.detail.name
-		console.log("SHOW",e.detail,testdiv)
+		section=e.detail
+		title = section.name
 	})
 	wmanag?.addEventListener('hide', (e:any) => {
 		wmanag.style.visibility = 'hidden'
@@ -75,8 +77,7 @@ onMount(async () => {
 		{bordercolor}
 		{boxshadow}>
 		<div  slot="bodycontent">
-			<div id="test-div">
-		    </div>
+			<Twin bind:section={section}/>
 		</div>
 	</WManag>
 </div>

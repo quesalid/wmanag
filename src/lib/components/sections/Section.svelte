@@ -55,7 +55,9 @@ const twin = (ev:any) => {
 			<span>{section.name}</span>
 			<div class="button-div">
 			<input type="button" id={idx+""} value="Show" on:click={fly}/>
-			<input type="button" id={idx+""} value="Twin" on:click={twin}/>
+			{#if section.twin}
+				<input type="button" id={idx+""} value="Twin" on:click={twin}/>
+			{/if}
 			</div>
 			</div>
 		{/each}

@@ -135,7 +135,19 @@ let mocksectcoords = [
 			radius: 400.00,
 		},
 		zoom: zoom + 2,
-		type: "Point"
+		type: "Point",
+		image: "Salisano.png",
+		twin: {
+			uid: "Salisano-v.1.0.0",
+			model: {
+				type: "LSTM",
+				hidden_layers: 2,
+				hidden_neurons: 10,
+				epochs: 100,
+				optimizer: "adam",
+				loss: "mean_squared_error",
+			}
+		}
 	},
 	{
 		name: "Serbatoio-Ottavia",

@@ -8,6 +8,7 @@ type Coords = [number, number, number?]; // [lat, long, alt]
 
 function getPopUp(section: Section) {
     const div = document.createElement('div');
+    const twinbutton = section.twin?`<input id="button-${section.name}" style="cursor:pointer;margin-top: 8px;border:1px solid #555; border-radius: 3px; background-color:#777; color:#fff" type="button" value="Twin">`:'';
     div.innerHTML = `<div style="display:block;font-weight:bold"><h3>${section.name}</h3>
                         <div style="font-weight:normal">${section.description}</div>
                         <div style="font-weight:normal">Coordinates:
@@ -16,15 +17,15 @@ function getPopUp(section: Section) {
                         <li>Longitude: ${section.closestPoint[1]}</li>
                         <li>Altitude: ${section.closestPoint[2]} m.s.l.m.</li>
                         </ul>
-                        </div>
-                        <input id="button-${section.name}" style="cursor:pointer;margin-top: 8px;border:1px solid #555; border-radius: 3px; background-color:#777; color:#fff" type="button" value="Twin">
-                        </div>`;
+                        </div>`+ twinbutton
+                        +`</div>`;
 
     const popupElement = div.firstChild;
     // get the button
     const button = popupElement?.querySelector(`#button-${section.name}`);
     // add the event listener
-    button.addEventListener('click', () => { section.popupClickCallback(section) });
+    if(button)
+        button.addEventListener('click', () => { section.popupClickCallback(section) });
     return div;
 }
 export class Section {
@@ -38,6 +39,8 @@ export class Section {
     style: any;
     properties: any;
     twinwin: any;
+    image = '';
+    twin: any;
     
     constructor(opts: any) {
         this.name = opts && opts.name ? opts.name : "Default";
@@ -47,6 +50,8 @@ export class Section {
         this.type = opts && opts.type ? opts.type : "LineString";
         this.properties = opts && opts.properties ? opts.properties : {};
         this.twinwin = opts && opts.twinwin ? opts.twinwin : 'defaultTwinManager';
+        this.image = opts && opts.image ? opts.image : '';
+        this.twin = opts && opts.twin ? opts.twin : null;
         this.style = opts && opts.style ? opts.style : {
             color:  '#0000ff',
             weight:  3,
