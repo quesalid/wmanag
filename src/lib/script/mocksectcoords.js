@@ -186,6 +186,9 @@ let mocksectcoords = [
 		},
 		zoom: zoom+2,
 		type: "Point",
+		d3: {
+			viwer: "line",
+		},
 		/*twin: {
 			uid: "Ottavia-v.1.0.0",
 			model: {
