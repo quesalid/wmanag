@@ -1007,6 +1007,18 @@ let profiles = [
                         }
                     },
                     {
+                        id: 'D3',
+                        name: 'Vista 3D',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
+                    {
                         id: 'Communication',
                         name: 'Comunicazione',
                         top: '46vh',

@@ -25,6 +25,8 @@ export { default as FireSimManager } from './FireSimManager.svelte';
 export { default as WaterMapManager } from './WaterMapManager.svelte';
 export { default as SectionManager } from './SectionManager.svelte';
 export { default as TwinManager } from './TwinManager.svelte';
+export { default as D3Manager } from './D3Manager.svelte';
+
 
 
 

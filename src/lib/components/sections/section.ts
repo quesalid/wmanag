@@ -8,7 +8,8 @@ type Coords = [number, number, number?]; // [lat, long, alt]
 
 function getPopUp(section: Section) {
     const div = document.createElement('div');
-    const twinbutton = section.twin?`<input id="button-${section.name}" style="cursor:pointer;margin-top: 8px;border:1px solid #555; border-radius: 3px; background-color:#777; color:#fff" type="button" value="Twin">`:'';
+    const twinbutton = section.twin?`<input id="button-${section.name}" style="margin-right:2px;cursor:pointer;margin-top: 8px;border:1px solid #555; border-radius: 3px; background-color:#777; color:#fff" type="button" value="Twin">`:'';
+    const d3button = section.d3 ? `<input id="button-d3-${section.name}" style="margin-right:2px;cursor:pointer;margin-top: 8px;border:1px solid #555; border-radius: 3px; background-color:#777; color:#fff" type="button" value="3D">` : '';
     div.innerHTML = `<div style="display:block;font-weight:bold"><h3>${section.name}</h3>
                         <div style="font-weight:normal">${section.description}</div>
                         <div style="font-weight:normal">Coordinates:
@@ -17,15 +18,19 @@ function getPopUp(section: Section) {
                         <li>Longitude: ${section.closestPoint[1]}</li>
                         <li>Altitude: ${section.closestPoint[2]} m.s.l.m.</li>
                         </ul>
-                        </div>`+ twinbutton
+                        </div>`+ twinbutton + d3button
                         +`</div>`;
 
     const popupElement = div.firstChild;
     // get the button
-    const button = popupElement?.querySelector(`#button-${section.name}`);
+    const buttonTwin = popupElement?.querySelector(`#button-${section.name}`);
     // add the event listener
-    if(button)
-        button.addEventListener('click', () => { section.popupClickCallback(section) });
+    if(buttonTwin)
+        buttonTwin.addEventListener('click', () => { section.popupClickTwin(section) });
+    const buttonD3 = popupElement?.querySelector(`#button-d3-${section.name}`);
+    console.log("SECTION ------------------------>>>>",buttonD3)
+    if (buttonD3)
+        buttonD3.addEventListener('click', () => { section.popupClickD3(section) });
     return div;
 }
 export class Section {
@@ -39,8 +44,10 @@ export class Section {
     style: any;
     properties: any;
     twinwin: any;
+    d3win:any
     image = '';
     twin: any;
+    d3: any;
     
     constructor(opts: any) {
         this.name = opts && opts.name ? opts.name : "Default";
@@ -50,8 +57,10 @@ export class Section {
         this.type = opts && opts.type ? opts.type : "LineString";
         this.properties = opts && opts.properties ? opts.properties : {};
         this.twinwin = opts && opts.twinwin ? opts.twinwin : 'defaultTwinManager';
+        this.d3win = opts && opts.d3win ? opts.d3win : 'defaultD3Manager';
         this.image = opts && opts.image ? opts.image : '';
         this.twin = opts && opts.twin ? opts.twin : null;
+        this.d3 = opts && opts.d3 ? opts.d3 : null;
         this.style = opts && opts.style ? opts.style : {
             color:  '#0000ff',
             weight:  3,
@@ -211,11 +220,27 @@ export class Section {
         })
     }
 
-    popupClickCallback(section:any) {
+    popupClickTwin(section:any) {
         // on popup click send event to the twinwin
         const twin = document.getElementById(section.twinwin)
         if (twin) {
             twin.dispatchEvent(new CustomEvent('show', { detail: section }))
+        }
+        const d3 = document.getElementById(section.d3win)
+        if (d3) {
+            d3.dispatchEvent(new CustomEvent('hide', { detail: null }))
+        }
+    }
+
+    popupClickD3(section: any) {
+        // on popup click send event to the twinwin
+        const twin = document.getElementById(section.twinwin)
+        if (twin) {
+            twin.dispatchEvent(new CustomEvent('hide', { detail: null }))
+        }
+        const d3 = document.getElementById(section.d3win)
+        if (d3) {
+            d3.dispatchEvent(new CustomEvent('show', { detail: section }))
         }
     }
     

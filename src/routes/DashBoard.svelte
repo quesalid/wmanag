@@ -26,7 +26,8 @@
 			FireSimManager,
 			WaterMapManager,
 			SectionManager,
-			TwinManager} from '../lib/components/contents'
+			TwinManager,
+			D3Manager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -392,6 +393,7 @@
 	let modalIdActionDiv = "AlarmActionDiv"
 	let chartChoiceManagerId = 'chartChoiceManagerId'
 	let twinManagerId = 'twinManagerId'
+	let d3ManagerId = 'd3ManagerId'
 
 	// Container event managers
 	/*ALARM CONTAINER DO ACTION
@@ -698,6 +700,7 @@ let minscreensize = 850
 							bind:sectionCoords={sectionCoords}
 							bind:map={map}
 							twinwin='defaultTwinManager'
+							d3win='defaultD3Manager'
 						/>
 					{/if}
 					{#if Window.id == 'Twin'  && Window.visible == 'visible'}
@@ -714,6 +717,23 @@ let minscreensize = 850
 							{titleweight}
 							{bodycolor}
 							managerid= {twinManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+						/>
+					{/if}
+					{#if Window.id == 'D3'  && Window.visible == 'visible'}
+						<D3Manager 
+							headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							managerid= {d3ManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}

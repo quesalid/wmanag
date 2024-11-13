@@ -42,6 +42,7 @@ export let managerid = 'sectionManagerId'
 export let sectionCoords:any
 export let map:any
 export let twinwin = 'defaultTwinManager'
+export let d3win = 'defaultD3Manager'
 
 
 // INTERNAL VARIABLES
@@ -94,7 +95,8 @@ $:  {
 				initlat={initlat}
 				initlon={initlon}
 				initzoom={initzoom}
-				twinwin={twinwin}/>
+				twinwin={twinwin}
+				d3win={d3win}/>
 		</div>
 	</WManag>
 </div>

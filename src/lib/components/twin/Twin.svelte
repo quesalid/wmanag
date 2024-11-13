@@ -1,18 +1,59 @@
 <script lang="ts">
-
+import { onMount } from 'svelte';
+import TwinStats from './TwinStats.svelte';
+import  TwinImage  from './TwinImage.svelte';
 export let section:any = {name:null,image:null}
 
+let showInfo = true;
+let showSimulation = false;
+let showStats = false;
+
+const setButtonStyle = (buttonId:string, color:string) => {
+	const button = document.getElementById(buttonId);
+	if(button){
+		button.style.color = color;
+	}
+}
+
+const highlightButton = (buttonId:string) => {
+	setButtonStyle("twin-info-button", "#fff");
+	setButtonStyle("twin-sim-button", "#fff");
+	setButtonStyle("twin-stats-button", "#fff");
+	setButtonStyle(buttonId, "#FF0");
+}
+
+onMount(() => {
+	console.log("TWIN",section)
+	showInfo = true;
+	showSimulation = false;
+	showStats = false;
+	highlightButton("twin-info-button");
+	
+})
 
 const onClickInfo = (ev:any) => {
 	console.log("TWIN",section)
+	showInfo = true;
+	showSimulation = false;
+	showStats = false;
+	highlightButton("twin-info-button");
+	section = section
 }
 
 const onClickSimulation = (ev:any) => {
 	console.log("TWIN",section)
+	showInfo = false;
+	showSimulation = true;
+	showStats = false;
+	highlightButton("twin-sim-button");
 }
 
 const onClickStats = (ev:any) => {
 	console.log("TWIN",section)
+	showInfo = false;
+	showSimulation = false;
+	showStats = true;
+	highlightButton("twin-stats-button");
 }
 
 </script>
@@ -23,20 +64,19 @@ const onClickStats = (ev:any) => {
 		<input class="button-header" type="button" id={"twin-stats-button"} value="Stats" on:click={onClickStats}/>
 	</div>
 	<div class="twin-class-body">
-		<div class="twin-class-image">
-			<img src="{"/acea/"+section.image}" width='450' alt="twin" />
-		</div>
-		<div class="twin-class-model">
-			{#if section.twin}
-				<div>Twin uid: {section.twin.uid}</div>
-				<fieldset style="padding:10px; border:2px solid #4238ca; background:#ffffff; width:98%;">
-					<legend style="font-weight:bold"> Model</legend>
-				{#each Object.keys(section.twin.model) as key}
-					<div>{key}: {section.twin.model[key]}</div>
-				{/each}
-				</fieldset>
-			{/if}
-		</div>
+		{#if showInfo}
+			<TwinImage bind:section={section}/>
+		{/if}
+		{#if showSimulation}
+			<div class="twin-class-model">
+				SIMULATION
+			</div>
+		{/if}
+		{#if showStats}
+			<div class="twin-class-model">
+				<TwinStats bind:sectionName={section.name}/>
+			</div>
+		{/if}
 	</div>
  </div>
 

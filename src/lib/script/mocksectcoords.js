@@ -84,7 +84,7 @@ let mocksectcoords = [
 		description: "Sezione acquedotto da sorgenti Peschiera a centrale Salisano",
 		coords: pes_sal,
 		zoom: zoom,
-		type: "LineString"
+		type: "LineString",
 	},
 	{
 		name: "LeCapore-Salisano",
@@ -115,7 +115,21 @@ let mocksectcoords = [
 			radius: 400.00,
 		},
 		zoom: zoom + 2,
-		type: "Point"
+		type: "Point",
+		twin: {
+			uid: "PeschieraSorg-v.1.0.0",
+			model: {
+				type: "LSTM",
+				hidden_layers: 2,
+				hidden_neurons: 10,
+				epochs: 100,
+				optimizer: "adam",
+				loss: "mean_squared_error",
+			},
+		},
+		d3: {
+			viwer: "line",
+		},
 	},
 	{
 		name: "Sorgenti-LeCapore",
@@ -136,7 +150,7 @@ let mocksectcoords = [
 		},
 		zoom: zoom + 2,
 		type: "Point",
-		image: "Salisano.png",
+		image: "salisano.svg",
 		twin: {
 			uid: "Salisano-v.1.0.0",
 			model: {
@@ -146,8 +160,22 @@ let mocksectcoords = [
 				epochs: 100,
 				optimizer: "adam",
 				loss: "mean_squared_error",
-			}
-		}
+			},
+			input_vector: [
+				{ tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value:9.1 },
+				{ tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value:4 },
+				{ tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
+				{ tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
+				{ tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
+				{ tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+			],
+			output_vector: [
+				{tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 }
+			]
+		},
+		d3: {
+			viwer: "line",
+		},
 	},
 	{
 		name: "Serbatoio-Ottavia",
@@ -157,7 +185,30 @@ let mocksectcoords = [
 			radius: 400.00,
 		},
 		zoom: zoom+2,
-		type: "Point"
+		type: "Point",
+		/*twin: {
+			uid: "Ottavia-v.1.0.0",
+			model: {
+				type: "LSTM",
+				hidden_layers: 2,
+				hidden_neurons: 10,
+				epochs: 100,
+				optimizer: "adam",
+				loss: "mean_squared_error",
+			}
+		},
+		input_vector: [
+				{ tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value:9.1 },
+				{ tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value:4 },
+				{ tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
+				{ tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
+				{ tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
+				{ tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+			],
+			output_vector: [
+				{tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 }
+			]
+		*/
 	},
 	{
 		name: "Serbatoio-Monte-Carnale",
@@ -171,8 +222,335 @@ let mocksectcoords = [
 	}
 ]
 
+// Stats data simulated
+const specSalisano = {
+	"$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+		"description": "Grafico multi-linea con markers per le serie temporali della potenza di uscita.",
+			"data": {
+		"name": "table",
+			"format": {
+			"type": "json"
+		}
+	},
+	"params": [
+		{
+			"name": "highlight",
+			"select": {
+				"type": "point",
+				"fields": ["year"],
+				"on": "click",
+				"clear": "dblclick" // per deselezionare con doppio clic
+			}
+		}
+	],
+	"mark": {
+		"type": "line",
+		"point": true
+	},
+	"encoding": {
+		"x": {
+			"field": "month",
+			"type": "ordinal",
+			"title": "Month",
+			"sort": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+		},
+		"y": {
+			"field": "value",
+			"type": "quantitative",
+			"title": "Power Output (MW)",
+			"scale": { "domain": [15, 23.5] }
+		},
+		"color": {
+			"condition": {
+				"param": "highlight",
+				"field": "year",
+				"type": "nominal",
+				"scale": { "scheme": "category10" }
+			},
+			"value": "lightgray"
+		},
+		"opacity": {
+			"condition": { "param": "highlight", "value": 1 },
+			"value": 0.3
+		},
+		"tooltip": [
+			{ "field": "year", "type": "nominal", "title": "Year" },
+			{ "field": "month", "type": "ordinal", "title": "Month" },
+			{ "field": "value", "type": "quantitative", "title": "Power Output (MW)" }
+		]
+	}
+}
+
+const dataSalisano = {
+	table: [
+		{
+			"year": "2020",
+			"month": "Jan",
+			"value": 21.5
+		},
+		{
+			"year": "2020",
+			"month": "Feb",
+			"value": 22.1
+		},
+		{
+			"year": "2020",
+			"month": "Mar",
+			"value": 20.3
+		},
+		{
+			"year": "2020",
+			"month": "Apr",
+			"value": 23.0
+		},
+		{
+			"year": "2020",
+			"month": "May",
+			"value": 21.0
+		},
+		{
+			"year": "2020",
+			"month": "Jun",
+			"value": 22.5
+		},
+		{
+			"year": "2020",
+			"month": "Jul",
+			"value": 20.7
+		},
+		{
+			"year": "2020",
+			"month": "Aug",
+			"value": 23.2
+		},
+		{
+			"year": "2020",
+			"month": "Sep",
+			"value": 19.9
+		},
+		{
+			"year": "2020",
+			"month": "Oct",
+			"value": 22.8
+		},
+		{
+			"year": "2020",
+			"month": "Nov",
+			"value": 21.4
+		},
+		{
+			"year": "2020",
+			"month": "Dec",
+			"value": 23.3
+		},
+
+		{
+			"year": "2021",
+			"month": "Jan",
+			"value": 22.0
+		},
+		{
+			"year": "2021",
+			"month": "Feb",
+			"value": 21.3
+		},
+		{
+			"year": "2021",
+			"month": "Mar",
+			"value": 23.1
+		},
+		{
+			"year": "2021",
+			"month": "Apr",
+			"value": 20.4
+		},
+		{
+			"year": "2021",
+			"month": "May",
+			"value": 19.8
+		},
+		{
+			"year": "2021",
+			"month": "Jun",
+			"value": 23.0
+		},
+		{
+			"year": "2021",
+			"month": "Jul",
+			"value": 22.2
+		},
+		{
+			"year": "2021",
+			"month": "Aug",
+			"value": 21.9
+		},
+		{
+			"year": "2021",
+			"month": "Sep",
+			"value": 20.8
+		},
+		{
+			"year": "2021",
+			"month": "Oct",
+			"value": 23.5
+		},
+		{
+			"year": "2021",
+			"month": "Nov",
+			"value": 19.9
+		},
+		{
+			"year": "2021",
+			"month": "Dec",
+			"value": 22.4
+		},
+
+		{
+			"year": "2022",
+			"month": "Jan",
+			"value": 21.1
+		},
+		{
+			"year": "2022",
+			"month": "Feb",
+			"value": 23.4
+		},
+		{
+			"year": "2022",
+			"month": "Mar",
+			"value": 20.5
+		},
+		{
+			"year": "2022",
+			"month": "Apr",
+			"value": 21.6
+		},
+		{
+			"year": "2022",
+			"month": "May",
+			"value": 22.7
+		},
+		{
+			"year": "2022",
+			"month": "Jun",
+			"value": 20.9
+		},
+		{
+			"year": "2022",
+			"month": "Jul",
+			"value": 19.8
+		},
+		{
+			"year": "2022",
+			"month": "Aug",
+			"value": 23.0
+		},
+		{
+			"year": "2022",
+			"month": "Sep",
+			"value": 21.8
+		},
+		{
+			"year": "2022",
+			"month": "Oct",
+			"value": 22.9
+		},
+		{
+			"year": "2022",
+			"month": "Nov",
+			"value": 20.1
+		},
+		{
+			"year": "2022",
+			"month": "Dec",
+			"value": 21.2
+		},
+
+		{
+			"year": "2023",
+			"month": "Jan",
+			"value": 20.5
+		},
+		{
+			"year": "2023",
+			"month": "Feb",
+			"value": 22.3
+		},
+		{
+			"year": "2023",
+			"month": "Mar",
+			"value": 19.9
+		},
+		{
+			"year": "2023",
+			"month": "Apr",
+			"value": 23.1
+		},
+		{
+			"year": "2023",
+			"month": "May",
+			"value": 21.7
+		},
+		{
+			"year": "2023",
+			"month": "Jun",
+			"value": 22.8
+		},
+		{
+			"year": "2023",
+			"month": "Jul",
+			"value": 20.2
+		},
+		{
+			"year": "2023",
+			"month": "Aug",
+			"value": 21.0
+		},
+		{
+			"year": "2023",
+			"month": "Sep",
+			"value": 23.2
+		},
+		{
+			"year": "2023",
+			"month": "Oct",
+			"value": 22.1
+		},
+		{
+			"year": "2023",
+			"month": "Nov",
+			"value": 19.8
+		},
+		{
+			"year": "2023",
+			"month": "Dec",
+			"value": 23.4
+		}
+	]
+}
+
+const getVegaSpec = (section) => {
+	switch (section) {
+		case "Centrale-Salisano":
+			return specSalisano;
+			deafult:
+			return null
+	}
+}
+
+const getVegaData = (section) => {
+	switch (section) {
+        case "Centrale-Salisano":
+            return dataSalisano;
+            deafult:
+            return null
+    }
+}
+
 const sections = {
-	mocksectcoords
+	mocksectcoords,
+	getVegaSpec,
+	getVegaData
 }
 
 export default sections;

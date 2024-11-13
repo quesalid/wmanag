@@ -4,9 +4,9 @@ import L from 'leaflet';
 // INTERNAL
 import WManag from '../WManag.svelte'
 import {mock,user} from '../../ustore.js'
-import Twin from '../twin/Twin.svelte'
+import D3 from '../d3/D3.svelte'
 
-let defaultWManager = 'defaultTwinManager'
+let defaultWManager = 'defaultD3Manager'
 
 // SECTION VARS
 
@@ -32,7 +32,7 @@ export let bordercolor = "#c0c0c0"
 export let boxshadow = "0px 0px 0px 0px #000000"
 
 // DATA EXPORTS
-export let managerid = 'twinManagerId'
+export let managerid = 'd3ManagerId'
 // INTERNAL VARIABLES
 let section:any = {}
 
@@ -44,10 +44,11 @@ onMount(async () => {
 	wmanag?.addEventListener('show', (e:any) => {
 		wmanag.style.visibility = 'visible'
 		section=e.detail
-		title = section.name
+		title = section.name +' vista 3D'
 	})
 	wmanag?.addEventListener('hide', (e:any) => {
 		wmanag.style.visibility = 'hidden'
+		console.log("HIDE",e.detail)
 	})
 	
 })
@@ -77,7 +78,8 @@ onMount(async () => {
 		{bordercolor}
 		{boxshadow}>
 		<div  slot="bodycontent">
-			<Twin bind:section={section}/>
+			<div id="cesiumContainer" class="fullSize"></div>
+			<D3 bind:section={section}/>
 		</div>
 	</WManag>
 </div>

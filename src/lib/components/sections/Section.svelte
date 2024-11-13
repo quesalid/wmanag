@@ -1,18 +1,23 @@
 <script lang="ts">
 
-
 export let sections:any = []
 export let map:any
 export let initlat = 45.0;
 export let initlon = 7.0;
 export let initzoom = 10;
 export let twinwin = 'defaultTwinManager'
+export let d3win = 'defaultD3Manager'
+
 
 
 const fly = (ev:any) => {
 	const twin = document.getElementById(twinwin)
 	if(twin) {
 		twin.dispatchEvent(new CustomEvent('hide', {detail: null}))
+	}
+	const d3 = document.getElementById(d3win)
+	if(d3){
+		d3.dispatchEvent(new CustomEvent('hide', {detail: null}))
 	}
 	let section = sections[parseInt(ev.target.id)]
 	if(map && section)
@@ -27,6 +32,10 @@ const reset = (ev:any) => {
 	if(twin) {
 		twin.dispatchEvent(new CustomEvent('hide', {detail: null}))
 	}
+	const d3 = document.getElementById(d3win)
+	if(d3){
+		d3.dispatchEvent(new CustomEvent('hide', {detail: null}))
+	}
 	for(let i=0;i<sections.length;i++) {
 		let section = sections[i]
 		const style ={color:'#0000ff',weight:3,opacity:1.0}
@@ -37,13 +46,30 @@ const reset = (ev:any) => {
 
 const twin = (ev:any) => {
 	let section = sections[parseInt(ev.target.id)]
-	console.log(section)
 	// get twin manager
 	const twin = document.getElementById(twinwin)
 	if(twin) {
 		twin.dispatchEvent(new CustomEvent('show', {detail: section}))
 	}
+	const d3 = document.getElementById(d3win)
+	if(d3){
+		d3.dispatchEvent(new CustomEvent('hide', {detail: null}))
+	}
 }
+
+const d3 = (ev:any) => {
+	let section = sections[parseInt(ev.target.id)]
+	 // get 3d viwer
+	const d3 = document.getElementById(d3win)
+	if(d3){
+		d3.dispatchEvent(new CustomEvent('show', {detail: section}))
+	}
+	const twin = document.getElementById(twinwin)
+	if(twin) {
+		twin.dispatchEvent(new CustomEvent('hide', {detail: null}))
+	}
+}
+
 </script>
  <div class="section-class">
 	 <div class="section-class-header">
@@ -57,6 +83,9 @@ const twin = (ev:any) => {
 			<input type="button" id={idx+""} value="Show" on:click={fly}/>
 			{#if section.twin}
 				<input type="button" id={idx+""} value="Twin" on:click={twin}/>
+			{/if}
+			{#if section.d3}
+				<input type="button" id={idx+""} value="3D" on:click={d3}/>
 			{/if}
 			</div>
 			</div>
