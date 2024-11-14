@@ -214,33 +214,35 @@ let mocksectcoords = [
 	}
 ]
 
-const twindata = [{
-	name: "Acquedotto-Peschiera",
-	description: "Acquedotto del Peschiera",
-	twin: {
-		uid: "AcqPeschiera-v.1.0.0",
-		model: {
-			type: "LSTM",
-			hidden_layers: 2,
-			hidden_neurons: 10,
-			epochs: 100,
-			optimizer: "adam",
-			loss: "mean_squared_error",
+const twindata = [
+	{
+		name: "Acquedotto-Peschiera",
+		description: "Acquedotto del Peschiera",
+		twin: {
+			uid: "AcqPeschiera-v.1.0.0",
+			model: {
+				type: "LSTM",
+				hidden_layers: 2,
+				hidden_neurons: 10,
+				epochs: 100,
+				optimizer: "adam",
+				loss: "mean_squared_error",
+			},
+			input_vector: [
+				{ tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
+				{ tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value: 4 },
+				{ tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
+				{ tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
+				{ tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
+				{ tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+			],
+			output_vector: [
+				{ tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 }
+			]
 		},
-		input_vector: [
-			{ tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
-			{ tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value: 4 },
-			{ tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
-			{ tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
-			{ tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
-			{ tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
-		],
-		output_vector: [
-			{ tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 }
-		]
-	},
-	sections: mocksectcoords,
-}]
+		sections: mocksectcoords,
+	}
+]
 
 
 // Stats data simulated

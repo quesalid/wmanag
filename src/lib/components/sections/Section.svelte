@@ -92,7 +92,9 @@ const d3 = (ev:any) => {
  <div class="section-class">
 	 <div class="section-class-header">
 			<input class="button-header" type="button" id={"reset"} value="Reset" on:click={reset}/> 
-			<input class="button-header" type="button" id={"reset"} value="MasterTwin" on:click={twin}/>
+			{#if twindata && twindata.twin}
+				<input class="button-header" type="button" id={"reset"} value="MasterTwin" on:click={twin}/>
+			{/if}
 	</div>
 	<div class="section-class-body">
 		{#each sections as section, idx}
