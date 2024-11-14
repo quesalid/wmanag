@@ -54,18 +54,21 @@ aside {
 .aside-node {
     margin: 0.5rem;
     border: 1px solid #111;
-    padding: 0.5rem 1rem;
+    padding: 0.2rem 1rem;
     font-weight: 700;
     border-radius: 5px;
     cursor: grab;
-    /*width: 50px;*/
+    color: #000;
+    opacity: 1.0;
 }
 
 .aside-menuaction {
     margin: 0.1rem;
-    padding: 0.5rem 1rem;
+    padding: 0.2rem 1rem;
     font-weight: 700;
     cursor: pointer;
+    font-size:larger;
+    color: #444;
     /*width: 50px;*/
 }
 
@@ -75,12 +78,21 @@ aside {
 
 /* Custom node */
 .custom-entity-node {
-    border: 1px solid #111;
-    border-radius: 3px;
+    border: 0.5px solid #555;
+    border-radius: 5px;
     min-width: 100px;
     font-size: xx-small;
     text-align: center;
+    opacity: 0.7;
 }
+
+.custom-entity-node-label {
+    opacity: 1;
+    color: #111;
+    font-size: smaller;
+    font-weight: bold;
+}
+
 
 .custom-entity-node-short {
     border: 1px solid #111;
@@ -91,6 +103,8 @@ aside {
 }
 .custom-entity-node-short-div {
     font-size: smaller;
+    color: #111;
+    opacity: 1.0;
 }
 
 .custom-entity-node-group {
@@ -100,9 +114,6 @@ aside {
     opacity:70%;
 }
 
-    .custom-entity-node span {
-        font-weight: normal;
-    }
 
 /* Node panel*/
 .node-panel {

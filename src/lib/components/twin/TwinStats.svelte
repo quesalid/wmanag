@@ -7,20 +7,20 @@ import sections from '../../script/mocksectcoords'
 
 export let sectionName = '';
 
+let data:any
+let specVL:VisualizationSpec[]
 
 onMount(() => {
-	console.log("TWIN SVELTE MOUNT",sectionName)
 	// add event listner from the parent component
-	specVL = sections.getVegaSpec(sectionName)?  sections.getVegaSpec(sectionName) as VisualizationSpec: specVL
+	specVL = sections.getVegaSpecs(sectionName).length?  sections.getVegaSpecs(sectionName) as VisualizationSpec[]: specVL
 	data = sections.getVegaData(sectionName)? sections.getVegaData(sectionName): data
-	console.log("TWIN SVELTE -------->",sectionName,specVL,data)
 })
 
-let data:any
-let specVL:VisualizationSpec
+
 $: {
-	specVL = sections.getVegaSpec(sectionName)?  sections.getVegaSpec(sectionName) as VisualizationSpec: defaultspecVL
+	specVL = sections.getVegaSpecs(sectionName).length > 0?  sections.getVegaSpecs(sectionName) as VisualizationSpec[]:[ {type:'area',spec:defaultspecVL}]
 	data = sections.getVegaData(sectionName)? sections.getVegaData(sectionName): defaultdata
+	viewVL ? console.log('Vega-Lite view: ', specVL, data):'';
 }
 
 let viewVL: View | undefined 
@@ -76,19 +76,20 @@ let defaultspecVL: VisualizationSpec = {
 	};
 
 
-$: viewVL ? console.log('Vega-Lite view: ', viewVL.data('table')) : '';
-
 const options= {
 	actions: false,
 };
 
 </script>
 
- <div class="section-class" id="twin-stats-div">
-	<VegaLite {data} bind:spec={specVL} bind:view={viewVL} options={options}/> 
-	
+ <div class="section-stats-class" id="twin-stats-div">
+	{#each specVL as spec}
+		<VegaLite bind:data={data} bind:spec={spec.spec} bind:view={viewVL} options={options}/> 
+	{/each}
  </div>
 
 <style>
-
+.section-stats-class{
+	display:flex;
+}
 </style>

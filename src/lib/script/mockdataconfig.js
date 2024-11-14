@@ -21,6 +21,7 @@ let learnphases = DBPHARMA.generateClonePhases(learnpoints, 'BATCH')
 let companies = DBPHARMA.companies
 let alarmhists = DBPHARMA.generateAlarmHistories()
 let sectioncoords = sections.mocksectcoords
+let twindata = sections.twindata
 
 // ****************  INIT DB BY FAMILY *******************
 const init = (family) => {
@@ -638,6 +639,38 @@ const deleteSectionCoords = async function (body) {
     return (body)
 }
 
+const getTwinData = async function (body) {
+    let retTwindata = JSON.parse(JSON.stringify(twindata))
+    const filters = body.options.filters
+    if (filters && filters.length) {
+        retTwindata = filterArray(retTwindata, filters)
+    }
+    body.data = retTwindata
+    return (body)
+}
+
+const setTwinData = async function (body) {
+    const twindata = body.options.twindata
+    let old = null
+    if (twindata) {
+        const existing = twindata.findIndex((item) => { return item.name == twindata.name })
+        if (existing > -1) {
+            old = twindata[existing]
+            twindata[existing] = twindata
+        } else {
+            twindata.push(twindata)
+        }
+    }
+    return old
+}
+
+const deleteTwinData = async function (body) {
+    const filters = body.options.filters
+    twindata = filterArray(twindata, filters, true)
+    body.data = twindata
+    return (body)
+}
+
 
 const CONFIG = {
     init,
@@ -690,7 +723,10 @@ const CONFIG = {
     getAlarmHist,
     getSectionCoords,
     setSectionCoords,
-    deleteSectionCoords
+    deleteSectionCoords,
+    getTwinData,
+    setTwinData,
+    deleteTwinData
 }
 
 export default CONFIG

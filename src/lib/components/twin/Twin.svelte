@@ -2,10 +2,11 @@
 import { onMount } from 'svelte';
 import TwinStats from './TwinStats.svelte';
 import  TwinImage  from './TwinImage.svelte';
+import TwinModel from './TwinModel.svelte';
 export let section:any = {name:null,image:null}
 
-let showInfo = true;
-let showSimulation = false;
+let showModel = false;
+let showSimulation = true;
 let showStats = false;
 
 const setButtonStyle = (buttonId:string, color:string) => {
@@ -16,7 +17,7 @@ const setButtonStyle = (buttonId:string, color:string) => {
 }
 
 const highlightButton = (buttonId:string) => {
-	setButtonStyle("twin-info-button", "#fff");
+	setButtonStyle("twin-model-button", "#fff");
 	setButtonStyle("twin-sim-button", "#fff");
 	setButtonStyle("twin-stats-button", "#fff");
 	setButtonStyle(buttonId, "#FF0");
@@ -24,25 +25,25 @@ const highlightButton = (buttonId:string) => {
 
 onMount(() => {
 	console.log("TWIN",section)
-	showInfo = true;
-	showSimulation = false;
+	showModel = false;
+	showSimulation = true;
 	showStats = false;
 	highlightButton("twin-info-button");
 	
 })
 
-const onClickInfo = (ev:any) => {
+const onClickModel = (ev:any) => {
 	console.log("TWIN",section)
-	showInfo = true;
+	showModel = true;
 	showSimulation = false;
 	showStats = false;
-	highlightButton("twin-info-button");
+	highlightButton("twin-model-button");
 	section = section
 }
 
 const onClickSimulation = (ev:any) => {
 	console.log("TWIN",section)
-	showInfo = false;
+	showModel = false;
 	showSimulation = true;
 	showStats = false;
 	highlightButton("twin-sim-button");
@@ -50,7 +51,7 @@ const onClickSimulation = (ev:any) => {
 
 const onClickStats = (ev:any) => {
 	console.log("TWIN",section)
-	showInfo = false;
+	showModel = false;
 	showSimulation = false;
 	showStats = true;
 	highlightButton("twin-stats-button");
@@ -59,17 +60,17 @@ const onClickStats = (ev:any) => {
 </script>
  <div class="twin-class">
 	 <div class="twin-class-header">
-		<input class="button-header" type="button" id={"twin-info-button"} value="Info" on:click={onClickInfo}/>
-		<input class="button-header" type="button" id={"twin-sim-button"} value="Simulation" on:click={onClickSimulation}/>
+		<input class="button-header" type="button" id={"twin-sim-button"} value="Run" on:click={onClickSimulation}/>
+		<input class="button-header" type="button" id={"twin-model-button"} value="Model" on:click={onClickModel}/>
 		<input class="button-header" type="button" id={"twin-stats-button"} value="Stats" on:click={onClickStats}/>
 	</div>
 	<div class="twin-class-body">
-		{#if showInfo}
+		{#if showSimulation}
 			<TwinImage bind:section={section}/>
 		{/if}
-		{#if showSimulation}
+		{#if showModel}
 			<div class="twin-class-model">
-				SIMULATION
+				<TwinModel bind:section={section}/>
 			</div>
 		{/if}
 		{#if showStats}

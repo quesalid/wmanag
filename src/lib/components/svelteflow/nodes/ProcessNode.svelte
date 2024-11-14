@@ -49,9 +49,9 @@
 		onResize={onResize}
 		onResizeStart={onResizeStart}
 		/>
-  <div class="custom-entity-node-group" id={data.divid}>
+  <div class="custom-entity-node-group" id={data.divid} >
 	<div style="background-color: {data.color} ;">
-		<span id={data.spanid}>{data.label}</span>
+		<div class="custom-entity-node-group-label" id={data.spanid}>{data.label}</div>
 	</div>
   <div />
 </div>

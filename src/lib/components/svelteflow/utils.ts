@@ -59,7 +59,16 @@ const controlledEntityTemplate = [
     { field:'name',name: 'name', value: '', type: 'text', show: true, options: null },
     { field:'description',name: 'description', value: '', type: 'text', show: true, options: null },
     { field:'line',name: 'line', value: '', type: 'text', show: false, options: null },
-    { field:'type',name: 'type', value: '', type: 'text', show: true, options: null },
+    {
+        field: 'type', name: 'type', value: '', type: 'select', show: true,
+        options: {
+            opts: [
+                { name: 'Point', value: 'POINT' },
+                { name: 'Line', value: 'LINE' },
+                { name: 'Area', value: 'AREA' },
+            ]
+        }
+    },
     { field:'buildyear',name: 'buildyear', value: '', type: 'date', show: true, options: null },
     { field:'agent',name: 'agent', value: '', type: 'text', show: false, options: null },
     { field:'lat',name: 'lat', value: 0.0, type: 'number', show: true, options: null },

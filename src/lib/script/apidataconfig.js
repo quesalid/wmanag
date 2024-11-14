@@ -1477,7 +1477,7 @@ export const getSectionCoords = async function (filters, mock = false) {
         const body = {
             type: "api",
             version: 1.0,
-            command: "getCompanies",
+            command: "getSectionCoords",
             options: {
                 filters: filters
             }
@@ -1508,7 +1508,7 @@ export const setSectionCoords = async function (section, mock = false) {
         const body = {
             type: "api",
             version: 1.0,
-            command: "setCompany",
+            command: "setSectionCoords",
             options: {
                 section: section
             }
@@ -1539,7 +1539,7 @@ export const deleteSectionCoords = async function (filters, mock = false) {
         const body = {
             type: "api",
             version: 1.0,
-            command: "deleteCompany",
+            command: "deleteSectionCoords",
             options: {
                 filters: filters
             }
@@ -1555,6 +1555,99 @@ export const deleteSectionCoords = async function (filters, mock = false) {
                 })
         } else {
             resolve(mocks.deleteSectionCoords(body))
+        }
+    })
+}
+
+/**
+* Get twin data
+* @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+* @param {any} mock use mock flag (default false)
+*/
+export const getTwinData = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "getTwinData",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.getTwinData(body))
+        }
+    })
+}
+
+/**
+ * Set Twin data
+ * @param {any} plant plant to set (add or update)
+ * @param {any} mock use mock flag (default false)
+ */
+export const setTwinData = async function (twin, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "setTwinData",
+            options: {
+                twin: twin
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.setTwinData(body))
+        }
+    })
+}
+
+/**
+* Delete twin data
+* @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
+* @param {any} mock use mock flag (default false)
+*/
+export const deleteTwinData = async function (filters, mock = false) {
+    return new Promise((resolve, reject) => {
+        const url = baseUrl + '/command'
+        const body = {
+            type: "api",
+            version: 1.0,
+            command: "deleteTwinData",
+            options: {
+                filters: filters
+            }
+        }
+        if (!mock) {
+            callFetchPost(url, body, getCHeader())
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                })
+        } else {
+            resolve(mocks.deleteTwinData(body))
         }
     })
 }

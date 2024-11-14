@@ -40,7 +40,8 @@
 			getControllers,
 			getLearnPoints,
 			getClonePoints,
-			getSectionCoords} from '../lib/script/apidataconfig.js'
+			getSectionCoords,
+			getTwinData} from '../lib/script/apidataconfig.js'
    import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
    import {module, 
@@ -132,6 +133,8 @@
 	let sectionCoords:any = []
 	let psize = 2
 	let map:any
+	let twindata:any
+	let twindataarray:any = []
 
 	const getAlarmData = async ()=>{
 		 return new Promise(async (resolve, reject) => {
@@ -249,8 +252,18 @@
 		// E1. FILTER OUT ALARMS FROM pointdata
 		$pointsdata = $pointsdata.filter((item:any)=>item.type != 'ALARM')
 		// F. GET SECTION COORDS
-		const retsc = await getSectionCoords([],$mock)
-		sectionCoords = retsc.data
+		//const retsc = await getSectionCoords([],$mock)
+		//sectionCoords = retsc.data
+		// F1. GET TWIN DATA
+		const filters = [{name:"Acquedotto-Peschiera",_type:'eq'}]
+		const rettwin = await getTwinData(filters,$mock)
+		twindataarray = rettwin.data
+		// se l'array contiene un elemento assegna le sezioni del primo elemento a sectionCoords
+		if(twindataarray.length > 0){
+			twindata = twindataarray[0]
+			sectionCoords = twindata.sections
+		}
+		//console.log('TWIN DATA',twindata)
 		
 		const findFreeOffset:any = (lon:any,lat:any,machine='')=>{
 			for(let i=0;i<$alarmsdata.length;i++){
@@ -697,6 +710,7 @@ let minscreensize = 850
 							initzoom = {wminitzoom}
 							managerid= {sectionManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
+							bind:twindata={twindata}
 							bind:sectionCoords={sectionCoords}
 							bind:map={map}
 							twinwin='defaultTwinManager'

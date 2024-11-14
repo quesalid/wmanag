@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@huggingface/inference": "^2.8.1",
+    "@maplibre/maplibre-gl-geocoder": "^1.7.0",
     "@turf/turf": "^7.1.0",
     "@xyflow/svelte": "^0.1.21",
     "bayesjs": "^0.6.5",

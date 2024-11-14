@@ -23,6 +23,7 @@
   let template:any = []
   let showModal = false;
   let selectedLocation:any = null;
+  let center = [12.4964, 41.9028]
 
   onMount(async () => {  
 	// Add event listner shownodepanel
@@ -38,7 +39,7 @@
 			nodePanelBody.style.height = '';
 			// force update of values inside template
 			template = [...template]
-			// sleep for 300ms
+			// 
 			
         })
     }
@@ -120,6 +121,16 @@ const pickAddress = async (ev:any) => {
 	  }
  }
  const pickCoords = (ev:any) =>{
+	 // automatically recenter map if there is a lng lat in node data
+	 if(nodeid){
+		 const nodeIndex:any = $nodes.findIndex((node:any) => node.id === nodeid);
+		 if(nodeIndex != -1){
+			 if($nodes[nodeIndex].data.internalData['lon'] && $nodes[nodeIndex].data.internalData['lat']){
+				center = [$nodes[nodeIndex].data.internalData['lon'],$nodes[nodeIndex].data.internalData['lat']]
+			}
+		 }
+       }
+	   console.log("CENTER",center)
 	  showModal = true;
  }
 
@@ -219,7 +230,7 @@ const pickAddress = async (ev:any) => {
 	</div>
 </div>
 {#if showModal}
-    <MapModal on:locationSelected={handleLocationSelected} on:close={closeMap} />
+    <MapModal on:locationSelected={handleLocationSelected} on:close={closeMap} center={center}/>
 {/if}
 
 <style>

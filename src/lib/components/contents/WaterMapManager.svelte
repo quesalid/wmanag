@@ -46,6 +46,7 @@ export let fsheight = '100vh';
 // DATA EXPORTS
 export let managerid = 'waterManagerId'
 export let sectionCoords:any
+//export let twindata:any
 export let opt:any = {
 	color: '#0000ff',
 	weight: 3,

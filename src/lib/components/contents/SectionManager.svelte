@@ -40,6 +40,7 @@ export let initzoom = 10;
 // DATA EXPORTS
 export let managerid = 'sectionManagerId'
 export let sectionCoords:any
+export let twindata:any
 export let map:any
 export let twinwin = 'defaultTwinManager'
 export let d3win = 'defaultD3Manager'
@@ -56,14 +57,14 @@ onMount(async () => {
 	
 })
 
-$:  {
+$:  { 
 		for(let i=0;i<sectionCoords.length;i++) {
 			let line = sectionCoords[i];
 			let section = new Section(line);
 			sections.push(section)
 		}
 		sections = sections
-	}
+}
 
 
 </script>
@@ -96,7 +97,8 @@ $:  {
 				initlon={initlon}
 				initzoom={initzoom}
 				twinwin={twinwin}
-				d3win={d3win}/>
+				d3win={d3win}
+				twindata={twindata}/>
 		</div>
 	</WManag>
 </div>

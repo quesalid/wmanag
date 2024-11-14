@@ -1,4 +1,5 @@
 <script lang="ts">
+import {Section} from './section'
 
 export let sections:any = []
 export let map:any
@@ -7,8 +8,9 @@ export let initlon = 7.0;
 export let initzoom = 10;
 export let twinwin = 'defaultTwinManager'
 export let d3win = 'defaultD3Manager'
+export let twindata:any
 
-
+let sectiontwindata:any
 
 const fly = (ev:any) => {
 	const twin = document.getElementById(twinwin)
@@ -44,12 +46,28 @@ const reset = (ev:any) => {
 	map.setView([initlat, initlon], initzoom)
 }
 
-const twin = (ev:any) => {
+const twinsection = (ev:any) => {
 	let section = sections[parseInt(ev.target.id)]
 	// get twin manager
 	const twin = document.getElementById(twinwin)
 	if(twin) {
 		twin.dispatchEvent(new CustomEvent('show', {detail: section}))
+	}
+	const d3 = document.getElementById(d3win)
+	if(d3){
+		d3.dispatchEvent(new CustomEvent('hide', {detail: null}))
+	}
+}
+
+const twin = (ev:any) => {
+	
+	if(!sectiontwindata)
+		sectiontwindata = new Section(twindata)
+	console.log("twindata",twindata,sectiontwindata)
+	// get twin manager
+	const twin = document.getElementById(twinwin)
+	if(twin) {
+		twin.dispatchEvent(new CustomEvent('show', {detail: sectiontwindata}))
 	}
 	const d3 = document.getElementById(d3win)
 	if(d3){
@@ -73,19 +91,20 @@ const d3 = (ev:any) => {
 </script>
  <div class="section-class">
 	 <div class="section-class-header">
-    <input class="button-header" type="button" id={"reset"} value="Reset" on:click={reset}/>
+			<input class="button-header" type="button" id={"reset"} value="Reset" on:click={reset}/> 
+			<input class="button-header" type="button" id={"reset"} value="MasterTwin" on:click={twin}/>
 	</div>
 	<div class="section-class-body">
 		{#each sections as section, idx}
 			<div class="section-class-item">
 			<span>{section.name}</span>
 			<div class="button-div">
-			<input type="button" id={idx+""} value="Show" on:click={fly}/>
-			{#if section.twin}
-				<input type="button" id={idx+""} value="Twin" on:click={twin}/>
-			{/if}
+			<input type="button" id={idx+""} value="Map" on:click={fly}/>
 			{#if section.d3}
-				<input type="button" id={idx+""} value="3D" on:click={d3}/>
+				<input type="button" id={idx+""} value="3D-Sat" on:click={d3}/>
+			{/if}
+			{#if section.twin}
+				<input type="button" id={idx+""} value="SectTwin" on:click={twinsection}/>
 			{/if}
 			</div>
 			</div>

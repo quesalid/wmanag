@@ -9,10 +9,10 @@
 
 </script>
  
-<div class="custom-entity-node">
+<div class="custom-entity-node" style="background-color: {data.color} ;">
   <Handle type="target" position={Position.Left} />
-  <div style="background-color: {data.color} ;">
-		<span id={data.spanid}>{data.label}</span>
+  <div>
+		<div  class="custom-entity-node-label" id={data.spanid}>{data.label}</div>
   </div>
   <div />
   <Handle type="source" position={Position.Right} />
