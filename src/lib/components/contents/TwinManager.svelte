@@ -35,6 +35,7 @@ export let boxshadow = "0px 0px 0px 0px #000000"
 export let managerid = 'twinManagerId'
 // INTERNAL VARIABLES
 let section:any = {}
+let twinClassId = "twin-class-id";
 
 
 onMount(async () => {
@@ -44,7 +45,10 @@ onMount(async () => {
 	wmanag?.addEventListener('show', (e:any) => {
 		wmanag.style.visibility = 'visible'
 		section=e.detail
-		title = section.name
+		title = section.name + ' Digital Twin'
+		// send event to twin
+		const twin = document.getElementById(twinClassId);
+		twin?.dispatchEvent(new CustomEvent('show', {detail:section}))
 	})
 	wmanag?.addEventListener('hide', (e:any) => {
 		wmanag.style.visibility = 'hidden'
@@ -77,7 +81,7 @@ onMount(async () => {
 		{bordercolor}
 		{boxshadow}>
 		<div  slot="bodycontent">
-			<Twin bind:section={section}/>
+			<Twin bind:section={section} twinClassId={twinClassId}/>
 		</div>
 	</WManag>
 </div>

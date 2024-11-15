@@ -141,25 +141,24 @@ let mocksectcoords = [
 		type: "Point",
 		image: "salisano.svg",
 		twin: {
-			uid: "Salisano-v.1.0.0",
+			uid: "AcqPeschiera-v.1.0.0",
 			model: {
-				type: "LSTM",
-				hidden_layers: 2,
-				hidden_neurons: 10,
+				type: "RNNTimeStep",
+				size: '6,32,16,1',
 				epochs: 100,
 				optimizer: "adam",
 				loss: "mean_squared_error",
 			},
 			input_vector: [
-				{ tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value:9.1 },
-				{ tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value:4 },
-				{ tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
-				{ tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
-				{ tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
-				{ tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "s1fl", tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
+				{ label: "s2fl", tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value: 4 },
+				{ label: "l1vl1", tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
+				{ label: "l1vl2", tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
+				{ label: "l2vl1", tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
+				{ label: "l2vl2", tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
 			],
 			output_vector: [
-				{tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 }
+				{ label: "power", tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 },
 			]
 		},
 		d3: {
@@ -221,23 +220,30 @@ const twindata = [
 		twin: {
 			uid: "AcqPeschiera-v.1.0.0",
 			model: {
-				type: "LSTM",
-				hidden_layers: 2,
-				hidden_neurons: 10,
+				type: "RNNTimeStep",
+				size: '12,64,32,3',
 				epochs: 100,
 				optimizer: "adam",
 				loss: "mean_squared_error",
 			},
 			input_vector: [
-				{ tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
-				{ tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value: 4 },
-				{ tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
-				{ tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
-				{ tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
-				{ tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+				{ label:"s1fl",tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
+				{ label: "s2fl",tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value: 4 },
+				{ label: "l1vl1",tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
+				{ label: "l1vl2",tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
+				{ label: "l2vl1",tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
+				{ label: "l2vl2", tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "l3vl1", tag: "SAL-OTT-VALV1", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "l3vl2", tag: "SAL-OTT-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "l4vl1", tag: "SAL-MCAR-VALV1", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "l4vl2", tag: "SAL-MCAR-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "o1fl", tag: "OTT-OUTFLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
+				{ label: "o2fl", tag: "MCAR-OUTFLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
 			],
 			output_vector: [
-				{ tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 }
+				{ label: "power", tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 },
+				{ label: "tlev1", tag: "OTT-LEVEL", unit: "%", max: 100, min: 0, value: 78.6 },
+				{ label: "tlev2", tag: "MCAR-LEVEL", unit: "%", max: 100, min: 0, value: 78.6 },
 			]
 		},
 		sections: mocksectcoords,

@@ -4,6 +4,7 @@ import TwinStats from './TwinStats.svelte';
 import  TwinImage  from './TwinImage.svelte';
 import TwinModel from './TwinModel.svelte';
 export let section:any = {name:null,image:null}
+export let twinClassId = "twin-class-id";
 
 let showModel = false;
 let showSimulation = true;
@@ -28,12 +29,21 @@ onMount(() => {
 	showModel = false;
 	showSimulation = true;
 	showStats = false;
-	highlightButton("twin-info-button");
+	highlightButton("twin-sim-button");
+	// add event listenet to show twin
+	const twin = document.getElementById(twinClassId);
+	twin?.addEventListener('show', (e:any) => {
+		console.log("TWIN",section)
+		showModel = false;
+		showSimulation = true;
+		showStats = false;
+		highlightButton("twin-sim-button");
+	})
 	
 })
 
 const onClickModel = (ev:any) => {
-	console.log("TWIN",section)
+	console.log("TWIN Model",section)
 	showModel = true;
 	showSimulation = false;
 	showStats = false;
@@ -42,7 +52,7 @@ const onClickModel = (ev:any) => {
 }
 
 const onClickSimulation = (ev:any) => {
-	console.log("TWIN",section)
+	console.log("TWIN Simulation",section)
 	showModel = false;
 	showSimulation = true;
 	showStats = false;
@@ -50,15 +60,16 @@ const onClickSimulation = (ev:any) => {
 }
 
 const onClickStats = (ev:any) => {
-	console.log("TWIN",section)
+	console.log("TWIN Stats",section)
 	showModel = false;
 	showSimulation = false;
 	showStats = true;
 	highlightButton("twin-stats-button");
 }
 
+
 </script>
- <div class="twin-class">
+ <div class="twin-class" id={twinClassId}>
 	 <div class="twin-class-header">
 		<input class="button-header" type="button" id={"twin-sim-button"} value="Run" on:click={onClickSimulation}/>
 		<input class="button-header" type="button" id={"twin-model-button"} value="Model" on:click={onClickModel}/>

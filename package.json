@@ -43,6 +43,7 @@
     "@turf/turf": "^7.1.0",
     "@xyflow/svelte": "^0.1.21",
     "bayesjs": "^0.6.5",
+    "brain.js": "^2.0.0-beta.24",
     "cesium": "^1.123.1",
     "date-fns": "^4.1.0",
     "date-picker-svelte": "^2.14.0",
