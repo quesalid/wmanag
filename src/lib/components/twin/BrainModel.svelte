@@ -12,7 +12,7 @@ export let conf:any ={
 };
 
 export let options:any = {
-        height: 400,
+        height: 380,
         width: 600,
         radius: 6,
         line: {
@@ -34,7 +34,7 @@ export let options:any = {
         recurrentLine: {
           color: '#f00',
         },
-        fontSize: '14px',
+        fontSize: '12px',
       }
 
 let element:any;
@@ -48,7 +48,7 @@ onMount(() => {
     const labels:any = document.querySelectorAll('svg .label');
     const tooltip:any = document.getElementById('tooltip');
 
-        labels.forEach(label => {
+        labels.forEach((label:any) => {
             // Aggiungi l'event listener per il mouseover
             label.addEventListener('mouseover', (event:any) => {
                 let textContent = event.target.textContent;

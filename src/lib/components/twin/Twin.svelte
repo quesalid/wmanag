@@ -112,7 +112,6 @@ const onClickStats = (ev:any) => {
 }
 .twin-class-model{
 	padding: 10px;
-	width: 50%;
 }
 .button-header{
 	cursor:pointer;
