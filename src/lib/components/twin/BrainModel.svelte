@@ -96,6 +96,9 @@ const drawNetwork = (conf:any,element:any,options:any,useJson=false) =>{
         RNN: (config:any) => {
             return new brain.recurrent.RNN(config);
         },
+        LSTM: (config:any) => {
+            return new brain.recurrent.LSTM(config);
+        },
         RNNTimeStep: (config:any) => {
             return new brain.recurrent.RNNTimeStep(config);
         },

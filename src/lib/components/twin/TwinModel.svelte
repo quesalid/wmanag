@@ -6,6 +6,7 @@ import BrainModel from './BrainModel.svelte'
 export let section:any = {name:null,image:null}
 
 let sizearray:any = [1,1,1,1]
+let levels = sizearray.slice(1,sizearray.length-1)
 
  onMount(() => {
     if(section && section.twin && section.twin.model ){
@@ -16,6 +17,7 @@ let sizearray:any = [1,1,1,1]
 			conf._inputs = section.twin.model.input_vector.map((item:any) => item.label).join(',');
 		}
 		sizearray = conf.size.split(',').map((item:any) => parseInt(item));
+		levels = sizearray.slice(1,sizearray.length-1)
 	}
   });
   
@@ -36,6 +38,7 @@ $: {
 			conf._extinputs = section.twin.input_vector
 		}
 		sizearray = conf.size.split(',').map((item:any) => parseInt(item));
+		levels = sizearray.slice(1,sizearray.length-1)
 		conf=conf
 	}
 }
@@ -62,6 +65,14 @@ $: {
 						<div class='twin-model-main-label'>Livelli:</div>
 						<input class='twin-model-main-value' disabled type="text"  name="type" value="{sizearray.length-2}">
 					</div>
+					{#if levels.length > 0}
+						{#each levels as level, index}
+							<div class="twin-model-main-item">
+								<div class='twin-model-main-label'>Nodi livello {index+1}:</div>
+								<input class='twin-model-main-value' disabled type="text"  name="type" value="{level}">
+							</div>
+						{/each}
+					{/if}
 				</fieldset>
 			</div>
 			<div class="twin-model-right">

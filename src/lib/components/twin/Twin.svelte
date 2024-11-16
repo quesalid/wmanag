@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount } from 'svelte';
 import TwinStats from './TwinStats.svelte';
-import  TwinImage  from './TwinImage.svelte';
+import  TwinRun  from './TwinRun.svelte';
 import TwinModel from './TwinModel.svelte';
 export let section:any = {name:null,image:null}
 export let twinClassId = "twin-class-id";
@@ -77,7 +77,7 @@ const onClickStats = (ev:any) => {
 	</div>
 	<div class="twin-class-body">
 		{#if showSimulation}
-			<TwinImage bind:section={section}/>
+			<TwinRun bind:section={section}/>
 		{/if}
 		{#if showModel}
 			<div class="twin-class-model">

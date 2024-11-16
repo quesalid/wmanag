@@ -271,6 +271,7 @@ const barYStacked = (data, opts) => {
     return option;
 }
 
+
 const EchartOptions = {
     calendarPie: calendarPie,
     gradientStackedArea: gradientStackedArea,

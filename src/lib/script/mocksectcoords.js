@@ -220,7 +220,7 @@ const twindata = [
 		twin: {
 			uid: "AcqPeschiera-v.1.0.0",
 			model: {
-				type: "RNNTimeStep",
+				type: "LSTM",
 				size: '12,64,32,3',
 				epochs: 100,
 				optimizer: "adam",

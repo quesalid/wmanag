@@ -12,10 +12,10 @@
 
 </script>
 
-<label class="switch" style="--width:{width};--heigth:{height}">
+<div class="switch" style="--width:{width};--heigth:{height}">
   <input type="checkbox"  style="--background-color:{color} ;" on:change={onCheck} checked={checked}/>
   <span class="slider" style="--border-radius:{height}"/>
-</label>
+</div>
 
 <style>
   .switch {
@@ -26,7 +26,7 @@
   }
 
   .switch input {
-    opacity: 0;
+    opacity: 1;
     width: 0;
     height: 0;
   }

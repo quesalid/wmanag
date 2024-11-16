@@ -74,6 +74,8 @@ const gradientStackedAreaVirtualData = (opts = null) => {
 }
 
 
+
+
 const calendarPieData = (data, opts = null) => {
     let initdate = '2017-01-01';
     let enddate = '2017-12-31';
@@ -111,6 +113,7 @@ const barYStackedData = (data, opts = null) => {
     data = barStackedVirtualData(optsdata);
     return data
 }
+
 
 const EchartData = {
     piData: getPieData,
