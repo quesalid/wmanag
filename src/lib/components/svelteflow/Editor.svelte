@@ -2,8 +2,15 @@
   import { SvelteFlowProvider } from '@xyflow/svelte';
 
   import Flow from './Flow.svelte';
-  import FlowClone from './FlowClone.svelte';
   import DnDProvider from './DnDProvider.svelte';
+  import {MainEntityNode, 
+            AreaEntityNode, 
+            LocalEntityNode,
+            ControlledEntityNode,
+            ControllerNode,
+            PhaseNode,
+            TaskNode,
+            ProcessNode} from './nodes';
 
   // EXTRENAL VARIABLES
   export let maintop = "55px"
@@ -14,14 +21,27 @@
       console.log("SAVE GRAPH")
   }
   export let editortype = "data"
+
+let nodeTypesNames = editortype=='data'? ['mainEntity','areaEntity','localEntity','controlledEntity','controller'] : ['process','phase','task']
+
+  export
+let  nodeTypes = editortype=='data'? {
+    mainEntity: MainEntityNode,
+    areaEntity: AreaEntityNode,
+    localEntity: LocalEntityNode,
+    controlledEntity: ControlledEntityNode,
+    controller: ControllerNode,
+  }: {
+    phase: PhaseNode,
+    task: TaskNode,
+    process: ProcessNode
+  };
 </script>
 
 <SvelteFlowProvider>
   <DnDProvider>
-    {#if editortype == "clone"}
-        <FlowClone {load} {save} maintop = {maintop}/>
-    {:else}
-        <Flow {load} {save} maintop = {maintop}/>
-	{/if}
+   
+        <Flow {load} {save} maintop = {maintop} nodeTypesNames={nodeTypesNames} {nodeTypes}/>
+	
   </DnDProvider>
 </SvelteFlowProvider>

@@ -8,11 +8,12 @@
 
   // EXPORT VARIABLE
   export let nodePanelId = 'NodePanelId'
+  export let nodeTypesNames = ['mainEntity','areaEntity','localEntity','controlledEntity','controller']
 
   //const type = useDnD();
-  const dndobject = useDnD()
-  const nodes = useNodes();
-  const edges = useEdges();
+  const dndobject:any = useDnD()
+  const nodes:any = useNodes();
+  const edges:any = useEdges();
 
   const onDragStart = (event: DragEvent, nodeType: string, nodeColor:string|null) => {
     if (!event.dataTransfer) {
@@ -123,45 +124,14 @@
   <div class="aside-menuaction" on:click={clear}>Clear</div>
   <div class="aside-nodes-container">
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div style="background-color: {getNodeColor('mainEntity')} ;"
-      class="custom-entity-node aside-node"
-      on:dragstart={(event) => onDragStart(event, 'mainEntity',getNodeColor('mainEntity'))}
-      draggable={true}
-    >
-      {getNodeLabel('mainEntity')}
-    </div>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div  style="background-color: {getNodeColor('areaEntity')} ;"
-      class="custom-entity-node aside-node"
-      on:dragstart={(event) => onDragStart(event, 'areaEntity',getNodeColor('areaEntity'))}
-      draggable={true}
-    >
-      {getNodeLabel('areaEntity')}
-    </div>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div  style="background-color: {getNodeColor('localEntity')} ;"
-      class="custom-entity-node aside-node"
-      on:dragstart={(event) => onDragStart(event, 'localEntity',getNodeColor('localEntity'))}
-      draggable={true}
-    >
-      {getNodeLabel('localEntity')}
-    </div>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div  style="background-color: {getNodeColor('controlledEntity')} ;"
-      class="custom-entity-node aside-node"
-      on:dragstart={(event) => onDragStart(event, 'controlledEntity',getNodeColor('controlledEntity'))}
-      draggable={true}
-    >
-      {getNodeLabel('controlledEntity')}
-    </div>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <div  style="background-color: {getNodeColor('controller')} ;"
-      class="custom-entity-node aside-node"
-      on:dragstart={(event) => onDragStart(event, 'controller',getNodeColor('controller'))}
-      draggable={true}
-    >
-      {getNodeLabel('controller')}
-    </div>
+    {#each nodeTypesNames as nodeType}
+	  <div style="background-color: {getNodeColor(nodeType)} ;"
+		class="custom-entity-node aside-node"
+		on:dragstart={(event) => onDragStart(event, nodeType,getNodeColor(nodeType))}
+		draggable={true}>
+		{getNodeLabel(nodeType)}
+	  </div>
+	{/each}
   </div>
 </aside>
 

@@ -42,11 +42,12 @@
   export let save = (ev:any) =>{
       console.log("SAVE GRAPH")
   }
+  export let nodeTypesNames = ['mainEntity','areaEntity','localEntity','controlledEntity','controller']
 
   // INTERNAL VARIABLES
   let nodePanelId = 'NodePanelId'
 
-  const nodeTypes = {
+  export let  nodeTypes = {
     mainEntity: MainEntityNode,
     areaEntity: AreaEntityNode,
     localEntity: LocalEntityNode,
@@ -56,51 +57,16 @@
 
   // Nodes and Edges
   export let nodes:any = writable([
-    /*{
-      id: '1',
-      type: 'mainEntity',
-      data: { label: 'Main Entity Node', color: getNodeColor('mainEntity')},
-      position: { x: 150, y: 5 },
-      ...nodeDefaults
-    },
-    {
-      id: '2',
-      type: 'areaEntity',
-      data: { label: 'Area Entity Node', color: getNodeColor('areaEntity') },
-      position: { x: 0, y: 150 },
-      ...nodeDefaults
-    },
-    {
-      id: '3',
-      type: 'output',
-      data: { label: 'Output Node',value:30.0, color: getNodeColor('output') },
-      position: { x: 300, y: 150 },
-      ...nodeDefaults
-    }*/
   ]);
 
   setContext('nodes', nodes);
 
   export let edges:any = writable([
-    /*{
-      id: '1-2',
-      type: 'default',
-      source: '1',
-      target: '2'
-    },
-    {
-      id: '1-3',
-      type: 'default',
-      source: '1',
-      target: '3'
-    }*/
   ]);
 
    setContext('edges', edges);
 
     onDestroy(() => {
-    //nodes.set(null);
-    //edges.set(null);
   });
 
   // ***** Manage Drag and Drop *****
@@ -183,7 +149,7 @@
 </script>
 
 <div id="MainEditorDiv" style="top:{maintop};" bind:clientWidth={width} bind:clientHeight={height}>
-  <Sidebar {load} {save}/>
+  <Sidebar {load} {save} nodeTypesNames={nodeTypesNames}/>
   <SvelteFlow {nodes} 
                {edges} 
                fitView 
@@ -212,4 +178,5 @@
 </div>
 
 <style>
+
 </style>
