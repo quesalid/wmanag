@@ -1105,6 +1105,14 @@ let profiles = [
                         { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
                         { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
                     ]
+                ],
+                'ai': [
+                    [
+                        { icon: '/BUILD.svg', text: `Build`, link: '/brain' },
+                    ], [
+                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                    ]
                 ]
             }
         }

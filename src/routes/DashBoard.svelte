@@ -156,19 +156,23 @@
 						ret = []
 						break;
 				}
-				for(let i=0;i<ret.data.length;i++){
-					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
-					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
-					if(index > -1)
-						ret.data[i].machineName = machines[index].name
-					else
-						ret.data[i].machineName = 'NOTFOUND'
-					if(index1 > -1)
-						ret.data[i].controllerName = controllers[index1].name
-					else
-						ret.data[i].controllerName = 'NOTFOUND'
+				if(ret && ret.data){
+					for(let i=0;i<ret.data.length;i++){
+						const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+						const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
+						if(index > -1)
+							ret.data[i].machineName = machines[index].name
+						else
+							ret.data[i].machineName = 'NOTFOUND'
+						if(index1 > -1)
+							ret.data[i].controllerName = controllers[index1].name
+						else
+							ret.data[i].controllerName = 'NOTFOUND'
+					}
+					resolve(ret.data)
+				}else{
+					resolve([])
 				}
-				resolve(ret.data)
 		})
 	}
 
@@ -201,19 +205,24 @@
 					ret = []
 					break;
 			}
-			for(let i=0;i<ret.data.length;i++){
-				const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
-				const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
-				if(index > -1)
-					ret.data[i].machineName = machines[index].name
-				else
-					ret.data[i].machineName = 'NOTFOUND'
-				if(index1 > -1)
-					ret.data[i].controllerName = controllers[index1].name
-				else
-					ret.data[i].controllerName = 'NOTFOUND'
+			// check if ret data not empty
+			if(ret && ret.data){
+				for(let i=0;i<ret.data.length;i++){
+					const index = machines.findIndex((item:any)=>item.uid == ret.data[i].machine)
+					const index1 = controllers.findIndex((item:any)=>item.uid == ret.data[i].controller)
+					if(index > -1)
+						ret.data[i].machineName = machines[index].name
+					else
+						ret.data[i].machineName = 'NOTFOUND'
+					if(index1 > -1)
+						ret.data[i].controllerName = controllers[index1].name
+					else
+						ret.data[i].controllerName = 'NOTFOUND'
+				}
+				resolve(ret.data)
+			}else{
+				resolve([])
 			}
-			resolve(ret.data)
 		})
 	
 	}

@@ -1,6 +1,7 @@
 <script lang='ts'>
 // https://v2.scrimba.com/neural-networks-in-javascript-c01f
 // https://wagenaartje.github.io/neataptic/
+// loss function https://github.com/BrainJS/brain.js/discussions/934
 import { onMount } from 'svelte';
 import * as brain from 'brain.js'
 

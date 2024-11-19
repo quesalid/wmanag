@@ -34,6 +34,7 @@ import Configure from "./routes/Configure.svelte"
 import ConfigureAgent from "./routes/ConfigureAgent.svelte"
 import BuildData from "./routes/BuildData.svelte";
 import GraphBayes from "./routes/GraphBayes.svelte"
+import NeuralBrain from "./routes/NeuralBrain.svelte"
 import Deploy from "./routes/Deploy.svelte"
 import Monitor from "./routes/Monitor.svelte"
 import Admin from "./routes/Admin.svelte"
@@ -249,6 +250,14 @@ export let  avatarsize = "w-10"
     </Route>
     <Route path="/ai/build">
         <GraphBayes logoImage="/ICO_UP2_AI.png" logout="/ailogin"  
+            bgcolor={bgcolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
+    </Route>
+     <Route path="/ai/brain">
+        <NeuralBrain logoImage="/ICO_UP2_AI.png" logout="/ailogin"  
             bgcolor={bgcolor}
             barheigth = {barheigth}
 	        imgheight = {imgheight}

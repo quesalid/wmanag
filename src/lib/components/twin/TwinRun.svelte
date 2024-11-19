@@ -9,8 +9,8 @@ import { option, startSim, stopSim } from './chartoptions'
 
 export let section:any
 
-const colorReal = '#f55';
-const colorSimulated = '#2196F3';
+const colorReal = '#2196F3';
+const colorSimulated = '#21f321';
 let statusvar = 'Real';
 let startvar = false;
 let myChart:any;
@@ -146,7 +146,7 @@ $: {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #f99;
+  background-color: #2196F3;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -164,7 +164,7 @@ $: {
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #21f321;
 }
 
 input:focus + .slider {
