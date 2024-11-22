@@ -1,3 +1,6 @@
+/**
+ * API Data Configuration
+ */
 import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.js';
 import mocks from './mockdataconfig.js';
 
@@ -1467,17 +1470,17 @@ export const getAddressFromCoordinates = async function (coords,apikey) {
 }
 
 /**
- * Get section coordinates
+ * Get section data
  * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
  * @param {any} mock use mock flag (default false)
  */
-export const getSectionCoords = async function (filters, mock = false) {
+export const getSectionData = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "getSectionCoords",
+            command: "getSectionData",
             options: {
                 filters: filters
             }
@@ -1492,23 +1495,23 @@ export const getSectionCoords = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.getSectionCoords(body))
+            resolve(mocks.getSectionData(body))
         }
     })
 }
 
 /**
- * Set SectionCoords
+ * Set SectionData
  * @param {any} plant plant to set (add or update)
  * @param {any} mock use mock flag (default false)
  */
-export const setSectionCoords = async function (section, mock = false) {
+export const setSectionData = async function (section, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "setSectionCoords",
+            command: "setSectionData",
             options: {
                 section: section
             }
@@ -1523,23 +1526,23 @@ export const setSectionCoords = async function (section, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.setSectionCoords(body))
+            resolve(mocks.setSectionData(body))
         }
     })
 }
 
 /**
-* Delete SectionCoords
+* Delete SectionData
 * @param {any} filters array of selection filters [{op:operation,name:field,value:field value}] 
 * @param {any} mock use mock flag (default false)
 */
-export const deleteSectionCoords = async function (filters, mock = false) {
+export const deleteSectionData = async function (filters, mock = false) {
     return new Promise((resolve, reject) => {
         const url = baseUrl + '/command'
         const body = {
             type: "api",
             version: 1.0,
-            command: "deleteSectionCoords",
+            command: "deleteSectionData",
             options: {
                 filters: filters
             }
@@ -1554,7 +1557,7 @@ export const deleteSectionCoords = async function (filters, mock = false) {
                     reject(error)
                 })
         } else {
-            resolve(mocks.deleteSectionCoords(body))
+            resolve(mocks.deleteSectionData(body))
         }
     })
 }

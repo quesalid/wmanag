@@ -1,3 +1,6 @@
+/**
+ * API for edge agent
+ */
 import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.js';
 import mocks from './mockdataagent.js';
 

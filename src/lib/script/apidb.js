@@ -1,3 +1,6 @@
+/**
+ * API for db operations
+ */
 import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.js';
 import mocks from './mockdb.js';
 

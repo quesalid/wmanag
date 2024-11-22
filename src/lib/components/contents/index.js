@@ -22,10 +22,12 @@ export { default as CommManager } from './CommManager.svelte';
 export { default as ChartManager } from './ChartManager.svelte';
 export { default as ChartChoiceManager } from './ChartChoiceManager.svelte';
 export { default as FireSimManager } from './FireSimManager.svelte';
-export { default as WaterMapManager } from './WaterMapManager.svelte';
+export { default as NetMapManager } from './NetMapManager.svelte';
 export { default as SectionManager } from './SectionManager.svelte';
 export { default as TwinManager } from './TwinManager.svelte';
 export { default as D3Manager } from './D3Manager.svelte';
+export { default as AIManager } from './AIManager.svelte';
+
 
 
 

@@ -39,7 +39,7 @@ export let initlon = 7.0;
 export let initzoom = 10;
 // DATA EXPORTS
 export let managerid = 'sectionManagerId'
-export let sectionCoords:any
+export let sectionData:any
 export let twindata:any
 export let map:any
 export let twinwin = 'defaultTwinManager'
@@ -58,8 +58,8 @@ onMount(async () => {
 })
 
 $:  { 
-		for(let i=0;i<sectionCoords.length;i++) {
-			let line = sectionCoords[i];
+		for(let i=0;i<sectionData.length;i++) {
+			let line = sectionData[i];
 			let section = new Section(line);
 			sections.push(section)
 		}

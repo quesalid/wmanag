@@ -21,7 +21,7 @@ function getPopUp(section: Section) {
                         </div>`+ twinbutton + d3button
                         +`</div>`;
 
-    const popupElement = div.firstChild;
+    const popupElement:any = div.firstChild;
     // get the button
     const buttonTwin = popupElement?.querySelector(`#button-${section.name}`);
     // add the event listener
@@ -139,7 +139,7 @@ export class Section {
         let section: any;
         if (mySection.properties.radius) {
             myStyle.radius = mySection.properties.radius;
-            const coords =[ mySection.geometry.coordinates[0][1], mySection.geometry.coordinates[0][0]];
+            const coords:any =[ mySection.geometry.coordinates[0][1], mySection.geometry.coordinates[0][0]];
             section = new L.Circle(coords, myStyle)
             /**  POPOUP BUILD */
             const popup = getPopUp(this);

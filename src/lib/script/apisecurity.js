@@ -1,3 +1,6 @@
+/**
+ * API for user management and security
+ */
 // @ts-nocheck
 import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.js';
 import mocks from './mocksecurity.js';

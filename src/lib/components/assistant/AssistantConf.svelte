@@ -1,4 +1,5 @@
 <script lang="ts">
+// use vosk for speech recognition
 import { onMount} from "svelte";
 // INTERNAL
 import Switch from "../switch/Switch.svelte"

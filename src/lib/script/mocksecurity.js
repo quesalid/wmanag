@@ -81,6 +81,19 @@ let users = [
         createdAt: '2024-02-25T17:23:06.705859',
         updatedAt: '2024-02-25T17:23:06.705859'
     },
+    {
+        uid: '59a96a22-96cd-43a1-4a56-f7845622a77e',
+        username: 'valerio.vezzari@globalsensing.it',
+        password: 'valerio',
+        name: 'Valerio',
+        surname: 'Vezzari',
+        permissions: [],
+        role: 'ADMIN',
+        status: 'active',
+        confirmationCode: null,
+        createdAt: '2024-02-25T17:23:06.705859',
+        updatedAt: '2024-02-25T17:23:06.705859'
+    },
 ]
 
 let profiles = [
@@ -162,7 +175,7 @@ let profiles = [
                         }
                     },
                     {
-                        id: 'Watermap',
+                        id: 'Netmap',
                         name: 'Acquedotto Peschiera',
                         top: '0px',
                         left: '0px',
@@ -965,7 +978,7 @@ let profiles = [
                         }
                     },
                     {
-                        id: 'Watermap',
+                        id: 'Netmap',
                         name: 'Acquedotto Peschiera',
                         top: '1vh',
                         left: '1vw',
@@ -1068,12 +1081,12 @@ let profiles = [
                 module: 'AI',
                 windows: [
                     {
-                        id: 'Donut',
-                        name: 'Corona',
+                        id: 'AIManager',
+                        name: 'AI Dashboard',
                         top: '10px',
                         left: '10px',
-                        width: '233px',
-                        height: '300px',
+                        width: '98vw',
+                        height: '90vh',
                         visible: "visible",
                         image: 'Donut.png',
                     }
@@ -1117,6 +1130,237 @@ let profiles = [
             }
         }
     },
+    {
+        uid: '59a96a22-96cd-43a1-4a56-f7845622a77e',
+        language: 'it',
+        locale: 'it-IT',
+        avatar: '/vvezzari.png',
+        data: {
+            family: 'INDUSTRY'
+        },
+        dashboard: [
+            {
+                module: 'DEFAULT',
+                windows: [
+                    {
+                        id: 'Donut',
+                        name: 'Corona',
+                        top: '10px', left: '10px',
+                        width: '233px',
+                        height: '300px',
+                        visible: "visible",
+                        image: 'Donut.png',
+                    }
+                ]
+            },
+            {
+                module: 'DATA',
+                windows: [
+                    {
+                        id: 'Donut',
+                        name: 'Corona',
+                        top: '380px',
+                        left: '10px',
+                        width: '233px',
+                        height: '300px',
+                        visible: "hidden",
+                        image: 'Donut.png',
+                    },
+                    {
+                        id: 'Map',
+                        name: 'Mappa',
+                        top: '0px',
+                        left: '10px',
+                        width: '600px',
+                        visible: "hidden",
+                        height: '340px',
+                        image: 'Map.png',
+                        params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
+                    },
+                    {
+                        id: 'Alarms',
+                        name: 'Allarmi',
+                        top: '0px',
+                        left: '620px',
+                        height: '350px',
+                        width: '850px',
+                        image: 'Alarms.png',
+                        visible: "hidden"
+                    },
+                    {
+                        id: 'Firesim',
+                        name: 'Simulazione Incendio',
+                        top: '0px',
+                        left: '0px',
+                        height: '600px',
+                        width: '1000px',
+                        image: 'Firesim.png',
+                        visible: "hidden",
+                        params: {
+                            initlat: 41.895,
+                            initlon: 12.62799,
+                            initzoom: 14,
+                            maxzoom: 19,
+                            fswidth: '100%',
+                            fsheight: '130vh',
+                            cellSize: 0.035,
+                            bbox: [12.61800, 41.90838, 12.65048, 41.89052],
+                        }
+                    },
+                    {
+                        id: 'Netmap',
+                        name: 'Acquedotto Peschiera',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                            initlat: 42.0000,
+                            initlon: 12.73997,
+                            initzoom: 9,
+                            maxzoom: 19,
+                            fswidth: '100%',
+                            fsheight: '130vh',
+                        }
+                    },
+                    {
+                        id: 'Section',
+                        name: 'Sezioni acquedotto',
+                        top: '1vh',
+                        left: '62vw',
+                        height: '70vh',
+                        width: '25vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
+                    {
+                        id: 'Twin',
+                        name: 'Twin sezione',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
+                    {
+                        id: 'D3',
+                        name: 'Vista 3D',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
+                    {
+                        id: 'Communication',
+                        name: 'Comunicazione',
+                        top: '46vh',
+                        left: '70vw',
+                        height: '46vh',
+                        width: '25vw',
+                        image: 'Communication.png',
+                        visible: "hidden",
+                        params: {
+                            showHeader: false,
+                            showCheckbox: true,
+                            showFullHistory: true,
+                            showImage: true,
+                            showMessageInput: true,
+                            chatImage: "ChatBot.png",
+                            type: "GENERATIVE",
+                        }
+                    }
+                ]
+            },
+            {
+                module: 'CLONE',
+                windows: [
+                    {
+                        id: 'Donut',
+                        name: 'Corona',
+                        top: '10px',
+                        left: '10px',
+                        width: '233px',
+                        height: '300px',
+                        image: 'Donut.png',
+                        visible: "visible"
+                    },
+                    {
+                        id: 'Monitor',
+                        name: 'Monitor',
+                        top: '358px',
+                        left: '10px',
+                        height: '320px',
+                        width: '980px',
+                        visible: "visible",
+                        image: 'Monitor.png',
+                    },
+                ]
+            },
+            {
+                module: 'AI',
+                windows: [
+                    {
+                        id: 'AIManager',
+                        name: 'AI Dashboard',
+                        top: '10px',
+                        left: '10px',
+                        width: '98vw',
+                        height: '90vh',
+                        visible: "visible",
+                        image: 'Donut.png',
+                    }
+                ]
+            },
+            {
+                module: 'LEARN',
+                windows: [
+                    {
+                        id: 'Donut',
+                        name: 'Corona',
+                        top: '10px',
+                        left: '10px',
+                        width: '233px',
+                        height: '300px',
+                        visible: "visible",
+                        image: 'Donut.png',
+                    }
+                ]
+            }
+        ],
+        topbar: {
+            groups: {
+                'data': [
+                    [
+                        { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                        { icon: '/BUILD.svg', text: `Build`, link: '/build' },
+                    ], [
+                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                    ]
+                ],
+                'ai': [
+                    [
+                        { icon: '/BUILD.svg', text: `Build`, link: '/brain' },
+                    ], [
+                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                    ]
+                ]
+            }
+        }
+    },
+
 ]
 
 /** MORGAN CONFIGURATION FOR LOG

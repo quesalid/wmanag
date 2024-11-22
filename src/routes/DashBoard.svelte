@@ -24,10 +24,11 @@
 			BatchDetail,
 			SynBatchDetail,
 			FireSimManager,
-			WaterMapManager,
+			NetMapManager,
 			SectionManager,
 			TwinManager,
-			D3Manager} from '../lib/components/contents'
+			D3Manager,
+			AIManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -40,7 +41,7 @@
 			getControllers,
 			getLearnPoints,
 			getClonePoints,
-			getSectionCoords,
+			getSectionData,
 			getTwinData} from '../lib/script/apidataconfig.js'
    import {getSecurityAlerts} from '../lib/script/apisecurity.js'
    // STORE
@@ -106,7 +107,7 @@
 	let cellSize = fsimapp && fsimapp.params && fsimapp.params.cellSize? fsimapp.params.cellSize: 0.1
 	let bbox = fsimapp && fsimapp.params && fsimapp.params.bbox? fsimapp.params.bbox: [6.5, 45, 7.5, 46]
 	
-	const waterapp = findWindow('Watermap')
+	const waterapp = findWindow('Netmap')
 	let wminitlon = waterapp && waterapp.params && waterapp.params.initlon? waterapp.params.initlon: 7.0
 	let wminitlat = waterapp && waterapp.params && waterapp.params.initlat? waterapp.params.initlat: 45.0
 	let wminitzoom = waterapp && waterapp.params && waterapp.params.initzoom? waterapp.params.initzoom: 10
@@ -130,7 +131,7 @@
 	let machines:any = []
 	let controllers:any = []
 	// VARIABLES FOR LEAFLET MAP
-	let sectionCoords:any = []
+	let sectionData:any = []
 	let psize = 2
 	let map:any
 	let twindata:any
@@ -270,7 +271,7 @@
 		// se l'array contiene un elemento assegna le sezioni del primo elemento a sectionCoords
 		if(twindataarray.length > 0){
 			twindata = twindataarray[0]
-			sectionCoords = twindata.sections
+			sectionData = twindata.sections
 		}
 		//console.log('TWIN DATA',twindata)
 		
@@ -676,8 +677,8 @@ let minscreensize = 850
 							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
-					{#if Window.id == 'Watermap'  && Window.visible == 'visible'}
-						<WaterMapManager 
+					{#if Window.id == 'Netmap'  && Window.visible == 'visible'}
+						<NetMapManager 
 							headercolor={colorScheme.wincolor}  
 							title="{Window.name}" 
 							top={Window.top} 
@@ -697,7 +698,7 @@ let minscreensize = 850
 							fsheight = {wmheight}
 							managerid= {waterMapManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
-							bind:sectionCoords={sectionCoords}
+							bind:sectionData={sectionData}
 							bind:map={map}
 						/>
 					{/if}
@@ -720,7 +721,7 @@ let minscreensize = 850
 							managerid= {sectionManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
 							bind:twindata={twindata}
-							bind:sectionCoords={sectionCoords}
+							bind:sectionData={sectionData}
 							bind:map={map}
 							twinwin='defaultTwinManager'
 							d3win='defaultD3Manager'
@@ -757,6 +758,23 @@ let minscreensize = 850
 							{titleweight}
 							{bodycolor}
 							managerid= {d3ManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+						/>
+					{/if}
+					{#if Window.id == 'AIManager' && Window.visible == 'visible'}
+						<AIManager 
+						    headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							managerid= {twinManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}

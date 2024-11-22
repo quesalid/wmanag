@@ -78,7 +78,31 @@ const serb_mc = [[12.648802384381646, 41.98613153372771,95]]
 
 const zoom = 11;
 
-let mocksectcoords = [
+let models = [
+	{
+		uid: '90a96422-56cd-f4ab-aa56-f4d45622a81e',
+		name: 'CentraleSalisano-v.1.0.0',
+		library: 'brain',
+		params: {
+			type: 'RNN',
+			size: '6,32,16,1',
+			epochs: 10000,
+		}
+	},
+	{
+		uid: '91a96422-36cd-f4ab-9a56-f4d45622a910',
+		name: 'AcqPeschiera-v.1.0.0',
+		library: 'brain',
+		params: {
+			type: 'LSTM',
+			size: '12,64,32,3',
+			epochs: 10000,
+		}
+	},
+	
+]
+
+let sections = [
 	{
 		name: "Peschiera-Salisano",
 		description: "Sezione acquedotto da sorgenti Peschiera a centrale Salisano",
@@ -141,7 +165,7 @@ let mocksectcoords = [
 		type: "Point",
 		image: "salisano.svg",
 		twin: {
-			uid: "AcqPeschiera-v.1.0.0",
+			uid: "CentraleSalisano-v.1.0.0",
 			model: {
 				type: "RNNTimeStep",
 				size: '6,32,16,1',
@@ -177,29 +201,6 @@ let mocksectcoords = [
 		d3: {
 			viwer: "line",
 		},
-		/*twin: {
-			uid: "Ottavia-v.1.0.0",
-			model: {
-				type: "LSTM",
-				hidden_layers: 2,
-				hidden_neurons: 10,
-				epochs: 100,
-				optimizer: "adam",
-				loss: "mean_squared_error",
-			}
-		},
-		input_vector: [
-				{ tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value:9.1 },
-				{ tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value:4 },
-				{ tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
-				{ tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
-				{ tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
-				{ tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
-			],
-			output_vector: [
-				{tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 }
-			]
-		*/
 	},
 	{
 		name: "Serbatoio-Monte-Carnale",
@@ -246,7 +247,7 @@ const twindata = [
 				{ label: "tlev2", tag: "MCAR-LEVEL", unit: "%", max: 100, min: 0, value: 78.6 },
 			]
 		},
-		sections: mocksectcoords,
+		sections: sections,
 	}
 ]
 
@@ -472,13 +473,13 @@ const getVegaData = (section) => {
 			return null
 	}
 }
-const sections = {
-	mocksectcoords,
+const msections = {
+	sections,
 	twindata,
 	getVegaSpecs,
 	getVegaData
 }
 
-export default sections;
+export default msections;
 
 

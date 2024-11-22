@@ -20,7 +20,7 @@ let clonephases = DBPHARMA.generateClonePhases(clonepoints, 'BATCH')
 let learnphases = DBPHARMA.generateClonePhases(learnpoints, 'BATCH')
 let companies = DBPHARMA.companies
 let alarmhists = DBPHARMA.generateAlarmHistories()
-let sectioncoords = sections.mocksectcoords
+let sectiondata = sections.sections
 let twindata = sections.twindata
 
 // ****************  INIT DB BY FAMILY *******************
@@ -607,35 +607,35 @@ const getAlarmHist = async function (body) {
     return (body)
 }
 
-const getSectionCoords = async function (body) {
-    let retSectionCoords = JSON.parse(JSON.stringify(sectioncoords))
+const getSectionData = async function (body) {
+    let retSectionData = JSON.parse(JSON.stringify(sectiondata))
     const filters = body.options.filters
     if (filters && filters.length) {
-        retSectionCoords = filterArray(retSectionCoords, filters)
+        retSectionData = filterArray(retSectionData, filters)
     }
-    body.data = retSectionCoords
+    body.data = retSectionData
     return (body)
 }
 
-const setSectionCoords = async function (body) {
-    const sectionCoords = body.options.sectionCoords
+const setSectionData = async function (body) {
+    const sectionData = body.options.sectionData
     let old = null
-    if (sectionCoords) {
-        const existing = sectioncoords.findIndex((item) => { return item.name == sectionCoords.name })
+    if (sectionData) {
+        const existing = sectiondata.findIndex((item) => { return item.name == sectionData.name })
         if (existing > -1) {
-            old = sectioncoords[existing]
-            sectioncoords[existing] = sectionCoords
+            old = sectiondata[existing]
+            sectiondata[existing] = sectionData
         } else {
-            sectioncoords.push(sectionCoords)
+            sectiondata.push(sectionData)
         }
     }
     return old
 }
 
-const deleteSectionCoords = async function (body) {
+const deleteSectionData = async function (body) {
     const filters = body.options.filters
-    sectioncoords = filterArray(sectioncoords, filters, true)
-    body.data = sectioncoords
+    sectiondata = filterArray(sectiondata, filters, true)
+    body.data = sectiondata
     return (body)
 }
 
@@ -721,9 +721,9 @@ const CONFIG = {
     setAlarmHist,
     deleteAlarmHist,
     getAlarmHist,
-    getSectionCoords,
-    setSectionCoords,
-    deleteSectionCoords,
+    getSectionData,
+    setSectionData,
+    deleteSectionData,
     getTwinData,
     setTwinData,
     deleteTwinData

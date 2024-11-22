@@ -1,3 +1,6 @@
+/**
+ * Docker API
+ */
 import { callFetchGet, callFetchPost, getCHeader, baseUrl, sleep } from './api.js';
 import mocks from './mockdocker.js';
 
