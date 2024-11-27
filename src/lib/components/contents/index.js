@@ -26,7 +26,9 @@ export { default as NetMapManager } from './NetMapManager.svelte';
 export { default as SectionManager } from './SectionManager.svelte';
 export { default as TwinManager } from './TwinManager.svelte';
 export { default as D3Manager } from './D3Manager.svelte';
+export { default as D3LibreManager } from './D3LibreManager.svelte';
 export { default as AIManager } from './AIManager.svelte';
+export { default as AssetManager } from './AssetManager.svelte';
 
 
 

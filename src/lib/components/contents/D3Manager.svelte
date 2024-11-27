@@ -1,11 +1,10 @@
 <script lang="ts">
 import {onMount, tick} from 'svelte'
-import L from 'leaflet';
+
 // INTERNAL
 import WManag from '../WManag.svelte'
 import {mock,user} from '../../ustore.js'
 import D3 from '../d3/D3.svelte'
-import D3Libre from '../d3/D3Libre.svelte'
 
 let defaultWManager = 'defaultD3Manager'
 

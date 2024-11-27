@@ -906,7 +906,8 @@ let profiles = [
         locale: 'it-IT',
         avatar: '/spetronzi.png',
         data: {
-            family: 'INDUSTRY'
+            family: 'INDUSTRY',
+            twinSelector: 'Acquedotto-Peschiera'
         },
         dashboard: [
             {
@@ -979,7 +980,7 @@ let profiles = [
                     },
                     {
                         id: 'Netmap',
-                        name: 'Acquedotto Peschiera',
+                        name: 'Acquedotto - ',
                         top: '1vh',
                         left: '1vw',
                         height: '70vh',
@@ -1136,7 +1137,8 @@ let profiles = [
         locale: 'it-IT',
         avatar: '/vvezzari.png',
         data: {
-            family: 'INDUSTRY'
+            family: 'INDUSTRY',
+            twinSelector: 'Elett-Redipuglia-Udine-Sud'
         },
         dashboard: [
             {
@@ -1209,7 +1211,7 @@ let profiles = [
                     },
                     {
                         id: 'Netmap',
-                        name: 'Acquedotto Peschiera',
+                        name: 'Linea Alta Tensione - ',
                         top: '1vh',
                         left: '1vw',
                         height: '70vh',
@@ -1217,21 +1219,21 @@ let profiles = [
                         image: 'Firesim.png',
                         visible: "visible",
                         params: {
-                            initlat: 42.0000,
-                            initlon: 12.73997,
-                            initzoom: 9,
+                            initlat: 45.79327856495463,
+                            initlon: 13.42848697655372,
+                            initzoom: 10.5,
                             maxzoom: 19,
                             fswidth: '100%',
                             fsheight: '130vh',
                         }
                     },
                     {
-                        id: 'Section',
-                        name: 'Sezioni acquedotto',
+                        id: 'Asset',
+                        name: 'Sezioni elettrodotto',
                         top: '1vh',
                         left: '62vw',
-                        height: '70vh',
-                        width: '25vw',
+                        height: '68vh',
+                        width: '28vw',
                         image: 'Firesim.png',
                         visible: "visible",
                         params: {
@@ -1250,7 +1252,7 @@ let profiles = [
                         }
                     },
                     {
-                        id: 'D3',
+                        id: 'D3Libre',
                         name: 'Vista 3D',
                         top: '1vh',
                         left: '1vw',

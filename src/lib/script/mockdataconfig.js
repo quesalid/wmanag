@@ -608,10 +608,12 @@ const getAlarmHist = async function (body) {
 }
 
 const getSectionData = async function (body) {
-    let retSectionData = JSON.parse(JSON.stringify(sectiondata))
+    //let retSectionData = JSON.parse(JSON.stringify(sectiondata))
+    let retSectionData = []
     const filters = body.options.filters
     if (filters && filters.length) {
-        retSectionData = filterArray(retSectionData, filters)
+        //retSectionData = filterArray(retSectionData, filters)
+        retSectionData = filterArray(twindata, filters)
     }
     body.data = retSectionData
     return (body)

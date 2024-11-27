@@ -28,7 +28,9 @@
 			SectionManager,
 			TwinManager,
 			D3Manager,
-			AIManager} from '../lib/components/contents'
+			D3LibreManager,
+			AIManager,
+			AssetManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -265,13 +267,15 @@
 		//const retsc = await getSectionCoords([],$mock)
 		//sectionCoords = retsc.data
 		// F1. GET TWIN DATA
-		const filters = [{name:"Acquedotto-Peschiera",_type:'eq'}]
+		const twinName = $user.profile && $user.profile.data && $user.profile.data.twinSelector?$user.profile.data.twinSelector:'defaultTwinManager'
+		const filters = [{name:twinName,_type:'eq'}]
 		const rettwin = await getTwinData(filters,$mock)
 		twindataarray = rettwin.data
 		// se l'array contiene un elemento assegna le sezioni del primo elemento a sectionCoords
 		if(twindataarray.length > 0){
 			twindata = twindataarray[0]
 			sectionData = twindata.sections
+			console.log('TWIN DATA ARRAY',sectionData,twinName)
 		}
 		//console.log('TWIN DATA',twindata)
 		
@@ -727,6 +731,26 @@ let minscreensize = 850
 							d3win='defaultD3Manager'
 						/>
 					{/if}
+					{#if Window.id == 'Asset'  && Window.visible == 'visible'}
+						<AssetManager 
+							headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							managerid= {sectionManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+							bind:twindata={twindata}
+							containerClass='map-container-maplibre'
+							d3win='defaultD3LibreManager'
+						/>
+					{/if}
 					{#if Window.id == 'Twin'  && Window.visible == 'visible'}
 						<TwinManager 
 							headercolor={colorScheme.wincolor}  
@@ -759,6 +783,24 @@ let minscreensize = 850
 							{bodycolor}
 							managerid= {d3ManagerId}
 							minimized={Window.minimized?Window.minimized:'off'}
+						/>
+					{/if}
+					{#if Window.id == 'D3Libre'  && Window.visible == 'visible'}
+						<D3LibreManager 
+							headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							managerid= {d3ManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+							containerClass='map-container-maplibre'
 						/>
 					{/if}
 					{#if Window.id == 'AIManager' && Window.visible == 'visible'}
