@@ -45,6 +45,7 @@ let mapcontainerName = 'map-3d-maplibre'
     mapcont?.addEventListener('flyToAsset', (e:any) => {
 		console.log('flyToAsset', e.detail)
 		assets = e.detail.assets?e.detail.assets:[]
+        console.log("RECEIVED ASSETS",assets)
         let asset = e.detail.asset
 		if(asset){
             // udate elevation
@@ -295,54 +296,66 @@ const modelLayer = {
             }
             return true; // Mantieni
         });
-
-         console.log("UPDATE LAYER INSIDE current assets", this.currentAssets,assets)
         // Aggiunge nuovi asset o aggiorna quelli esistenti
         for (let i=0;i< assets.length;i++) {
             let asset = assets[i];
-            let existingAsset = this.currentAssets.find((a:any) => a.userData.id === asset.userData.id);
-            const model = asset;
+            let existingAsset:any = this.currentAssets.find((a:any) => a.userData.id === asset.userData.id);
+            //const model:any = asset;
             const sceneElevation = map.queryTerrainElevation(sceneOrigin) || 0;
-            const modelElevation = map.queryTerrainElevation(model.modelLocation) || 0;
+            const modelElevation = map.queryTerrainElevation(asset.modelLocation) || 0;
             
             //const modelup = modelElevation - sceneElevation;
             const modelup = (modelElevation - sceneElevation)*3;
             const sceneOriginMercator = maplibregl.MercatorCoordinate.fromLngLat(sceneOrigin);
-            const modelMercator = maplibregl.MercatorCoordinate.fromLngLat(model.modelLocation);
+            const modelMercator = maplibregl.MercatorCoordinate.fromLngLat(asset.modelLocation);
             const { dEastMeter: modeleast, dNorthMeter: modelnorth } = calculateDistanceMercatorToMeters(sceneOriginMercator, modelMercator);
 
             if (!existingAsset) {
                 // Aggiungi nuovo asset
                 // se asset nuovo aggiungi il model
-                model.model = model.model?model.model:modelLoaded.clone();
-                console.log("non existing asset ",model.model)
+                asset.model = asset.model?asset.model:modelLoaded.clone();
+                asset.model.userData = asset.userData;
                 //if(model.model){
                     // tenere conto della exageration del terreno
                     
-                    model.model.position.set(modeleast, modelup, modelnorth);
+                    asset.model.position.set(modeleast, modelup, modelnorth);
 
-                    model.model.traverse((child) => {
-                        if (child.isMesh) {
-                            child.material.color.set(asset.userData.status === 'ALARM' ? 0xff0000 :
-                                                     asset.userData.status === 'WARNING' ? 0xffa500 :
-                                                     0x777777);
-                        }
-                    });
+                    if(asset.userData.status == 'ALARM'){
+						  asset.model.traverse((child:any) => {
+							  if (child.isMesh) {
+								  child.material = new THREE.MeshBasicMaterial({color: 0xff0000});
+							  }
+						  });
+					  }
+                      // se status è WARNING cambia colore a orange
+					  if(asset.userData.status == 'WARNING'){
+                          asset.model.traverse((child:any) => {
+                              if (child.isMesh) {
+                                  child.material = new THREE.MeshBasicMaterial({color: 0xffa500});
+							  }
+                              });
+                      }
+                      if(asset.userData.status == 'NORMAL'){
+                          asset.model.traverse((child:any) => {
+                              if (child.isMesh) {
+                                child.material = new THREE.MeshBasicMaterial({color: 0x777777});
+                              }
+                              });
+                      }
 
-                    this.scene.add(model.model);
+                    this.scene.add(asset.model);
 
-                    this.clickableObjects.push(model.model);
+                    this.clickableObjects.push(asset.model);
                 
-                    this.currentAssets.push(model);
+                    this.currentAssets.push(asset);
                 //}
             } else {
                 // Aggiorna asset esistente
-                 console.log("existing asset ",existingAsset.model)
                 existingAsset.model.position.set(modeleast, modelup, modelnorth);
-                existingAsset.model.traverse((child) => {
+                existingAsset.model.traverse((child:any) => {
                     if (child.isMesh) {
-                        child.material.color.set(asset.userData.status === 'ALARM' ? 0xff0000 :
-                                                 asset.userData.status === 'WARNING' ? 0xffa500 :
+                        child.material.color.set(existingAsset.userData.status === 'ALARM' ? 0xff0000 :
+                                                 existingAsset.userData.status === 'WARNING' ? 0xffa500 :
                                                  0x777777);
                     }
                 });
@@ -351,7 +364,7 @@ const modelLayer = {
 
         map.triggerRepaint();
         }catch(e){
-            console.log("ERROR UPDATING LAYER")
+            console.log("ERROR UPDATING LAYER",e)
         }
     },
 
