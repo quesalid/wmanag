@@ -183,7 +183,7 @@ const minimize = (event:any)=>{
 
 <style>
 	.window-menu{
-		display:var(--visibility);
+		/*display:var(--visibility);*/
 		/*align-items: left;*/
 		visibility: var(--visibility);
 		position: absolute;

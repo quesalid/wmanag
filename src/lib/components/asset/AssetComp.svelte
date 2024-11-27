@@ -44,7 +44,7 @@ const buildAssetFromCoords = (coords: number[][]) => {
             asset.addField('type','trasformator')
         }else{
 			asset.addField('descriprion','linea elettrica')
-			asset.addField('type','traliccio')}
+			asset.addField('type','tower')}
 		assets.push(asset);
 	}
 	console.log(assets)

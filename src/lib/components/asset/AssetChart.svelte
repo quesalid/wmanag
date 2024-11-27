@@ -217,6 +217,7 @@ let option:any = {
         data: timelinedata,
         autoPlay: false,
         bottom: '10%', // Posiziona la timeline in basso
+        width: '50%',
         playInterval: 2000,
         loop: false,
         controlStyle: {
@@ -227,20 +228,20 @@ let option:any = {
 
 
 </script>
-    <div class= "outer-chart-class" style="width: 600px; height: 400px;">
+    <div class= "outer-chart-class" >
 	    <div id="chartmain" style="width: {width};height: {height};"></div>
         <div class="bottom-buttons">
-        <button >
-            Pulsante Sotto il Grafico
-        </button>
-    </div>
+            <button >
+                Pulsante Sotto il Grafico
+            </button>
+        </div>
     </div>
 	
 
 <style>
 	.outer-chart-class{
         width: 80vw;
-        height: 100vh;
+        height: 80vh;
 	}
 	.bottom-buttons{
 		left: 0;

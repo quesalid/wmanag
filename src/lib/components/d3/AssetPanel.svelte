@@ -1,7 +1,7 @@
 <script lang='ts'>
 
 
-export let asset = {
+export let asset:any = {
 	code: 'C00945-B8901',
 	sensors: ['SB8901-1', 'SB8901-2', 'SB8901-3', 'SB8901-4', 'SB8901-5', 'SB8901-6'],
     alarmLeft: ['ALARM', '0', '1', '1', '2', '0', '0'],
@@ -13,25 +13,30 @@ export let asset = {
 		inc: ['INC','0°', '1°', '-2°', '1°', '2°', '3°']
 	},
     statoRight: {
-		mis: ['MIS','4A', '4B', '8A', '8B', '12A', '12B'],
+		mis: ['MIS','4C', '4D', '8C', '8D', '12C', '12D'],
 		tm: ['TM','', '', '', '', '', ''],
 		c: ['°C','80', '85', '91', '89', '91', '92'],
 		inc: ['INC','0°', '1°', '-2°', '1°', '2°', '3°']
 	}
 }
+let assetGraphManagerId = 'defaultAssetGraphManager'
 
 const togglePanel = () => {
     const panel:any = document.querySelector('.map-panel');
     //  shrink or expand the panale width
     panel.style.width = panel && panel.style.width === '18.6vw' ? '5vw' : '18.6vw';
-	const togglepanel = document.querySelector('#toggle-panel');
+	const togglepanel:any = document.querySelector('#toggle-panel');
     // hide or show the panle content
     togglepanel.style.display = togglepanel && togglepanel.style.display === 'block' ? 'none' : 'block';	
 }
 
-const callAssetGraph = (ev,asset) => {
-	console.log('callAssetGraph',asset);
+const callAssetGraph = (ev:any,asset:any) => {
+	console.log('callAssetGraph',assetGraphManagerId);
+    // send show event to assetGraphManager
+    const assetGraphManager = document.getElementById(assetGraphManagerId);
+    assetGraphManager?.dispatchEvent(new CustomEvent('show', {detail:asset}))
 }
+
 </script>
 
 <div class="map-panel">
@@ -61,6 +66,7 @@ const callAssetGraph = (ev,asset) => {
 				</tr>
 			{/each}
             </table>
+         <input type="button" value="Grafici Left" on:click={(ev)=>{callAssetGraph(ev,asset)}}/>
         <p>Stato: RIGHT </p>
             <table>
             {#each Object.keys(asset.statoRight) as key, i}<tr>
@@ -78,7 +84,7 @@ const callAssetGraph = (ev,asset) => {
 				</tr>
 			{/each}
             </table>
-        <input type="button" value="Grafici" on:click={(ev)=>{callAssetGraph(ev,asset)}}/>
+        <input type="button" value="Grafici Right" on:click={(ev)=>{callAssetGraph(ev,asset)}}/>
         </div>
   </div>
 

@@ -30,7 +30,8 @@
 			D3Manager,
 			D3LibreManager,
 			AIManager,
-			AssetManager} from '../lib/components/contents'
+			AssetManager,
+			AssetGraphManager} from '../lib/components/contents'
    import { center } from '../lib/components/topbar/notifications';
    // UTILS
    import {setConicData, getPointColumns, getDataPointColumnReduced} from '../lib/script/utils.js'
@@ -421,6 +422,7 @@
 	let chartChoiceManagerId = 'chartChoiceManagerId'
 	let twinManagerId = 'twinManagerId'
 	let d3ManagerId = 'd3ManagerId'
+	let assetGraphManagerId = 'assetGraphManagerId'
 
 	// Container event managers
 	/*ALARM CONTAINER DO ACTION
@@ -765,6 +767,24 @@ let minscreensize = 850
 							{titleweight}
 							{bodycolor}
 							managerid= {twinManagerId}
+							minimized={Window.minimized?Window.minimized:'off'}
+						/>
+					{/if}
+					{#if Window.id == 'Assetgraph'  && Window.visible == 'visible'}
+						<AssetGraphManager 
+							headercolor={colorScheme.wincolor}  
+							title="{Window.name}" 
+							top={Window.top} 
+							left={Window.left}
+							height={Window.height}
+							width={Window.width}
+							bgcolor = {bgcolor}
+							{titlefontsize}
+							{titlecolor}
+							{titleweight}
+							{bodycolor}
+							managerid= {assetGraphManagerId}
+							zindex={4}
 							minimized={Window.minimized?Window.minimized:'off'}
 						/>
 					{/if}
