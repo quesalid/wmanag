@@ -34,11 +34,28 @@ const buildAssetFromCoords = (coords: number[][]) => {
 	for(let i = 0; i < coords.length; i++){
 		const asset = new Asset(coords[i],null);
 		if(i%5 == 0)
-			asset.setUserData({id:'Asset_'+i,status:'WARNING'});
+			asset.setUserData({
+                id:'C8194-'+i,
+                status:'WARNING',
+                 alarmLeft:['ALARM', '1', '0', '0', '1', '0', '0'],
+                 alarmRight:['ALARM', '0', '0', '0', '1', '0', '0'],
+            });
 		else if(i%7 == 0)
-			asset.setUserData({id:'Asset_'+i,status:'ALARM'});
+			asset.setUserData(
+                {
+                    id:'C8194-'+i,
+                    status:'ALARM',
+                    alarmLeft:['ALARM', '1', '0', '0', '1', '0', '0'],
+                    alarmRight:['ALARM', '2', '0', '0', '2', '0', '0'],
+                });
 		else 
-			asset.setUserData({id:'Asset_'+i,status:'NORMAL'});
+			asset.setUserData(
+                {
+                    id:'C8194-'+i,
+                    status:'NORMAL',
+                    alarmLeft:['ALARM', '0', '0', '0', '0', '0', '0'],
+                    alarmRight:['ALARM', '0', '0', '0', '0', '0', '0'],
+                });
         if(i == 0 || i == coords.length-1){
 		    asset.addField('descriprion','stazione trasformazione')
             asset.addField('type','trasformator')

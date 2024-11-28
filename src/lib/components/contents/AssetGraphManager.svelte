@@ -39,7 +39,7 @@ export let managerid = 'assetGraphManagerId'
 // INTERNAL VARIABLES
 let section:any = {}
 let twinClassId = "twin-class-id";
-
+let asset:any = null
 
 onMount(async () => {
 	const wmanag = document.getElementById(defaultWManager)
@@ -49,6 +49,8 @@ onMount(async () => {
 	wmanag?.addEventListener('show', (e:any) => {
 		console.log("AssetGraphManager show",e.detail)
 		wmanag.style.visibility = 'visible'
+		title = 'Asset Graph ' + e.detail.userData.id
+		asset = e.detail
 	})
 	wmanag?.addEventListener('hide', (e:any) => {
 		wmanag.style.visibility = 'hidden'
@@ -62,7 +64,7 @@ onMount(async () => {
 
 <div class="map-manager" id="{managerid}">
 	<WManag id="{defaultWManager}" 
-		title="{title}" 
+		bind:title="{title}" 
 		disableClose={disableClose} 
 		draggable={true} 
 		headercolor={bgcolor?bgcolor:headercolor}
@@ -82,7 +84,7 @@ onMount(async () => {
 		{boxshadow}
 		{zindex}>
 		<div  slot="bodycontent">
-			<AssetChart/>
+			<AssetChart bind:asset={asset}/>
 		</div>
 	</WManag>
 </div>

@@ -32,6 +32,7 @@ const terrainSourceId = 'maptiler-terrain';
 let mapcontainer:any
 let modelLoaded:any
 let mapcontainerName = 'map-3d-maplibre'
+let flyAsset:any = null
 
 
   onMount(async () => {
@@ -46,12 +47,12 @@ let mapcontainerName = 'map-3d-maplibre'
 		console.log('flyToAsset', e.detail)
 		assets = e.detail.assets?e.detail.assets:[]
         console.log("RECEIVED ASSETS",assets)
-        let asset = e.detail.asset
-		if(asset){
+        flyAsset = e.detail.asset
+		if(flyAsset){
             // udate elevation
             assets = [...assets]
 			map.flyTo({
-				center: asset.modelLocation,
+				center: flyAsset.modelLocation,
 				zoom: 15.9,
 				speed: 0.8,
 				curve: 1,
@@ -423,7 +424,7 @@ const modelLayer = {
     <div id="map-container" class="{containerClass}">
         <div id="map-3d-maplibre" bind:this={mapcontainer}></div>
         {#if showPanel}
-            <AssetPanel/>
+            <AssetPanel bind:asset={flyAsset}/>
         {/if}
     </div>
 </div>

@@ -9,7 +9,7 @@ onMount(() => {
     const chalk = theme.theme;
     console.log("theme",theme.theme)
     echarts.registerTheme('chalk', chalk);
-	let myChart = echarts.init(chartDom,'chalk');
+	myChart = echarts.init(chartDom,'chalk');
     myChart.on('timelinechanged', function (params:any) {
         const currentIndex = params.currentIndex; // Ottieni l'indice selezionato nella timeline
         const timeKey = option.timeline.data[currentIndex]; // Ottieni la chiave temporale (es. '7:00')
@@ -31,11 +31,12 @@ onMount(() => {
        
         console.log('currentIndex',currentIndex,timeKey,xdataIndex);   
     });
+    option.title.text = asset && asset.userData && asset.userData.id?titletext+' '+asset.userData.id:titletext;
 	myChart.setOption(option);
 });
 
 // exports
-export let titletext = "Asset Chart";
+export let titletext = "Tensione meccanica ";
 export let width = '60vw';
 export let height = '80vh';
 export let legend = {
@@ -56,6 +57,9 @@ export let legend = {
             '12B': true,
         }
 }
+export let asset: any = null;
+
+let myChart:any;
 
 const markerSerie = {
             name: 'markers',
@@ -226,6 +230,10 @@ let option:any = {
     },
 };
 
+$: if (asset && myChart) {
+	option.title.text = asset && asset.userData && asset.userData.id?titletext+' '+asset.userData.id:titletext;
+	myChart.setOption(option);
+}
 
 </script>
     <div class= "outer-chart-class" >

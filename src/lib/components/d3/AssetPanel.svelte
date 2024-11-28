@@ -1,25 +1,35 @@
 <script lang='ts'>
 
+export let asset: any = null
 
-export let asset:any = {
-	code: 'C00945-B8901',
-	sensors: ['SB8901-1', 'SB8901-2', 'SB8901-3', 'SB8901-4', 'SB8901-5', 'SB8901-6'],
-    alarmLeft: ['ALARM', '0', '1', '1', '2', '0', '0'],
-    alarmRight: ['ALARM', '0', '0', '1', '1', '0', '0'],
-	statoLeft: {
+let assetFormatted: any = {}
+let assetGraphManagerId = 'defaultAssetGraphManager'
+
+const statoLeft = {
 		mis: ['MIS','4A', '4B', '8A', '8B', '12A', '12B'],
 		tm: ['TM','', '', '', '', '', ''],
 		c: ['°C','80', '85', '91', '89', '91', '92'],
 		inc: ['INC','0°', '1°', '-2°', '1°', '2°', '3°']
-	},
-    statoRight: {
+	}
+
+const statoRight = {
 		mis: ['MIS','4C', '4D', '8C', '8D', '12C', '12D'],
 		tm: ['TM','', '', '', '', '', ''],
 		c: ['°C','80', '85', '91', '89', '91', '92'],
 		inc: ['INC','0°', '1°', '-2°', '1°', '2°', '3°']
 	}
+const formatAsset = (asset:any) => {
+	console.log('formatAsset',asset)
+	assetFormatted.code = asset && asset.userData && asset.userData.id? asset.userData.id:'ASSET-NAME';
+	assetFormatted.sensors = asset && asset.userData && asset.userData.sensors? asset.userData.sensors:['SB8901-1', 'SB8901-2', 'SB8901-3', 'SB8901-4', 'SB8901-5', 'SB8901-6'];
+	assetFormatted.alarmLeft = asset && asset.userData && asset.userData.alarmLeft?asset.userData.alarmLeft:['ALARM', '0', '1', '1', '2', '0', '0'],
+	assetFormatted.alarmRight = asset && asset.userData && asset.userData.alarmRight? asset.userData.alarmRight:['ALARM', '0', '0', '1', '1', '0', '0'],
+	assetFormatted.statoLeft = asset && asset.userData && asset.userData.statoLeft?asset.userData.statoLeft: statoLeft;
+	assetFormatted.statoRight = asset && asset.userData && asset.userData.statoRight?asset.userData.statoRight: statoRight;
 }
-let assetGraphManagerId = 'defaultAssetGraphManager'
+
+
+formatAsset(asset) 
 
 const togglePanel = () => {
     const panel:any = document.querySelector('.map-panel');
@@ -37,6 +47,10 @@ const callAssetGraph = (ev:any,asset:any) => {
     assetGraphManager?.dispatchEvent(new CustomEvent('show', {detail:asset}))
 }
 
+$: {
+	if(asset)
+	    formatAsset(asset)
+}
 </script>
 
 <div class="map-panel">
@@ -47,17 +61,17 @@ const callAssetGraph = (ev:any,asset:any) => {
             <span>-</span>
         </div>
         <div id="toggle-panel">
-        <p>Codice: [ <span style="color:yellow;">{asset.code}}</span> ]</p>
+        <p>Codice: [ <span style="color:yellow;">{assetFormatted.code}}</span> ]</p>
         <p>Sensori: [ <span style="color:yellow;">SB8901-1/2/3/4/5/6</span> ]</p>
         <p>Stato: LEFT </p>
             <table>
-            {#each Object.keys(asset.statoLeft) as key, i}<tr>
-					{#each asset.statoLeft[key] as value, j}
-                        {#if value == '' && asset.alarmLeft[j] == '0'}
+            {#each Object.keys(assetFormatted.statoLeft) as key, i}<tr>
+					{#each assetFormatted.statoLeft[key] as value, j}
+                        {#if value == '' && assetFormatted.alarmLeft[j] == '0'}
 						    <td><div style="background-color: springgreen;">{value}</div></td>
-                        {:else if value == '' && asset.alarmLeft[j] == '1'}
+                        {:else if value == '' && assetFormatted.alarmLeft[j] == '1'}
 							<td><div style="background-color: orange;">{value}</div></td>
-                        {:else if value == '' && asset.alarmLeft[j] == '2'}
+                        {:else if value == '' && assetFormatted.alarmLeft[j] == '2'}
                             <td><div style="background-color: red;">{value}</div></td>
                         {:else}
                             <td>{value}</td>
@@ -69,13 +83,13 @@ const callAssetGraph = (ev:any,asset:any) => {
          <input type="button" value="Grafici Left" on:click={(ev)=>{callAssetGraph(ev,asset)}}/>
         <p>Stato: RIGHT </p>
             <table>
-            {#each Object.keys(asset.statoRight) as key, i}<tr>
-					{#each asset.statoRight[key] as value, j}
-                        {#if value == '' && asset.alarmRight[j] == '0'}
+            {#each Object.keys(assetFormatted.statoRight) as key, i}<tr>
+					{#each assetFormatted.statoRight[key] as value, j}
+                        {#if value == '' && assetFormatted.alarmRight[j] == '0'}
 						    <td><div style="background-color: springgreen;">{value}</div></td>
-                        {:else if value == '' && asset.alarmRight[j] == '1'}
+                        {:else if value == '' && assetFormatted.alarmRight[j] == '1'}
 							<td><div style="background-color: orange;">{value}</div></td>
-                        {:else if value == '' && asset.alarmRight[j] == '2'}
+                        {:else if value == '' && assetFormatted.alarmRight[j] == '2'}
                             <td><div style="background-color: red;">{value}</div></td>
                         {:else}
                             <td>{value}</td>
@@ -87,6 +101,7 @@ const callAssetGraph = (ev:any,asset:any) => {
         <input type="button" value="Grafici Right" on:click={(ev)=>{callAssetGraph(ev,asset)}}/>
         </div>
   </div>
+
 
 <style>
 .map-panel {
