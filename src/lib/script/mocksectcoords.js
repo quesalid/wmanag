@@ -128,7 +128,17 @@ let rdp_udsud = [
 	[13.310873017679514, 45.93216340236006, 200]
 	]
 
+let pv_pratola = [
+		[13.870247310264508, 42.085615499870165, 200],
+		[13.871629455839244, 42.086232686185454, 200],
+		[13.871762204284279, 42.08612547584798, 200],
+		[13.87202770117434, 42.08621240316251, 200],
+		[13.872168258351431, 42.08503307910852, 200],
+		[13.871114079524402, 42.08454048025469, 200],
+		[13.870247310264508, 42.085615499870165, 200]
+	]
 	
+
 let staz_redipuglia = [[13.471033574202934, 45.85175337043916,200]]
 
 let staz_udine_sud = [[13.310873017679514, 45.93216340236006,200]]
@@ -157,6 +167,18 @@ let models = [
 		}
 	},
 	
+]
+
+
+let pvsections = [
+
+	{
+		name: "PV-Pratola",
+		description: "Impianto FV via Spinelle Pratola Peligna (AQ)",
+		coords: pv_pratola,
+		zoom: zoom + 6 ,
+		type: "LineString",
+	}
 ]
 
 let electrosections = [
@@ -376,7 +398,40 @@ const twindata = [
 		},
 		sections: electrosections,
 	},
-
+	{
+        name: "PV-Pratola",
+        description: "Impianto FV via Spinelle Pratola Peligna (AQ)",
+        twin: {
+            uid: "PV-Pratola-v.1.0.0",
+            model: {
+                type: "LSTM",
+                size: '12,64,32,3',
+                epochs: 100,
+                optimizer: "adam",
+                loss: "mean_squared_error",
+            },
+            input_vector: [
+                { label: "s1fl", tag: "PESCHERA-FLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
+                { label: "s2fl", tag: "LECAP-FLOW", unit: "m3/sec", max: 5, min: 3, value: 4 },
+                { label: "l1vl1", tag: "PESCH-SAL-VALV1", unit: "%", max: 100, min: 0, value: 80 },
+                { label: "l1vl2", tag: "PESCH-SAL-VALV2", unit: "%", max: 100, min: 0, value: 75 },
+                { label: "l2vl1", tag: "LECAP-SAL-VALV1", unit: "%", max: 100, min: 0, value: 83 },
+                { label: "l2vl2", tag: "LECAP-SAL-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+                { label: "l3vl1", tag: "SAL-OTT-VALV1", unit: "%", max: 100, min: 0, value: 68 },
+                { label: "l3vl2", tag: "SAL-OTT-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "l4vl1", tag: "SAL-MCAR-VALV1", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "l4vl2", tag: "SAL-MCAR-VALV2", unit: "%", max: 100, min: 0, value: 68 },
+				{ label: "o1fl", tag: "OTT-OUTFLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
+				{ label: "o2fl", tag: "MCAR-OUTFLOW", unit: "m3/sec", max: 10, min: 8, value: 9.1 },
+            ],
+            output_vector: [
+                { label: "power", tag: "SALISANO-POWER", unit: "MW", max: 25, min: 8, value: 21.6 },
+                { label: "tlev1", tag: "OTT-LEVEL", unit: "%", max: 100, min: 0, value: 78.6 },
+                { label: "tlev2", tag: "MCAR-LEVEL", unit: "%", max: 100, min: 0, value: 78.6 },
+            ]
+        },
+        sections: pvsections,
+    }
 ]
 
 

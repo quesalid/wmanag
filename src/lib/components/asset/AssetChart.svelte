@@ -3,6 +3,10 @@ import * as echarts from 'echarts';
 import { onMount } from 'svelte';
 
 import * as theme from './chalkproject.json'
+import { getOptionTmech, getOptionHistoric, getOptionDistribution} from './assetoptions'
+
+let option:any
+let myChart:any
 
 onMount(() => {
 	let chartDom = document.getElementById('chartmain');
@@ -10,13 +14,16 @@ onMount(() => {
     console.log("theme",theme.theme)
     echarts.registerTheme('chalk', chalk);
 	myChart = echarts.init(chartDom,'chalk');
+    option = getOptionTmech(titletext,legendData,6,12,45,35);
     myChart.on('timelinechanged', function (params:any) {
         const currentIndex = params.currentIndex; // Ottieni l'indice selezionato nella timeline
         const timeKey = option.timeline.data[currentIndex]; // Ottieni la chiave temporale (es. '7:00')
+        const xdata = option.xAxis.data;
         // ottieni i dati per l'indice selezionato
         let xdataIndex = getIndex(xdata,timeKey);
         // per ogni serie i dati della sottoserie ed aggiorna il grafico
         let subseries = [];
+        const series = option.series;
         for (let i = 0; i < series.length; i++) {
             // controlla che non sia la serie dei markers
             if (series[i].name == 'markers') continue;
@@ -24,6 +31,7 @@ onMount(() => {
             subseries.push(subserie);
 		}
         // riaggiungi la serie dei markers
+        const markerSerie = option.series[option.series.length-1];
         subseries.push(markerSerie);
         myChart.setOption({
 			series: subseries
@@ -31,96 +39,19 @@ onMount(() => {
        
         console.log('currentIndex',currentIndex,timeKey,xdataIndex);   
     });
-    option.title.text = asset && asset.userData && asset.userData.id?titletext+' '+asset.userData.id:titletext;
 	myChart.setOption(option);
 });
 
 // exports
-export let titletext = "Tensione meccanica ";
+export let titletext = "Tensione 8h (kN)";
 export let width = '60vw';
 export let height = '80vh';
-export let legend = {
-        data: [{name:'4A',textStyle:{color:'white'}}, 
-                {name:'4B',textStyle:{color:'white'}}, 
-                {name:'8A',textStyle:{color:'white'}},
-                {name:'8B',textStyle:{color:'white'}},
-                {name:'12A',textStyle:{color:'white'}},
-                {name:'12B',textStyle:{color:'white'}},
-        ], 
-        top: 30,
-        selected: {
-            '4A': true,
-            '4B': true,
-            '8A': true,
-            '8B': true,
-            '12A': true,
-            '12B': true,
-        }
-}
-export let asset: any = null;
 
-let myChart:any;
-
-const markerSerie = {
-            name: 'markers',
-            type: 'line',
-            data: [], // Nessun dato visibile
-            markLine: {
-                symbol: 'none', // Nessun simbolo alle estremità
-                data: [
-                    {
-                        yAxis: 35,
-                        name: 'Limite Warning',
-                        lineStyle: {
-                            color: 'orange',
-                            type: 'dashed'
-                        },
-                        label: {
-                            formatter: 'Warning ({c})'
-                        }
-                    },
-                    {
-                        yAxis: 45,
-                        name: 'Limite Allarme',
-                        lineStyle: {
-                            color: 'red',
-                            type: 'solid'
-                        },
-                        label: {
-                            formatter: 'Allarme ({c})'
-                        }
-                    }
-                ]
-            }
-        }
-const getSeries = (legend:any,numpoints:number) => {
-	let series = [];
-	for (let i = 0; i < legend.length; i++) {
-        const points = [];
-        let nextinit = Math.floor(Math.random()*30);
-        for (let j = 0; j < numpoints; j++) {
-            // add noise to parabola
-            let parabola = 20 - 100*Math.pow(numpoints/2-j,2)/1000;
-            let next = nextinit + parabola + Math.floor(Math.random()*5);
-			points.push(next);
-		}
-		series.push({
-			name: legend[i].name,
-			type: 'line',
-			data: points,
-		});
-	}
-    // aggiungi la serie dei markers
-    series.push(markerSerie);
-	return series;
-}
 
 // data una serie ed un indice torna una sottoserie compresa tra 0 e l'indice
 const getSubSeries = (series:any, index:number) => {
 	let subseries = [];
-	
-		subseries = series.data.slice(0,index);
-	
+	subseries = series.data.slice(0,index);
 	return subseries;
 }
 
@@ -130,118 +61,75 @@ const getIndex = (xdata:any, point:any) => {
 	return index;
 }
 
-// tempo di otto ore dalle 6:00 alle 14:00 diviso in 15 minuti
-// h = ora iniziale f = ora finale
-const gettime = (h:number, f:number) => {
-	let time = h*60;
-	let timearr = [];
-    let num = (f-h)*4;
-	for (let i = 0; i < num; i++) {
-		let h = Math.floor(time/60);
-		let m = time % 60;
-		let hstr = h < 10 ? '0'+h : h.toString();
-		let mstr = m < 10 ? '0'+m : m.toString();
-		timearr.push(hstr+':'+mstr);
-		time += 15;
+let selectedChart = "tmech";
+let legendData = [
+	{name:'4A',textStyle:{color:'white'}}, 
+	{name:'4B',textStyle:{color:'white'}}, 
+	{name:'8A',textStyle:{color:'white'}},
+	{name:'8B',textStyle:{color:'white'}},
+	{name:'12A',textStyle:{color:'white'}},
+	{name:'12B',textStyle:{color:'white'}},
+]
+
+const changeGraph = () => {
+    const historicdata = legendData.map((item) => {return item.name})
+    console.log("changeGraph", selectedChart,historicdata);
+    switch(selectedChart){
+		case "tmech":
+			option = getOptionTmech(titletext,legendData,6,12,45,35);
+			break;
+		case "historic":
+            option = getOptionHistoric(historicdata,'2024-01-01');
+			break;
+		case "distribution":
+			option = getOptionDistribution();
+			break;
+    }
+    console.log("locoption",option)
+    if(myChart)
+        myChart.dispose();
+    myChart = echarts.init(document.getElementById('chartmain'),'chalk');
+    if(option.timeline){
+		myChart.on('timelinechanged', function (params:any) {
+			const currentIndex = params.currentIndex; // Ottieni l'indice selezionato nella timeline
+			const timeKey = option.timeline.data[currentIndex]; // Ottieni la chiave temporale (es. '7:00')
+			const xdata = option.xAxis.data;
+			// ottieni i dati per l'indice selezionato
+			let xdataIndex = getIndex(xdata,timeKey);
+			// per ogni serie i dati della sottoserie ed aggiorna il grafico
+			let subseries = [];
+			const series = option.series;
+			for (let i = 0; i < series.length; i++) {
+				// controlla che non sia la serie dei markers
+				if (series[i].name == 'markers') continue;
+				let subserie = {name:series[i].name,type:series[i].type,data:getSubSeries(series[i],xdataIndex)}
+				subseries.push(subserie);
+			}
+			// riaggiungi la serie dei markers
+			const markerSerie = option.series[option.series.length-1];
+			subseries.push(markerSerie);
+			myChart.setOption({
+				series: subseries
+			});
+		
+			console.log('currentIndex',currentIndex,timeKey,xdataIndex);   
+		});
 	}
-	return timearr;
-}
-// torna la timeline campionando ogni ora dalla xdata
-const gettimeline = (xdata:any) => {
-	let timeline = [];
-	for (let i = 0; i < xdata.length; i++) {
-		if (i % 4 == 0) {
-			timeline.push(xdata[i]);
-		}
-	}
-	return timeline;
-}
-
-
-export let xdata = gettime(6,14);
-export let series = getSeries(legend.data,xdata.length);
-export let timelinedata = gettimeline(xdata);
-
-
-let option:any = {
-    title: {
-        text: titletext,
-        textStyle: {
-            color: 'white'
-        },
-    },
-    tooltip: {
-        trigger: 'axis'
-    },
-    legend: {
-        orient: 'vertical',
-        top: '10%', // Posiziona il legend sotto il grafico
-        left: 'left',
-        data: legend.data,
-        selected: legend.selected,
-    },
-    grid: {
-        top: '10%',
-        bottom: '20%', // Margine per lasciare spazio alla timeline e al legend
-        containLabel: true // Aggiusta i margini automaticamente
-    },
-    toolbox: {
-        feature: {
-            dataZoom: {
-                yAxisIndex: 'none'
-            },
-            restore: {},
-            saveAsImage: {}
-        },
-        iconStyle: {
-            borderColor: 'white'
-        }
-    },
-    xAxis: {
-        type: 'category',
-        gridIndex: 0, // Associa l'asse X al grid
-        data: xdata
-    },
-    yAxis: 
-    [
-        {
-            type: 'value',
-            name: 'Scala 1',
-            max: 70,
-        },
-        {
-            type: 'value',
-            name: 'Scala 2',
-            position: 'right'
-        }
-    ],
-    series: series,
-    timeline: {
-        axisType: 'category',
-        data: timelinedata,
-        autoPlay: false,
-        bottom: '10%', // Posiziona la timeline in basso
-        width: '50%',
-        playInterval: 2000,
-        loop: false,
-        controlStyle: {
-            position: 'left'
-        }
-    },
-};
-
-$: if (asset && myChart) {
-	option.title.text = asset && asset.userData && asset.userData.id?titletext+' '+asset.userData.id:titletext;
 	myChart.setOption(option);
 }
 
 </script>
-    <div class= "outer-chart-class" >
+    <div class= "outer-chart-class">
 	    <div id="chartmain" style="width: {width};height: {height};"></div>
         <div class="bottom-buttons">
-            <button >
-                Pulsante Sotto il Grafico
+            <button on:click={changeGraph}>
+                Select
             </button>
+            <select bind:value={selectedChart}>
+                <option value="tmech">Tensione meccanica (8h)</option>
+				<option value="historic">Tensione meccanica (media)</option>
+				<option value="distribution">Distribuzione</option>
+            </select>
         </div>
     </div>
 	
@@ -249,14 +137,16 @@ $: if (asset && myChart) {
 <style>
 	.outer-chart-class{
         width: 80vw;
-        height: 80vh;
+        height: 82vh;
 	}
 	.bottom-buttons{
+        position:absolute;
+        bottom: 0;
 		left: 0;
 		width: 60vw;
-		display: flex;
 		justify-content: left;
-        background-color: rgba(41,52,65,0.88);
+        z-index: 4;
+        background-color: rgba(61,72,85,0.88);
 	}
 	.bottom-buttons button{
         background-color: rgba(31,42,55,1);
@@ -265,10 +155,21 @@ $: if (asset && myChart) {
 		text-align: center;
 		text-decoration: none;
 		display: inline-block;
-		font-size: 14px;
-		margin: 2px 2px 10px 2px;
+		font-size: 12px;
+		margin: 5px 5px 5px 10px;
 		cursor: pointer;
 		border-radius: 12px;
-		padding: 5px 14px;
+		padding: 3px 14px;
+    }
+    .bottom-buttons select{
+        background-color: rgba(31,42,55,1);
+        border: 1px solid white;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 5px 5px 5px 10px;
+        width: 200px;
     }
 </style>

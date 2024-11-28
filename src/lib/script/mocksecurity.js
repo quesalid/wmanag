@@ -590,7 +590,8 @@ let profiles = [
         locale: 'it-IT',
         avatar: '/rpanchetti.png',
         data: {
-            family: 'WWATER'
+            family: 'INDUSTRY',
+            twinSelector: 'PV-Pratola'
         },
         dashboard: [
             {
@@ -613,55 +614,59 @@ let profiles = [
                 colorScheme: { wincolor:'#eaf5eb'},
                 windows: [
                     {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '380px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "hidden",
-                        image: 'Donut.png',
-                    },
-                    {
-                        id: 'Map',
-                        name: 'Mappa',
-                        top: '0px',
-                        left: '10px',
+                        id: 'Netmap',
+                        name: 'Impianto FV - ',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
                         visible: "visible",
-                        height: '340px',
-                        width: '600px',
-                        image: 'Map.png',
-                        params: { center: { lat: 42.01, lon: 12.30 }, zoom: 14.5, zoomfactor: 3 }
-                    },
-                    {
-                        id: 'Alarms',
-                        name:'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "visible"
-                    },
-                    {
-                        id: 'Communication',
-                        name:'Comunicazione',
-                        top: '358px',
-                        left: '1020px',
-                        height: '300px',
-                        width: '350px',
-                        visible: "visible",
-                        image: 'Communication.png',
                         params: {
-                            showHeader: false,
-                            showCheckbox: true,
-                            showFullHistory: false,
-                            showImage: true,
-                            showMessageInput: false,
-                            chatImage: "ChatBot.png",
-                            type: "SIMPLE",
+                            initlat: 42.0000,
+                            initlon: 12.73997,
+                            initzoom: 9,
+                            maxzoom: 19,
+                            fswidth: '100%',
+                            fsheight: '130vh',
                         }
-                    }
+                    },
+                    {
+                        id: 'Section',
+                        name: 'Sezioni acquedotto',
+                        top: '1vh',
+                        left: '62vw',
+                        height: '70vh',
+                        width: '25vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
+                    {
+                        id: 'Twin',
+                        name: 'Twin sezione',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
+                    {
+                        id: 'D3',
+                        name: 'Vista 3D',
+                        top: '1vh',
+                        left: '1vw',
+                        height: '70vh',
+                        width: '60vw',
+                        image: 'Firesim.png',
+                        visible: "visible",
+                        params: {
+                        }
+                    },
                 ]
             },
             {
