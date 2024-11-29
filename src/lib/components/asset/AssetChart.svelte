@@ -3,10 +3,13 @@ import * as echarts from 'echarts';
 import { onMount } from 'svelte';
 
 import * as theme from './chalkproject.json'
-import { getOptionTmech, getOptionHistoric, getOptionDistribution} from './assetoptions'
+import { getOptionTmech, getOptionHistoric, getOptionDistribution, getOptionPolar} from './assetoptions'
+import SagGrid from './SagGrid.svelte'
 
 let option:any
 let myChart:any
+
+
 
 onMount(() => {
 	let chartDom = document.getElementById('chartmain');
@@ -46,6 +49,7 @@ onMount(() => {
 export let titletext = "Tensione 8h (kN)";
 export let width = '60vw';
 export let height = '80vh';
+export let showSag = false;
 
 
 // data una serie ed un indice torna una sottoserie compresa tra 0 e l'indice
@@ -76,13 +80,23 @@ const changeGraph = () => {
     console.log("changeGraph", selectedChart,historicdata);
     switch(selectedChart){
 		case "tmech":
+			showSag = false;
 			option = getOptionTmech(titletext,legendData,6,12,45,35);
 			break;
 		case "historic":
+			showSag = false;
             option = getOptionHistoric(historicdata,'2024-01-01');
 			break;
 		case "distribution":
+			showSag = false;
 			option = getOptionDistribution();
+			break;
+		case "polar":
+			showSag = false;
+			option = getOptionPolar();
+			break;
+		case "sag":
+			showSag = true;
 			break;
     }
     console.log("locoption",option)
@@ -120,7 +134,10 @@ const changeGraph = () => {
 
 </script>
     <div class= "outer-chart-class">
-	    <div id="chartmain" style="width: {width};height: {height};"></div>
+		<div id="chartmain" style="width: {width};height: {height};}"></div>
+		<div class="sag-grid-class" style="width: {width};height: {height}; visibility:{showSag?'visible':'hidden'}">
+			<SagGrid/>
+		</div>
         <div class="bottom-buttons">
             <button on:click={changeGraph}>
                 Select
@@ -129,6 +146,8 @@ const changeGraph = () => {
                 <option value="tmech">Tensione meccanica (8h)</option>
 				<option value="historic">Tensione meccanica (media)</option>
 				<option value="distribution">Distribuzione</option>
+				<option value="polar">Orbita</option>
+				<option value="sag">Sag</option>
             </select>
         </div>
     </div>
@@ -137,7 +156,12 @@ const changeGraph = () => {
 <style>
 	.outer-chart-class{
         width: 80vw;
-        height: 82vh;
+        height: 85vh;
+	}
+	.sag-grid-class{
+		position:absolute;
+		top: 0;
+		left: 0;
 	}
 	.bottom-buttons{
         position:absolute;
@@ -145,7 +169,7 @@ const changeGraph = () => {
 		left: 0;
 		width: 60vw;
 		justify-content: left;
-        z-index: 4;
+        z-index: 5;
         background-color: rgba(61,72,85,0.88);
 	}
 	.bottom-buttons button{
@@ -170,6 +194,6 @@ const changeGraph = () => {
         display: inline-block;
         font-size: 14px;
         margin: 5px 5px 5px 10px;
-        width: 200px;
+        width: 250px;
     }
 </style>

@@ -352,7 +352,7 @@ const getOptionHistoric = (data:any, initdate:any) => {
     return optionHistoric;
 }
 
-function generateDistributionData(mean, variance, count = 100) {
+function generateDistributionData(mean:any, variance:any, count = 100) {
     let data = [];
     for (let i = 0; i < count; i++) {
         let x = mean - 3 * Math.sqrt(variance) + (i / count) * 6 * Math.sqrt(variance);
@@ -513,7 +513,105 @@ const getOptionDistribution = () => {
     return optionDistribution;
 }
 
-export { getOptionTmech, getOptionHistoric, getOptionDistribution };
+
+function generateLissajousData(a:any, b:any, points = 500) {
+    let data = [];
+    for (let t = 0; t <= 2 * Math.PI; t += (2 * Math.PI) / points) {
+        let x = Math.sin(a * t);
+        let y = Math.sin(b * t);
+        data.push([x * 2, y * 2]); // Scala in metri (-2, 2)
+    }
+    return data;
+}
+
+function generateEllipticLissajousData(a:any, b:any, scaleX = 1, scaleY = 1, angle = 0, points = 400) {
+    let data = [];
+    const cosAngle = Math.cos(angle);
+    const sinAngle = Math.sin(angle);
+    for (let t = 0; t <= 2 * Math.PI; t += (2 * Math.PI) / points) {
+        // generate a rnadom phase shift
+        const phasex = (Math.random() * 1) - 1;
+        const phasey = (Math.random() * 2) - 1;
+        // Coordinate originali del Lissajous
+        //let x = Math.sin(a * t+phasex);
+        //let y = Math.sin(b * t+phasey);
+        let x = phasex + 0.5
+        let y = x + phasey
+
+
+        // Scala per ottenere l'ellisse
+        x *= scaleX;
+        y *= scaleY;
+
+        // Rotazione per inclinare l'ellisse
+        let xRotated = x * cosAngle - y * sinAngle;
+        let yRotated = x * sinAngle + y * cosAngle;
+
+        // Aggiungi i punti trasformati
+        data.push([xRotated, yRotated]);
+    }
+    return data;
+}
+
+const polarName = ['4A', '4B', '8A', '8B', '12A', '12B'];
+
+const optionPolar: any = {
+    title: [
+        { text: 'Orbita conduttori -  Lissajous (m) ', left: 'center', textStyle: { color: 'white' } },
+        ...Array.from({ length: 6 }, (_, i) => ({
+            text: polarName[i],
+            left: `${5 + (i % 3) * 30 + 12.5}%`, // Calcolo posizione orizzontale
+            top: `${13.5 + Math.floor(i / 3) * 45 - 4}%`, // Posizione sopra ogni grafico
+            textAlign: 'center',
+            textStyle: { color: 'white', fontSize: 12 }
+        }))
+    ],
+    grid: Array.from({ length: 6 }, (_, i) => ({
+        left: `${5 + (i % 3) * 30}%`, // Posizione orizzontale
+        top: `${13.5 + Math.floor(i / 3) * 45}%`, // Posizione verticale
+        width: '25%',
+        height: '35%'
+    })),
+    xAxis: Array.from({ length: 6 }, (_, i) => ({
+        gridIndex: i, // Associazione al grid corretto
+        type: 'value',
+        min: -2,
+        max: 2,
+        name: 'X (metri)',
+        nameLocation: 'middle',
+        nameGap: 25,
+        axisLabel: { color: 'white' },
+        nameTextStyle: { color: 'white' }
+    })),
+    yAxis: Array.from({ length: 6 }, (_, i) => ({
+        gridIndex: i, // Associazione al grid corretto
+        type: 'value',
+        min: -2,
+        max: 2,
+        name: 'Y (metri)',
+        nameLocation: 'middle',
+        nameGap: 25,
+        axisLabel: { color: 'white' },
+        nameTextStyle: { color: 'white' }
+    })),
+    series: Array.from({ length: 6 }, (_, i) => ({
+        type: 'line',
+        xAxisIndex: i, // Associazione all'asse X corretto
+        yAxisIndex: i, // Associazione all'asse Y corretto
+        data: generateEllipticLissajousData(1, 1, 1.2, 1.2, (6 * Math.PI / 2 + i * Math.PI / 24)),
+        lineStyle: {
+            width: 1
+        },
+        symbol: 'none' // Nessun simbolo per i punti
+    }))
+};
+
+
+const getOptionPolar = () => {
+    return optionPolar;
+}
+
+export { getOptionTmech, getOptionHistoric, getOptionDistribution, getOptionPolar };
 
 
 

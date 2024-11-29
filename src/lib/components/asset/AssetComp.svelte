@@ -72,6 +72,9 @@ const buildAssetFromCoords = (coords: number[][]) => {
 
 const flyTo = (ev:any,asset:any) => {
 	console.log("FLYTO ",containerClass)
+    // eventually hide other windows
+    const wmanag = document.getElementById('defaultAssetGraphManager')
+    wmanag?.dispatchEvent(new CustomEvent('hide'))
     // show d3libre window
     const d3 = document.getElementById(d3win)
     d3?.dispatchEvent(new CustomEvent('show', {detail: assets}))

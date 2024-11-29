@@ -40,6 +40,7 @@ export let managerid = 'assetGraphManagerId'
 let section:any = {}
 let twinClassId = "twin-class-id";
 let asset:any = null
+let showSag = false;
 
 onMount(async () => {
 	const wmanag = document.getElementById(defaultWManager)
@@ -54,6 +55,7 @@ onMount(async () => {
 	})
 	wmanag?.addEventListener('hide', (e:any) => {
 		wmanag.style.visibility = 'hidden'
+		showSag = false
 	})
 	
 })
@@ -84,7 +86,7 @@ onMount(async () => {
 		{boxshadow}
 		{zindex}>
 		<div  slot="bodycontent">
-			<AssetChart bind:asset={asset}/>
+			<AssetChart bind:showSag={showSag}/>
 		</div>
 	</WManag>
 </div>
