@@ -29,7 +29,8 @@ import {login} from './lib/script/apisecurity'
 // *******   ROUTES *********/
 import SPLASHCREEN from "./routes/SplashScreen.svelte"
 import {Login} from "./lib/components/contents"
-import DashBoard from "./routes/DashBoard.svelte"
+//import DashBoard from "./routes/DashBoard.svelte"
+import DashBoardDynamic from "./routes/DashBoardDynamic.svelte"
 import Configure from "./routes/Configure.svelte"
 import ConfigureAgent from "./routes/ConfigureAgent.svelte"
 import BuildData from "./routes/BuildData.svelte";
@@ -84,7 +85,7 @@ export let  avatarsize = "w-10"
 	  <Login openModalButton="Login" extsubmit={extsubmit} image = 'ICO_UP2_LEARN.png' landingPage='/learn'modulename="learn"/>
     </Route>
     <!-- D A S H B O A R D S -->
-    <Route path="/data">
+    <!--Route path="/data">
         <DashBoard logoImage="/ICO_UP2_DATA.png"  
             {bgcolor}
             titlefontsize="13px"
@@ -95,7 +96,7 @@ export let  avatarsize = "w-10"
 	        imgheight = {imgheight}
 	        topbarheight = {topbarheight}
 	        avatarsize = {avatarsize}/>
-    </Route>
+    </!--Route>
     <Route path="/clone">
         <DashBoard logoImage="/ICO_UP2_CLONE.png"  
             {bgcolor}
@@ -122,6 +123,55 @@ export let  avatarsize = "w-10"
     </Route>
     <Route path="/learn">
         <DashBoard logoImage="/ICO_UP2_LEARN.png"  
+            {bgcolor}
+            titlefontsize="13px"
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
+    </Route-->
+    <!-- D A S H B O A R D S    D Y N A M I C -->
+    <Route path="/data">
+        <DashBoardDynamic logoImage="/ICO_UP2_DATA.png"  
+            {bgcolor}
+            titlefontsize="13px"
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
+    </Route>
+    <Route path="/clone">
+        <DashBoardDynamic logoImage="/ICO_UP2_CLONE.png"  
+            {bgcolor}
+            titlefontsize="13px"
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
+    </Route>
+    <Route path="/ai">
+        <DashBoardDynamic logoImage="/ICO_UP2_AI.png"  
+            {bgcolor}
+            titlefontsize="13px"
+		    {titlecolor}
+		    {titleweight}
+		    {bodycolor}
+            barheigth = {barheigth}
+	        imgheight = {imgheight}
+	        topbarheight = {topbarheight}
+	        avatarsize = {avatarsize}/>
+    </Route>
+    <Route path="/learn">
+        <DashBoardDynamic logoImage="/ICO_UP2_LEARN.png"  
             {bgcolor}
             titlefontsize="13px"
 		    {titlecolor}

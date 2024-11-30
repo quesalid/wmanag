@@ -3,7 +3,24 @@ import { getFamily } from './mock.js'
 import { getEntityNames } from '../ustore.js'
 import { textPrefixFilter, minFilter, numberRangeFilter, matchFilter } from './filters/filters.js'
 
-// @ts-nocheck
+
+// Definizione dei moduli disponibili
+const modules = import.meta.glob('/src/lib/components/contents/*.svelte');
+
+// Funzione di caricamento
+export const loadComponent = async (moduleName) => {
+    const modulePath = Object.keys(modules).find(path =>
+        path.endsWith(`${moduleName}.svelte`)
+    );
+
+    if (!modulePath) {
+        throw new Error(`Componente ${moduleName} non trovato`);
+    }
+
+    const module = await modules[modulePath]();
+    return module.default;
+};
+
 // CLICK DEVICE FUNCTIONS - SAME FOR ALL MODULES
 const voidfunction = () => { return "" }
 const onDeviceClickEdit = (ev) => {
@@ -185,6 +202,7 @@ const onAlarmClickLocation = (ev) => {
     // SEND ALARM FLYBY CLICKED EVENT TO MAP MANAGER
     const mapManager = document.getElementById('mapManagerId')
     const alarmLocationClicked = new CustomEvent("alarmlocation", { detail: uid })
+    console.log('onAlarmClickLocation',uid)
     mapManager?.dispatchEvent(alarmLocationClicked)
 }
 

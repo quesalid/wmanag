@@ -68,10 +68,8 @@ onMount(async () => {
 			break;
 	}
 
-	console.log("************** WManag add Event Listener ********+",id)
 	// add event listener to register components
 	regEvlistener = win.addEventListener('register', (e:any) => {
-		console.log("************** WManag show ********+",e.detail)
 		const comp = e.detail
 		// if the component is already registered do nothing
 		if(regComponents.includes(comp))
@@ -81,7 +79,6 @@ onMount(async () => {
  })
 
  onDestroy(() => {
-	 console.log("************** WManag remove Event Listener ********+",id)
 	 let win:any = document.getElementById(id);
 	 if(win)
 		win.removeEventListener('register', regEvlistener)
