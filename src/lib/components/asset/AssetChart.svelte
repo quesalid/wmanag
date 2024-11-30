@@ -14,10 +14,10 @@ let myChart:any
 onMount(() => {
 	let chartDom = document.getElementById('chartmain');
     const chalk = theme.theme;
-    console.log("theme",theme.theme)
     echarts.registerTheme('chalk', chalk);
 	myChart = echarts.init(chartDom,'chalk');
     option = getOptionTmech(titletext,legendData,6,12,45,35);
+	
     myChart.on('timelinechanged', function (params:any) {
         const currentIndex = params.currentIndex; // Ottieni l'indice selezionato nella timeline
         const timeKey = option.timeline.data[currentIndex]; // Ottieni la chiave temporale (es. '7:00')
@@ -40,7 +40,6 @@ onMount(() => {
 			series: subseries
 		});
        
-        console.log('currentIndex',currentIndex,timeKey,xdataIndex);   
     });
 	myChart.setOption(option);
 });
@@ -50,6 +49,7 @@ export let titletext = "Tensione 8h (kN)";
 export let width = '60vw';
 export let height = '80vh';
 export let showSag = false;
+export let winid = 'defaultAssetGraphManager';
 
 
 // data una serie ed un indice torna una sottoserie compresa tra 0 e l'indice
@@ -77,7 +77,12 @@ let legendData = [
 
 const changeGraph = () => {
     const historicdata = legendData.map((item) => {return item.name})
-    console.log("changeGraph", selectedChart,historicdata);
+	// get sag-grid-class-component
+	const SagGrid = document.querySelector('#sag-grid-id');
+	// register with winid
+	const regEvent = new CustomEvent('register', {detail:'sag-grid-id'});
+	const win = document.getElementById(winid);
+	win?.dispatchEvent(regEvent);
     switch(selectedChart){
 		case "tmech":
 			showSag = false;
@@ -99,7 +104,6 @@ const changeGraph = () => {
 			showSag = true;
 			break;
     }
-    console.log("locoption",option)
     if(myChart)
         myChart.dispose();
     myChart = echarts.init(document.getElementById('chartmain'),'chalk');
@@ -126,7 +130,6 @@ const changeGraph = () => {
 				series: subseries
 			});
 		
-			console.log('currentIndex',currentIndex,timeKey,xdataIndex);   
 		});
 	}
 	myChart.setOption(option);
@@ -135,7 +138,7 @@ const changeGraph = () => {
 </script>
     <div class= "outer-chart-class">
 		<div id="chartmain" style="width: {width};height: {height};}"></div>
-		<div class="sag-grid-class" style="width: {width};height: {height}; visibility:{showSag?'visible':'hidden'}">
+		<div id="sag-grid-id" class="sag-grid-class" style="width: {width};height: {height}; visibility:{showSag?'visible':'hidden'}">
 			<SagGrid/>
 		</div>
         <div class="bottom-buttons">
@@ -160,7 +163,7 @@ const changeGraph = () => {
 	}
 	.sag-grid-class{
 		position:absolute;
-		top: 0;
+		top: 35px;
 		left: 0;
 	}
 	.bottom-buttons{

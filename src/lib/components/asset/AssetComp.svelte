@@ -64,14 +64,12 @@ const buildAssetFromCoords = (coords: number[][]) => {
 			asset.addField('type','tower')}
 		assets.push(asset);
 	}
-	console.log(assets)
 	// forza il re-rendering
 	assets = [...assets]
 }
 
 
 const flyTo = (ev:any,asset:any) => {
-	console.log("FLYTO ",containerClass)
     // eventually hide other windows
     const wmanag = document.getElementById('defaultAssetGraphManager')
     wmanag?.dispatchEvent(new CustomEvent('hide'))
@@ -110,18 +108,15 @@ const sortBy = (column:any) => {
 
 const selectStructure = (ev:any) => {
 	selectedStructure = ev.target.value
-	console.log(selectedStructure)
 }
 
 // force redraw on twindata change
 $: {
      if(twindata){
-         console.log("ASSET COMP twindata change",twindata)
         structures = twindata.sections.map((section:any) => {
 		return section.name
 	    })
         if(structures.length >0){
-            console.log("ASSET COMP twindata structures",structures)
             selectedStructure = structures[0]
             // get section from twin
             const coords = twindata.sections.find((section:any) => section.name == selectedStructure).coords

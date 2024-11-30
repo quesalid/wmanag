@@ -93,7 +93,6 @@
         ctx.beginPath();
         ctx.moveTo(sagCanvasX, Math.min(anchorYLeft, anchorYRight)); // Dall'altezza minore
         ctx.lineTo(sagCanvasX, sagCanvasY); // Al punto più basso
-        console.log("start point", sagCanvasX, Math.min(anchorYLeft, anchorYRight), "end point", sagCanvasX, sagCanvasY)
         ctx.stroke();
 
         // Frecce sul sag

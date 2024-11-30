@@ -28,7 +28,6 @@ function getPopUp(section: Section) {
     if(buttonTwin)
         buttonTwin.addEventListener('click', () => { section.popupClickTwin(section) });
     const buttonD3 = popupElement?.querySelector(`#button-d3-${section.name}`);
-    console.log("SECTION ------------------------>>>>",buttonD3)
     if (buttonD3)
         buttonD3.addEventListener('click', () => { section.popupClickD3(section) });
     return div;

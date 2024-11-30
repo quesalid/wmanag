@@ -23,7 +23,6 @@ function addData(shift=false) {
     }
     base += oneHour;
     now = new Date(base);
-    console.log("base",base)
 }
 for (var i = 1; i < 30; i++) {
     addData();

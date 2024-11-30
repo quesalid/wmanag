@@ -42,7 +42,7 @@ export let containerClass = 'map-container'
 
 
 onMount(async () => {
-	console.log("ASSET MANAGER MOUNTED",twindata)
+	//console.log("ASSET MANAGER MOUNTED",twindata)
 })
 
 // force redraw on twindata change

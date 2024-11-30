@@ -19,7 +19,6 @@ const statoRight = {
 		inc: ['INC','0°', '1°', '-2°', '1°', '2°', '3°']
 	}
 const formatAsset = (asset:any) => {
-	console.log('formatAsset',asset)
 	assetFormatted.code = asset && asset.userData && asset.userData.id? asset.userData.id:'ASSET-NAME';
 	assetFormatted.sensors = asset && asset.userData && asset.userData.sensors? asset.userData.sensors:['SB8901-1', 'SB8901-2', 'SB8901-3', 'SB8901-4', 'SB8901-5', 'SB8901-6'];
 	assetFormatted.alarmLeft = asset && asset.userData && asset.userData.alarmLeft?asset.userData.alarmLeft:['ALARM', '0', '1', '1', '2', '0', '0'],
@@ -41,7 +40,6 @@ const togglePanel = () => {
 }
 
 const callAssetGraph = (ev:any,asset:any) => {
-	console.log('callAssetGraph',assetGraphManagerId);
     // send show event to assetGraphManager
     const assetGraphManager = document.getElementById(assetGraphManagerId);
     assetGraphManager?.dispatchEvent(new CustomEvent('show', {detail:asset}))

@@ -46,9 +46,7 @@ onMount(async () => {
 	const wmanag = document.getElementById(defaultWManager)
 	if(wmanag)
 		wmanag.style.visibility = 'hidden'
-	console.log("AssetGraphManager onMount",wmanag.style.visibility)
 	wmanag?.addEventListener('show', (e:any) => {
-		console.log("AssetGraphManager show",e.detail)
 		wmanag.style.visibility = 'visible'
 		title = 'Asset Graph ' + e.detail.userData.id
 		asset = e.detail
@@ -86,7 +84,7 @@ onMount(async () => {
 		{boxshadow}
 		{zindex}>
 		<div  slot="bodycontent">
-			<AssetChart bind:showSag={showSag}/>
+			<AssetChart bind:showSag={showSag} winid={defaultWManager}/>
 		</div>
 	</WManag>
 </div>

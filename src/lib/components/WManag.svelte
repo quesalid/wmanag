@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
 
-import { onMount} from "svelte";
+import { onMount, onDestroy} from "svelte";
 import {dragElement} from './CompUtils.js'
 
 
@@ -38,9 +38,17 @@ export let toolbar:any = [
 export let closeMenu = (ev:any)=>{
 	let win:any = document.getElementById(id);
 	win.style.visibility = "hidden";
+	// hide all registered components
+	regComponents.forEach((compname:any) => {
+		let comp = document.getElementById(compname)
+		if(comp)
+			comp.style.visibility = "hidden"
+	});
 }
 
 let winHeight = ''
+let regComponents:any = []
+let regEvlistener:any
 
 onMount(async () => { 
 	const dragable = document.getElementById(id);
@@ -59,9 +67,25 @@ onMount(async () => {
 			win.style.height =''
 			break;
 	}
+
+	console.log("************** WManag add Event Listener ********+",id)
+	// add event listener to register components
+	regEvlistener = win.addEventListener('register', (e:any) => {
+		console.log("************** WManag show ********+",e.detail)
+		const comp = e.detail
+		// if the component is already registered do nothing
+		if(regComponents.includes(comp))
+			return
+		regComponents.push(comp)
+	})
  })
 
-
+ onDestroy(() => {
+	 console.log("************** WManag remove Event Listener ********+",id)
+	 let win:any = document.getElementById(id);
+	 if(win)
+		win.removeEventListener('register', regEvlistener)
+ })
 
 
 const minimize = (event:any)=>{

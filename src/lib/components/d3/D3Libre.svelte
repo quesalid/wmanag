@@ -38,15 +38,12 @@ let flyAsset:any = null
   onMount(async () => {
     modelLoaded = await loadModel(objectUrl);
     const mapcont:any = document.querySelector('.'+containerClass);
-     console.log("MAP CONTAINER",mapcont,containerClass)
     if(mapcont && !map){
         await addmap()
     }
     // add event listner to containerClass to fly to asset
     mapcont?.addEventListener('flyToAsset', (e:any) => {
-		console.log('flyToAsset', e.detail)
 		assets = e.detail.assets?e.detail.assets:[]
-        console.log("RECEIVED ASSETS",assets)
         flyAsset = e.detail.asset
 		if(flyAsset){
             // udate elevation
@@ -97,7 +94,6 @@ let flyAsset:any = null
 
         // Aggiungi il supporto per il terreno
         map.on('load', async () => {
-          console.log("MAP LOAD")
           if(terrain){
               // check if source already exists
               if (map.getSource(terrainSourceId)) {
@@ -110,7 +106,7 @@ let flyAsset:any = null
                 maxzoom: 15.9, // Zoom massimo supportato dal DEM
                 exaggeration: 3,
               });
-               console.log("MAP SET TERRAIN")
+            
               // Configura il layer per il terreno
               map.setTerrain({ source: terrainSourceId, exaggeration: 1.5 });
 
@@ -128,7 +124,7 @@ let flyAsset:any = null
                   });
               }
               if(addModels){
-                  console.log("MODEL LOADING.....")
+                  
                   // Load the model
                   //modelLoaded = await loadModel(objectUrl);
                   for(let i=0;i<assets.length;i++){

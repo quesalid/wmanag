@@ -276,9 +276,7 @@
 		if(twindataarray.length > 0){
 			twindata = twindataarray[0]
 			sectionData = twindata.sections
-			console.log('TWIN DATA ARRAY',sectionData,twinName)
 		}
-		//console.log('TWIN DATA',twindata)
 		
 		const findFreeOffset:any = (lon:any,lat:any,machine='')=>{
 			for(let i=0;i<$alarmsdata.length;i++){
