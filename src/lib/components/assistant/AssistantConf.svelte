@@ -27,13 +27,14 @@ let showMessageInput = false
 let type = 'SIMPLE'
 
 onMount(async () => { 
-	console.log("ASSINTANT ONMOUNT",$user)
+	console.log("ASSISTANT ONMOUNT",$user)
 	
 	let profile:any = $user.profile
-	let dashboards:any = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
-	if(!dashboards)
-		dashboards = profile.find((item:any) => item.module == 'DEFAULT')
-	let win = dashboards.windows.find((item:any) => item.id == 'Communication')
+	let mod = profile.modules.find((item:any) => item.name == $module.toLowerCase())
+	let dashboard:any = mod.windows.dashboard
+	//if(!dashboards)
+		//dashboards = profile.find((item:any) => item.module == 'DEFAULT')
+	let win = dashboard.find((item:any) => item.id == 'Communication')
 	if(win){
 		type = win.params && win.params.type? win.params.type : ''
 		showHeader = win.params && win.params.showHeader? win.params.showHeader : false
@@ -88,28 +89,28 @@ const changeData = async (e:any|undefined)=>{
 const saveData = async (e:any|undefined)=>{
 		// save data to user profile
 		let profile:any = $user.profile
-		let dashboards:any = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
-		if(!dashboards)
-			dashboards = profile.find((item:any) => item.module == 'DEFAULT')
-			let win = dashboards.windows.find((item:any) => item.id == 'Communication')
-			if(win){
-					win.params.type = type
-					win.params.showHeader = showHeader
-					win.params.showCheckbox = showCheckbox
-					win.params.showFullHistory = showFullHistory
-					win.params.chatImage = chatImage
-					win.params.showImage = showImage
-					win.params.showMessageInput = showMessageInput
-			}
-			// save profile
-			$user.profile = profile
-			console.log('SAVE',$user.profile)
-			const event = new CustomEvent('toggleassistant', {detail: {status: e.target.checked}});
-			document.dispatchEvent(event)
-			// reset button color
-			const saveButton = document.getElementById('save-button')
-			if(saveButton)
-				saveButton.style.backgroundColor = '#c0c0c0'
+		let mod = profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		let dashboard:any = mod.windows.dashboard
+		
+		let win = dashboard.find((item:any) => item.id == 'Communication')
+		if(win){
+				win.params.type = type
+				win.params.showHeader = showHeader
+				win.params.showCheckbox = showCheckbox
+				win.params.showFullHistory = showFullHistory
+				win.params.chatImage = chatImage
+				win.params.showImage = showImage
+				win.params.showMessageInput = showMessageInput
+		}
+		// save profile
+		$user.profile = profile
+		console.log('SAVE',$user.profile)
+		const event = new CustomEvent('toggleassistant', {detail: {status: e.target.checked}});
+		document.dispatchEvent(event)
+		// reset button color
+		const saveButton = document.getElementById('save-button')
+		if(saveButton)
+			saveButton.style.backgroundColor = '#c0c0c0'
 	}
 
 const  onClick = (ev:any)=>{

@@ -57,20 +57,20 @@
 	
 	const findWindow = (id:any)=>{
 		let profile:any = $user.profile
-		let dashboards:any = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
-		if(!dashboards)
-			dashboards = profile.find((item:any) => item.module == 'DEFAULT')
-		let win = dashboards.windows.find((item:any) => item.id == id)
+		let mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		let dashboard:any = mod.windows.dashboard
+		let win = dashboard.find((item:any) => item.id == id)
 		return win
 	}
 
 	const getColorScheme = (type:any)=>{
 		let colorScheme = {wincolor:"#ddefde"}
 		let profile = $user.profile
-		let dashboards:any = profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
+		let mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		let dashboard:any = mod.windows.dashboard
 		
-		if(dashboards && dashboards.colorScheme)
-			colorScheme = dashboards.colorScheme
+		if(dashboard && dashboard.colorScheme)
+			colorScheme = dashboard.colorScheme
 		
 		return colorScheme
 	}
@@ -220,8 +220,8 @@
 	let components:any =[]
 
 	const loadComponents = async (dashboard:any)=>{
-		for(let i=0;i<dashboard.windows.length;i++){
-			const win = dashboard.windows[i]
+		for(let i=0;i<dashboard.length;i++){
+			const win = dashboard[i]
 			let props:any = {
 				headercolor:colorScheme.wincolor,
 				title:entityName,
@@ -366,10 +366,10 @@
 		const securityAlerts = retalert.data
 		const messages = securityAlerts.map((item:any)=>item.message)
 		center.init(messages)
-		// A. GET PROFILE DASHBOARD
-		dashboard = $user.profile.dashboard.find((item:any) => item.module == $module.toUpperCase())
-		if(!dashboard)
-			dashboard = $user.profile.dashboard.find((item:any) => item.module == 'DEFAULT')
+		// A. GET PROFILE DASHBOARD 
+		const mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		if(mod)
+			dashboard = mod.windows.dashboard
 
 		// A1. LOAD COMPONENTS
 		await loadComponents(dashboard)
@@ -402,7 +402,7 @@
 		//sectionCoords = retsc.data
 
 		// F1. GET TWIN DATA
-		const twinName = $user.profile && $user.profile.data && $user.profile.data.twinSelector?$user.profile.data.twinSelector:'defaultTwinManager'
+		const twinName = mod.data && mod.data.twinSelector?mod.data.twinSelector:'defaultTwinManager'
 		const filters = [{name:twinName,_type:'eq'}]
 		const rettwin = await getTwinData(filters,$mock)
 		twindataarray = rettwin.data

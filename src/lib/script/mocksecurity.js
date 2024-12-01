@@ -96,163 +96,19 @@ let users = [
     },
 ]
 
+
+
 let profiles = [
     {
         uid: '55a96422-88cd-43ab-aa56-f4d4b022a77e',
         language: 'en',
         locale: 'en-US',
         avatar: '/AVATAR1.png',
-        data: {
-            family: 'INDUSTRY'
-        },
-        dashboard: [
+        modules: [
             {
-                module: 'DEFAULT',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px', left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'DATA',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '380px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "hidden",
-                        image: 'Donut.png',
-                    },
-                    {
-                        id: 'Map',
-                        name:'Mappa',
-                        top: '0px',
-                        left: '10px',
-                        width: '600px',
-                        visible: "hidden",
-                        height: '340px',
-                        image: 'Map.png',
-                        params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
-                    },
-                    {
-                        id: 'Alarms',
-                        name:'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "hidden"
-                    },
-                    {
-                        id: 'Firesim',
-                        name: 'Simulazione Incendio',
-                        top: '0px',
-                        left: '0px',
-                        height: '600px',
-                        width: '1000px',
-                        image: 'Firesim.png',
-                        visible: "hidden",
-                        params: {
-                            initlat: 41.895,
-                            initlon: 12.62799,
-                            initzoom: 14,
-                            maxzoom: 19,
-                            fswidth: '100%',
-                            fsheight: '130vh',
-                            cellSize: 0.035,
-                            bbox:[12.61800, 41.90838, 12.65048, 41.89052],
-                        }
-                    },
-                    {
-                        id: 'Netmap',
-                        name: 'Acquedotto Peschiera',
-                        top: '0px',
-                        left: '0px',
-                        height: '600px',
-                        width: '1000px',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                            initlat: 42.25277,
-                            initlon: 12.73997,
-                            initzoom: 9,
-                            maxzoom: 19,
-                            fswidth: '100%',
-                            fsheight: '130vh',
-                        }
-                    },
-                ]
-            },
-            {
-                module: 'CLONE',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "visible"
-                    },
-                    {
-                        id: 'Monitor',
-                        name: 'Monitor',
-                        top: '358px',
-                        left: '10px',
-                        height: '320px',
-                        width: '980px',
-                        visible: "visible",
-                        image: 'Monitor.png',
-                    },
-                ]
-            },
-            {
-                module: 'AI',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'LEARN',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            }
-        ],
-        topbar: {
-            groups: {
-                'data': [
+                name: 'data',
+                data: { family: 'INDUSTRY' },
+                topbar: [
                     [
                         { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
                         { icon: '/BUILD.svg', text: `Build`, link: '/build' },
@@ -260,474 +116,967 @@ let profiles = [
                         { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
                         { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
                     ]
-                ]
+                ],
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        },
+                        {
+                            id: 'Map',
+                            name: 'Mappa',
+                            top: '0px',
+                            left: '10px',
+                            width: '600px',
+                            visible: "hidden",
+                            height: '340px',
+                            params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '350px',
+                            width: '850px',
+                            visible: "hidden"
+                        },
+                        {
+                            id: 'Firesim',
+                            name: 'Simulazione Incendio',
+                            top: '0px',
+                            left: '0px',
+                            height: '600px',
+                            width: '1000px',
+                            visible: "hidden",
+                            params: {
+                                initlat: 41.895,
+                                initlon: 12.62799,
+                                initzoom: 14,
+                                maxzoom: 19,
+                                fswidth: '100%',
+                                fsheight: '130vh',
+                                cellSize: 0.035,
+                                bbox: [12.61800, 41.90838, 12.65048, 41.89052],
+                            }
+                        },
+                        {
+                            id: 'Netmap',
+                            name: 'Acquedotto Peschiera',
+                            top: '0px',
+                            left: '0px',
+                            height: '600px',
+                            width: '1000px',
+                            visible: "visible",
+                            params: {
+                                initlat: 42.25277,
+                                initlon: 12.73997,
+                                initzoom: 9,
+                                maxzoom: 19,
+                                fswidth: '100%',
+                                fsheight: '130vh',
+                            }
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'clone',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Monitor',
+                            name: 'Monitor',
+                            top: '358px',
+                            left: '10px',
+                            height: '320px',
+                            width: '980px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'ai',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'learn',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
     {
         uid: '667b658f-66ca-7aa3-965d-abd4bc22a59a',
         language: 'it',
         locale: 'it-IT',
         avatar: '/gpaesani.png',
-        data: {
-            family: 'WWATER'
-        },
-        dashboard: [
+        modules: [
             {
-                module: 'DEFAULT',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "visible"
-                    }
-                ]
-            },
-            {
-                module: 'DATA',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "hidden"
-                    },
-                    {
-                        id: 'Monitor',
-                        name:'Monitor',
-                        top: '358px',
-                        left: '10px',
-                        height: '320px',
-                        width: '900px',
-                        image: 'Monitor.png',
-                        visible: "hidden"
-                    },
-                    {
-                        id: 'Chart',
-                        name:'Grafico',
-                        top: '0vh',
-                        left: '44vw',
-                        width: '48vw',
-                        height: '85vh',
-                        image: 'Chart.png',
-                        visible: "visible"
-                    },
-                    {
-                        id: 'Map',
-                        name:'Mappa',
-                        top: '0vh',
-                        left: '1vw',
-                        height: '45vh',
-                        image: 'Map.png',
-                        width: '35vw',
-                        visible: "visible",
-                        params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch:45,bearing:-15.7 }
-                    },
-                    {
-                        id: 'Alarms',
-                        name:'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "hidden"
-                    },
-                    {
-                        id: 'Communication',
-                        name:'Comunicazione',
-                        top: '46vh',
-                        left: '1vw',
-                        height: '46vh',
-                        width: '18vw',
-                        image: 'Communication.png',
-                        visible: "visible",
-                        params: {
-                            showHeader: false,
-                            showCheckbox: true,
-                            showFullHistory: false,
-                            showImage: true,
-                            showMessageInput: false,
-                            chatImage: "ChatBot.png",
-                            type: "SIMPLE",
+                name: 'data',
+                data: { family: 'WWATER' },
+                topbar: [
+                        [
+                            { icon: '/DASHBOARD.svg', text: `Dashboard`, link: '' },
+                            { icon: '/MONITOR.svg', text: `Monitoraggio`, link: '/monitor' },
+                            { icon: '/BUILD.svg', text: `Costruzione`, link: '/build' },
+                        ], [
+                            { icon: '/EDIT.svg', text: `Configurazione`, link: '/configure' },
+                            { icon: '/DEPLOY.svg', text: `Rilascio`, link: '/deploy' }
+                        ]
+                ],
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden"
+                        },
+                        {
+                            id: 'Monitor',
+                            name: 'Monitor',
+                            top: '358px',
+                            left: '10px',
+                            height: '320px',
+                            width: '900px',
+                            visible: "hidden"
+                        },
+                        {
+                            id: 'Chart',
+                            name: 'Grafico',
+                            top: '0vh',
+                            left: '44vw',
+                            width: '48vw',
+                            height: '85vh',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Map',
+                            name: 'Mappa',
+                            top: '0vh',
+                            left: '1vw',
+                            height: '45vh',
+                            width: '35vw',
+                            visible: "visible",
+                            params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch: 45, bearing: -15.7 }
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '350px',
+                            width: '850px',
+                            visible: "hidden"
+                        },
+                        {
+                            id: 'Communication',
+                            name: 'Comunicazione',
+                            top: '46vh',
+                            left: '1vw',
+                            height: '46vh',
+                            width: '18vw',
+                            visible: "visible",
+                            params: {
+                                showHeader: false,
+                                showCheckbox: true,
+                                showFullHistory: false,
+                                showImage: true,
+                                showMessageInput: false,
+                                chatImage: "ChatBot.png",
+                                type: "SIMPLE",
+                            }
                         }
-                    }
-                ]
-            },
-            {
-                module: 'CLONE',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "visible"
-                    },
-                    {
-                        id: 'Alarms',
-                        name: 'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "visible"
-                    },
-                ]
-            },
-            {
-                module: 'AI',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "visible"
-                    }
-                ]
-            },
-            {
-                module: 'LEARN',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "visible"
-                    }
-                ]
-            }
-        ],
-        topbar: {
-            groups: {
-                'data': [
-                    [
-                        { icon: '/DASHBOARD.svg', text: `Dashboard`, link: '' },
-                        { icon: '/MONITOR.svg', text: `Monitoraggio`, link: '/monitor' },
-                        { icon: '/BUILD.svg', text: `Costruzione`, link: '/build' },
-                    ], [
-                        { icon: '/EDIT.svg', text: `Configurazione`, link: '/configure' },
-                        { icon: '/DEPLOY.svg', text: `Rilascio`, link: '/deploy' }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
                     ]
-                ]
+                }
+            },
+            {
+                name: 'clone',
+                data: { family: 'WWATER' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '350px',
+                            width: '850px',
+                            visible: "visible"
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'ai',
+                data: { family: 'WWATER' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'learn',
+                data: { family: 'WWATER' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
     {
         uid: 'dd7b658f-66ca-7aa3-965d-abd4bc48a59a',
         language: 'it',
         locale: 'it-IT',
         avatar: '/flutrario.png',
-        data: {
-            family: 'INDUSTRY'
-        },
-        dashboard: [
+        modules: [
             {
-                module: 'DEFAULT',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'DATA',
-                windows: [
-                    {
-                        id: 'Monitor',
-                        name:'Monitor',
-                        top: '358px',
-                        left: '10px',
-                        height: '320px',
-                        width: '900px',
-                        visible: "visible",
-                        image: 'Monitor.png',
-                    },
-                    {
-                        id: 'Map',
-                        name:'Mappa',
-                        top: '0px',
-                        left: '10px',
-                        height: '340px',
-                        width: '600px',
-                        visible: "visible",
-                        image: 'Map.png',
-                        params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 }
-                    },
-                    {
-                        id: 'Alarms',
-                        name:'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '310px',
-                        width: '850px',
-                        visible: "visible",
-                        image: 'Alarms.png',
-                    },
-                    {
-                        id: 'Communication',
-                        name:'Comunicazione',
-                        top: '42vh',
-                        left: '1020px',
-                        height: '50vh',
-                        width: '350px',
-                        visible: "visible",
-                        image: 'Communication.png',
-                        params: {
-                            showHeader: false,
-                            showCheckbox: true,
-                            showFullHistory: false,
-                            showImage: true,
-                            showMessageInput: false,
-                            chatImage: "ChatBot.png",
-                            type: "SIMPLE",
+                name: 'data',
+                data: { family: 'INDUSTRY' },
+                topbar: [
+                            [
+                                { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
+                                { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                                { icon: '/BUILD.svg', text: `Build`, link: '/build' },
+                            ], [
+                                { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                                { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                            ]
+                ],
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitor',
+                            top: '358px',
+                            left: '10px',
+                            height: '320px',
+                            width: '900px',
+                            visible: "visible",
+                        },
+                        {
+                            id: 'Map',
+                            name: 'Mappa',
+                            top: '0px',
+                            left: '10px',
+                            height: '340px',
+                            width: '600px',
+                            visible: "visible",
+                            params: { center: { lat: 42.19886, lon: 13.15534 }, zoom: 7, zoomfactor: 12, markeroffset: 0.000025 }
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '310px',
+                            width: '850px',
+                            visible: "visible",
+                        },
+                        {
+                            id: 'Communication',
+                            name: 'Comunicazione',
+                            top: '42vh',
+                            left: '1020px',
+                            height: '50vh',
+                            width: '350px',
+                            visible: "visible",
+                            params: {
+                                showHeader: false,
+                                showCheckbox: true,
+                                showFullHistory: false,
+                                showImage: true,
+                                showMessageInput: false,
+                                chatImage: "ChatBot.png",
+                                type: "SIMPLE",
+                            }
                         }
-                    }
-                ]
-            },
-            {
-                module: 'CLONE',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    },
-                    {
-                        id: 'Alarms',
-                        name: 'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "visible"
-                    },
-                ]
-            },
-            {
-                module: 'AI',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'LEARN',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            }
-        ],
-        topbar: {
-            groups: {
-                'data': [
-                    [
-                        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
-                        { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
-                        { icon: '/BUILD.svg', text: `Build`, link: '/build' },
-                    ], [
-                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
-                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
                     ]
-                ]
+                }
+            },
+            {
+                name: 'clone',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '350px',
+                            width: '850px',
+                            visible: "visible"
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'ai',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'learn',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
     {
         uid: 'dd7b65da-66b8-7aa3-965d-abd4bc48a59a',
         language: 'it',
         locale: 'it-IT',
         avatar: '/rpanchetti.png',
-        data: {
-            family: 'INDUSTRY',
-            twinSelector: 'PV-Pratola'
-        },
-        dashboard: [
+        modules: [
             {
-                module: 'DEFAULT',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'DATA',
-                colorScheme: { wincolor:'#eaf5eb'},
-                windows: [
-                    {
-                        id: 'Netmap',
-                        name: 'Impianto FV - ',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                            initlat: 42.0000,
-                            initlon: 12.73997,
-                            initzoom: 9,
-                            maxzoom: 19,
-                            fswidth: '100%',
-                            fsheight: '130vh',
-                        }
-                    },
-                    {
-                        id: 'Section',
-                        name: 'Sezioni acquedotto',
-                        top: '1vh',
-                        left: '62vw',
-                        height: '70vh',
-                        width: '25vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'Twin',
-                        name: 'Twin sezione',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'D3',
-                        name: 'Vista 3D',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                ]
-            },
-            {
-                module: 'CLONE',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    },
-                    {
-                        id: 'Alarms',
-                        name: 'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "visible"
-                    },
-                ]
-            },
-            {
-                module: 'AI',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'LEARN',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name:'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            }
-        ],
-        topbar: {
-            groups: {
-                'data': [
+                name: 'data',
+                data: { family: 'INDUSTRY', twinSelector: 'PV-Pratola' },
+                topbar: [
                     [
                         { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
                         { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
@@ -736,388 +1085,622 @@ let profiles = [
                         { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
                         { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
                     ]
-                ]
+                ],
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Netmap',
+                            name: 'Impianto FV - ',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                                initlat: 42.0000,
+                                initlon: 12.73997,
+                                initzoom: 9,
+                                maxzoom: 19,
+                                fswidth: '100%',
+                                fsheight: '130vh',
+                            }
+                        },
+                        {
+                            id: 'Section',
+                            name: 'Sezioni acquedotto',
+                            top: '1vh',
+                            left: '62vw',
+                            height: '70vh',
+                            width: '25vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                        {
+                            id: 'Twin',
+                            name: 'Twin sezione',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                        {
+                            id: 'D3',
+                            name: 'Vista 3D',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'clone',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '350px',
+                            width: '850px',
+                            visible: "visible"
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'ai',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'learn',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
     {
         uid: '447b658f-66ca-7aa3-965d-abd4bc22a893',
         language: 'en',
         locale: 'en-US',
         avatar: '/LORENZO.png',
-        data: {
-            family: 'WWATER'
-        },
-        dashboard: [
+        modules: [
             {
-                module: 'DEFAULT',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'DATA',
-                windows: [
-                    {
-                        id: 'Monitor',
-                        name: 'Monitor',
-                        top: '358px',
-                        left: '10px',
-                        height: '320px',
-                        width: '900px',
-                        visible: "visible",
-                        image: 'Monitor.png',
-                    },
-                    {
-                        id: 'Map',
-                        name: 'Mappa',
-                        top: '0px',
-                        left: '10px',
-                        height: '340px',
-                        width: '600px',
-                        visible: "visible",
-                        image: 'Map.png',
-                        params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch: 45, bearing: -15.7 }
-                    },
-                    {
-                        id: 'Alarms',
-                        name: 'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '900px',
-                        visible: "visible",
-                        image: 'Alarms.png',
-                    },
-                    /*{
-                        id: 'Communication',
-                        name: 'Comunicazione',
-                        top: '358px',
-                        left: '1020px',
-                        height: '300px',
-                        width: '350px',
-                        visible: "visible",
-                        image: 'Communication.png',
-                        params: {
-                            showHeader: false,
-                            showCheckbox: true,
-                            showFullHistory: false,
-                            showImage: true,
-                            showMessageInput: false,
-                            chatImage: "ChatBot.png",
-                            type: "SIMPLE",
+                name: 'data',
+                data: { family: 'WWATER' },
+                topbar: [
+                            [
+                                { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
+                                { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                            ]
+                ],
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitor',
+                            top: '358px',
+                            left: '10px',
+                            height: '320px',
+                            width: '900px',
+                            visible: "visible",
+                        },
+                        {
+                            id: 'Map',
+                            name: 'Mappa',
+                            top: '0px',
+                            left: '10px',
+                            height: '340px',
+                            width: '600px',
+                            visible: "visible",
+                            params: { center: { lat: 41.9636, lon: 12.4975 }, zoom: 14.5, zoomfactor: 3, pitch: 45, bearing: -15.7 }
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '350px',
+                            width: '900px',
+                            visible: "visible",
+                        },
+                        {
+                            id: 'Communication',
+                            name: 'Comunicazione',
+                            top: '46vh',
+                            left: '70vw',
+                            height: '46vh',
+                            width: '18vw',
+                            visible: "visible",
+                            params: {
+                                showHeader: false,
+                                showCheckbox: true,
+                                showFullHistory: false,
+                                showImage: true,
+                                showMessageInput: false,
+                                chatImage: "ChatBot.png",
+                                type: "SIMPLE",
+                            }
                         }
-                    },*/
-                    {
-                        id: 'Communication',
-                        name: 'Comunicazione',
-                        top: '46vh',
-                        left: '70vw',
-                        height: '46vh',
-                        width: '18vw',
-                        image: 'Communication.png',
-                        visible: "visible",
-                        params: {
-                            showHeader: false,
-                            showCheckbox: true,
-                            showFullHistory: false,
-                            showImage: true,
-                            showMessageInput: false,
-                            chatImage: "ChatBot.png",
-                            type: "SIMPLE",
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
                         }
-                    }
-                ]
-            },
-            {
-                module: 'CLONE',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    },
-                    {
-                        id: 'Alarms',
-                        name: 'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "visible"
-                    },
-                ]
-            },
-            {
-                module: 'AI',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'LEARN',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            }
-        ],
-        topbar: {
-            groups: {
-                'data': [
-                    [
-                        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
-                        { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
                     ]
-                ]
+                }
+            },
+            {
+                name: 'clone',
+                data: { family: 'WWATER' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Alarms',
+                            name: 'Allarmi',
+                            top: '0px',
+                            left: '620px',
+                            height: '350px',
+                            width: '850px',
+                            visible: "visible"
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'ai',
+                data: { family: 'WWATER' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'learn',
+                data: { family: 'WWATER' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
     {
         uid: '65a96422-56cd-43ab-aa56-f4d45622a77e',
         language: 'it',
         locale: 'it-IT',
         avatar: '/spetronzi.png',
-        data: {
-            family: 'INDUSTRY',
-            twinSelector: 'Acquedotto-Peschiera'
-        },
-        dashboard: [
+        modules: [
             {
-                module: 'DEFAULT',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px', left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'DATA',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '380px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "hidden",
-                        image: 'Donut.png',
-                    },
-                    {
-                        id: 'Map',
-                        name: 'Mappa',
-                        top: '0px',
-                        left: '10px',
-                        width: '600px',
-                        visible: "hidden",
-                        height: '340px',
-                        image: 'Map.png',
-                        params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
-                    },
-                    {
-                        id: 'Alarms',
-                        name: 'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "hidden"
-                    },
-                    {
-                        id: 'Firesim',
-                        name: 'Simulazione Incendio',
-                        top: '0px',
-                        left: '0px',
-                        height: '600px',
-                        width: '1000px',
-                        image: 'Firesim.png',
-                        visible: "hidden",
-                        params: {
-                            initlat: 41.895,
-                            initlon: 12.62799,
-                            initzoom: 14,
-                            maxzoom: 19,
-                            fswidth: '100%',
-                            fsheight: '130vh',
-                            cellSize: 0.035,
-                            bbox: [12.61800, 41.90838, 12.65048, 41.89052],
-                        }
-                    },
-                    {
-                        id: 'Netmap',
-                        name: 'Acquedotto - ',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                            initlat: 42.0000,
-                            initlon: 12.73997,
-                            initzoom: 9,
-                            maxzoom: 19,
-                            fswidth: '100%',
-                            fsheight: '130vh',
-                        }
-                    },
-                    {
-                        id: 'Section',
-                        name: 'Sezioni acquedotto',
-                        top: '1vh',
-                        left: '62vw',
-                        height: '70vh',
-                        width: '25vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'Twin',
-                        name: 'Twin sezione',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'D3',
-                        name: 'Vista 3D',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'Communication',
-                        name: 'Comunicazione',
-                        top: '46vh',
-                        left: '70vw',
-                        height: '46vh',
-                        width: '25vw',
-                        image: 'Communication.png',
-                        visible: "hidden",
-                        params: {
-                            showHeader: false,
-                            showCheckbox: true,
-                            showFullHistory: true,
-                            showImage: true,
-                            showMessageInput: true,
-                            chatImage: "ChatBot.png",
-                            type: "GENERATIVE",
-                        }
-                    }
-                ]
-            },
-            {
-                module: 'CLONE',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "visible"
-                    },
-                    {
-                        id: 'Monitor',
-                        name: 'Monitor',
-                        top: '358px',
-                        left: '10px',
-                        height: '320px',
-                        width: '980px',
-                        visible: "visible",
-                        image: 'Monitor.png',
-                    },
-                ]
-            },
-            {
-                module: 'AI',
-                windows: [
-                    {
-                        id: 'AIManager',
-                        name: 'AI Dashboard',
-                        top: '10px',
-                        left: '10px',
-                        width: '98vw',
-                        height: '90vh',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'LEARN',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            }
-        ],
-        topbar: {
-            groups: {
-                'data': [
+                name: 'data',
+                data: { family: 'INDUSTRY', twinSelector: 'Acquedotto-Peschiera' },
+                topbar: [
                     [
+                        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
                         { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
                         { icon: '/BUILD.svg', text: `Build`, link: '/build' },
                     ], [
@@ -1125,230 +1708,321 @@ let profiles = [
                         { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
                     ]
                 ],
-                'ai': [
-                    [
-                        { icon: '/BUILD.svg', text: `Build`, link: '/brain' },
-                    ], [
-                        { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
-                        { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Netmap',
+                            name: 'Acquedotto - ',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                                initlat: 42.0000,
+                                initlon: 12.73997,
+                                initzoom: 9,
+                                maxzoom: 19,
+                                fswidth: '100%',
+                                fsheight: '130vh',
+                            }
+                        },
+                        {
+                            id: 'Section',
+                            name: 'Sezioni acquedotto',
+                            top: '1vh',
+                            left: '62vw',
+                            height: '70vh',
+                            width: '25vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                        {
+                            id: 'Twin',
+                            name: 'Twin sezione',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                        {
+                            id: 'D3',
+                            name: 'Vista 3D',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
                     ]
-                ]
+                }
+            },
+            {
+                name: 'clone',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Monitor',
+                            name: 'Monitor',
+                            top: '358px',
+                            left: '10px',
+                            height: '320px',
+                            width: '980px',
+                            visible: "visible",
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'ai',
+                data: { family: 'INDUSTRY' },
+                topbar: [
+                        [
+                            { icon: '/BUILD.svg', text: `Build`, link: '/brain' },
+                        ], [
+                            { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
+                            { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
+                        ]
+                ],
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'AIManager',
+                            name: 'AI Dashboard',
+                            top: '10px',
+                            left: '10px',
+                            width: '98vw',
+                            height: '90vh',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'learn',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
     {
         uid: '59a96a22-96cd-43a1-4a56-f7845622a77e',
         language: 'it',
         locale: 'it-IT',
         avatar: '/vvezzari.png',
-        data: {
-            family: 'INDUSTRY',
-            twinSelector: 'Elett-Redipuglia-Udine-Sud'
-        },
-        dashboard: [
+        modules: [
             {
-                module: 'DEFAULT',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px', left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'DATA',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '380px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "hidden",
-                        image: 'Donut.png',
-                    },
-                    {
-                        id: 'Map',
-                        name: 'Mappa',
-                        top: '0px',
-                        left: '10px',
-                        width: '600px',
-                        visible: "hidden",
-                        height: '340px',
-                        image: 'Map.png',
-                        params: { center: { lat: 30, lon: -30 }, zoom: 1, zoomfactor: 3 }
-                    },
-                    {
-                        id: 'Alarms',
-                        name: 'Allarmi',
-                        top: '0px',
-                        left: '620px',
-                        height: '350px',
-                        width: '850px',
-                        image: 'Alarms.png',
-                        visible: "hidden"
-                    },
-                    {
-                        id: 'Firesim',
-                        name: 'Simulazione Incendio',
-                        top: '0px',
-                        left: '0px',
-                        height: '600px',
-                        width: '1000px',
-                        image: 'Firesim.png',
-                        visible: "hidden",
-                        params: {
-                            initlat: 41.895,
-                            initlon: 12.62799,
-                            initzoom: 14,
-                            maxzoom: 19,
-                            fswidth: '100%',
-                            fsheight: '130vh',
-                            cellSize: 0.035,
-                            bbox: [12.61800, 41.90838, 12.65048, 41.89052],
-                        }
-                    },
-                    {
-                        id: 'Netmap',
-                        name: 'Linea Alta Tensione - ',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                            initlat: 45.79327856495463,
-                            initlon: 13.42848697655372,
-                            initzoom: 10.5,
-                            maxzoom: 19,
-                            fswidth: '100%',
-                            fsheight: '130vh',
-                        }
-                    },
-                    {
-                        id: 'Asset',
-                        name: 'Sezioni elettrodotto',
-                        top: '1vh',
-                        left: '62vw',
-                        height: '68vh',
-                        width: '28vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'Assetgraph',
-                        name: 'Twin sezione',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '89vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'D3Libre',
-                        name: 'Vista 3D',
-                        top: '1vh',
-                        left: '1vw',
-                        height: '70vh',
-                        width: '60vw',
-                        image: 'Firesim.png',
-                        visible: "visible",
-                        params: {
-                        }
-                    },
-                    {
-                        id: 'Communication',
-                        name: 'Comunicazione',
-                        top: '46vh',
-                        left: '70vw',
-                        height: '46vh',
-                        width: '25vw',
-                        image: 'Communication.png',
-                        visible: "hidden",
-                        params: {
-                            showHeader: false,
-                            showCheckbox: true,
-                            showFullHistory: true,
-                            showImage: true,
-                            showMessageInput: true,
-                            chatImage: "ChatBot.png",
-                            type: "GENERATIVE",
-                        }
-                    }
-                ]
-            },
-            {
-                module: 'CLONE',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        image: 'Donut.png',
-                        visible: "visible"
-                    },
-                    {
-                        id: 'Monitor',
-                        name: 'Monitor',
-                        top: '358px',
-                        left: '10px',
-                        height: '320px',
-                        width: '980px',
-                        visible: "visible",
-                        image: 'Monitor.png',
-                    },
-                ]
-            },
-            {
-                module: 'AI',
-                windows: [
-                    {
-                        id: 'AIManager',
-                        name: 'AI Dashboard',
-                        top: '10px',
-                        left: '10px',
-                        width: '98vw',
-                        height: '90vh',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            },
-            {
-                module: 'LEARN',
-                windows: [
-                    {
-                        id: 'Donut',
-                        name: 'Corona',
-                        top: '10px',
-                        left: '10px',
-                        width: '233px',
-                        height: '300px',
-                        visible: "visible",
-                        image: 'Donut.png',
-                    }
-                ]
-            }
-        ],
-        topbar: {
-            groups: {
-                'data': [
+                name: 'data',
+                data: { family: 'INDUSTRY', twinSelector: 'Elett-Redipuglia-Udine-Sud' },
+                topbar: [
                     [
+                        { icon: '/DASHBOARD.svg', text: `Home`, link: '' },
                         { icon: '/MONITOR.svg', text: `Monitor`, link: '/monitor' },
                         { icon: '/BUILD.svg', text: `Build`, link: '/build' },
                     ], [
@@ -1356,18 +2030,327 @@ let profiles = [
                         { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
                     ]
                 ],
-                'ai': [
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Netmap',
+                            name: 'Linea Alta Tensione - ',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                                initlat: 45.79327856495463,
+                                initlon: 13.42848697655372,
+                                initzoom: 10.5,
+                                maxzoom: 19,
+                                fswidth: '100%',
+                                fsheight: '130vh',
+                            }
+                        },
+                        {
+                            id: 'Asset',
+                            name: 'Sezioni elettrodotto',
+                            top: '1vh',
+                            left: '62vw',
+                            height: '68vh',
+                            width: '28vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                        {
+                            id: 'Assetgraph',
+                            name: 'Twin sezione',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '89vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                        {
+                            id: 'D3Libre',
+                            name: 'Vista 3D',
+                            top: '1vh',
+                            left: '1vw',
+                            height: '70vh',
+                            width: '60vw',
+                            visible: "visible",
+                            params: {
+                            }
+                        },
+                        {
+                            id: 'Communication',
+                            name: 'Comunicazione',
+                            top: '46vh',
+                            left: '70vw',
+                            height: '46vh',
+                            width: '25vw',
+                            visible: "hidden",
+                            params: {
+                                showHeader: false,
+                                showCheckbox: true,
+                                showFullHistory: true,
+                                showImage: true,
+                                showMessageInput: true,
+                                chatImage: "ChatBot.png",
+                                type: "GENERATIVE",
+                            }
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'clone',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible"
+                        },
+                        {
+                            id: 'Monitor',
+                            name: 'Monitor',
+                            top: '358px',
+                            left: '10px',
+                            height: '320px',
+                            width: '980px',
+                            visible: "visible",
+                        },
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'ai',
+                data: { family: 'INDUSTRY' },
+                topbar: [
                     [
                         { icon: '/BUILD.svg', text: `Build`, link: '/brain' },
                     ], [
                         { icon: '/EDIT.svg', text: `Configure`, link: '/configure' },
                         { icon: '/DEPLOY.svg', text: `Deploy`, link: '/deploy' }
                     ]
-                ]
+                ],
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'AIManager',
+                            name: 'AI Dashboard',
+                            top: '10px',
+                            left: '10px',
+                            width: '98vw',
+                            height: '90vh',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
+            },
+            {
+                name: 'learn',
+                data: { family: 'INDUSTRY' },
+                topbar: null,
+                windows: {
+                    dashboard: [
+                        {
+                            id: 'Donut',
+                            name: 'Corona',
+                            top: '10px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "visible",
+                        }
+                    ],
+                    monitor: [
+                        {
+                            id: 'Monitor',
+                            name: 'Monitoraggio',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    build: [
+                        {
+                            id: 'Build',
+                            name: 'Costruzione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    configure: [
+                        {
+                            id: 'Configura',
+                            name: 'Configurazione',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ],
+                    deploy: [
+                        {
+                            id: 'Deploy',
+                            name: 'Corona',
+                            top: '380px',
+                            left: '10px',
+                            width: '233px',
+                            height: '300px',
+                            visible: "hidden",
+                        }
+                    ]
+                }
             }
-        }
+        ]
     },
-
 ]
 
 /** MORGAN CONFIGURATION FOR LOG
@@ -1508,6 +2491,7 @@ const getUsers = async function (body) {
     return (body)
 }
 
+
 const setUser = async function (body) {
     const user = body.options.user
     let old = null
@@ -1532,6 +2516,8 @@ const setUser = async function (body) {
     return user
 }
 
+
+
 const deleteUser = async function (body) {
     const filters = body.options.filters
     // CLONE USERS
@@ -1547,6 +2533,7 @@ const deleteUser = async function (body) {
     body.data = users
     return (body)
 }
+
 
 
 const userVerify = async function (username, password){
@@ -1570,6 +2557,7 @@ const getAvatar = async function (body) {
     return(null)
 }
 
+
 const setAvatar = async function (body) {
     const uid = body.options.uid
     const avatar = body.options.avatar
@@ -1579,6 +2567,8 @@ const setAvatar = async function (body) {
         
 }
 
+
+
 const getProfile = async function (body) {
     const uid = body.options.uid
     const found = profiles.find((item) => item.uid == uid)
@@ -1586,6 +2576,8 @@ const getProfile = async function (body) {
         return (found)
     return (null)
 }
+
+
 
 const setProfile = async function (body) {
     const uid = body.options.uid
@@ -1595,6 +2587,9 @@ const setProfile = async function (body) {
         profiles[index] = profile
 
 }
+
+
+
 const getLogs = async function (body) {
     let retLogs = JSON.parse(JSON.stringify(logs))
     const filters = body.options.filters

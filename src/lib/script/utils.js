@@ -1320,7 +1320,7 @@ export const getClassFromColor = (color) => {
 
 const avatargroups = [
     [
-        { icon: '/DASHBOARDCONF.svg', text: `Dashboard Conf` },
+        //{ icon: '/DASHBOARDCONF.svg', text: `Dashboard Conf` },
         { icon: '/SETTINGS.svg', text: `Settings` },
         { icon: '/ADMIN.svg', text: `Admin` },
     ],
@@ -1336,9 +1336,9 @@ export const getMenuGroups = (role,module) => {
     let dashboard = null
     let settings = null
     let admin = '/' + module.toLowerCase() + '/admin'
-    let dashboardconfig = '/' + module.toLowerCase() + '/dashboardconfig'
-    clone[0][2].link = admin
-    clone[0][0].link = dashboardconfig
+    //let dashboardconfig = '/' + module.toLowerCase() + '/dashboardconfig'
+    clone[0][1].link = admin
+    //clone[0][0].link = dashboardconfig
     switch (module) {
         case 'DATA':
             clone[1][0].link = "/datalogin"
@@ -1467,7 +1467,9 @@ const defaultGroups  = [
 // ----- WARNING same toolbar for different modules ---- 
 export let getGroups = (module, user) => {
     // chcek if user has groups configuration
-    let groups = user.profile.topbar && user.profile.topbar.groups && user.profile.topbar.groups[module] ? user.profile.topbar.groups[module] : null
+    let mod = user.profile.modules.find((item) => item.name == module.toLowerCase())
+    //let groups = user.profile.topbar && user.profile.topbar.groups && user.profile.topbar.groups[module] ? user.profile.topbar.groups[module] : null
+    let groups = mod ? mod.topbar : null
     let clone = groups ? JSON.parse(JSON.stringify(groups)) : JSON.parse(JSON.stringify(defaultGroups))
     // for each group
     for (let i = 0; i < clone.length; i++) {
