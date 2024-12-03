@@ -19,9 +19,7 @@
 
 	let defaultWManager= 'defaultMonitorWManager'
 
-	export let logoImage = "/ICO_UP2_DATA.png"
 	export let  bgcolor = "#ddefde"
-	export let barheigth = "60px"
 	export let managerid = "monitorManagerId"
 	// WMANAGER VARIABLES
 	export let title = 'POINTS'
@@ -100,11 +98,6 @@
 		{/if}
 
 <style>
-/*.configurator-container{
-		display:flex;
-		position:relative;
-		top: var(--top);
-	}*/
 
 </style>
 

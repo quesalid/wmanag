@@ -79,7 +79,8 @@
             $token = restoken
             // C. GET USER PROFILE
             const profile:any =  await getProfile(decoded.token.uuid,$mock)
-            const fam = profile && profile.data && profile.data.family ? profile.data.family : 'INDUSTRY'
+            const mod = profile.modules.find((item:any)=>item.name === $module.toLowerCase())
+            const fam = mod && mod.data && mod.data.family ? mod.data.family : 'INDUSTRY'
             $family = fam
             // C1. SET MOCKDB FAMILY (TBD: make it configurable by user)
             if($mock){

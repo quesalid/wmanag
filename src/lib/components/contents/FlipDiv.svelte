@@ -1,7 +1,7 @@
 <script lang="ts">
 import { onMount} from "svelte"
 import Spinner from '../spinner/RingLoader.svelte'
-import {dragElement, showHideLoader} from '../CompUtils.js'
+import {dragElement, showHideLoader} from '../CompUtils'
 import Switch from "../switch/Switch.svelte"
 
 

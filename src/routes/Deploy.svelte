@@ -15,7 +15,7 @@
    import Wmanag from '../lib/components/WManag.svelte'
    import {SimpleTable} from '../lib/components/table'
    import {getDeviceDeployColumns} from '../lib/script/utils.js'
-   import {dragElement} from '../lib/components/CompUtils.js'
+   import {dragElement} from '../lib/components/CompUtils'
    import {DeployMain,DockerMain} from '../lib/components/contents'
    // API INTERFACE
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'

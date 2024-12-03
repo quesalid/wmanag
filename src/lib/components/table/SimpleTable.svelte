@@ -1,44 +1,37 @@
 ﻿<script lang="ts">
+  import { onMount} from "svelte"
+  import { writable } from "svelte/store";
   import { createTable, Subscribe, Render, createRender } from 'svelte-headless-table';
   import { addSortBy,addPagination,addTableFilter, addColumnFilters } from 'svelte-headless-table/plugins';
   // CELL RENDERERS
-  import ImageRender from './ImageRender.svelte'
-  import ImageRenderDynamic from './ImageRenderDynamic.svelte'
-  import CheckRender from './CheckRender.svelte'
-  import SelectRender from './SelectRender.svelte'
-  import TextRender from './TextRender.svelte'
-  import EditTextRender from './EditTextRender.svelte'
-  import EditCheckRender from './EditCheckRender.svelte'
-  import TextStyleRender from './TextStyleRender.svelte';
+  import {	ImageRender,
+			ImageRenderDynamic,
+			CheckRender,
+			SelectRender,
+			TextRender,
+			EditTextRender,
+			EditCheckRender,
+			TextStyleRender} from '.'
+  
   // FILTER RENDERERS
   import TextFilter from './filters/TextFilter.svelte'
   import NumberRangeFilter from './filters/NumberRangeFilter.svelte'
   import SelectFilter from './filters/SelectFilter.svelte'
   import SliderFilter from './filters/SliderFilter.svelte'
   // IMPORT FILTER FUNCTIONS
-  import { textPrefixFilter, minFilter, numberRangeFilter, matchFilter } from '../../script/filters/filters.js';
-
+  import { textPrefixFilter, minFilter, numberRangeFilter, matchFilter } from '../../script/filters/filters';
   
 
-  export let data:any = [
-		{ name: 'Ada Lovelace', age: 21 },
-		{ name: 'Barbara Liskov', age: 52 },
-		{ name: 'Richard Hamming', age: 38 },
-  ];
-  export let datacolumns:any = [
-	  {
-		header: 'Name',
-		accessor: 'name',
-	  },
-	  {
-		header: 'Age',
-		accessor: 'age',
-	  }
-  ];
-
+  
+  // EXPORTS
+  export let data:any =  writable( []);
+  export let datacolumns:any = [];
   export let pagesize = true;
   export let showpag = true;
   export let pSize = 2;
+
+
+  let table:any
 
   const getFilterRenderer = (type:any,fn:any,iv:any) => {
 	  let plugin:any = {}
@@ -49,7 +42,7 @@
 			  fn: fn,
 			  initialFilterValue: iv,
 			  render: ({ filterValue, values, preFilteredValues }) =>
-				createRender(TextFilter, { filterValue, values, preFilteredValues }),
+			  createRender(TextFilter, { filterValue, values, preFilteredValues }),
 			}
 		  }
 		  break;
@@ -91,7 +84,7 @@
   
   
 
-  const getColumns = (datacolumns:any) => {
+  const getColumns = (datacolumns:any, table:any) => {
 	  let columns = []
 	  for (let i = 0; i < datacolumns.length; i++) {
 		  if(datacolumns[i].renderdef){
@@ -194,103 +187,130 @@
   }
 
   
+  const buildtable = (data:any,datacolumns:any)=>{
+	  const tableOptions:any = {}
+	  tableOptions.sort = addSortBy()
+	  tableOptions.page = addPagination()
+	  tableOptions.tableFilter = addTableFilter()
+	  tableOptions.filter = addColumnFilters()
+	  table = createTable(data, tableOptions);
+	  let cols = getColumns(datacolumns,table)
+	  let columns:any = table.createColumns(cols)
+	  const viewModel:any = table.createViewModel(columns)
+	  //({ visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = viewModel)
+	  visibleColumns = viewModel.visibleColumns
+	  headerRows = viewModel.headerRows
+	  pageRows = viewModel.pageRows
+	  tableAttrs = viewModel.tableAttrs
+	  tableBodyAttrs = viewModel.tableBodyAttrs
+	  pluginStates = viewModel.pluginStates
+	  let { sortKeys } = pluginStates.sort;
+	  let { filterValue } = pluginStates.tableFilter;
+	  let { filterValues } = pluginStates.filter;
+	  let { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
+	  return {visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates, pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage,filterValue}
+  }
 
-  //const datarows = readable(data);
-
-  const tableOptions:any = {}
-  tableOptions.sort = addSortBy()
-  tableOptions.page = addPagination()
-  tableOptions.tableFilter = addTableFilter()
-  tableOptions.filter = addColumnFilters()
-  const table = createTable(data, tableOptions);
-
-  const columns = table.createColumns(getColumns(datacolumns))
-
-  const { visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates } = table.createViewModel(columns);
+  let tableAttrs:any
+  let headerRows:any
+  let pageRows:any
+  let tableBodyAttrs:any
+  let pluginStates:any
+  let pageIndex:any
+  let pageCount:any
+  let pageSize:any
+  let hasNextPage:any
+  let hasPreviousPage:any
+  let filterValue:any
+  let visibleColumns:any
   
-  const { sortKeys } = pluginStates.sort;
-  
-  const { filterValue } = pluginStates.tableFilter;
-  const { filterValues } = pluginStates.filter;
-  
- 
-  const { pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage } = pluginStates.page;
-  $pageSize = pSize
- 
+  let key = 0
 
+  onMount(async () => {
+	({ visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates, pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage, filterValue } = buildtable(data,datacolumns));
+		$pageSize = pSize
+		key++
+  })
+    
+ $: {
+	 if(key >0){
+		({ visibleColumns, headerRows, pageRows, tableAttrs, tableBodyAttrs, pluginStates, pageIndex, pageCount, pageSize, hasNextPage, hasPreviousPage, filterValue } = buildtable(data,datacolumns));
+	 }
+ }
 
 </script>
+    <!-- wait compont mount for rendering-->
+	{#if key > 0}
+		<table {...$tableAttrs}>
+			<thead>
+				{#each $headerRows as headerRow (headerRow.id)}
+					<Subscribe rowAttrs={headerRow.attrs()} let:rowAttrs>
+						<tr {...rowAttrs}>
+							{#each headerRow.cells as cell (cell.id)}
+								<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
+									<th {...attrs} on:click={props.sort.toggle}>
+										<Render of={cell.render()} />
+										{#if props.sort.order === 'asc'}
+										⬇️
+										{:else if props.sort.order === 'desc'}
+										⬆️
+										{/if}
+										{#if props.filter?.render}
+										<div>
+											<Render of={props.filter.render} />
+										</div>
+										{/if}
+									</th>
+								</Subscribe>
+							{/each}
+						</tr>
+					</Subscribe>
+				{/each}
+				<tr>
+					<th class="th-input-search" colspan={$visibleColumns.length}>
+						<input class="input-search" type="text" bind:value={$filterValue} placeholder="Search rows..." />
+					</th>
+				</tr>
+			</thead>
+			<tbody {...$tableBodyAttrs}>
+				{#each $pageRows as row (row.id)}
+					<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
+						<tr {...rowAttrs}>
+							{#each row.cells as cell (cell.id)}
+								<Subscribe attrs={cell.attrs()} let:attrs>
+									<td {...attrs}>
+										<Render of={cell.render()} />
+									</td>
+								</Subscribe>
+							{/each}
+						</tr>
+					</Subscribe>
+				{/each}
+			</tbody>
+		</table>
 
-    <table {...$tableAttrs}>
-	  <thead>
-			{#each $headerRows as headerRow (headerRow.id)}
-				<Subscribe rowAttrs={headerRow.attrs()} let:rowAttrs>
-					<tr {...rowAttrs}>
-						{#each headerRow.cells as cell (cell.id)}
-							<Subscribe attrs={cell.attrs()} let:attrs props={cell.props()} let:props>
-								<th {...attrs} on:click={props.sort.toggle}>
-									<Render of={cell.render()} />
-									{#if props.sort.order === 'asc'}
-									⬇️
-									{:else if props.sort.order === 'desc'}
-									⬆️
-									{/if}
-									{#if props.filter?.render}
-									<div>
-										<Render of={props.filter.render} />
-									</div>
-									{/if}
-								</th>
-							</Subscribe>
-						{/each}
-					</tr>
-				</Subscribe>
-			{/each}
-			<tr>
-				<th class="th-input-search" colspan={$visibleColumns.length}>
-					<input class="input-search" type="text" bind:value={$filterValue} placeholder="Search rows..." />
-				</th>
-			</tr>
-		</thead>
-		<tbody {...$tableBodyAttrs}>
-			{#each $pageRows as row (row.id)}
-				<Subscribe rowAttrs={row.attrs()} let:rowAttrs>
-					<tr {...rowAttrs}>
-						{#each row.cells as cell (cell.id)}
-							<Subscribe attrs={cell.attrs()} let:attrs>
-								<td {...attrs}>
-									<Render of={cell.render()} />
-								</td>
-							</Subscribe>
-						{/each}
-					</tr>
-				</Subscribe>
-			{/each}
-		</tbody>
-</table>
-
-
-{#if showpag}
-	<div class="pagination-div">
-		<div>
-		  <button
-			on:click={() => $pageIndex--}
-			disabled={!$hasPreviousPage} style="font-weight:bold;font-size:15px;margin-left:2px;">🞀</button
-		  >
-		  {$pageIndex + 1} out of {$pageCount}
-		  <button
-			on:click={() => $pageIndex++}
-			disabled={!$hasNextPage} style="font-weight:bold;font-size:15px;">🞂</button
-		  >
-		</div>
-		{#if pagesize}
-		   <div>
-			<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
-			<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
-		   </div>
+		{#if showpag}
+			<div class="pagination-div">
+				<div>
+				  <button
+					on:click={() => $pageIndex--}
+					disabled={!$hasPreviousPage} style="font-weight:bold;font-size:15px;margin-left:2px;">🞀</button
+				  >
+				  {$pageIndex + 1} out of {$pageCount}
+				  <button
+					on:click={() => $pageIndex++}
+					disabled={!$hasNextPage} style="font-weight:bold;font-size:15px;">🞂</button
+				  >
+				</div>
+				{#if pagesize}
+				   <div>
+					<label for="page-size" style="margin-top:5px;margin-right:3px;margin-left:3px;">Page size</label>
+					<input id="page-size" size="8" type="number" min={1} bind:value={$pageSize} />
+				   </div>
+				{/if}
+			</div>
 		{/if}
-	</div>
-{/if}
+	{/if}
 
 
 <style>

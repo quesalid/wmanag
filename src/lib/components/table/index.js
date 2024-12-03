@@ -7,3 +7,4 @@ export { default as SelectRender } from './SelectRender.svelte';
 export { default as SimpleTable } from './SimpleTable.svelte';
 export { default as SimpleTableNoPage } from './SimpleTableNoPage.svelte';
 export { default as TextRender } from './TextRender.svelte';
+export { default as TextStyleRender } from './TextStyleRender.svelte';

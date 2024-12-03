@@ -21,7 +21,7 @@ import {setDockerEnv,
 import {getDevices} from '../../script/apidataconfig.js'
 import { writable } from 'svelte/store';
 import { sleep } from "../../script/api";
-import {showHideLoader} from "../CompUtils.js"
+import {showHideLoader} from "../CompUtils"
 
 
 let cafile

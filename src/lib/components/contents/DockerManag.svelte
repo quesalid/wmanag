@@ -4,7 +4,7 @@
 import { onMount} from "svelte";
 import { writable } from "svelte/store";
 
-import {dragElement} from '../CompUtils.js'
+import {dragElement} from '../CompUtils'
 import Wmanag from '../WManag.svelte'
 import {SimpleTable} from '../table'
 

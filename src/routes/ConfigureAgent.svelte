@@ -14,10 +14,11 @@
 			BreadCrumb,
 			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import Wmanag from '../lib/components/WManag.svelte'
-   import {SimpleTable} from '../lib/components/table'
+
+   //import Wmanag from '../lib/components/WManag.svelte'
+   //import {SimpleTable} from '../lib/components/table'
    import {getAgentColumns} from '../lib/script/utils.js'
-   import {dragElement} from '../lib/components/CompUtils.js'
+   //import {dragElement} from '../lib/components/CompUtils'
    import {AgentForm,DeleteForm} from '../lib/components/forms'
    // API INTERFACE
    import {getAgents,setAgent,deleteAgent,getDevices} from '../lib/script/apidataconfig.js'
@@ -25,35 +26,144 @@
    // STORE
    import { mock,module,navigation,getArrayFromPath,avatar,avatargroups,user,avatarclass,currdevice} from '../lib/ustore.js'
   // UTILITY
-   import {getGroups} from '../lib/script/utils.js'
+   import {getGroups,loadComponent} from '../lib/script/utils.js'
+
+    // EXTERNAL VARIABLES
+	export let logoImage = "/ICO_UP2_DATA.png"
+	export let  bgcolor = "#ddefde"
+	// BAR VARIABLES
+	export let  barheigth = "60px"
+	export let  imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
 
    // ADD SIDEBAR NENU ON USER BASIS
    let  groups = getGroups($module,$user)
-
-
+   let pagesize = true
+   let pSize = 8
+   let components:any = []
+   let configure:any = {windows:[]}
+   let configureManagerId = 'configureAgentManagerId'
    let agentsdata:any = writable([])
    let device:any = {name:''}
+   let agentdatacolumns:any = []
+   let deviceuid = ''
+   let title = 'AGENTS for DEVICE'
+
+   const findWindow = (id:any)=>{
+		let profile:any = $user.profile
+		let mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		let configure:any = mod.windows.configure
+		let win = configure.find((item:any) => item.id == id)
+		return win
+	}
+
+	const getColorScheme = (type:any)=>{
+		let colorScheme = {wincolor:"#ddefde"}
+		let profile = $user.profile
+		let mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		let configure:any = mod.windows.configure
+		
+		if(configure && configure.colorScheme)
+			colorScheme = configure.colorScheme
+		
+		return colorScheme
+	}
+
+	// get color scheme
+	let colorScheme:any = getColorScheme($module.toUpperCase())
+
+   const loadComponents = async (dashboard:any)=>{
+		for(let i=0;i<dashboard.length;i++){
+			const win = dashboard[i]
+			let props:any = {
+				headercolor:colorScheme.wincolor,
+				//title:win.name?win.name:'DEVICES',
+				top:win.top?win.top:'10px',
+				left:win.left?win.left:'10px',
+				height:win.height?win.height:"max-content",
+				width:win.width?win.width:"max-content",
+				bgcolor:win.bgcolor?win.bgcolr:'#ddefde',
+				titlefontsize:win.titlefontsize?win.titlefontsize:"15px",
+				titlecolor:win.titlecolor?win.titlecolor:'#666',
+				titleweight:win.titleweight?win.titleweight:"bold",
+				bodycolor:win.bodycolor?win.bodycolor:"#ffffff",
+				minimized:win.minimized?win.minimized:'off',
+				resize:win.resize?win.resize:'none',
+				scrollable:win.scrollable?win.scrollable:false,
+				showheader:win.showheader?win.showheader:true,
+				bordercolor:win.bordercolor?win.bordercolor:"#c0c0c0",
+				boxshadow:win.boxshadow?win.boxshadow:"0px 0px 0px 0px #000000",
+				zindex:win.zindex?win.zindex:4,
+				draggable:win.draggable?win.draggable:true,
+				disableClose:win.disableClose?win.disableClose:false,
+			}
+			if(win.visible == 'visible'){
+				try{
+					let moduleName = ''
+					//let modulePath = '/src/lib/components/contents/index.js'
+					// includi i props specifici per il componente che non sono binding
+					switch(win.id){
+						case 'ConfigureAgent':
+							props.toolbar = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
+							props.pagesize = pagesize?pagesize:true
+							props.pSize =pSize?pSize: 8
+							props.managerid = configureManagerId
+							moduleName = 'ConfigureAgentManager'
+							break;
+					}
+					//const component = await loadComponent(modulePath,moduleName)
+					const component = await loadComponent(moduleName)
+					components.push({component:component,win:win, props:props})
+				}catch(e){
+					console.log("Error loading component",e)
+				}
+			}
+		}
+		// force redraw
+		components = [...components]
+		console.log("Loaded Components",components)
+	}
+
 	onMount(async () => {
+		// A. GET PROFILE DASHBOARD 
+		const mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		if(mod)
+			configure = mod.windows.configure
+		
+		// A1. LOAD COMPONENTS
+		await loadComponents(configure)
+
+		// B. GET SECURITY ALERTS
 		const retalert = await getSecurityAlerts([],$mock)
 		const securityAlerts = retalert.data
 		const messages = securityAlerts.map((item:any)=>item.message)
 		center.init(messages)
-		// GET AGENT INFO
+
+		// C. GET DEVICE INFO
 		let filters:any = [{uid:$currdevice,_type:'eq'}]
 		const devices = await getDevices(filters,$mock)
 		device = devices.data[0]
 		title = 'AGENTS for DEVICE '+device.name
-		// GET AGENTS FOR DEVICE
+
+		// D.GET AGENTS FOR DEVICE
 		filters = [{module:$module.toUpperCase(),_type:'eq'},{devuid:$currdevice,_type:'eq'}]
 		const ret = await getAgents(filters,$mock)
 		$agentsdata = ret.data
-		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
+
+		// E. GET DEVICE COLUMNS
+		agentdatacolumns = getAgentColumns($module)
+
+		// F. ADD EVENT LITSTENER FOR AGENT CONFIGURATION
 		const confMainDiv = document.getElementById("main-configuration-agent-page")
 		if(confMainDiv){
 			confMainDiv.addEventListener("deviceclicked",async (e:any)=>{
 				deviceuid = e.detail
 				// NAVIGATE TO AGENT PAGE
+				const link = '/'+$module+'/configure'
 				console.log("DEVICE CLICKED ---> ",deviceuid)
+				navigate(link)
+				$navigation = getArrayFromPath(link)
 			})
 			confMainDiv.addEventListener("modelclicked",async (e:any)=>{
 				deviceuid = e.detail
@@ -64,11 +174,6 @@
 	});
 
 	
-	
-	
-	let deviceuid = ''
-
-
 	// click Logo
 	const onClickLogo = (ev:any)=>{
 		navigate(`/`+$module)
@@ -80,40 +185,7 @@
 		const addClicked = new CustomEvent("editclicked", { detail: 'NONE' })
 		modalEdit?.dispatchEvent(addClicked)
 	}
-	// EXTERNAL VARIABLES
-	export let logoImage = "/ICO_UP2_DATA.png"
-	export let  bgcolor = "#ddefde"
-	// WINDOW VARIABLES
-	export let title = 'AGENTS for DEVICE '+device.name
-	export let toolbar = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
-	export let  disableClose = true
-	export let draggable = true
-	export let zindex = 4
-    export let headercolor = bgcolor
-	export let top = "10px"
-	export let left = "10px"
-	export let titlecolor = "#666"
-	export let titlefontsize = "15px"
-	export let titleweight = "bold"
-	export let bodycolor = "#ffffff"
-	export let width = "max-content"
-	export let height = "max-content"
-	export let resize = 'none'
-	export let minimized = 'off'
-	export let scrollable = false
-	export let showheader = true
-	export let bordercolor = "#c0c0c0"
-	export let boxshadow = "0px 0px 0px 0px #000000"
-	// BAR VARIABLES
-	export let  barheigth = "60px"
-	export let imgheight = "60px"
-	export let  topbarheight = "90%"
-	export let  avatarsize = "w-10"
-
-
-	let pagesize = true
-	let pSize = 8
-	let agentdatacolumns = getAgentColumns($module)
+	
 
 	// DIALOG VARIABLES
 	let savedialog = AgentForm
@@ -152,7 +224,16 @@
 			devInputDiv.style.display= 'none'
 	}
 
-$: screensize = window.innerWidth
+let screensize = window.innerWidth
+$: {
+	screensize = window.innerWidth
+	// force update
+	if(components && agentdatacolumns){
+		components = [...components]
+		//$devicesdata = $devicesdata
+		agentdatacolumns = [...agentdatacolumns]
+	}
+}
 
 window.onresize = function(event:any) {
 	screensize = window.innerWidth
@@ -161,7 +242,6 @@ let minscreensize = 850
 
 </script>
  <div id="main-configuration-agent-page">
-		<div>
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
 					<div style="display: flex;">
@@ -185,31 +265,13 @@ let minscreensize = 850
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
-		</div>
-		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  
-					title="{title}" 
-					toolbar={toolbar} 
-					{disableClose} 
-					{draggable} 
-					{headercolor} 
-					{zindex}
-					{top}
-					{left}
-					{width}
-					{height}
-					{showheader}
-					{resize}
-					{minimized}
-					{titlecolor}
-					{titlefontsize}
-					{titleweight}
-					{boxshadow}
-					{bordercolor}
-					{scrollable}
-					{bodycolor}>
-				<SimpleTable slot="bodycontent" data={agentsdata} datacolumns={agentdatacolumns} {pagesize} {pSize}/>
-			</Wmanag>
+		
+		<div class="configure-agent-container" style="--top:{barheigth}" id="configure-agent-container-id">
+			{#each components as comp}
+				{#if comp.win.id == 'ConfigureAgent'}
+						<svelte:component this={comp.component} {...comp.props} agentsdata={agentsdata} bind:title={title} bind:agentdatacolumns={agentdatacolumns}/>
+				{/if}
+			{/each}
 		</div>
 		<div id="save-device-dialog">
 			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
@@ -220,11 +282,12 @@ let minscreensize = 850
 </div>
 
 <style>
-.configurator-container{
-		display:flex;
-		position:relative;
-		top: var(--top);
-	}
+#configure-agent-container-id{
+	display:flex;
+	position:relative;
+	top: var(--top);
+	height: calc( 100vh - 50px );
+}
 
 </style>
 

@@ -12,10 +12,9 @@
 			BreadCrumb,
 			DigitalClock} from "../lib/components/topbar"
    import { center } from '../lib/components/topbar/notifications';
-   import Wmanag from '../lib/components/WManag.svelte'
-   import {SimpleTable} from '../lib/components/table'
+   
    import {getDeviceColumns} from '../lib/script/utils.js'
-   import {dragElement} from '../lib/components/CompUtils.js'
+  
    import {DeviceForm,DeleteForm} from '../lib/components/forms'
    // API INTERFACE
    import {getDevices,setDevice,deleteDevice} from '../lib/script/apidataconfig.js'
@@ -23,23 +22,126 @@
    // STORE
    import { mock,module,navigation,avatar,getArrayFromPath,currdevice,avatargroups,user,avatarclass} from '../lib/ustore.js'
    // UTILITY
-   import {getGroups} from '../lib/script/utils.js'
+   import {getGroups,loadComponent} from '../lib/script/utils.js'
 
-   // ADD SIDEBAR NENU ON USER BASIS
+   // EXTERNAL VARIABLES
+	export let logoImage = "/ICO_UP2_DATA.png"
+	export let  bgcolor = "#ddefde"
+	// BAR VARIABLES
+	export let  barheigth = "60px"
+	export let  imgheight = "60px"
+	export let  topbarheight = "90%"
+	export let  avatarsize = "w-10"
+
+   // ADD SIDEBAR MENU ON USER BASIS
    let  groups = getGroups($module,$user)
-  
-
-
+   let components:any = []
+   let configure:any = {windows:[]}
    let devicesdata:any = writable([])
+   let devicedatacolumns:any = []
+   let deviceuid = ''
+   let pagesize = true
+   let pSize = 8
+   let configureManagerId = 'configureManagerId'
+
+   const findWindow = (id:any)=>{
+		let profile:any = $user.profile
+		let mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		let configure:any = mod.windows.configure
+		let win = configure.find((item:any) => item.id == id)
+		return win
+	}
+
+	const getColorScheme = (type:any)=>{
+		let colorScheme = {wincolor:"#ddefde"}
+		let profile = $user.profile
+		let mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		let configure:any = mod.windows.configure
+		
+		if(configure && configure.colorScheme)
+			colorScheme = configure.colorScheme
+		
+		return colorScheme
+	}
+
+	// get color scheme
+	let colorScheme:any = getColorScheme($module.toUpperCase())
+
+   const loadComponents = async (dashboard:any)=>{
+		for(let i=0;i<dashboard.length;i++){
+			const win = dashboard[i]
+			let props:any = {
+				headercolor:colorScheme.wincolor,
+				title:win.name?win.name:'DEVICES',
+				top:win.top?win.top:'10px',
+				left:win.left?win.left:'10px',
+				height:win.height?win.height:"max-content",
+				width:win.width?win.width:"max-content",
+				bgcolor:win.bgcolor?win.bgcolr:'#ddefde',
+				titlefontsize:win.titlefontsize?win.titlefontsize:"15px",
+				titlecolor:win.titlecolor?win.titlecolor:'#666',
+				titleweight:win.titleweight?win.titleweight:"bold",
+				bodycolor:win.bodycolor?win.bodycolor:"#ffffff",
+				minimized:win.minimized?win.minimized:'off',
+				resize:win.resize?win.resize:'none',
+				scrollable:win.scrollable?win.scrollable:false,
+				showheader:win.showheader?win.showheader:true,
+				bordercolor:win.bordercolor?win.bordercolor:"#c0c0c0",
+				boxshadow:win.boxshadow?win.boxshadow:"0px 0px 0px 0px #000000",
+				zindex:win.zindex?win.zindex:4,
+				draggable:win.draggable?win.draggable:true,
+				disableClose:win.disableClose?win.disableClose:false,
+			}
+			if(win.visible == 'visible'){
+				try{
+					let moduleName = ''
+					//let modulePath = '/src/lib/components/contents/index.js'
+					// includi i props specifici per il componente che non sono binding
+					switch(win.id){
+						case 'Configure':
+							props.toolbar = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
+							props.pagesize = pagesize?pagesize:true
+							props.pSize =pSize?pSize: 8
+							props.managerid = configureManagerId
+							moduleName = 'ConfigureManager'
+							break;
+					}
+					//const component = await loadComponent(modulePath,moduleName)
+					const component = await loadComponent(moduleName)
+					components.push({component:component,win:win, props:props})
+				}catch(e){
+					console.log("Error loading component",e)
+				}
+			}
+		}
+		// force redraw
+		components = [...components]
+		console.log("Loaded Components",components)
+	}
+
 	onMount(async () => {
+		// A. GET PROFILE DASHBOARD 
+		const mod = $user.profile.modules.find((item:any) => item.name == $module.toLowerCase())
+		if(mod)
+			configure = mod.windows.configure
+		
+		// A1. LOAD COMPONENTS
+		await loadComponents(configure)
+
+		// B. GET SECURITY ALERTS
 		const retalert = await getSecurityAlerts([],$mock)
 		const securityAlerts = retalert.data
 		const messages = securityAlerts.map((item:any)=>item.message)
-		center.init(messages)
+
+		// C. GET DEVICES
 		const filters:any = [{module:$module.toUpperCase(),_type:'eq'}]
 		const ret = await getDevices(filters,$mock)
 		$devicesdata = ret.data
-		// ADD EVENT LITSENER FOR AGENT CONFIGURATION
+
+		// C1. GET DEVICE COLUMNS
+		devicedatacolumns = getDeviceColumns($module)
+
+		// D. ADD EVENT LISTENER FOR AGENT CONFIGURATION
 		const confMainDiv = document.getElementById("main-configuration-page")
 		if(confMainDiv){
 			confMainDiv.addEventListener("agentclicked",async (e:any)=>{
@@ -52,9 +154,6 @@
 			})
 		}
 	});
-
-	
-	let deviceuid = ''
 
 
 	// click Logo
@@ -69,41 +168,10 @@
 		modalEdit?.dispatchEvent(addClicked)
 	}
 
-	// EXTERNAL VARIABLES
-	export let logoImage = "/ICO_UP2_DATA.png"
-	export let  bgcolor = "#ddefde"
-	// TABLE VARIABLES
-	export let title = 'DEVICES'
-	export let toolbar = [{type:'image',props:{src:'/ADD.svg'},function:onClickAddDevice,label:"Add"}]
-	export let  disableClose = true
-	export let draggable = true
-	export let zindex = 4
-    export let headercolor = bgcolor
-	export let top = "10px"
-	export let left = "10px"
-	export let titlecolor = "#666"
-	export let titlefontsize = "15px"
-	export let titleweight = "bold"
-	export let bodycolor = "#ffffff"
-	export let width = "max-content"
-	export let height = "max-content"
-	export let resize = 'none'
-	export let minimized = 'off'
-	export let scrollable = false
-	export let showheader = true
-	export let bordercolor = "#c0c0c0"
-	export let boxshadow = "0px 0px 0px 0px #000000"
-	// BAR VARIABLES
-	export let  barheigth = "60px"
-	export let imgheight = "60px"
-	export let  topbarheight = "90%"
-	export let  avatarsize = "w-10"
+	
 
-	let pagesize = true
-	let pSize = 8
-	let devicedatacolumns = getDeviceColumns($module)
-
-
+	
+	
 	// DIALOG VARIABLES
 	let savedialog = DeviceForm
 	let deletedialog = DeleteForm
@@ -125,6 +193,7 @@
 		if(devInputDiv)
 			devInputDiv.style.display= 'none'
 	}
+
 	let del = async (ev:any) =>{
 		const target = ev.target
 		const uid = target.dataset.uid
@@ -141,15 +210,25 @@
 			devInputDiv.style.display= 'none'
 	}
 	
-$: screensize = window.innerWidth
+let screensize = window.innerWidth
+$: {
+	screensize = window.innerWidth
+	// force update
+	if(components && devicedatacolumns){
+		components = [...components]
+		//$devicesdata = $devicesdata
+		devicedatacolumns = [...devicedatacolumns]
+	}
+}
 
 window.onresize = function(event:any) {
 	screensize = window.innerWidth
 }
+
 let minscreensize = 850
 </script>
  <div id="main-configuration-page">
-		<div>
+		
 			<TopBar barheight='{barheigth}' bgcolor='{bgcolor}'>
 				<div slot="lefttop">
 					<div style="display: flex;">
@@ -173,31 +252,13 @@ let minscreensize = 850
 				<SideMenu  topbarheight='{topbarheight}' bind:groups={groups}/>
 				</div>
 			</TopBar>
-		</div>
-		<div class="configurator-container" style="--top:{barheigth}">
-			<Wmanag id="containerWManager"  
-					title="{title}" 
-					toolbar={toolbar}
-					{disableClose} 
-					{draggable} 
-					{headercolor} 
-					{zindex}
-					{top}
-					{left}
-					{width}
-					{height}
-					{showheader}
-					{resize}
-					{minimized}
-					{titlecolor}
-					{titlefontsize}
-					{titleweight}
-					{boxshadow}
-					{bordercolor}
-					{scrollable}
-					{bodycolor}>
-				<SimpleTable slot="bodycontent" data={devicesdata} datacolumns={devicedatacolumns} {pagesize} {pSize}/>
-			</Wmanag>
+		
+		<div class="configure-container" style="--top:{barheigth}" id="configure-container-id">
+			{#each components as comp}
+				{#if comp.win.id == 'Configure'}
+						<svelte:component this={comp.component} {...comp.props} devicesdata={devicesdata} bind:devicedatacolumns={devicedatacolumns}/>
+				{/if}
+			{/each}
 		</div>
 		<div id="save-device-dialog">
 			<svelte:component this={savedialog} bind:modalId={modalIdSave} save={save} {bgcolor}/>
@@ -208,12 +269,12 @@ let minscreensize = 850
 </div>
 
 <style>
-.configurator-container{
-		display:flex;
-		position:relative;
-		top: var(--top);
-	}
-
+#configure-container-id{
+	display:flex;
+	position:relative;
+	top: var(--top);
+	height: calc( 100vh - 50px );
+}
 </style>
 
 

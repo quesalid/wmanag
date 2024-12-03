@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
 
 import { onMount, onDestroy} from "svelte";
-import {dragElement} from './CompUtils.js'
+import {dragElement} from './CompUtils'
 
 
 

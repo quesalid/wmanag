@@ -46,6 +46,21 @@
    // UTILITY
    import {getGroups, loadComponent} from '../lib/script/utils.js'
 
+    export let logoImage = "/ICO_UP2_DATA.png"
+	// WINDOW VARIABLES
+	export let  bgcolor = "#ddefde"
+	export let titlefontsize = "15px"
+	export let titlecolor = "#666"
+	export let titleweight = "bold"
+	export let bodycolor = "#ffffff"
+	
+	// BAR VARIABLES
+	export let barheigth = "60px"
+	export let imgheight = "60px"
+	export let topbarheight = "90%"
+	export let  avatarsize = "w-10"
+
+	let entityName = 'PLANTS'
 
    // ADD SIDEBAR NENU ON USER BASIS
    let  groups = getGroups($module,$user)
@@ -224,7 +239,7 @@
 			const win = dashboard[i]
 			let props:any = {
 				headercolor:colorScheme.wincolor,
-				title:entityName,
+				title:win.name,
 				top:win.top,
 				left:win.left,
 				height:win.height,
@@ -445,30 +460,7 @@
 		
 	});
 
-	export let logoImage = "/ICO_UP2_DATA.png"
-	// WINDOW VARIABLES
-	export let  bgcolor = "#ddefde"
-	export let titlefontsize = "15px"
-	export let titlecolor = "#666"
-	export let titleweight = "bold"
-	export let bodycolor = "#ffffff"
-	export let bordercolor = "#c0c0c0"
-	let transparentcolor = "rgba(0,0,0,0)"
-	// BAR VARIABLES
-	export let barheigth = "60px"
-	export let imgheight = "60px"
-	export let topbarheight = "90%"
-	export let  avatarsize = "w-10"
-
-	let entityName = 'PLANTS'
-	let titleChart = 'GRAPH'
-	let titleAlarms = 'ALARMS'
-	let titleMonitor = 'MONITOR'
-	let titleComm = 'COMMUNICATION'
-	let titleFiresim = 'FIRE SIMULATION'
 	
-	
-
 
 	// DONUT
 	const donut3 = {
@@ -686,12 +678,6 @@ let minscreensize = 850
 	top: var(--top);
 	height: calc( 100vh - 50px );
 }
-
-.dashboard-container-modal{
-	position:absolute;
-	top:0px;
-}
-
 </style>
 
 

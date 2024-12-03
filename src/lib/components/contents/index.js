@@ -30,6 +30,7 @@ export { default as D3LibreManager } from './D3LibreManager.svelte';
 export { default as AIManager } from './AIManager.svelte';
 export { default as AssetManager } from './AssetManager.svelte';
 export { default as AssetGraphManager } from './AssetGraphManager.svelte';
+export { default as ConfigureManager } from './ConfigureManager.svelte';
 
 
 

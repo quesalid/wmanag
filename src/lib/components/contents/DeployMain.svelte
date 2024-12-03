@@ -7,7 +7,7 @@ import Wmanag from '../WManag.svelte'
 import WindowFooter from './WindowFooter.svelte'
 import Spinner from '../spinner/RingLoader.svelte'
 import FlipDivList from './FlipDivList.svelte'
-import {showHideLoader} from "../CompUtils.js"
+import {showHideLoader} from "../CompUtils"
 // API
 import {agentGetInfo, 
 		agentLogin,

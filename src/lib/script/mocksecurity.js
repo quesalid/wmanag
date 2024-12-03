@@ -208,9 +208,9 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
-                            top: '380px',
+                            top: '10px',
                             left: '10px',
                             width: '233px',
                             height: '300px',
@@ -537,7 +537,7 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
                             top: '380px',
                             left: '10px',
@@ -848,7 +848,7 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
                             top: '380px',
                             left: '10px',
@@ -919,7 +919,7 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
                             top: '380px',
                             left: '10px',
@@ -1163,7 +1163,7 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
                             top: '380px',
                             left: '10px',
@@ -1470,7 +1470,7 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
                             top: '380px',
                             left: '10px',
@@ -1785,7 +1785,7 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
                             top: '380px',
                             left: '10px',
@@ -2103,13 +2103,13 @@ let profiles = [
                     ],
                     monitor: [
                         {
-                            id: 'Monitor',
+                            id: 'Monitordata',
                             name: 'Monitoraggio',
-                            top: '380px',
+                            top: '10px',
                             left: '10px',
-                            width: '233px',
-                            height: '300px',
-                            visible: "hidden",
+                            width: '92vw',
+                            height: '90vh',
+                            visible: "visible",
                         }
                     ],
                     build: [
@@ -2125,13 +2125,22 @@ let profiles = [
                     ],
                     configure: [
                         {
-                            id: 'Configura',
+                            id: 'Configure',
                             name: 'Configurazione',
-                            top: '380px',
+                            top: '10px',
                             left: '10px',
-                            width: '233px',
-                            height: '300px',
-                            visible: "hidden",
+                            width: '80vw',
+                            height: '80vh',
+                            visible: "visible",
+                        },
+                        {
+                            id: 'ConfigureAgent',
+                            name: 'Configurazione Agent',
+                            top: '10px',
+                            left: '10px',
+                            width: '80vw',
+                            height: '80vh',
+                            visible: "visible",
                         }
                     ],
                     deploy: [
@@ -2174,13 +2183,13 @@ let profiles = [
                     ],
                     monitor: [
                         {
-                            id: 'Monitor',
+                            id: 'Monitorclone',
                             name: 'Monitoraggio',
-                            top: '380px',
+                            top: '10px',
                             left: '10px',
-                            width: '233px',
-                            height: '300px',
-                            visible: "hidden",
+                            width: '90vw',
+                            height: '90vh',
+                            visible: "visible",
                         }
                     ],
                     build: [
@@ -2305,13 +2314,13 @@ let profiles = [
                     ],
                     monitor: [
                         {
-                            id: 'Monitor',
+                            id: 'Monitorlearn',
                             name: 'Monitoraggio',
-                            top: '380px',
+                            top: '10px',
                             left: '10px',
-                            width: '233px',
-                            height: '300px',
-                            visible: "hidden",
+                            width: '90vw',
+                            height: '90vh',
+                            visible: "visible",
                         }
                     ],
                     build: [
